@@ -11,7 +11,7 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
         <meta charset="UTF-8" />
         <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">  -->
-        <title>Login and Registration Form with HTML5 and CSS3</title>
+        <title>登录</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
         <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
@@ -37,12 +37,7 @@
             </div><!--/ Codrops top bar -->
             <header>
                 <h1>Login and Registration Form <span>with HTML5 and CSS3</span></h1>
-				<nav class="codrops-demos">
-					<span>Click <strong>"Join us"</strong> to see the form switch</span>
-					<a href="index.html" class="current-demo">Demo 1</a>
-					<a href="index2.html">Demo 2</a>
-					<a href="index3.html">Demo 3</a>
-				</nav>
+			
             </header>
             <section>				
                 <div id="container_demo" >
