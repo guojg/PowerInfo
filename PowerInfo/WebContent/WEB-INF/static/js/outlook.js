@@ -1,9 +1,19 @@
 ﻿$(function() {
+//	$.ajax({
+//		url:path+'/commonServlet?method=cantOrOrgan',
+//		dataType:'json',
+//		async:false,
+//		success:function(msg){
+//	 		
+//		}
+//	});
+	debugger;
+	getAccordion();
 	tabClose();
 	tabCloseEven();
-
-	$('#css3menu a').click(function() {
-		$('#css3menu a').removeClass('active');
+	$('#css3menu').css("margin-left",$('#logo1').width());
+	$('#css3menu img').click(function() {
+		$('#css3menu img').removeClass('active');
 		$(this).addClass('active');
 		
 		var d = _menus[$(this).attr('name')];
@@ -17,11 +27,35 @@
 		animate : false
 	});
 
-	var firstMenuName = $('#css3menu a:first').attr('name');
+	var firstMenuName = $('#css3menu img:first').attr('name');
 	addNav(_menus[firstMenuName]);
 	InitLeftMenu();
 });
+function getAccordion(){
+	$.ajax({
+		type : 'POST',
+		async : false,
+		dataType: 'json',
+		url :  '/PowerInfo/menu/queryAccordion',
+		success : function(data) {
+			_menus = data;
+		
+		}
+	});
+}
 
+function getMenu(){
+	$.ajax({
+		type : 'POST',
+		async : false,
+		dataType: 'json',
+		url :  '/PowerInfo/menu/queryMenu',
+		success : function(data) {
+			_menus = data;
+		
+		}
+	});
+}
 function Clearnav() {
 	var pp = $('#wnav').accordion('panels');
 
@@ -40,29 +74,102 @@ function Clearnav() {
 }
 
 function addNav(data) {
-
 	$.each(data, function(i, sm) {
-		var menulist = "";
-		menulist += '<ul>';
-		$.each(sm.menus, function(j, o) {
-			menulist += '<li><div><a ref="' + o.menuid + '" href="#" rel="'
-					+ o.url + '" ><span class="icon ' + o.icon
-					+ '" >&nbsp;</span><span class="nav">' + o.menuname
-					+ '</span></a></div></li> ';
-		});
+			var menulist = "<ul id='tt'></ul>";
+	//		menulist += '<ul>';
+	//		$.each(sm.menus, function(j, o) {
+	//			menulist += '<li><div><a ref="' + o.menuid + '" href="#" rel="'
+	//					+ o.url + '" ><span class="icon ' + o.icon
+	//					+ '" >&nbsp;</span><span class="nav">' + o.menuname
+	//					+ '</span></a></div></li> ';
+	//		});
+
 		menulist += '</ul>';
 
 		$('#wnav').accordion('add', {
 			title : sm.menuname,
 			content : menulist,
+			id: sm.menuid,
 			iconCls : 'icon ' + sm.icon
+		});
+		/*var data1=[{    
+		    "id":1,    
+		    "text":"Folder1",    
+		    "iconCls":"icon-save",    
+		    "children":[{    
+		        "text":"File1",    
+		        "checked":true   
+		    },{    
+		        "text":"Books",    
+		        "state":"open",    
+		        "attributes":{    
+		            "url":"/demo/book/abc",    
+		            "price":100    
+		        },    
+		        "children":[{    
+		            "text":"PhotoShop",    
+		            "checked":true   
+		        },{    
+		            "id": 8,    
+		            "text":"Sub Bookds",    
+		            "state":"closed"   
+		        }]    
+		    }]    
+		},{    
+		    "text":"Languages",    
+		    "state":"closed",    
+		    "children":[{    
+		        "text":"Java"   
+		    },{    
+		        "text":"C#"   
+		    }]    
+		}] ;
+		$('#tt').tree({    
+		    data:data1,
+		    onSelect:function(node){
+		    	
+		         if(node.attributes.url!=null){
+		        	 
+		        	addTab(node.text,node.attributes.url , "static/images/top_03.png");
+		         }
+		    	
+		    }
+		    
+		}); */
+		$('#tt').tree({    
+			url :  '/PowerInfo/menu/queryMenu',
+			onSelect:function(node){
+		    	
+		         if(node.attributes.url!=""){
+		        	 
+		        	addTab(node.text,node.attributes.url , "static/images/top_03.png");
+		         }
+		    	
+		    }
+		    
 		});
 
 	});
 
+		
 	var pp = $('#wnav').accordion('panels');
 	var t = pp[0].panel('options').title;
 	$('#wnav').accordion('select', t);
+//	$.ajax({
+//		type : 'POST',
+//		async : false,
+//		dataType: 'json',
+//		url :  '/PowerInfo/menu/queryMenu',
+//		success : function(data) {
+//			 debugger;
+//		
+//		}
+//	});
+	/*$('#tt').tree({    
+		url :  '/PowerInfo/menu/queryMenu'
+	    
+//	});  */
+
 
 }
 

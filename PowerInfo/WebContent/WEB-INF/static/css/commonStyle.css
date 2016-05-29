@@ -1,0 +1,179 @@
+@charset "utf-8";
+/* CSS Document */
+/* 
+************************************
+* Create personnel: 王彬
+************************************ 
+*/
+/*-----------------------------公共样式-------------------------------------*/
+*{
+	margin: 0px;
+	padding: 0px;
+	font-family:'微软雅黑', '黑体', Arial;
+	font-size:12px;
+	font-weight:normal;
+}
+/*-----1024下分辨率要改成135px-----*/
+input[type=text]{
+	width:155px;
+	border:1px solid #95b8e7;
+	height:20px;
+	line-height:20px;
+}
+/*-----------------------------弹出tab页的整体设置开始------------------------*/
+html, body {
+	background-color:#fbfbfb;
+}
+/*-----------------------------弹出tab页的整体设置结束------------------------*/
+
+/*-----------------------------操作按钮开始-----------------------------------*/
+#btn_div {
+	margin:5px 5px 0px 5px;
+}
+#btn_div a{
+	padding-right:5px;
+	cursor: hand;
+}
+/*-----------------------------操作按钮结束-- -----------------------------------*/
+
+/*-----------------------------查询条件开始-------------------------------------*/
+fieldset {
+	border: solid 1px #58ac88;
+	margin:5px 5px 0px 5px;
+}
+legend{
+	padding:0px 0px 0px 0px;
+}
+/*-----1024下分辨率去掉table-layout:fixed;-----*/
+#search_tbl {
+	table-layout:fixed;
+	margin:5px 5px 5px 5px;
+}
+#search_tbl .hidetr{
+	display:none;
+}
+#search_tbl .tdlft {
+	text-align: right;
+	width:100px;
+}
+/*-----1024下分辨率要改成140px-----*/
+#search_tbl .tdrgt {
+	text-align: left;
+	width:160px;
+}
+#more {
+	cursor:hand;
+	width:100px;
+	height:24px;
+	line-height:24px;
+	padding-left:20px;
+	display:block;
+	text-decoration: underline;
+	/*background: url(../images/gengduo.gif) no-repeat center center;*/
+}
+#less {
+	cursor:hand;
+	width:100px;
+	height:24px;
+	line-height:24px;
+	padding-left:20px;
+	display:none;
+	text-decoration: underline;
+	/*background: url(../images/shouqi.gif) no-repeat center center;*/
+}
+/*-----------------------------查询条件结束-------------------------------------*/
+
+/*-----------------------------datagrid开始-------------------------------------*/
+#datagrid_title{
+	margin:2px 5px 2px 5px;
+	text-align: center;
+	font-size: 16px;
+	font-weight:bold;
+	color:#65b292;
+	height:30px;
+	line-height:30px;
+}
+#datagrid_title_rgt{
+	margin:2px 5px 2px 5px;
+	text-align: right;
+	font-size: 16px;
+	font-weight:bold;
+	color:#65b292;
+	height:30px;
+	line-height:30px;
+}
+#datagrid_div_center{
+	border-left-width: 0px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+}
+#datagrid_div{
+	margin:0px 5px 0px 5px;
+}
+#datagrid_note{
+	margin:0px 5px 0px 5px;
+	border-left: solid 1px #95b8e7;
+	border-right: solid 1px #95b8e7;
+}
+#datagrid_note ul li {
+	list-style:none;
+	width:100%;
+	height:17px;
+	line-height:17px;
+}
+#more_note {
+	cursor:hand;
+	display:block;
+	text-decoration: underline;
+	/*background: url(../images/gengduo.gif) no-repeat center;*/
+}
+#less_note {
+	cursor:hand;
+	display:none;
+	text-decoration: underline;
+	/*background: url(../images/shouqi.gif) no-repeat center;*/
+}
+/*-----------------------------datagrid结束-------------------------------------*/
+
+
+/*-----------------------------填写信息列表开始-------------------------------------*/
+#paramsForm{
+	text-align: center;
+}
+#detailTable{
+	table-layout:fixed;
+	margin:20px auto 20px auto;
+	border-collapse: collapse;
+}
+#detailTable tr td{
+	border:1px solid #5faba7;
+	width:175px;
+}
+#detailTable .tdlft {
+	text-align: right;
+}
+#detailTable .tdrgt {
+	text-align: left;
+}
+.tipsValidate{
+	color:red;
+	background-color: transparent;
+	border: 0px;
+}
+.tipsRed{
+	background-color:red;
+}
+.tipsRedFont{
+	color:red;
+}
+.div_submit{
+	align: center;
+	text-align: center;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+/*-----------------------------填写信息列表结束-------------------------------------*/
+
+/*-----------------------------EasyUI 对话框按钮区域css修改开始-------------------------------------*/
+.window .dialog-button{background-color: #ffffff;text-align:center;}
+/*-----------------------------EasyUI 对话框按钮区域css修改结束-------------------------------------*/

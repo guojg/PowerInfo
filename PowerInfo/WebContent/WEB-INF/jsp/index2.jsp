@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
  <head id="Head1">
@@ -7,77 +8,14 @@
     <title>jQuery-EasyUI 1.1 应用实例</title>
     <link href="Css/default.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/PowerInfo/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
-    <link rel="stylesheet" type="text/css" href="/PowerInfo/static/js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="/PowerInfo/static/js/jquery-easyui-1.4/themes/icon.css" />
     <script type="text/javascript" src="/PowerInfo/static/js/jquery-easyui-1.4/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="/PowerInfo/static/js/jquery-easyui-1.4/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src='/PowerInfo/static/js/outlook.js'> </script>
 
     <script type="text/javascript">
-var _menus = {
-	basic : [ {
-		"menuid" : "10",
-		"icon" : "icon-sys",
-		"menuname" : "基础数据",
-		"menus" : [ {
-			"menuid" : "111",
-			"menuname" : "基础数据1",
-			"icon" : "icon-nav",
-			"url" : "#"
-		}, {
-			"menuid" : "113",
-			"menuname" : "基础数据12",
-			"icon" : "icon-nav",
-			"url" : "#"
-		}, {
-			"menuid" : "115",
-			"menuname" : "基础数据13",
-			"icon" : "icon-nav",
-			"url" : "#"
-		}, {
-			"menuid" : "117",
-			"menuname" : "基础数据14",
-			"icon" : "icon-nav",
-			"url" : "#"
-		}, {
-			"menuid" : "119",
-			"menuname" : "基础数据15",
-			"icon" : "icon-nav",
-			"url" : "em/enterpriseChannelObtend.action"
-		} ]
-	}, {
-		"menuid" : "20",
-		"icon" : "icon-sys",
-		"menuname" : "测试一",
-		"menus" : [ {
-			"menuid" : "211",
-			"menuname" : "测试一11",
-			"icon" : "icon-nav",
-			"url" : "#"
-		}, {
-			"menuid" : "213",
-			"menuname" : "测试一22",
-			"icon" : "icon-nav",
-			"url" : "#"
-		} ]
-	} ],
-	point : [{
-		"menuid" : "20",
-		"icon" : "icon-sys",
-		"menuname" : "积分管理",
-		"menus" : [ {
-			"menuid" : "211",
-			"menuname" : "积分用途",
-			"icon" : "icon-nav",
-			"url" : "#"
-		}, {
-			"menuid" : "213",
-			"menuname" : "积分调整",
-			"icon" : "icon-nav",
-			"url" : "#"
-		} ]
+var _menus = '';
 
-	}]
-};
         //设置登录窗口
         function openPwd() {
             $('#w').window({
@@ -153,9 +91,7 @@ var _menus = {
 
     </script>
 <Style>
-	#css3menu li{ float:left; list-style-type:none;}
-#css3menu li a{	color:#fff; padding-right:20px;}
-#css3menu li a.active{color:yellow;}
+
 </style>
 </head>
 <body class="easyui-layout" style="overflow-y: hidden"  scroll="no">
@@ -163,17 +99,16 @@ var _menus = {
 <div style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
     <img src="images/noscript.gif" alt='抱歉，请开启脚本支持！' />
 </div></noscript>
-    <div region="north" split="true" border="false" style="overflow: hidden; height: 30px;
-        background: url(images/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%;
-        line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
-        <span style="float:right; padding-right:20px;" class="head">欢迎 疯狂秀才 <a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a></span>
+    <div region="north" split="true" border="false" style="overflow: hidden; height: 80px;
+        background: #F3F3F7 repeat-x center 50%;
+        line-height: 20px;color: #F3F3F7; font-family: Verdana, 微软雅黑,黑体">
+        <span style="float:right; padding-right:20px;" class="head">欢迎[<shiro:principal/>] <a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a></span>
 
-        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="images/blocks.gif" width="20" height="20" align="absmiddle" /> 我的帐本</span>
-		<ul id="css3menu" style="padding:0px; margin:0px;list-type:none; float:left; margin-left:40px;">
-				<li ><a class="active" name="basic" href="javascript:;" title="基础数据">基础数据</a></li>
-				<li><a name="point" href="javascript:;" title="积分管理">积分管理</a></li>
-			
-			</ul>
+        <span  style="float:left;"><img id="logo1" src="static/images/top_01.png" /></span>
+		<ul id="css3menu" >
+				<li style="float:left"><img name="basic" src="static/images/top_03.png" /></li>
+				<li><img name="point" src="static/images/top_03.png" /></li>
+		</ul>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
         <div class="footer">By 疯狂秀才 Email:bjhxl@59ibox.cn</div>

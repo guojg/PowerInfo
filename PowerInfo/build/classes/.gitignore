@@ -1,8 +1,2 @@
 /com
-/ehcache
-/resources.properties
-/spring-config-cache.xml
-/spring-config-shiro.xml
-/spring-config.xml
-/spring-mvc-shiro.xml
-/spring-mvc.xml
+/org
