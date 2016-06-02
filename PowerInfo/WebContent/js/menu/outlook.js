@@ -142,7 +142,7 @@ function addNav(data) {
 		    	
 		         if(node.attributes.url!=""){
 		        	 
-		        	addTab(node.text,node.attributes.url , "static/images/top_03.png");
+		        	addTab(node.text,path+node.attributes.url , "static/images/top_03.png");
 		         }
 		    	
 		    }

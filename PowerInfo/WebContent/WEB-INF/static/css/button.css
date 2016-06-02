@@ -1,0 +1,130 @@
+/*****************************************
+** @button
+*****************************************/
+.dialog-button {
+	height: 36px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.dialog-button a {
+	cursor: pointer;
+	float: right;
+	text-decoration: none;
+	margin-top: 4px;
+}
+
+.button {
+	display: inline-block;
+	*display: inline;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	vertical-align: baseline;
+	margin: 0 2px;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 12px/100% Arial, Helvetica, sans-serif;
+	font-weight: 600;
+	padding: 8px 0;
+	width: 120px;
+	-webkit-border-radius: 4px; 
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.green {
+	color: #00B997;
+	border: solid 1px #00B997;
+}
+.green:hover {
+	background: #00B997;
+	color: white;
+}
+
+.query-size {
+	width: 80px;
+	padding: 7px 0;
+}
+
+.drag {
+	cursor: move;
+	background: #00B997;
+	color: white;
+	width: 100px;
+	margin: 2px;
+	font-size: 12px;
+}
+
+.drag-start {
+	background: red;
+	border: 1px solid red;
+	z-index: 9999999;
+}
+
+.nomal {
+	cursor: pointer;
+	background: #00B997;
+	color: white;
+	width: 60px;
+	font-size: 12px;
+	margin: 1px;
+}
+
+.clear {
+	cursor: pointer;
+	border: 1px solid #e74c3c;
+	color: #e74c3c;
+	width: 122px;
+	font-size: 12px;
+	margin: 1px;
+}
+
+.clear:hover {
+	background: #e74c3c;
+	color: white;
+}
+
+.ui-state-hover { 
+	background-color: #FEFEFE; 
+}
+.inlineEdit-placeholder { 
+	font-style: italic; 
+}
+
+.edit-in-progress input {
+	padding: 4px 0;
+	width: 50%;
+	border: 1px solid #00B997;
+}
+
+.edit-in-progress a {
+	position: relative;
+	top: -2px;
+	text-decoration: none;
+}
+
+.edit-in-progress .icon-ok-btn {
+	background: url("../../common/images/icon_check-20x20.png") no-repeat center center;
+}
+
+.edit-in-progress .icon-remove-btn {
+	background: url("../../common/images/icon_close-24x24.png") no-repeat center center;
+}
+
+a.canlender-toolbar-btn {
+	position:absolute;
+	width: 30px;
+	height: 18px;
+	padding: 0 10px;
+	line-height: 18px;
+	cursor:pointer;
+	text-decoration: none;
+	text-align: center;
+	border: 1px solid transparent;
+}
+
+a.canlender-toolbar-btn:hover {
+	border: 1px solid #00B997;
+	color: #00B997;
+}

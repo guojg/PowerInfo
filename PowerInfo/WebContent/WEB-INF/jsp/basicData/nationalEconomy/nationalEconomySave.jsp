@@ -71,7 +71,7 @@ function queryData(years,zhibiaoArr) {
 function createCols(years) {
 	var cols = [];
 	var tmp = [];
-	var years="2005,2006,2007";
+	var years="2005,2006";
 	tmp = years.split(",");
 	for ( var i = 0; i <tmp.length; i++) {
 		cols.push( {

@@ -1,13 +1,13 @@
 $.extend($.fn.datagrid.methods, {
 	/**
-	 * ��ͷ��Ԫ��ϲ�
+	 * 表头单元格合并
 	 * @param {} jq
 	 * @param {} params 
-	 * 		��������
-	 * 			index		��ͷ�ڼ��� ��0��ʼ
-	 * 			rowspan		���ºϲ�����
-	 * 			colspan		���Һϲ�����
-	 * 			field		�ϲ���field����
+	 * 		包含属性
+	 * 			index		表头第几行 从0开始
+	 * 			rowspan		向下合并几行
+	 * 			colspan		向右合并几列
+	 * 			field		合并列field名称
 	 * @return {}
 	 */
 	mergeTopCells : function(jq, params) {
@@ -95,9 +95,9 @@ $.extend($.fn.datagrid.methods, {
 	},
 	
 	/**
-	 * �����б��У�ĳ�����໥�ڽ��е�����һ��ʱ���Զ��ϲ�
+	 * 数据列表中，某列中相互邻近行的数据一样时，自动合并
 	 * @param {} jq
-	 * @param params 	��Ҫ����ϲ����е�field���ƣ������Զ��ŷֿ�
+	 * @param params 	需要纵向合并的列的field名称，多列以逗号分开
 	 * @return {}
 	 */
 	mergeCellsByField : function(jq, params) {
@@ -112,12 +112,12 @@ $.extend($.fn.datagrid.methods, {
 			var CurTxt = "";
 			var alertStr = "";
 			for (j = ColArray.length - 1; j >= 0; j--) {
-				//��ѭ����ĳ�µ���ʱ��������λ��
+				//当循环至某新的列时，变量复位。
 				PerTxt = "";
 				tmpA = 1;
 				tmpB = 0;
 		
-				//�ӵ�һ�У���ͷΪ��0�У���ʼѭ����ѭ������β(���һλ)
+				//从第一行（表头为第0行）开始循环，循环至行尾(溢出一位)
 				for (i = 0; i <= TableRowCnts; i++) {
 					if (i == TableRowCnts) {
 						CurTxt = "";

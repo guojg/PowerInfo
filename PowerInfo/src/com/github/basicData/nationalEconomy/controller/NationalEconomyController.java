@@ -41,7 +41,20 @@ public class NationalEconomyController {
 	public void exportData(HttpServletRequest request, HttpServletResponse response){
 		
 	}
+	@RequestMapping(value ="/index")
+	public String index(HttpServletRequest request, HttpServletResponse response){
+		 return "basicData/nationalEconomy/nationalEconomyMain";
+	}
 	
+	@RequestMapping(value ="/table")
+	public String table(HttpServletRequest request, HttpServletResponse response){
+		 return "basicData/nationalEconomy/nationalEconomySave";
+	}
+	
+	@RequestMapping(value ="/image")
+	public String image(HttpServletRequest request, HttpServletResponse response){
+		 return "basicData/nationalEconomy/nationalEconomyTu";
+	}
 	
 	@RequestMapping(value ="/commonServlet")
 	public void queryMenu(HttpServletRequest request, HttpServletResponse response){

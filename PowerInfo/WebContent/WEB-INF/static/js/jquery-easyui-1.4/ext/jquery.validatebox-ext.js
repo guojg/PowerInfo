@@ -1,5 +1,5 @@
 $(function(){
-	/*validatebox×Ô¶¨ÒåµÄÑéÖ¤·½Ê½*/
+	/*validateboxè‡ªå®šä¹‰çš„éªŒè¯æ–¹å¼*/
 	$.extend($.fn.validatebox.methods, {
             remove:function(jq, newposition){  
                 return jq.each(function() {  
@@ -25,23 +25,23 @@ $(function(){
                 if (disabled == true || disabled == "true") {  
                     return true;  
                 }
-				//·Ç¿ÕÑéÖ¤
+				//éç©ºéªŒè¯
                 if (opts.required) {
-					//ÆÕÍ¨ÎÄ±¾Îª"",ÏÂÀ­Ñ¡ÏîÎªÇëÑ¡Ôñ£¬ÇÒÄ¬ÈÏ¿ÕÖµ±ØĞëÎªÇëÑ¡Ôñ  
-                    if (value == "" || value.indexOf("ÇëÑ¡Ôñ")>-1) {  
+					//æ™®é€šæ–‡æœ¬ä¸º"",ä¸‹æ‹‰é€‰é¡¹ä¸ºè¯·é€‰æ‹©ï¼Œä¸”é»˜è®¤ç©ºå€¼å¿…é¡»ä¸ºè¯·é€‰æ‹©  
+                    if (value == "" || value.indexOf("è¯·é€‰æ‹©")>-1) {  
                         setTipMessage(opts.missingMessage);
 						$(jq).validatebox('showTip', jq);
                         return false;  
                     }
-					 //·Ç·¨×Ö·û´®
+					 //éæ³•å­—ç¬¦ä¸²
 					if (value.indexOf("&")>-1 || value.indexOf("?")>-1) {  
-                        setTipMessage(opts.missingMessage+"°üº¬·Ç·¨×Ö·û");
+                        setTipMessage(opts.missingMessage+"åŒ…å«éæ³•å­—ç¬¦");
                         box.addClass("validatebox-invalid");
 						$(jq).validatebox('showTip', jq);
                         return false;  
                     }  
                 }
-				//±í´ïÊ½ÑéÖ¤  
+				//è¡¨è¾¾å¼éªŒè¯  
                 if (opts.validType) {
 					var result = true;
 					if(!$.isArray(opts.validType)){
@@ -80,9 +80,9 @@ $(function(){
             },  
             showTip : function(jq){
                 jq = jq[0];
-				//µ¥¸öÌáÊ¾ĞÅÏ¢
+				//å•ä¸ªæç¤ºä¿¡æ¯
                 var msg = $.data(jq, "validatebox").message;
-				//ËùÓĞÌáÊ¾ĞÅÏ¢
+				//æ‰€æœ‰æç¤ºä¿¡æ¯
                 $("#msg").html($("#msg").html()+","+msg);  
             },  
             hideTip : function(jq){  
@@ -95,32 +95,32 @@ $(function(){
             }  
 	}); 
 	
-	//À©Õ¹easyui±íµ¥µÄÑéÖ¤  
+	//æ‰©å±•easyuiè¡¨å•çš„éªŒè¯  
 	$.extend($.fn.validatebox.defaults.rules, {  
-		//ÕıÔò±í´ïÊ½ÑéÖ¤¿ªÊ¼-------------------------------
+		//æ­£åˆ™è¡¨è¾¾å¼éªŒè¯å¼€å§‹-------------------------------
     	mobile: { 
         	validator: function (value) {  
             	var reg = /^1[3|4|5|8|9]\d{9}$/;  
             	return reg.test(value);  
         	},  
-        	message: 'ÊäÈëÊÖ»úºÅÂë¸ñÊ½²»×¼È·¡£'  
+        	message: 'è¾“å…¥æ‰‹æœºå·ç æ ¼å¼ä¸å‡†ç¡®ã€‚'  
     	},
-    	//ÕıÔò±í´ïÊ½ÑéÖ¤½áÊø------------------------------
-    	//ºº×Ö×Ö·û³¤¶ÈÑéÖ¤¿ªÊ¼---------------------------------------------
+    	//æ­£åˆ™è¡¨è¾¾å¼éªŒè¯ç»“æŸ------------------------------
+    	//æ±‰å­—å­—ç¬¦é•¿åº¦éªŒè¯å¼€å§‹---------------------------------------------
     	minLength: {    
 	        validator: function(value, param){    
 	            return value.length >= param[0];    
 	        },    
-	        message: 'ÇëÖÁÉÙÊäÈë {0} ×Ö·û¡£'   
+	        message: 'è¯·è‡³å°‘è¾“å…¥ {0} å­—ç¬¦ã€‚'   
 	    },
 	    maxLength: {    
 	        validator: function(value, param){    
 	            return value.length <= param[0];    
 	        },    
-	        message: 'Çë×î¶àÊäÈë {0} ×Ö·û¡£'   
+	        message: 'è¯·æœ€å¤šè¾“å…¥ {0} å­—ç¬¦ã€‚'   
 	    },length : {  
             validator : function(value, param) {  
-                this.message = 'ÇëÊäÈë×Ö·û³¤¶ÈÎª {0} µ½ {1}.';  
+                this.message = 'è¯·è¾“å…¥å­—ç¬¦é•¿åº¦ä¸º {0} åˆ° {1}.';  
                 var len = $.trim(value).length;  
                 if (param) {  
                     for (var i = 0; i < param.length; i++) {  
@@ -130,7 +130,7 @@ $(function(){
                 }  
                 return len >= param[0] && len <= param[1];  
             },  
-            message : 'ÇëÊäÈë×Ö·û³¤¶ÈÎª {0} µ½ {1}.'  
+            message : 'è¯·è¾“å…¥å­—ç¬¦é•¿åº¦ä¸º {0} åˆ° {1}.'  
         },regValidator : {  
             validator : function(value, param) {
 				var	isValid = true;		
@@ -143,16 +143,16 @@ $(function(){
                 }  
 				return isValid;
             },  
-            message : 'ĞÅÏ¢ÌîĞ´ÓĞÎó.'  
+            message : 'ä¿¡æ¯å¡«å†™æœ‰è¯¯.'  
         },
-	    //ºº×Ö×Ö·û³¤¶ÈÑéÖ¤½áÊø--------------------------------------------
-	    //Êı×ÖÑéÖ¤¿ªÊ¼-----------------------------------
+	    //æ±‰å­—å­—ç¬¦é•¿åº¦éªŒè¯ç»“æŸ--------------------------------------------
+	    //æ•°å­—éªŒè¯å¼€å§‹-----------------------------------
 	    validNumber: {   
 			validator: function (value) {
 	        	var reg = /^[0-9]*$/;  
 	        	return reg.test(value);  
 			},  
-			message: 'ÇëÊäÈëÊı×Ö¡£'  	
+			message: 'è¯·è¾“å…¥æ•°å­—ã€‚'  	
 		},
 		validNumberPrecision: {   
 			validator: function (value,param) {
@@ -160,66 +160,66 @@ $(function(){
 	        	var reg= new RegExp("^(\\d{1,"+param[0]+"})(\\.\\d{1,"+param[1]+"})?$");
 	        	return reg.test(value);  
 			},  
-			message: 'ÇëÊäÈëÕûÊıÎ»²»³¬¹ı{0}Î»ÇÒÓĞĞ§Êı×Ö²»ÄÜ³¬¹ı{1}Î»µÄÕıÊı¡£'  	
+			message: 'è¯·è¾“å…¥æ•´æ•°ä½ä¸è¶…è¿‡{0}ä½ä¸”æœ‰æ•ˆæ•°å­—ä¸èƒ½è¶…è¿‡{1}ä½çš„æ­£æ•°ã€‚'  	
 		},
 		percentageNumber:{
 			validator: function (value) {
 	        	var reg = /^\d+(\.\d+)?%$/;  
 	        	return reg.test(value);  
 			},  
-			message: 'ÇëÊäÈë°Ù·ÖÊı¡£' 
+			message: 'è¯·è¾“å…¥ç™¾åˆ†æ•°ã€‚' 
 		}
-		//Êı×ÖÑéÖ¤½áÊø--------------------------------
-		//cyÌí¼ÓÊı¾İÑéÖ¤---------------------------------
-		//ÕıÕûÊı
+		//æ•°å­—éªŒè¯ç»“æŸ--------------------------------
+		//cyæ·»åŠ æ•°æ®éªŒè¯---------------------------------
+		//æ­£æ•´æ•°
 		,integer:{
 			validator: function (value) {
 	        	var reg = /^[\-\+]?\d+$/;  
 	        	return reg.test(value);  
 			},  
-			message: '²»ÊÇÓĞĞ§µÄÕûÊı¡£'
+			message: 'ä¸æ˜¯æœ‰æ•ˆçš„æ•´æ•°ã€‚'
 		},email:{
 			validator: function (value) {
 	        	var reg = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;  
 	        	return reg.test(value);  
 			},  
-			message: 'ÓÊ¼şµØÖ·ÎŞĞ§¡£'
+			message: 'é‚®ä»¶åœ°å€æ— æ•ˆã€‚'
 		},enterprisePhone:{
 			validator: function (value) {
 	        	var reg = /^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/;  
 	        	return reg.test(value);  
 			},  
-			message: 'ÊÖ»úºÅÂëÎŞĞ§¡£'
+			message: 'æ‰‹æœºå·ç æ— æ•ˆã€‚'
 		},dateTimeFormat:{
 			validator: function (value) {
 	        	var reg = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])\s+(1[0-9]|2[0-4]|0?[1-9]){1}:(0?[1-5]|[0-6][0-9]){1}:(0?[0-6]|[0-6][0-9])\s$|^(?:(?:(?:0?[13578]|1[02])(\/|-)31)|(?:(?:0?[1,3-9]|1[0-2])(\/|-)(?:29|30)))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^((1[012]|0?[1-9]){1}\/(0?[1-9]|[12][0-9]|3[01]){1}\/\d{2,4}\s+(1[012]|0?[1-9]){1}:(0?[1-5]|[0-6][0-9]){1}:(0?[0-6]|[0-6][0-9]){1}\s+(am|pm|AM|PM){1})$/;  
 	        	return reg.test(value);  
 			},  
-			message: 'ÎŞĞ§µÄÈÕÆÚÊ±¼ä¸ñÊ½'
+			message: 'æ— æ•ˆçš„æ—¥æœŸæ—¶é—´æ ¼å¼'
 		},dateFormat:{
 			validator: function (value) {
 	        	var reg = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$|^(?:(?:(?:0?[13578]|1[02])(\/|-)31)|(?:(?:0?[1,3-9]|1[0-2])(\/|-)(?:29|30)))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:0?[1-9]|1[0-2])(\/|-)(?:0?[1-9]|1\d|2[0-8]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(0?2(\/|-)29)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$/;  
 	        	return reg.test(value);  
 			},  
-			message: 'ÎŞĞ§µÄÈÕÆÚ¸ñÊ½'
+			message: 'æ— æ•ˆçš„æ—¥æœŸæ ¼å¼'
 		},onlyLetterNumber:{
 			validator: function (value) {
 	        	var reg = /^[0-9a-zA-Z]+$/;  
 	        	return reg.test(value);  
 			},  
-			message: 'Êı×ÖºÍ×ÖÄ¸'
+			message: 'æ•°å­—å’Œå­—æ¯'
 		},onlyLetter:{
 			validator: function (value) {
 	        	var reg = /^[a-zA-Z]+$/;  
 	        	return reg.test(value);  
 			},  
-			message: 'ÇëÊäÈë×ÖÄ¸'
+			message: 'è¯·è¾“å…¥å­—æ¯'
 		},chinese:{
 			validator: function (value) {
 	        	var reg = /^[\u4e00-\u9fa5]+$/;  
 	        	return reg.test(value);  
 			},  
-			message: 'ÇëÊäÈëÖĞÎÄ'
+			message: 'è¯·è¾“å…¥ä¸­æ–‡'
 		}
 		
 	});   

@@ -1,50 +1,50 @@
 $(function(){	
-	//Òş²ØÓò
+	//éšè—åŸŸ
 	function appendHidden(name,value){return "<input type='hidden' name='"+name+"' value='"+value+"' /><br>";}
-	//ºº×Ö×ªÂë
+	//æ±‰å­—è½¬ç 
 	function encodeURIUtils(value){return encodeURIComponent(encodeURIComponent(value));}	
-	//»ñÈ¡datagrid±êÌâcodeÓëtitleÓëÊä³öexcelµÄÏà¶ÔÓ¦
+	//è·å–datagridæ ‡é¢˜codeä¸titleä¸è¾“å‡ºexcelçš„ç›¸å¯¹åº”
 	function getColNameAndCodes(frozenColumns,columns){		
 		var obj = {colNames:"",colTitles:"",colIndex:""};
 		var colNames = new Array(),colTitles = new Array();
 		function getMulitRowsField(columns){
-			//¶àĞĞ£¨¿çÁĞµÄÇé¿ö£©
-			//3¸öheadÊı¾İ·Ö±ğ±íÊ¾1ĞĞ£¬2ĞĞ£¬3ĞĞµÄ×Ö¶Î¼¯ºÏ
+			//å¤šè¡Œï¼ˆè·¨åˆ—çš„æƒ…å†µï¼‰
+			//3ä¸ªheadæ•°æ®åˆ†åˆ«è¡¨ç¤º1è¡Œï¼Œ2è¡Œï¼Œ3è¡Œçš„å­—æ®µé›†åˆ
 			var head1 = columns[0],head2 = null,head3=null;
 			if(columns.length>1){head2=columns[1];}
 			if(columns.length>2){head3=columns[2];}
-			//cLen µÚÒ»ĞĞ×Ö¶ÎµÄ¸öÊı
-			//rowIndex±íÊ¾ÏÔÊ¾µÄĞĞÊı
-			//colIndex±íÊ¾´Óhead2ÀïÈ¡Êı¾İµÄÏÂ±ê
-			//colIndex2±íÊ¾´Óhead3ÀïÈ¥Êı¾İµÄÏÂ±ê
+			//cLen ç¬¬ä¸€è¡Œå­—æ®µçš„ä¸ªæ•°
+			//rowIndexè¡¨ç¤ºæ˜¾ç¤ºçš„è¡Œæ•°
+			//colIndexè¡¨ç¤ºä»head2é‡Œå–æ•°æ®çš„ä¸‹æ ‡
+			//colIndex2è¡¨ç¤ºä»head3é‡Œå»æ•°æ®çš„ä¸‹æ ‡
 			var cLen = head1.length,rowIndex = 1,colIndex = 0,colIndex2 = 0;
 			for ( var i = 0; i < cLen; i++) {
 				var field = head1[i];
-				//Òş²ØÓòÓëcheckboxÌø¹ı²»´¦Àí
+				//éšè—åŸŸä¸checkboxè·³è¿‡ä¸å¤„ç†
 				if(field["hidden"] || field["checkbox"]){continue;}
 				var fc = field["field"];
 				if(fc==null || fc=="" || fc==undefined){ 
-					//¿çÁĞµÄ×Ö¶ÎfieldÎªnull
-					//È¡³ö¿çÁĞÁĞÊıÓëhead2Êı×éµÄÈ¡ÖµË÷ÒıÏà¼Ó »ñÈ¡µ±Ç°ÁĞÏÂ±ßµÄÁĞ
+					//è·¨åˆ—çš„å­—æ®µfieldä¸ºnull
+					//å–å‡ºè·¨åˆ—åˆ—æ•°ä¸head2æ•°ç»„çš„å–å€¼ç´¢å¼•ç›¸åŠ  è·å–å½“å‰åˆ—ä¸‹è¾¹çš„åˆ—
 					var _len = colIndex + parseInt(field["colspan"]);
 					for ( var j = colIndex; j < _len ; j++) {
 						var f2 = head2[j];
 						if(f2==null || f2=="" || f2==undefined){continue;}
 						var f2f = f2["field"];
-						//Èç¹ûhead2µÄÖĞµÄ×Ö¶ÎfieldÎªnull±íÊ¾¿çÁĞÁË
+						//å¦‚æœhead2çš„ä¸­çš„å­—æ®µfieldä¸ºnullè¡¨ç¤ºè·¨åˆ—äº†
 						if(f2f==null || f2f=="" || f2f==undefined ){
-							//ÈıĞĞ¿çÁĞ´¦Àí
+							//ä¸‰è¡Œè·¨åˆ—å¤„ç†
 							var _len2 = colIndex2 + parseInt(f2["colspan"]);
-							//¶ş²ã¿çÁĞË÷Òı¼õĞ¡£¬·ÀÖ¹·ÃÎÊÆäËûÁĞµÄ¿åÁĞÇé¿ö
+							//äºŒå±‚è·¨åˆ—ç´¢å¼•å‡å°ï¼Œé˜²æ­¢è®¿é—®å…¶ä»–åˆ—çš„å®åˆ—æƒ…å†µ
 							_len = _len - parseInt(f2["colspan"])+1;
 							for(var n = colIndex2;n<_len2;n++){
 								var f3 = head3[n];
 								colNames.push(f3["field"]);
-								//±êÌâÒÔ¡°=¡±·Ö¸î£¬ºóÌ¨ÓĞÏàÓ¦µÄ¹æÔò³ÌĞò´¦Àí ¿çÁĞ
+								//æ ‡é¢˜ä»¥â€œ=â€åˆ†å‰²ï¼Œåå°æœ‰ç›¸åº”çš„è§„åˆ™ç¨‹åºå¤„ç† è·¨åˆ—
 								colTitles.push(field["title"]+"="+f2["title"]+"="+f3["title"]);
 							}colIndex2 = _len2;
 						}else{
-							//Á½ĞĞ¿çĞĞ´¦Àí
+							//ä¸¤è¡Œè·¨è¡Œå¤„ç†
 							colNames.push(f2["field"]);
 							if(f2["rowspan"]){
 							   colTitles.push(field["title"]+"="+f2["title"]+"="+f2["title"]);
@@ -57,36 +57,36 @@ $(function(){
 					colNames.push(field["field"]);
 				}}}
 		if(frozenColumns && frozenColumns.length>0){
-			//¹Ì¶¨ÁĞ´¦Àí
+			//å›ºå®šåˆ—å¤„ç†
 			getMulitRowsField(frozenColumns);
-			//¶³½áÁĞ£¨ÓĞ¹Ì¶¨ÁĞµÄ·µ»Ø¶³½áË÷Òı£©
+			//å†»ç»“åˆ—ï¼ˆæœ‰å›ºå®šåˆ—çš„è¿”å›å†»ç»“ç´¢å¼•ï¼‰
 			obj["colIndex"] = colNames.length;
 		}
-		//ÆÕÍ¨ÁĞ
+		//æ™®é€šåˆ—
 		getMulitRowsField(columns);
 		obj["colNames"] = colNames.join(",");
 		obj["colTitles"] = colTitles.join(",");
 		return obj;
 	}
-	//È¡Ò³ÃæÕ¹Ê¾Êı¾İ
+	//å–é¡µé¢å±•ç¤ºæ•°æ®
 	function getDataPanel(colNames,panel){
 		colNames = colNames.split(",");
-		//È¡¹Ì¶¨Êı¾İdiv
+		//å–å›ºå®šæ•°æ®div
 		var body1 = $(panel).find("div.datagrid-view1 > div.datagrid-body");
-		//È¡ÆÕÍ¨Êı¾İdiv
+		//å–æ™®é€šæ•°æ®div
 		var body2 = $(panel).find("div.datagrid-view2 > div.datagrid-body");
-		//¹Ì¶¨ĞĞ
+		//å›ºå®šè¡Œ
 		var bodyRow1 = $(body1).find("tr.datagrid-row");
-		//ÆÕÍ¨ĞĞ
+		//æ™®é€šè¡Œ
 		var bodyRow2 = $(body2).find("tr.datagrid-row");
 		var len = bodyRow1.length,retObj = new Array();
 		for ( var i = 0; i < len; i++) {
-			//ºÏ²¢¹Ì¶¨ĞĞÓÚÆÕÍ¨ĞĞ
+			//åˆå¹¶å›ºå®šè¡Œäºæ™®é€šè¡Œ
 			var row = $(bodyRow1[i]).html()+$(bodyRow2[i]).html();
 			var cols = $("<tr>"+row+"</tr>").find("td");
 			var clen = cols.length,rd = new Array();
 			for ( var j = 0; j < clen; j++) {
-				//È¡³öÏÔÊ¾µÄÊı¾İ£¬ÒÔ£¬·Ö¸î£¬²¢½øĞĞ¶ş´Î¼ÓÂë
+				//å–å‡ºæ˜¾ç¤ºçš„æ•°æ®ï¼Œä»¥ï¼Œåˆ†å‰²ï¼Œå¹¶è¿›è¡ŒäºŒæ¬¡åŠ ç 
 				var _field = $(cols[j]).attr("field");
 				rd.push("\""+_field+"\":\""+$(cols[j]).text()+"\"");
 			}
@@ -94,18 +94,18 @@ $(function(){
 		}
 		return retObj.join('');
 	}
-	//datagridµ¼³ö·½·¨¼°¸ù¾İ×Ö¶ÎºÏ²¢ĞĞ·½·¨
+	//datagridå¯¼å‡ºæ–¹æ³•åŠæ ¹æ®å­—æ®µåˆå¹¶è¡Œæ–¹æ³•
 	$.extend($.fn.datagrid.methods,{
 		exportList:function(jq,options){
 			return jq.each(function(){
 				options = options || {};
-				//±íµ¥ĞÅÏ¢
+				//è¡¨å•ä¿¡æ¯
 				var form = new Array();
 				var opts = $.data(this,"datagrid").options;
 				var panel = $.data(this,"datagrid").panel;
 				var columns = opts.columns;
 				var frozenColumns =opts.frozenColumns;	
-				//»ñÈ¡µ½ÁĞ£¬ÒÔ¡°,¡±·Ö¸îobj["colNames"]£¬obj["colTitles"]
+				//è·å–åˆ°åˆ—ï¼Œä»¥â€œ,â€åˆ†å‰²obj["colNames"]ï¼Œobj["colTitles"]
 				var objCol = getColNameAndCodes(frozenColumns,columns);
 				form.push(appendHidden("colNames",objCol["colNames"]));
 				form.push(appendHidden("colTitles",encodeURIUtils(objCol["colTitles"])));
@@ -113,39 +113,39 @@ $(function(){
 				if(options["isLockCol"]){
 					form.push(appendHidden("isLockCol",options["isLockCol"]));
 				}
-				//È¡Ò³ÃæÕ¹Ê¾Êı¾İ
+				//å–é¡µé¢å±•ç¤ºæ•°æ®
 				if(options["isPageData"]){
-					//È¡Ò³ÃæÏÔÊ¾µÄÊı¾İ,Êı×éµÄ·½Ê½´æ´¢
+					//å–é¡µé¢æ˜¾ç¤ºçš„æ•°æ®,æ•°ç»„çš„æ–¹å¼å­˜å‚¨
 					var data = getDataPanel(objCol["colNames"],panel);
 					form.push(data);
 					form.push(appendHidden("isPageData","1"));
 				}				
-				//ÆäËûÅäÖÃ²ÎÊı
-				//ÈÕÆÚ¼°×Ö¶Î×ª»»
+				//å…¶ä»–é…ç½®å‚æ•°
+				//æ—¥æœŸåŠå­—æ®µè½¬æ¢
 				if(options["convertDate"]){
 					form.push(appendHidden("convertDate",options["convertDate"]));				 
 				}
-				//×ª»»×Ö¶Î
+				//è½¬æ¢å­—æ®µ
 				if(options["convertField"]){
 					form.push(appendHidden("convertField",options["convertField"]));				 
 				}
-				//convertYn×ª»»ÊÇ·ñ
+				//convertYnè½¬æ¢æ˜¯å¦
 				if(options["convertYn"]){
 					form.push(appendHidden("convertYn",options["convertYn"]));				 
 				}
-				//excel±êÌâ
+				//excelæ ‡é¢˜
 				if(!options["excelTitle"]){options["excelTitle"] = document.title;}				
-				//µ¥Î»
-				if(!options["unitTitle"]){options["unitTitle"] = $("h5:contains('µ¥Î»')").text();}
-				//ÎÄ¼şÃû³Æ
+				//å•ä½
+				if(!options["unitTitle"]){options["unitTitle"] = $("h5:contains('å•ä½')").text();}
+				//æ–‡ä»¶åç§°
 				if(!options["fileName"]){options["fileName"] = options["excelTitle"];}
 				form.push(appendHidden("excelTitle",encodeURIUtils(options["excelTitle"])));
 				form.push(appendHidden("unitTitle",encodeURIUtils(options["unitTitle"])));
 				form.push(appendHidden("fileName",encodeURIUtils(options["fileName"])));
 				form.push(appendHidden("bizcName",options["bizcName"]));
-				//mergeColumnsºÏ²¢ÁĞ,ÔİÊ±Ö»Ö§³Ö×İÏòºÏ²¢
+				//mergeColumnsåˆå¹¶åˆ—,æš‚æ—¶åªæ”¯æŒçºµå‘åˆå¹¶
 				if(options["mergeColumns"]){
-					//ÓĞºÏ²¢ĞĞµÄÇé¿ö£¬»ñÈ¡ÆäÁĞµÄË÷Òı£¬ºóÌ¨ÓĞÏàÓ¦³ÌĞò½øĞĞºÏ²¢´¦Àí
+					//æœ‰åˆå¹¶è¡Œçš„æƒ…å†µï¼Œè·å–å…¶åˆ—çš„ç´¢å¼•ï¼Œåå°æœ‰ç›¸åº”ç¨‹åºè¿›è¡Œåˆå¹¶å¤„ç†
 					var colNarr = objCol["colNames"].split(",");
 					var mNarr = options["mergeColumns"].split(",");
 					var mLen = mNarr.length;
@@ -156,10 +156,10 @@ $(function(){
 					}
 					form.push(appendHidden("mergeColumns",s));
 				}
-				//²éÑ¯Í·²ÎÊı´¦Àí
+				//æŸ¥è¯¢å¤´å‚æ•°å¤„ç†
 				var otherp = $.param(opts["queryParams"]);
 				if(otherp){
-					//×ª»»datagridÖĞqueryParamsµÄ²ÎÊı
+					//è½¬æ¢datagridä¸­queryParamsçš„å‚æ•°
 					var oarr = otherp.split("&");
 					for(var i=0;i<oarr.length;i++){
 						var tfd = oarr[i].split("=");
@@ -167,17 +167,17 @@ $(function(){
 					}
 				}
 				if(options["url"]){
-					//µ¼³öÁ´½ÓµÄ´¦Àí
+					//å¯¼å‡ºé“¾æ¥çš„å¤„ç†
 					if (options["url"].indexOf("?") > 0) {
 						options["url"] = options["url"] + "&_t="+new Date().getTime();
 					}else{
 						options["url"] = options["url"] + "?_t="+new Date().getTime();
 					}
 				}else{
-					$.messager.alert("ÌáÊ¾","Î´´«ÈëÖ´ĞĞµ¼³öµÄurl");
+					$.messager.alert("æç¤º","æœªä¼ å…¥æ‰§è¡Œå¯¼å‡ºçš„url");
 					return false;
 				}				
-				//¹¹ÔìformÌá½»
+				//æ„é€ formæäº¤
 				var htmlForm = $("<FORM id='exportForm' method='post'></FORM>");
 				htmlForm.append(form.join(''));
 				htmlForm.attr("action",options["url"]);
@@ -187,34 +187,34 @@ $(function(){
 			});}
 	
 		,mergeColumns:function(jq,mergeColumns){
-			//ºÏ²¢ĞĞµÄ·½·¨
+			//åˆå¹¶è¡Œçš„æ–¹æ³•
 			mergeColumns = mergeColumns || [];
 			if(mergeColumns!=null && mergeColumns.length>0){
 				return jq.each(function(){
-					//»ñÈ¡datagirdµÄpanel
+					//è·å–datagirdçš„panel
 					var panel = $.data(this,"datagrid").panel;
-					//ĞĞÊı
+					//è¡Œæ•°
 					var dataLen = $.data(this,"datagrid").data.rows.length;
-					//³¬¹ı2ĞĞ½øĞĞºÏ²¢·ñÔò·µ»Ø
+					//è¶…è¿‡2è¡Œè¿›è¡Œåˆå¹¶å¦åˆ™è¿”å›
 					if(dataLen<2){return false;}
 					var mLen = mergeColumns.length;
-					//²éÕÒÊı¾İDIV
+					//æŸ¥æ‰¾æ•°æ®DIV
 					var body = $(panel).find("div.datagrid-body");
 					var colText = null,colNText=null,_field = null;;
 					for(var i=0;i<mLen;i++){
 						_field = mergeColumns[i];
-						//¸ù¾İ×Ö¶Î»ñÈ¡ÒªºÏ²¢µÄÁĞÊı¾İ¼¯ºÏ
+						//æ ¹æ®å­—æ®µè·å–è¦åˆå¹¶çš„åˆ—æ•°æ®é›†åˆ
 						var td = $(body).find("td[field="+mergeColumns[i]+"]");
 						var tdLen = td.length,mergeRIdx=null,mRowSpan=1;
 						colText = $(td[0]).text();
 						mergeRIdx = $(td[0]).parent().attr("datagrid-row-index");
 						for ( var j = 1; j < tdLen; j++) {							
 							colNText =$(td[j]).text();
-							//È¡ÉÏÒ»ÁĞÓëÏÂÒ»ÁĞ±È½ÏÓĞÏàÍ¬Öµ£¬ºÏ²¢ĞĞ++£¬·ñÔò¾Í½øĞĞºÏ²¢£¬ÇÒ³õÊ¼ÏÂÒ»´ÎµÄ±È½Ï²ÎÊı
+							//å–ä¸Šä¸€åˆ—ä¸ä¸‹ä¸€åˆ—æ¯”è¾ƒæœ‰ç›¸åŒå€¼ï¼Œåˆå¹¶è¡Œ++ï¼Œå¦åˆ™å°±è¿›è¡Œåˆå¹¶ï¼Œä¸”åˆå§‹ä¸‹ä¸€æ¬¡çš„æ¯”è¾ƒå‚æ•°
 							if(colText==colNText){
 								mRowSpan++;
 							}else{
-								//Öµ²»ÏàµÈµÄÊ±ºÏ²¢ÉÏÒ»´ÎµÄ±È½Ï
+								//å€¼ä¸ç›¸ç­‰çš„æ—¶åˆå¹¶ä¸Šä¸€æ¬¡çš„æ¯”è¾ƒ
 								if(mRowSpan!=1){
 									$(this).datagrid("mergeCells",{
 										field:mergeColumns[i],
@@ -226,7 +226,7 @@ $(function(){
 								mergeRIdx = $(td[j]).parent().attr("datagrid-row-index");								
 							}
 						}
-						//ºÏ²¢×îºóÒ»´ÎµÄÅĞ¶Ï
+						//åˆå¹¶æœ€åä¸€æ¬¡çš„åˆ¤æ–­
 						if(mRowSpan!=1){
 							$(this).datagrid("mergeCells",{
 								field:_field,

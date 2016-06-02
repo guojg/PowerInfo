@@ -1,0 +1,19 @@
+﻿[{    
+    "id": "spline",    
+    "text":"曲线图"   
+},{    
+    "id": "area",    
+    "text":"面积图"   
+},{    
+    "id": "areaspline",    
+    "text":"曲线面积图" 
+},{    
+    "id": "column",    
+    "text":"柱状图"
+},{    
+    "id": "pie",    
+    "text":"饼状图"   
+},{    
+    "id": "scatter",    
+    "text":"散点图"   
+}]

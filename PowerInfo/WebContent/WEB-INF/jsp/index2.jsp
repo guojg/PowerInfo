@@ -11,9 +11,11 @@
     <link rel="stylesheet" type="text/css" href="/PowerInfo/static/js/jquery-easyui-1.4/themes/icon.css" />
     <script type="text/javascript" src="/PowerInfo/static/js/jquery-easyui-1.4/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="/PowerInfo/static/js/jquery-easyui-1.4/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src='/PowerInfo/static/js/outlook.js'> </script>
+	<script type="text/javascript" src='/PowerInfo/js/menu/outlook.js'> </script>
+	<%String path = request.getContextPath(); %>
 
     <script type="text/javascript">
+    var path='<%=path%>';
 var _menus = '';
 
         //设置登录窗口
@@ -111,7 +113,7 @@ var _menus = '';
 		</ul>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
-        <div class="footer">By 疯狂秀才 Email:bjhxl@59ibox.cn</div>
+        <div class="footer">一体化规划设计平台</div>
     </div>
     <div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west">
 <div id='wnav' class="easyui-accordion" fit="true" border="false">
