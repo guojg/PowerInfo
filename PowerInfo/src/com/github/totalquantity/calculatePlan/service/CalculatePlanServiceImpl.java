@@ -116,7 +116,7 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		for (String key : m.keySet()) {
 			switch(key){
 			case Containts.calculate1:
-				CalculateAlgorithm.averageGrowthRate(m.get(key));
+				//CalculateAlgorithm.averageGrowthRate(m.get(key));
 				break;
 			case Containts.calculate2:
 				break;
