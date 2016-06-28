@@ -7,5 +7,5 @@ public interface MenuDao {
 	
 	public List<Map<String, Object>> queryAccordion(List<String> years);
 
-	public List<Map<String, Object>> queryMenu(List<String> years);
+	public List<Map<String, Object>> queryMenu();
 }

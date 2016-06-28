@@ -23,11 +23,11 @@ public class MenuDaoImpl implements MenuDao{
 	        return jdbcTemplate.queryForList(sb.toString());
 	}
 	@Override
-	public List<Map<String, Object>> queryMenu(List<String> years) {
+	public List<Map<String, Object>> queryMenu() {
 
 		StringBuffer sb = new StringBuffer();
 		 this.jdbcTemplate.execute("call pro_show_childLst(1)"); 
-			sb.append( "      SELECT sys_menu.id,sys_menu.name text,sys_menu.p_id parent_id,sys_menu.url FROM tmpLst,shiro.sys_menu WHERE tmpLst.id=shiro.sys_menu.id ORDER BY tmpLst.sno") ;
+			sb.append( "      SELECT sys_menu.id,sys_menu.name text,sys_menu.p_id parent_id,sys_menu.url,sys_menu.table_name tablename FROM tmpLst,shiro.sys_menu WHERE tmpLst.id=shiro.sys_menu.id ORDER BY tmpLst.sno") ;
 
 	        return jdbcTemplate.queryForList(sb.toString());
 	}

@@ -42,10 +42,7 @@ public class MenuServiceImpl implements MenuService{
 	
 	@Override
 	public String queryMenu(JSONObject param) {
-		List<String> years = new ArrayList<String>();
-		years.add("2005");
-		years.add("2006");
-		List<Map<String, Object>> list = menuDao.queryMenu(years);
+		List<Map<String, Object>> list = menuDao.queryMenu();
 		String aa=TreeUtil.createTreeJson(JsonUtils.transformBoToTree(list)) ;
 		return aa;
 	}

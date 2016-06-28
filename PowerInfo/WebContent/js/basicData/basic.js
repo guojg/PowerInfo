@@ -153,7 +153,6 @@ Array.prototype.getValue = function(resKey, resVal, retKey) {
 */
 function loadData($datagrid, chartType, yIndex, isInit) {
 	// 筛选数据
-	debugger;
 	var selections = $datagrid.datagrid('getRows');
 	var type = chartType;//图表类型
 	var xLastLevel =window.parent.frames["iframe0"].cols[0];

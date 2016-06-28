@@ -15,7 +15,7 @@
 		</script>
 	</head>
 	<body>
-		  <div id="container" style="width:600px;height:400px"></div>
+		  <div id="container" style="width:100%;height:100%"></div>
 		
 	    
 		<script type="text/javascript" src="<%=request.getContextPath()%>/static/js/Highcharts-4.0.1/raphael.js"></script>
@@ -26,6 +26,6 @@
 		<script type="text/javascript" src="<%=request.getContextPath()%>/static/js/Highcharts-4.0.1/js/themes/custom.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/static/js/Highcharts-4.0.1/js/modules/exporting.js"></script>
  		<script type="text/javascript" src="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/farbtastic/farbtastic.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/js/basicData/nationalEconomy/bbb.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/basicData/basic.js"></script>
 	</body> 
 </html>

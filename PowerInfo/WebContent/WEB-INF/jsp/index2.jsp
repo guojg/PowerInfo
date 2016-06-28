@@ -12,7 +12,10 @@
     <script type="text/javascript" src="/PowerInfo/static/js/jquery-easyui-1.4/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="/PowerInfo/static/js/jquery-easyui-1.4/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src='/PowerInfo/js/menu/outlook.js'> </script>
+
 	<%String path = request.getContextPath(); %>
+	<script type="text/javascript" src="<%=path%>/static/js/common/common_page.js"></script>
+	<%@include file="common/commonDefineBtn.jsp" %>
 
     <script type="text/javascript">
     var path='<%=path%>';
@@ -113,7 +116,7 @@ var _menus = '';
 		</ul>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
-        <div class="footer">一体化规划设计平台</div>
+        <div class="footer"></div>
     </div>
     <div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west">
 <div id='wnav' class="easyui-accordion" fit="true" border="false">
@@ -168,6 +171,12 @@ var _menus = '';
 		<div id="mm-tabcloseleft">当前页左侧全部关闭</div>
 		<div class="menu-sep"></div>
 		<div id="mm-exit">退出</div>
+	</div>
+	<div id="treemm" class="easyui-menu" style="width:140px;">
+		<div onclick="append()"  iconcls="icon-add">添加节点</div>
+		<div onclick="update()" iconcls="icon-edit">修改节点</div>
+		<div onclick="remove()"iconcls="icon-remove">删除节点</div>
+		<div id="addyear" onclick="addyear()"iconcls="icon-add">添加年份</div>
 	</div>
 
 
