@@ -1,21 +1,12 @@
 ﻿$(function() {
-//	$.ajax({
-//		url:path+'/commonServlet?method=cantOrOrgan',
-//		dataType:'json',
-//		async:false,
-//		success:function(msg){
-//	 		
-//		}
-//	});
-	debugger;
 	getAccordion();
 	tabClose();
 	tabCloseEven();
-	$('#css3menu').css("margin-left",$('#logo1').width());
+	$('#css3menu').css("margin-left", $('#logo1').width());
 	$('#css3menu img').click(function() {
 		$('#css3menu img').removeClass('active');
 		$(this).addClass('active');
-		
+
 		var d = _menus[$(this).attr('name')];
 		Clearnav();
 		addNav(d);
@@ -23,7 +14,7 @@
 	});
 
 	// 导航菜单绑定初始化
-	$("#wnav").accordion( {
+	$("#wnav").accordion({
 		animate : false
 	});
 
@@ -31,28 +22,28 @@
 	addNav(_menus[firstMenuName]);
 	InitLeftMenu();
 });
-function getAccordion(){
+function getAccordion() {
 	$.ajax({
 		type : 'POST',
 		async : false,
-		dataType: 'json',
-		url :  '/PowerInfo/menu/queryAccordion',
+		dataType : 'json',
+		url : '/PowerInfo/menu/queryAccordion',
 		success : function(data) {
 			_menus = data;
-		
+
 		}
 	});
 }
 
-function getMenu(){
+function getMenu() {
 	$.ajax({
 		type : 'POST',
 		async : false,
-		dataType: 'json',
-		url :  '/PowerInfo/menu/queryMenu',
+		dataType : 'json',
+		url : '/PowerInfo/menu/queryMenu',
 		success : function(data) {
 			_menus = data;
-		
+
 		}
 	});
 }
@@ -65,7 +56,6 @@ function Clearnav() {
 			$('#wnav').accordion('remove', t);
 		}
 	});
-
 	pp = $('#wnav').accordion('getSelected');
 	if (pp) {
 		var title = pp.panel('options').title;
@@ -75,107 +65,114 @@ function Clearnav() {
 
 function addNav(data) {
 	$.each(data, function(i, sm) {
-			var menulist = "<ul id='tt'></ul>";
-	//		menulist += '<ul>';
-	//		$.each(sm.menus, function(j, o) {
-	//			menulist += '<li><div><a ref="' + o.menuid + '" href="#" rel="'
-	//					+ o.url + '" ><span class="icon ' + o.icon
-	//					+ '" >&nbsp;</span><span class="nav">' + o.menuname
-	//					+ '</span></a></div></li> ';
-	//		});
-
-		menulist += '</ul>';
+		var menulist = "<ul id='tt'></ul></ul>";
 
 		$('#wnav').accordion('add', {
 			title : sm.menuname,
 			content : menulist,
-			id: sm.menuid,
+			id : sm.menuid,
 			iconCls : 'icon ' + sm.icon
-		});
-		/*var data1=[{    
-		    "id":1,    
-		    "text":"Folder1",    
-		    "iconCls":"icon-save",    
-		    "children":[{    
-		        "text":"File1",    
-		        "checked":true   
-		    },{    
-		        "text":"Books",    
-		        "state":"open",    
-		        "attributes":{    
-		            "url":"/demo/book/abc",    
-		            "price":100    
-		        },    
-		        "children":[{    
-		            "text":"PhotoShop",    
-		            "checked":true   
-		        },{    
-		            "id": 8,    
-		            "text":"Sub Bookds",    
-		            "state":"closed"   
-		        }]    
-		    }]    
-		},{    
-		    "text":"Languages",    
-		    "state":"closed",    
-		    "children":[{    
-		        "text":"Java"   
-		    },{    
-		        "text":"C#"   
-		    }]    
-		}] ;
-		$('#tt').tree({    
-		    data:data1,
-		    onSelect:function(node){
-		    	
-		         if(node.attributes.url!=null){
-		        	 
-		        	addTab(node.text,node.attributes.url , "static/images/top_03.png");
-		         }
-		    	
-		    }
-		    
-		}); */
-		$('#tt').tree({    
-			url :  '/PowerInfo/menu/queryMenu',
-			onSelect:function(node){
-		    	
-		         if(node.attributes.url!=""){
-		        	 
-		        	addTab(node.text,path+node.attributes.url , "static/images/top_03.png");
-		         }
-		    	
-		    }
-		    
 		});
 
 	});
+	/** 初始化树* */
+	InitTreeData();
 
-		
 	var pp = $('#wnav').accordion('panels');
 	var t = pp[0].panel('options').title;
 	$('#wnav').accordion('select', t);
-//	$.ajax({
-//		type : 'POST',
-//		async : false,
-//		dataType: 'json',
-//		url :  '/PowerInfo/menu/queryMenu',
-//		success : function(data) {
-//			 debugger;
-//		
-//		}
-//	});
-	/*$('#tt').tree({    
-		url :  '/PowerInfo/menu/queryMenu'
-	    
-//	});  */
 
+}
+/**
+ * 基础数据删除节点
+ */
+function remove() {
+	$.messager.confirm('提示', '确认删除该节点?', function(r) {
+		if (r) {
+			var node = $('#tt').tree('getSelected');
+
+			$.post(path + '/basicData/removeleaf', {
+				"id" : node.id
+			}, function(data) {
+				var data = $.parseJSON(data);
+				if (data.flag == '1') {
+					$.messager.alert('提示', '删除成功！', 'info', function() {
+						$('#tt').tree("remove", node.target);
+					});
+				}
+			});
+		}
+	});
+
+}
+/**
+ * 基础数据增加年份
+ */
+function addyear() {
+	commonHelper.toAdd({
+		title : '增加年份',
+		width : 260,
+		height : 180,
+		url : "basicData/openAddYear"
+	});
+
+}
+
+/** 初始化树结构* */
+function InitTreeData() {
+	$('#tt').tree(
+			{
+				url : 'menu/queryMenu',
+				onClick : function(node) {
+					if (node.attributes.url != "") {
+						addTab(node.text, path + node.attributes.url + "?pid="
+								+ node.id, "static/images/top_03.png");
+					}
+
+				},
+				onContextMenu : function(e, node) {
+					//增加年份是基础数据库才可以添加
+					if(node.id==1){
+						$("#addyear").show();
+					}else{
+						$("#addyear").hide();
+					}
+					e.preventDefault();
+					// 选择节点
+					$('#tt').tree('select', node.target);
+					// 显示上下文菜单
+					$('#treemm').menu("show", {
+						left : e.pageX,
+						top : e.pageY
+					});
+				},
+				
+
+			});
+}
+function update() {
+
+	commonHelper.toAdd({
+		title : '修改指标',
+		width : 260,
+		height : 150,
+		url : "basicData/openUpdateLeaf"
+	});
+
+}
+function append() {
+	commonHelper.toAdd({
+		title : '增加指标',
+		width : 260,
+		height : 150,
+		url : "basicData/openAddLeaf"
+	});
 
 }
 
 // 初始化左侧
 function InitLeftMenu() {
-	
+
 	hoverMenuItem();
 
 	$('#wnav li a').live('click', function() {
@@ -208,7 +205,7 @@ function getIcon(menuid) {
 	var icon = 'icon ';
 	$.each(_menus, function(i, n) {
 		$.each(n, function(j, o) {
-			$.each(o.menus, function(k, m){
+			$.each(o.menus, function(k, m) {
 				if (m.menuid == menuid) {
 					icon += m.icon;
 					return false;
@@ -235,7 +232,8 @@ function addTab(subtitle, url, icon) {
 }
 
 function createFrame(url) {
-	var s = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
+	var s = '<iframe scrolling="auto" frameborder="0"  src="' + url
+			+ '" style="width:100%;height:100%;"></iframe>';
 	return s;
 }
 

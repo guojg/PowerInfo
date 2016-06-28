@@ -25,11 +25,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 
 <!-------字典表加载---------------列表公用js---------------增，删，改，查，保存，可编辑表格基本操作。-----弹出模式窗口调用--------->
-<script type="text/javascript" src="<%=path%>/static/js/common/common_dictionary.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/common_page.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/common_page_ext.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/apppub.js"></script>
 <script type="text/javascript" src="<%=path%>/static/common/map.js"></script>
+<script type="text/javascript" src="<%=path%>/static/common/js/json2.js"></script>
+<script type="text/javascript" src="<%=path%>/static/js/common/common_dictionary.js"></script>
+
 <script type="text/javascript">
 	var path="<%=path%>";
 </script>
