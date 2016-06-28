@@ -1,11 +1,11 @@
 	var algorithmStr='1,3,5,6';  //算法代号
 	var algorithms=algorithmStr.split(",");
 $(function() {
-
+debugger;
 	/*
 	 * 给算法复选框赋值
 	 */
-	var trHtml="<tr><td></td><td><div id='6'><br>";
+	var trHtml="<tr><td></td><td></td><td><table id='6'>";
 	for (var i=0 ; i<algorithms.length;++i){
 		$("input:checkbox[value="+algorithms[i]+"]").attr('checked','true');		
 		
@@ -18,7 +18,10 @@ $(function() {
 		}else if(algorithms[i]==5){
 			
 		}else{
-			trHtml +="<input type='text' name='weight"+algorithms[i]+"' id='weight"+algorithms[i]+"' ><br>";
+			trHtml +="<tr> <td class='tdlft'> 权重"+algorithms[i]+"：</td> " +
+					"<td class='tdrgt'>" +
+					"<input type='text' name='weight"+algorithms[i]+"' id='weight"+algorithms[i]+"' >" +
+					"</td></tr>";
 		}
 	}
 	debugger;
@@ -44,7 +47,7 @@ $(function() {
  * 追加行
  */
 function addTr(trHtml){
-    var $tr=$("#detailTable tr:last");
+    var $tr=$("#calculateTable tr:last");
     if($tr.size()==0){
        alert("指定的table id或行数不存在！");
        return;
@@ -56,6 +59,7 @@ function addTr(trHtml){
  * 保存
  */
 function baoCun(){
+	debugger;
 	var m=[];//请求的数组
 	for (var i=0 ; i<algorithms.length;++i){
 		/*

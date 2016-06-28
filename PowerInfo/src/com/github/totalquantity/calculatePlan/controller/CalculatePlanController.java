@@ -36,8 +36,15 @@ public class CalculatePlanController {
 	 
 	 @RequestMapping(value ="/startCalculate")
 	 public void startCalculate(HttpServletRequest request, HttpServletResponse response){
+		 	Object baseyearObj = request.getSession().getAttribute("plan_baseyear") ;
+		 	Object planyearObj = request.getSession().getAttribute("plan_planyear");
+		 	int baseyear = baseyearObj==null?0:Integer.parseInt(baseyearObj.toString());
+		 	int planyear = planyearObj==null?0:Integer.parseInt(planyearObj.toString());
 
-			calculatePlanService.startCalculate();
+		 	JSONObject obj = new JSONObject();
+		 	obj.put("baseyear", baseyear) ;
+		 	obj.put("planyear", planyear) ;
+			calculatePlanService.startCalculate(obj);
 			
 		}
 	 

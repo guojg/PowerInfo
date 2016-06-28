@@ -43,7 +43,7 @@ public class NationalEconomyController {
 	}
 	@RequestMapping(value ="/index")
 	public String index(HttpServletRequest request, HttpServletResponse response){
-		 return "basicData/nationalEconomy/nationalEconomyMain";
+		return "totalQuantity/calculatePlan/calculatePlan3";
 	}
 	
 	@RequestMapping(value ="/table")

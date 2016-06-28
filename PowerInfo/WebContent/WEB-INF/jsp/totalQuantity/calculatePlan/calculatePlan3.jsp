@@ -10,9 +10,7 @@
 
 <script type="text/javascript" src="<%=path%>/js/totalquantity/jsonutil.js"></script>
 <script type="text/javascript" src="<%=path %>/js/totalquantity/calculatePlan.js"></script>
-<script type="text/javascript"> 
 
-</script>
 </head>
 <body>
 	<table id="calculateTable">
@@ -20,6 +18,7 @@
 			<tr>
 				<td><input name="algorithm" type="checkbox" value="1" />平均增长率法</td>
 				<td><input name="algorithm" type="checkbox" value="2" />产值单耗法</td>
+				<td ><input name="algorithm" type="checkbox" value="3" />弹性系数法</td>
 			</tr>
 			<tr>
 				<td>
@@ -50,13 +49,6 @@
 						  </tr>
 					</table> 
 				</td>
-			</tr>
-			<tr>
-				<td ><input name="algorithm" type="checkbox" value="3" />弹性系数法</td>
-				<td><input name="algorithm" type="checkbox" value="4" />人均用电量法</td>
-			
-			</tr>
-			<tr>
 				<td>	
 					<table id="3">
 						 <tr> 
@@ -69,14 +61,17 @@
 						   </tr>
 					</table> 
 				</td>
-				<td>	
-
-				</td>
 			</tr>
 			<tr>
+				
+				<td><input name="algorithm" type="checkbox" value="4" />人均用电量法</td>
 				<td ><input name="algorithm" type="checkbox" value="5" />平均值法</td>
 				<td><input name="algorithm" type="checkbox" value="6" />最优权重法</td>
 			</tr>
+			<tr>
+
+			</tr>
+		
 			
 			
 	</table>
