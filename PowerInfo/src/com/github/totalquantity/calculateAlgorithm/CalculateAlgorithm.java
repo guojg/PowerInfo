@@ -1,0 +1,214 @@
+package com.github.totalquantity.calculateAlgorithm;
+
+import java.util.List;
+import java.util.Map;
+
+import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
+
+/**
+ * 算法类
+ * 主要算法有五种：
+ * 				平均增长率法：averageGrowthRate
+ * 				产值单耗法:productionValuePerUnitConsumption
+ * 				弹性系数法：elasticityCoefficient
+ * 				人均用电量法：avgElectricityConsumption
+ * 				平均值法:avgValue
+ * 				最优权重法：optimalWeight
+ * @author guo
+ *
+ */
+public class CalculateAlgorithm {
+	/**
+	 *平均增长率法
+	 *     公式：基准年电量*（1+i）^(2020-2015)，其中i=(a+4m+b)/6（主观概率计算）
+	 * @param list
+	 * @return
+	 */
+	public  double  averageGrowthRate(List<CalculatePlan> list){
+		//基准年电量*（1+i）^(2020-2015)
+		double d = 1.34;	//基准年电量
+		double i = subjectiveConcept(list);  //主观概率计算
+		int baseyear=2015;	//基准年
+		int planyear=2020;	//预测年
+		double result = d* Math.pow(1+i, planyear-baseyear) ;
+		return result ;
+	}
+	
+	/**
+	 * 主观概率计算i=(a+4m+b)/6
+	 * 其中：最大值　ａ
+　	 *       最小值　ｂ
+　　  *　          最可能值 ｍ
+	 */
+	
+	public  double subjectiveConcept(List<CalculatePlan> list){
+				double a=0d;
+				double m=0d;
+				double b=0d;
+				for(int j= 0 ; j<list.size() ; ++j){
+					String key = list.get(j).getIndex_type() ;
+					String value = list.get(j).getIndex_value();
+					switch(key){
+					case "maxRate": //最大值
+						a = Double.parseDouble(value) ;
+						break;
+					case "minRate"://最小值
+						b = Double.parseDouble(value) ;
+						break;
+					case "possibleRate"://最可能值
+						m = Double.parseDouble(value) ;
+						break;
+					}	
+				}
+				double i= (a+4*m+b)/6;
+		return i ;
+	}
+	/**
+	 * 弹性系数法
+	 *  	规划期末期用电量=规划期初期(即基准年)用电量*
+	 *  （1+电力弹性系数*国内生产总值平均年增长速度）的预测年限（即预测年减去基准年）次方；
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public double elasticityCoefficient(List<CalculatePlan> list){
+		double result = 0.0 ;
+		double baseyearElectricity=5.44;//规划期初期(即基准年)用电量
+		double coefficient=0.0; //电力弹性系数
+		double incrementSpeed=0.0;//国内生产总值平均年增长速度
+		int baseyear=2015;	//基准年
+		int planyear=2020;	//预测年
+		for(int j= 0 ; j<list.size() ; ++j){
+			String key = list.get(j).getIndex_type() ;
+			String value = list.get(j).getIndex_value();
+			switch(key){
+			case "coefficient": //电力弹性系数
+				coefficient = Double.parseDouble(value) ;
+				break;
+			case "incrementSpeed"://国内生产总值平均年增长速度
+				incrementSpeed = Double.parseDouble(value) ;
+				break;
+			}
+		}
+		result=baseyearElectricity*Math.pow(1+coefficient*incrementSpeed, planyear-baseyear) ;
+		return result ;
+	}
+	/**
+	 * 人均用电量法
+	 *    公式基准年人均用电量* （1+i）^(2020-2015)*预测年人口数
+	 * @param list
+	 * @return
+	 */
+	public  double avgElectricityConsumption(List<CalculatePlan> list){
+		double result=0.0 ;
+		int planPeople=0;//预测年人口数
+		int baseyear=2015;	//基准年
+		int planyear=2020;	//预测年
+		double  avgElectricityConsumption=0.0;//基准年人均用电量
+		double i= subjectiveConcept(list);
+		result = avgElectricityConsumption*Math.pow(1+i, planyear-baseyear)*planPeople;
+		return result;
+	}
+	/**
+	 * 	产值单耗法
+	 * 		公式：预测年一产GDP*预测年一产单耗（即：基准年一产单耗*一产单耗增长率）+
+	 * 			预测年二产GDP*预测年二产单耗（即：基准年二产单耗*二产单耗增长率）+
+	 *          预测年三产GDP*预测年三产单耗（即：基准年三产单耗*三产单耗增长率）+
+	 *          预测年人均居民生活用电量（即基准年人均居民生活用电量*人均居民生活用电量增长率）*预测年人口
+	 * @param list
+	 * @return
+	 */
+	public double productionValuePerUnitConsumption(List<CalculatePlan> list){
+		double result=0.0 ;
+		int planPeople=0;//预测年人口数
+		double oneGDP=1.0;//预测年一产GDP
+		double twoGDP=2.0;//预测年二产GDP
+		double threeGDP=3.0;//预测年三产GDP
+		double onePerUnit=1.0;//基准年一产单耗
+		double twoPerUnit=2.0;//基准年二产单耗
+		double threePerUnit=3.0;//基准年三产单耗
+		double avgElectricityConsumption=4.0;//基准年人均居民生活用电量
+		double onePerUnitRate=0.0;//一产单耗增长率
+		double twoPerUnitRate=0.0;//二产单耗增长率
+		double threePerUnitRate=0.0;//三产单耗增长率
+		double avgElectricityRate=0.0;//人均居民生活用电量增长率
+		int baseyear=2015;	//基准年
+		int planyear=2020;	//预测年
+		for(int j= 0 ; j<list.size() ; ++j){
+			String key = list.get(j).getIndex_type() ;
+			String value = list.get(j).getIndex_value();
+			switch(key){
+			case "onePerUnitRate": //一产单耗增长率
+				onePerUnitRate = Integer.parseInt(value) ;
+				break;
+			case "twoPerUnitRate": //二产单耗增长率
+				twoPerUnitRate = Integer.parseInt(value) ;
+				break;
+			case "threePerUnitRate": //三产单耗增长率
+				threePerUnitRate = Integer.parseInt(value) ;
+				break;
+			case "avgElectricityRate": //人均居民生活用电量增长率
+				avgElectricityRate = Integer.parseInt(value) ;
+				break;
+			}
+		}
+		result = oneGDP*onePerUnit*onePerUnitRate+twoGDP*twoPerUnit*twoPerUnitRate
+				+threeGDP*threePerUnit*threePerUnitRate+
+				avgElectricityConsumption*avgElectricityRate*planPeople;
+		return result;
+	}
+	/**
+	 * 平均值法
+	 *     平均值法：(方法一预测值+方法二预测值+方法三预测值+方法四预测值)/4
+	 *     即选择的算法除以算法数
+	 * @return
+	 */
+	public double avgValue(List<Map<String,Double>> list){
+		double result=0.0 ;
+		for(int i=0 ; i<list.size() ; ++i){
+			for(Map<String,Double> m : list){
+				for (String key : m.keySet()) {
+					result += m.get(key).doubleValue();
+				}
+			}
+		}
+		result = result/list.size();
+		return result;
+	}
+	
+	/**
+	 * 最优权重法
+	 * 方法一预测值*权重1+
+	 * 方法二预测值*权重2+方法三预测值*权重3+方法四预测值*权重4   ，其中四个权重值之和为1
+	 * 
+	 * 即 选择的算法*对应的权重   其中选择的权重值和为1
+	 * @return
+	 */
+	public double optimalWeight(List<Map<String,Double>> list ,List<CalculatePlan> weightlist){
+		double result=0.0 ;
+		/*for(Map<String,Double> m : list){
+			for (String key : m.keySet()) {
+				
+				for(CalculatePlan cp : weightlist){
+					if(("weight"+key).equals(cp.getIndex_type())){
+						reslut += m.get(key).doubleValue()*Double.parseDouble(cp.getIndex_value());
+					}
+				}
+			}
+		}*/
+		for(CalculatePlan cp : weightlist){
+			String index_type = cp.getIndex_type() ;
+			String index_value = cp.getIndex_value() ;
+			for(Map<String,Double> m : list){
+				for (String key : m.keySet()) {
+					if(index_type.equals("weight"+key) && index_value!=null && !"".equals(index_value)){
+						result += m.get(key).doubleValue()*Double.parseDouble(index_value);
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	
+}
