@@ -1,6 +1,7 @@
 package com.github.totalquantity.calculatePlan.service;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 public interface CalculatePlanService {
@@ -13,5 +14,5 @@ public interface CalculatePlanService {
 	/**
 	 * 启动计算
 	 */
-	public void startCalculate() ;
+	public void startCalculate(JSONObject obj) ;
 }

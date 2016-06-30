@@ -38,6 +38,7 @@ public class CalculatePlanDaoImpl implements CalculatePlanDao{
 
 		        });
 		  
+		//this.jdbcTemplate.update(sql, new Object[]{112,1,"测试啊",1});
 		
 	}
 	/**

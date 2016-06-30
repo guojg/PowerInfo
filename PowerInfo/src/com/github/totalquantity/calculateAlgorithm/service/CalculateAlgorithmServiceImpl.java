@@ -1,9 +1,16 @@
-package com.github.totalquantity.calculateAlgorithm;
+package com.github.totalquantity.calculateAlgorithm.service;
 
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
+import com.github.totalquantity.prepareData.dao.PrepareDataDao;
+import com.github.totalquantity.prepareData.entity.PrepareData;
 
 /**
  * 算法类
@@ -17,19 +24,38 @@ import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
  * @author guo
  *
  */
-public class CalculateAlgorithm {
+@Service
+public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService{
+	@Autowired
+	private PrepareDataDao prepareDataDao;
 	/**
 	 *平均增长率法
 	 *     公式：基准年电量*（1+i）^(2020-2015)，其中i=(a+4m+b)/6（主观概率计算）
 	 * @param list
 	 * @return
 	 */
-	public  double  averageGrowthRate(List<CalculatePlan> list){
+	public  double  averageGrowthRate(JSONObject obj,List<CalculatePlan> list){
 		//基准年电量*（1+i）^(2020-2015)
-		double d = 1.34;	//基准年电量
+		double d = 0.0;	//基准年电量
 		double i = subjectiveConcept(list);  //主观概率计算
-		int baseyear=2015;	//基准年
-		int planyear=2020;	//预测年
+		int baseyear=obj.getInt("baseyear");	//基准年
+		int planyear=obj.getInt("planyear");	//预测年
+		String taskid=obj.getString("taskid");	//预测年
+		/*
+		 * 组装用电量查询信息
+		 */
+		JSONObject pdObj = new JSONObject();
+		pdObj.put("planyear", planyear);
+		pdObj.put("taskid", taskid);
+		pdObj.put("index_type", "");//用电量代号
+		/*
+		 *获取用电量数据 
+		 */
+		List<PrepareData> pdList =getPrepareDataByIndexType(pdObj) ;
+		if(pdList.size()>0){
+			String valueStr = pdList.get(0).getValue()==null?"0":pdList.get(0).getValue().toString() ;
+			d= Double.parseDouble(valueStr) ;
+		}
 		double result = d* Math.pow(1+i, planyear-baseyear) ;
 		return result ;
 	}
@@ -71,13 +97,13 @@ public class CalculateAlgorithm {
 	 * @param list
 	 * @return
 	 */
-	public double elasticityCoefficient(List<CalculatePlan> list){
+	public double elasticityCoefficient(JSONObject obj,List<CalculatePlan> list){
 		double result = 0.0 ;
 		double baseyearElectricity=5.44;//规划期初期(即基准年)用电量
 		double coefficient=0.0; //电力弹性系数
 		double incrementSpeed=0.0;//国内生产总值平均年增长速度
-		int baseyear=2015;	//基准年
-		int planyear=2020;	//预测年
+		int baseyear=obj.getInt("baseyear");	//基准年
+		int planyear=obj.getInt("planyear");	//预测年
 		for(int j= 0 ; j<list.size() ; ++j){
 			String key = list.get(j).getIndex_type() ;
 			String value = list.get(j).getIndex_value();
@@ -95,15 +121,22 @@ public class CalculateAlgorithm {
 	}
 	/**
 	 * 人均用电量法
-	 *    公式基准年人均用电量* （1+i）^(2020-2015)*预测年人口数
+	 *    公式:基准年人均用电量* （1+i）^(2020-2015)*预测年人口数
 	 * @param list
 	 * @return
 	 */
-	public  double avgElectricityConsumption(List<CalculatePlan> list){
+	public  double avgElectricityConsumption(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list){
 		double result=0.0 ;
 		int planPeople=0;//预测年人口数
-		int baseyear=2015;	//基准年
-		int planyear=2020;	//预测年
+		for(PrepareData pd :prepareData){
+			if("2".equals(pd.getIndex_type())){
+				String peopleStr = pd.getValue()==null?"0": pd.getValue();
+				planPeople = Integer.parseInt(peopleStr) ;
+				break;
+			}
+		}
+		int baseyear=obj.getInt("baseyear");	//基准年
+		int planyear=obj.getInt("planyear");	//预测年
 		double  avgElectricityConsumption=0.0;//基准年人均用电量
 		double i= subjectiveConcept(list);
 		result = avgElectricityConsumption*Math.pow(1+i, planyear-baseyear)*planPeople;
@@ -118,22 +151,43 @@ public class CalculateAlgorithm {
 	 * @param list
 	 * @return
 	 */
-	public double productionValuePerUnitConsumption(List<CalculatePlan> list){
+	public double productionValuePerUnitConsumption(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list){
 		double result=0.0 ;
 		int planPeople=0;//预测年人口数
-		double oneGDP=1.0;//预测年一产GDP
-		double twoGDP=2.0;//预测年二产GDP
-		double threeGDP=3.0;//预测年三产GDP
+		double oneGDP=0.0;//预测年一产GDP
+		double twoGDP=0.0;//预测年二产GDP
+		double threeGDP=0.0;//预测年三产GDP
+		for(PrepareData pd :prepareData){
+			switch(pd.getIndex_type()){
+			case "2" :
+				String peopleStr = pd.getValue()==null?"0": pd.getValue();
+				planPeople = Integer.parseInt(peopleStr) ;
+				break;
+			case "3" :
+				String oneGDPStr = pd.getValue()==null?"0": pd.getValue();
+				oneGDP = Double.parseDouble(oneGDPStr) ;
+				break;
+			case "4" :
+				String twoGDPStr = pd.getValue()==null?"0": pd.getValue();
+				twoGDP = Double.parseDouble(twoGDPStr) ;
+				break;
+			case "5" :
+				String threeGDPStr = pd.getValue()==null?"0": pd.getValue();
+				threeGDP = Double.parseDouble(threeGDPStr) ;
+				break;
+			}
+		}
 		double onePerUnit=1.0;//基准年一产单耗
 		double twoPerUnit=2.0;//基准年二产单耗
 		double threePerUnit=3.0;//基准年三产单耗
 		double avgElectricityConsumption=4.0;//基准年人均居民生活用电量
+		
+		
 		double onePerUnitRate=0.0;//一产单耗增长率
 		double twoPerUnitRate=0.0;//二产单耗增长率
 		double threePerUnitRate=0.0;//三产单耗增长率
 		double avgElectricityRate=0.0;//人均居民生活用电量增长率
-		int baseyear=2015;	//基准年
-		int planyear=2020;	//预测年
+
 		for(int j= 0 ; j<list.size() ; ++j){
 			String key = list.get(j).getIndex_type() ;
 			String value = list.get(j).getIndex_value();
@@ -210,5 +264,12 @@ public class CalculateAlgorithm {
 		return result;
 	}
 	
+	
+	public List<PrepareData> getPrepareDataByIndexType(JSONObject obj){
+		List<PrepareData> list =  prepareDataDao.getPrepareDataByIndexType(obj);
+		return  list;
+	}
+
+
 	
 }
