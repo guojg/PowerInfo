@@ -57,9 +57,9 @@ var options = {
 };
 var categories = [];
 $(function() {
-	
-	var enableDataLabels = false;
-	drawChart();
+	    
+		drawChart();
+		
 });
 
 /**
@@ -82,8 +82,8 @@ function getSettings() {
 	            '$1="rgb($2)" $1-opacity="$3"'
 	    );
 	});
-		
-	var data = loadData(_$('#datagrid'), 'column', 0, true);
+	var pic_type=$("#pic_type").combo("getValue");
+	var data = loadData(_$('#datagrid'),pic_type , 0, true);
 	var settings = {};
 	settings.title = {
 		text: ""
@@ -112,22 +112,6 @@ function getSettings() {
         	text: ""
         }
 	}];
-//	settings.chart={
-//         type: 'column'
-//     };
-    /* settings.series = [{
-        name: '人口',
-        data: [49.9, 71.5, 106.44]
-
-    }, {
-        name: '面积',
-        data: [83.6, 78.8, 98.5]
-
-    }, {
-        name: 'GDP',
-        data: [48.9, 38.8, 39.3]
-
-    }];*/
 	settings.series = data;
 	return settings;
 }
@@ -152,10 +136,12 @@ Array.prototype.getValue = function(resKey, resVal, retKey) {
 * 加载数据
 */
 function loadData($datagrid, chartType, yIndex, isInit) {
+	
 	// 筛选数据
 	var selections = $datagrid.datagrid('getRows');
 	var type = chartType;//图表类型
-	var xLastLevel =window.parent.frames["iframe0"].cols[0];
+	//var xLastLevel =window.parent.frames["iframe0"].cols[0];
+	var xLastLevel =$("#years").combo("getData");
 	var frozon = $datagrid.datagrid('getColumnFields',true);
 	var ylastField = frozon.pop();
 	var xlastField = null;
@@ -171,10 +157,10 @@ function loadData($datagrid, chartType, yIndex, isInit) {
 		if (!isInit) {
 			series.color = getRandomColor();
 		}
-		for (var j = 0, len2 = xLastLevel.length; j < len2; j++) {
+		for (var j = 1, len2 = xLastLevel.length; j < len2; j++) {
 			var slice = [];
-			xlastField = xLastLevel[j]['field'];
-			var shortname = areas.getValue('name', xLastLevel[j]['title'], 'shortname') || xLastLevel[j]['title'];
+			xlastField = xLastLevel[j]['year'];
+			var shortname = areas.getValue('name', xLastLevel[j]['yearName'], 'shortname') || xLastLevel[j]['yearName'];
 			slice.push(shortname);
 			slice.push(Number(selections[i][xlastField]));
 			data.push(slice);
