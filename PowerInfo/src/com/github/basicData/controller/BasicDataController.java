@@ -29,10 +29,10 @@ public class BasicDataController {
 	public void queryData(HttpServletRequest request,
 			HttpServletResponse response) {
 		response.setCharacterEncoding("UTF-8");
-		// String jsonParam = request.getParameter("jsonParam");
+		String years = request.getParameter("years");
+		
 		JSONObject obj = new JSONObject();
-		obj.put("years", "2005,2006");
-		String aaa = request.getSession().getAttribute("pid").toString();
+		obj.put("years", years);
 		obj.put("pid", request.getSession().getAttribute("pid"));
 		String resultJson = basicDataService.queryData(obj);
 		try {

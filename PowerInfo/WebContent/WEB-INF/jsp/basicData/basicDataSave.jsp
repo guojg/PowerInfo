@@ -25,6 +25,10 @@
 		$("#tool_save").bind("click", function() {
 			save();
 		});
+		$("#tool_query").bind("click", function() {
+			queryData();
+		});
+
 
 		comboBoxInit({
 			id:"years",
@@ -38,7 +42,6 @@
 
 	//查询方法调用的函数
 	function queryData() {
-		debugger;
 		var years = $("#years").combo("getValues");
 		//水平年份
 		var yrs_s;
@@ -52,9 +55,9 @@
 			return;
 		}
 		//非冰冻列
-		cols = createCols(years);
+		cols = createCols(yrs_s);
 		//查询条件暂时放外面
-		var queryParams = {};
+		var queryParams = {years:yrs_s};
 
 		var url = path + '/basicData/queryData';
 		var Height_Page = $("html").height();
@@ -84,7 +87,6 @@
 	function createCols(years) {
 		var cols = [];
 		var tmp = [];
-		var years = "2005,2006";
 		tmp = years.split(",");
 		for (var i = 0; i < tmp.length; i++) {
 			cols.push({
@@ -257,7 +259,7 @@
 <body>
 	<!-- 引入自定义按钮页面 -->
 	<div id="btn_div">
-		<a id="tool_save"> <img src='<%=path%>/static/images/query.gif'
+		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' />
