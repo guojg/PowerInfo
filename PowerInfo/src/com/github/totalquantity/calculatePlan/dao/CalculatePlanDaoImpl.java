@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -23,6 +24,8 @@ public class CalculatePlanDaoImpl implements CalculatePlanDao{
 	 */
 	@Override
 	public void saveData(final List<CalculatePlan> list) {
+		String deleteSql ="delete from  calculate_plan where taskid=?";
+		this.jdbcTemplate.update(deleteSql, list.get(0).getTaskid());
 		String sql = "insert into calculate_plan(taskid,algorithm,index_type,index_value) value (?,?,?,?)";
 		this.jdbcTemplate.batchUpdate(sql,
 		      new BatchPreparedStatementSetter() {
@@ -67,5 +70,6 @@ public class CalculatePlanDaoImpl implements CalculatePlanDao{
                 });
 		return list;
 	}
+
 
 }

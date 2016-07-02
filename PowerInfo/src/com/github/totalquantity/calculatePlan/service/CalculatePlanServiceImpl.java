@@ -50,17 +50,21 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	 */
 	private List<CalculatePlan>  getCalculatePlanList(JSONArray array){
 		List<CalculatePlan> list = new ArrayList<CalculatePlan>();
+		String taskid="";	//任务号
 		for(int i=0 ; i< array.size() ;++i){
 			JSONObject obj = (JSONObject)array.get(i);//每个算法的相关参数值
 			 Iterator it = obj.keys(); 
 			String algorithm="";   //算法代号
-			String taskid="111";	//任务号
 			  while (it.hasNext()) { 
 				  CalculatePlan cp = new CalculatePlan();
 				  String key = it.next().toString(); 
 				  String value = obj.getString(key);
 				  if(key.startsWith("algorithm")){					 
 					  algorithm= value;
+					  continue;
+				  }
+				  if(key.startsWith("taskid")){					 
+					  taskid= value;
 					  continue;
 				  }
 				  cp.setTaskid(taskid); 
@@ -220,5 +224,15 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		}
 		return resultList;
 
+	}
+
+	@Override
+	public String initData(String taskid) {
+		List<CalculatePlan> list = calculatePlanDao. getDataBytask(taskid);
+		JSONObject obj = new JSONObject();
+		for (CalculatePlan cp : list){
+			obj.put(cp.getIndex_type(), cp.getIndex_value()) ;
+		}
+		return obj .toString();
 	}
 }

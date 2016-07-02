@@ -15,4 +15,7 @@ public interface CalculatePlanService {
 	 * 启动计算
 	 */
 	public void startCalculate(JSONObject obj) ;
+
+
+	public String initData(String taskid);
 }

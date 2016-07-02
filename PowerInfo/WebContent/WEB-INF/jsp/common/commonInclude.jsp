@@ -5,7 +5,7 @@
 
 String path = request.getContextPath();
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + "/";
-
+String commonPath = path;
    
 %>
 <!--------------------------------------easyui公共style样式------------------------------------------>
@@ -34,6 +34,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 <script type="text/javascript">
 	var path="<%=path%>";
+	var commonPath="<%=path%>";
 </script>
 
 

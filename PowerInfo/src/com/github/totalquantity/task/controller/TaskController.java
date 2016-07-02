@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.totalquantity.task.entity.TotalTask;
 import com.github.totalquantity.task.service.TaskService;
 
 @Controller
@@ -30,6 +33,7 @@ public class TaskController {
 		String	resultJson ="";
 		try {
 			PrintWriter pw = response.getWriter();
+			resultJson = taskService.queryData(obj);
 			pw.write(resultJson);
 			pw.flush();
 			pw.close();
@@ -40,7 +44,7 @@ public class TaskController {
 	@RequestMapping(value ="/saveData")
 	public void saveData(HttpServletRequest request, HttpServletResponse response){
 		  
-        /*String task_name = request.getParameter("task_name")!=null?request.getParameter("task_name"):"";
+        String task_name = request.getParameter("task_name")!=null?request.getParameter("task_name"):"";
         String baseyear = request.getParameter("baseyear")!=null?request.getParameter("baseyear"):"";
         String planyear = request.getParameter("planyear")!=null?request.getParameter("planyear"):"";
         String algorithm = request.getParameter("algorithm")!=null?request.getParameter("algorithm"):"";
@@ -49,14 +53,14 @@ public class TaskController {
         task.setBaseyear(baseyear);
         task.setPlanyear(planyear);
         task.setAlgorithm(algorithm);
-        taskService.saveData(task);*/
-		String param = request.getParameter("abc")!=null?request.getParameter("abc"):"";
+        taskService.saveData(task);
+		//String param = request.getParameter("abc")!=null?request.getParameter("abc"):"";
 		 // JSONObject jb=new JSONObject();
 		  //  JSONArray array=(JSONArray)jb.fromObject(param).get("allMenu");
-		JSONArray  array=JSONArray.fromObject(param);
-		JSONObject obj = (JSONObject) array.get(0);
+		//JSONArray  array=JSONArray.fromObject(param);
+		//JSONObject obj = (JSONObject) array.get(0);
 		//obj.get("1");
-		System.out.println(obj.get("1"));
+		//System.out.println(obj.get("1"));
 	}
 	@RequestMapping("/exportData")
 	public void exportData(HttpServletRequest request, HttpServletResponse response){
@@ -65,7 +69,28 @@ public class TaskController {
 	@RequestMapping(value ="/index")
 	public String index(HttpServletRequest request, HttpServletResponse response){
 		 //return "basicData/nationalEconomy/nationalEconomyMain";
-		 return "totalQuantity/task/taskAdd";
+		 return "totalQuantity/task/task";
+	}
+	
+	@RequestMapping(value ="/taskAdd")
+	public String taskAdd(HttpServletRequest request, HttpServletResponse response){
+	
+		return "totalQuantity/task/taskAdd";
+	}
+	@RequestMapping(value ="/taskDetail")
+	public @ResponseBody void taskDetail(HttpServletRequest request, HttpServletResponse response){
+		 //return "basicData/nationalEconomy/nationalEconomyMain";
+			String baseyear = request.getParameter("baseyear")==null?"":request.getParameter("baseyear");
+			String planyear = request.getParameter("planyear")==null?"":request.getParameter("planyear");
+			String algorithm = request.getParameter("algorithm")==null?"":request.getParameter("algorithm");
+			String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
+			TotalTask tt = new TotalTask();
+			tt.setBaseyear(baseyear);
+			tt.setId(taskid);
+			tt.setPlanyear(planyear);
+			tt.setAlgorithm(algorithm);
+			request.getSession().removeAttribute("totaltask");
+			request.getSession().setAttribute("totaltask", tt);
 	}
 	
 	

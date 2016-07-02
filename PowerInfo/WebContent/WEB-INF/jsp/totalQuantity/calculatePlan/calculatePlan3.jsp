@@ -1,15 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@include file="../../common/commonInclude.jsp" %>	
+<% 
+TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
+String algorithm = tt.getAlgorithm() ;
+String taskid = tt.getId();
+%>
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />
-
+<script type="text/javascript" src="<%=path %>/js/totalquantity/common/sysdict.js"></script>
 <script type="text/javascript" src="<%=path%>/js/totalquantity/jsonutil.js"></script>
-<script type="text/javascript" src="<%=path %>/js/totalquantity/calculatePlan.js"></script>
+<script type="text/javascript">
+var algorithmStr='<%=algorithm%>';  //算法代号
+var taskid='<%=taskid%>';  //算法代号
+</script>
+<script type="text/javascript" src="<%=path %>/js/totalquantity/calculatePlan/calculatePlan.js"></script>
 
 </head>
 <body>
@@ -78,10 +88,9 @@
 	
  
 	<div class="div_submit" >
-			<a id="btn_save"   href="javascript:baoCun();" >计算</a>
+		<a id="tool_save" href="javascript:save();" > <img src='<%=path%>/static/images/save.gif'
+			align='top' border='0' title='保存' /></a>
 		</div> 
-		<div class="div_submit" >
-			<a id="btn_start"   href="javascript:start111();" >启动</a>
-		</div> 
+
 </body>
 </html>

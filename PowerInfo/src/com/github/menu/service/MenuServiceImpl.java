@@ -22,27 +22,17 @@ public class MenuServiceImpl implements MenuService{
 
 	@Autowired
 	private MenuDao menuDao;
-	@Override
-	public String queryData(JSONObject param) {
-		List<String> years = new ArrayList<String>();
-		years.add("2005");
-		years.add("2006");
-		List<Map<String, Object>> list = menuDao.queryAccordion(years);
-		return JsonUtils.listTranJson(list);
-	}
+
 	@Override
 	public String queryAccordion(JSONObject param) {
-		List<String> years = new ArrayList<String>();
-		years.add("2005");
-		years.add("2006");
-		List<Map<String, Object>> list = menuDao.queryAccordion(years);
+		List<Map<String, Object>> list = menuDao.queryAccordion(param);
 		return JsonUtils.listTranJsonByMenu(list);
 	}
 	
 	
 	@Override
 	public String queryMenu(JSONObject param) {
-		List<Map<String, Object>> list = menuDao.queryMenu();
+		List<Map<String, Object>> list = menuDao.queryMenu(param);
 		String aa=TreeUtil.createTreeJson(JsonUtils.transformBoToTree(list)) ;
 		return aa;
 	}
