@@ -21,6 +21,7 @@ String planyear = tt.getPlanyear();
 <script type="text/javascript">
 var taskid='<%=taskid%>';  //任务号
 var planyear='<%=planyear%>';//规划年
+var algorithm='<%=algorithm%>';//算法
 //id,taskid,algorithm,year,value from totaldata
 	var cols;
 	var savEvtTime = 0;
@@ -34,7 +35,19 @@ var planyear='<%=planyear%>';//规划年
 		align : 'center'
 	} ] ];
 	$(function() {
-		
+		var itemJson =[{    
+		    "ID":planyear,    
+		    "TEXT":planyear+"年"   
+		}];
+		$('#years').combobox({   
+		    data:itemJson,   
+		    valueField:'ID',   
+		    textField:'TEXT',
+		    multiple:false
+		});
+		$('#years').combobox('setValue', planyear);
+
+
 		$("#tool_save").bind("click", function() {
 			save();
 		});
@@ -47,7 +60,7 @@ var planyear='<%=planyear%>';//规划年
 		//非冰冻列
 		cols = createCols(years);
 		//查询条件暂时放外面
-		var queryParams = {"taskid":taskid,"planyear":planyear,"index_type":"1,2,3"};
+		var queryParams = {"taskid":taskid,"planyear":planyear,"index_type":algorithm};
 
 		var url = path + '/prepareData/queryData';
 		var Height_Page = $("html").height();

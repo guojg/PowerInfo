@@ -41,7 +41,7 @@ public class PrepareDataDaoImpl implements PrepareDataDao {
                     	pd.setIndex_type(rs.getString("index_type"));
                     	pd.setYear(rs.getString("year"));
                     	pd.setTask_id(rs.getString("task_id"));
-                    	pd.setValue(rs.getString("value"));
+                    	pd.setValue(rs.getDouble("value"));
                         return pd;
                     }
                 });
@@ -51,7 +51,7 @@ public class PrepareDataDaoImpl implements PrepareDataDao {
 	public List<PrepareData> getAllPrepareData(JSONObject obj) {
 		int planyear=obj.getInt("planyear");	//预测年
 		String taskid=obj.getString("taskid");	//预测年
-		String sql = " SELECT index_type,YEAR,task_id,VALUE FROM prepare_data  WHERE taskid=? and year=?" ;
+		String sql = " SELECT index_type,YEAR,task_id,VALUE FROM prepare_data  WHERE task_id=? and year=?" ;
 		List<PrepareData> list = this.jdbcTemplate.query(sql, new Object[]{taskid,planyear}, new ParameterizedRowMapper<PrepareData>() {
                     @Override
                     public PrepareData mapRow(ResultSet rs, int index)
@@ -60,7 +60,7 @@ public class PrepareDataDaoImpl implements PrepareDataDao {
                     	pd.setIndex_type(rs.getString("index_type"));
                     	pd.setYear(rs.getString("year"));
                     	pd.setTask_id(rs.getString("task_id"));
-                    	pd.setValue(rs.getString("value"));
+                    	pd.setValue(rs.getDouble("value"));
                         return pd;
                     }
                 });
@@ -114,7 +114,7 @@ public class PrepareDataDaoImpl implements PrepareDataDao {
 				pd.setIndex_type(index_type);
 				pd.setTask_id(taskid);
 				pd.setYear(it);
-				pd.setValue(row.getString(it));
+				pd.setValue(row.getDouble(it));
 				
 				list.add(pd);
 			}
@@ -161,6 +161,7 @@ public class PrepareDataDaoImpl implements PrepareDataDao {
 					ps.setString(1, pd.getIndex_type());
 					ps.setString(2, pd.getYear());
 					ps.setObject(3, "".equals(pd.getValue())?null:pd.getValue());
+					ps.setString(4, pd.getTask_id());
 
 			}
 

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />
 
 <script type="text/javascript">
+
 function startCalculate(){
 	 $.ajax({
 			type : 'POST',
@@ -18,7 +18,8 @@ function startCalculate(){
 			url :  '/PowerInfo/calculatePlan/startCalculate',
 			success : function(data) {
 				
-			
+				$.messager.alert("提示", "计算成功！");
+
 			}
 		});
 }

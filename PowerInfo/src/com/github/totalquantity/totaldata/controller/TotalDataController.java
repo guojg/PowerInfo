@@ -11,6 +11,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.basicData.service.BasicDataService;
 import com.github.totalquantity.totaldata.service.TotalDataService;
@@ -42,25 +43,29 @@ public class TotalDataController {
 
 
 	@RequestMapping(value = "/queryData")
-	public void queryData(HttpServletRequest request,
+	public @ResponseBody String queryData(HttpServletRequest request,
 			HttpServletResponse response) {
 		response.setCharacterEncoding("UTF-8");
 		// String jsonParam = request.getParameter("jsonParam");
+		 String taskid = request.getParameter("taskid");
+		 String planyear = request.getParameter("planyear")==null?"": request.getParameter("planyear");
+
+		 String index_type = request.getParameter("index_type")==null?"": request.getParameter("index_type");
+
 		JSONObject obj = new JSONObject();
-		obj.put("year", "2020,2021");
-		obj.put("algorithm", "1,2,3,4,5,6");
-		//String algorithm = param.getString("algorithm") ;
-		//String taskid = request.getSession().getAttribute("taskid").toString();
-		obj.put("taskid", "111");
+		obj.put("year", planyear);
+		obj.put("algorithm", index_type);
+		obj.put("taskid",taskid);
 		String resultJson = totalDataService.queryData(obj);
-		try {
+		/*try {
 			PrintWriter pw = response.getWriter();
 			pw.write(resultJson);
 			pw.flush();
 			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+		return resultJson;
 	}
 	
 

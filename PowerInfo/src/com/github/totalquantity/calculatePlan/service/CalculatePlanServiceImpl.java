@@ -18,6 +18,7 @@ import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
 import com.github.totalquantity.common.Containts;
 import com.github.totalquantity.prepareData.dao.PrepareDataDao;
 import com.github.totalquantity.prepareData.entity.PrepareData;
+import com.github.totalquantity.totaldata.dao.TotalDataDao;
 import com.github.totalquantity.totaldata.entity.TotalData;
 /**
  * 算法输入参数保存业务层
@@ -30,6 +31,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	private CalculatePlanDao calculatePlanDao;
 	@Autowired
 	private PrepareDataDao prepareDataDao;
+	@Autowired
+	private TotalDataDao totalDataDao;
 	
 	@Autowired
 	private CalculateAlgorithmService calculateAlgorithmService;
@@ -80,7 +83,7 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	@Override
 	public void startCalculate(JSONObject obj) {
 		
-		List<CalculatePlan> list = calculatePlanDao.getDataBytask("111");
+		List<CalculatePlan> list = calculatePlanDao.getDataBytask(obj.getString("taskid"));
 		/*List<CalculatePlan> list1 = new ArrayList<CalculatePlan>();//算法一
 		List<CalculatePlan> list2 = new ArrayList<CalculatePlan>();//算法2
 		List<CalculatePlan> list3 = new ArrayList<CalculatePlan>();//算法3
@@ -118,7 +121,7 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		m.put(Containts.calculate5, list5);
 		m.put(Containts.calculate6, list6);*/
 		 List<TotalData> resultList = calculateCondition(list,obj) ;
-		
+		 totalDataDao.saveData(resultList);
 	}
 	/**
 	 * 计算情况
@@ -183,7 +186,7 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		 */
 		List<Map<String,Double>> list = new ArrayList<Map<String,Double>>();
 		List<TotalData> resultList = new ArrayList<TotalData>();//插入数据库的集合
-		double	d1=calculateAlgorithmService.averageGrowthRate(obj,m);
+		double	d1=calculateAlgorithmService.averageGrowthRate(prepareData,obj,m);
 		Map<String,Double> map = new HashMap<String,Double>();
 		map.put("1", d1);
 		/*
@@ -194,7 +197,7 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		/*
 		 * 弹性系数法
 		 */
-		double d3 =calculateAlgorithmService.elasticityCoefficient(obj,m);
+		double d3 =calculateAlgorithmService.elasticityCoefficient(prepareData,obj,m);
 		map.put("3", d3);
 		/*
 		 * 人均用电量法	

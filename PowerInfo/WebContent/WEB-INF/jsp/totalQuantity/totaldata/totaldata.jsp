@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,18 +10,37 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
+<% 
+TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
+String algorithm = tt.getAlgorithm() ;
+String taskid = tt.getId();
+String planyear = tt.getPlanyear();
+%>
+
 <script type="text/javascript">
+var taskid='<%=taskid%>';  //任务号
+var planyear='<%=planyear%>';//规划年
 //id,taskid,algorithm,year,value from totaldata
 	var cols;
 	var frozenCols = [ [ {
-		field : 'algorithm',
+		field : 'algorithm_name',
 		title : '算法',
 		width : 100,
 		align : 'center'
 	} ] ];
 	$(function() {
 		
-		
+		var itemJson =[{    
+		    "ID":planyear,    
+		    "TEXT":planyear+"年"   
+		}];
+		$('#years').combobox({   
+		    data:itemJson,   
+		    valueField:'ID',   
+		    textField:'TEXT',
+		    multiple:false
+		});
+		$('#years').combobox('setValue', planyear);
 		queryData();
 	});
 
@@ -30,7 +50,8 @@
 		//非冰冻列
 		cols = createCols(years);
 		//查询条件暂时放外面
-		var queryParams = {};
+		//var queryParams = {};
+		var queryParams = {"taskid":taskid,"planyear":planyear,"index_type":"1,2,3,4,5,6"};
 
 		var url = path + '/totalData/queryData';
 		var Height_Page = $("html").height();
@@ -55,7 +76,7 @@
 	function createCols(years) {
 		var cols = [];
 		var tmp = [];
-		var years = "2020,2021";
+		var years = planyear;
 		tmp = years.split(",");
 		for (var i = 0; i < tmp.length; i++) {
 			cols.push({
@@ -78,8 +99,6 @@
 	<div id="btn_div">
 		<a id="tool_save"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
-		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
-			align='top' border='0' title='保存' />
 		</a>
 	</div>
 	<fieldset id="field">

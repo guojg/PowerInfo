@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.totalquantity.calculatePlan.service.CalculatePlanService;
+import com.github.totalquantity.task.entity.TotalTask;
 import com.github.totalquantity.task.service.TaskService;
 
 @Controller
@@ -71,14 +72,11 @@ public class CalculatePlanController {
 	 
 	 @RequestMapping(value ="/startCalculate")
 	 public void startCalculate(HttpServletRequest request, HttpServletResponse response){
-		 	Object baseyearObj = request.getSession().getAttribute("plan_baseyear") ;
-		 	Object planyearObj = request.getSession().getAttribute("plan_planyear");
-		 	int baseyear = baseyearObj==null?0:Integer.parseInt(baseyearObj.toString());
-		 	int planyear = planyearObj==null?0:Integer.parseInt(planyearObj.toString());
-
+		 TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
 		 	JSONObject obj = new JSONObject();
-		 	obj.put("baseyear", baseyear) ;
-		 	obj.put("planyear", planyear) ;
+		 	obj.put("baseyear", tt.getBaseyear()==null?"0": tt.getBaseyear()) ;
+		 	obj.put("planyear", tt.getPlanyear()==null?"0": tt.getPlanyear()) ;
+		 	obj.put("taskid", tt.getId()==null?"0":tt.getId()) ;
 			calculatePlanService.startCalculate(obj);
 			
 		}
