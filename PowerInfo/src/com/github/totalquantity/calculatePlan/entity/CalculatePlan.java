@@ -10,6 +10,7 @@ public class CalculatePlan {
 	private String algorithm;
 	private String index_type ;
 	private String index_value ;
+	
 	public String getTaskid() {
 		return taskid;
 	}

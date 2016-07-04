@@ -1,10 +1,18 @@
 package com.github.totalquantity.task.entity;
 
 public class TotalTask {
+	private String id;
 	private String task_name;
 	private String baseyear;
 	private String planyear;
 	private String algorithm;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getTask_name() {
 		return task_name;
 	}

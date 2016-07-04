@@ -8,5 +8,12 @@ import net.sf.json.JSONObject;
 public interface TaskService {
 
 	public void saveData(TotalTask task);
+	/**
+	 * 查询
+	 * @param param
+	 * @return
+	 */
+	
+	public String queryData(JSONObject param);
 
 }

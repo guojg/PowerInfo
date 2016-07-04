@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />
 
 <script type="text/javascript" src="<%=path%>/js/totalquantity/jsonutil.js"></script>
-<script type="text/javascript" src="<%=path %>/js/totalquantity/calculatePlan.js"></script>
+<script type="text/javascript" src="<%=path %>/js/totalquantity/calculatePlan/calculatePlan.js"></script>
 <script type="text/javascript"> 
 
 </script>

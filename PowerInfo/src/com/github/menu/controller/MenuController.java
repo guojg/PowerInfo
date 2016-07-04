@@ -26,8 +26,9 @@ public class MenuController {
 	@RequestMapping(value ="/queryAccordion")
 	public void queryAccordion(HttpServletRequest request, HttpServletResponse response){
 		response.setCharacterEncoding("UTF-8");
-		//String jsonParam	= request.getParameter("jsonParam");
+		String jsonParam	= request.getParameter("param");
 		JSONObject obj = new JSONObject();
+		obj.put("param", jsonParam) ;
 
 
 		String	resultJson = menuService.queryAccordion(obj);
@@ -45,8 +46,9 @@ public class MenuController {
 	@RequestMapping(value ="/queryMenu")
 	public void queryMenu(HttpServletRequest request, HttpServletResponse response){
 		response.setCharacterEncoding("UTF-8");
-		//String jsonParam	= request.getParameter("jsonParam");
+		String jsonParam	= request.getParameter("pid");
 		JSONObject obj = new JSONObject();
+		obj.put("jsonParam", jsonParam);
 
 
 		String	resultJson = menuService.queryMenu(obj);

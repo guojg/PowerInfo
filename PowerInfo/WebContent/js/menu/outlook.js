@@ -1,15 +1,18 @@
 ﻿$(function() {
-	getAccordion();
+	//getAccordion("basic");
 	tabClose();
 	tabCloseEven();
+	var keyValue={"basic":1,"totalQuantity":4};
 	$('#css3menu').css("margin-left", $('#logo1').width());
 	$('#css3menu img').click(function() {
 		$('#css3menu img').removeClass('active');
 		$(this).addClass('active');
-
-		var d = _menus[$(this).attr('name')];
+		//getAccordion($(this).attr('name'));
+		//var d = _menus[$(this).attr('name')];
+		var d = $(this).attr('name') ;
+		
 		Clearnav();
-		addNav(d);
+		addNav(keyValue[d]);
 		InitLeftMenu();
 	});
 
@@ -19,13 +22,14 @@
 	});
 
 	var firstMenuName = $('#css3menu img:first').attr('name');
-	addNav(_menus[firstMenuName]);
+	addNav(keyValue[firstMenuName]);
 	InitLeftMenu();
 });
-function getAccordion() {
+function getAccordion(param) {
 	$.ajax({
 		type : 'POST',
 		async : false,
+		data:{"param":param},
 		dataType : 'json',
 		url : '/PowerInfo/menu/queryAccordion',
 		success : function(data) {
@@ -64,7 +68,7 @@ function Clearnav() {
 }
 
 function addNav(data) {
-	$.each(data, function(i, sm) {
+	/*$.each(data, function(i, sm) {
 		var menulist = "<ul id='tt'></ul></ul>";
 
 		$('#wnav').accordion('add', {
@@ -74,13 +78,13 @@ function addNav(data) {
 			iconCls : 'icon ' + sm.icon
 		});
 
-	});
+	});*/
 	/** 初始化树* */
-	InitTreeData();
+	InitTreeData(data);
 
-	var pp = $('#wnav').accordion('panels');
+	/*var pp = $('#wnav').accordion('panels');
 	var t = pp[0].panel('options').title;
-	$('#wnav').accordion('select', t);
+	$('#wnav').accordion('select', t);*/
 
 }
 /**
@@ -119,10 +123,10 @@ function addyear() {
 }
 
 /** 初始化树结构* */
-function InitTreeData() {
+function InitTreeData(data) {
 	$('#tt').tree(
 			{
-				url : 'menu/queryMenu',
+				url : 'menu/queryMenu?pid='+data,
 				onClick : function(node) {
 					if (node.attributes.url != "") {
 						addTab(node.text, path + node.attributes.url + "?pid="
@@ -145,7 +149,7 @@ function InitTreeData() {
 						left : e.pageX,
 						top : e.pageY
 					});
-				},
+				}
 				
 
 			});

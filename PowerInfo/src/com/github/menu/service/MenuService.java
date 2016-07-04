@@ -6,7 +6,7 @@ import net.sf.json.JSONObject;
 
 public interface MenuService {
 
-	public String queryData(JSONObject param);
+
 	public String queryAccordion(JSONObject param);
 	public String queryMenu(JSONObject param);
 }

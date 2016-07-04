@@ -5,7 +5,7 @@ public class PrepareData {
 	private String index_type ;
 	private String year ;
 	private String task_id ;
-	private String value ;
+	private double value ;
 	public String getIndex_type() {
 		return index_type;
 	}
@@ -24,12 +24,13 @@ public class PrepareData {
 	public void setTask_id(String task_id) {
 		this.task_id = task_id;
 	}
-	public String getValue() {
+	public double getValue() {
 		return value;
 	}
-	public void setValue(String value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
+	
 
 	
 }

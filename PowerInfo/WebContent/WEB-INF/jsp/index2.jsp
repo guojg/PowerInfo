@@ -112,7 +112,7 @@ var _menus = '';
         <span  style="float:left;"><img id="logo1" src="static/images/top_01.png" /></span>
 		<ul id="css3menu" >
 				<li style="float:left"><img name="basic" src="static/images/top_03.png" /></li>
-				<li><img name="point" src="static/images/top_03.png" /></li>
+				<li><img name="totalQuantity" src="static/images/top_03.png" /></li>
 		</ul>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
@@ -120,6 +120,7 @@ var _menus = '';
     </div>
     <div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west">
 <div id='wnav' class="easyui-accordion" fit="true" border="false">
+<ul id='tt'></ul>
 		<!--  导航内容 -->
 				
 			</div>
@@ -129,7 +130,7 @@ var _menus = '';
         <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
 			<div title="欢迎使用" style="padding:20px;overflow:hidden;" id="home">
 				
-			<h1>Welcome to using The jQuery EasyUI!</h1>
+			<h1 style="margin:0 auto; text-align:center">区域电力市场预测分析平台!</h1>
 
 			</div>
 		</div>

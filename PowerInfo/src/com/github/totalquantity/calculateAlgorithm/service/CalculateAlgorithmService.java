@@ -27,7 +27,7 @@ public interface CalculateAlgorithmService {
 	 * @param obj   常规参数（基准年、任务号、规划年之类的）
 	 * @return
 	 */
-	public  double  averageGrowthRate(JSONObject obj,List<CalculatePlan> list);
+	public  double  averageGrowthRate(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list);
 	/**
 	 * 弹性系数法
 	 *  	规划期末期用电量=规划期初期(即基准年)用电量*
@@ -36,7 +36,7 @@ public interface CalculateAlgorithmService {
 	 * @param obj   常规参数（基准年、任务号、规划年之类的）
 	 * @return
 	 */
-	public double elasticityCoefficient(JSONObject obj,List<CalculatePlan> list);
+	public double elasticityCoefficient(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list);
 	/**
 	 * 人均用电量法
 	 *    公式:基准年人均用电量* （1+i）^(2020-2015)*预测年人口数

@@ -1,6 +1,9 @@
 package com.github.totalquantity.totaldata.dao;
 
 import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONObject;
 
 import com.github.totalquantity.totaldata.entity.TotalData;
 /**
@@ -14,4 +17,11 @@ public interface TotalDataDao {
 	 * @param data
 	 */
 	public void saveData( List<TotalData> data) ;
+	
+	/**
+	 * 查询数据
+	 * @param param
+	 * @return
+	 */
+	public List<Map<String, Object>> queryData(JSONObject param);
 }

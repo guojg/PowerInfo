@@ -1,7 +1,7 @@
-	var algorithmStr='1,3,5,6';  //算法代号
-	var algorithms=algorithmStr.split(",");
+var algorithms=algorithmStr.split(",");
+	var algorithmJson=getSysDict();
 $(function() {
-debugger;
+	
 	/*
 	 * 给算法复选框赋值
 	 */
@@ -18,13 +18,13 @@ debugger;
 		}else if(algorithms[i]==5){
 			
 		}else{
-			trHtml +="<tr> <td class='tdlft'> 权重"+algorithms[i]+"：</td> " +
+			trHtml +="<tr> <td class='tdlft'> "+algorithmJson[algorithms[i]]+"权重：</td> " +
 					"<td class='tdrgt'>" +
 					"<input type='text' name='weight"+algorithms[i]+"' id='weight"+algorithms[i]+"' >" +
 					"</td></tr>";
 		}
 	}
-	debugger;
+	init();
 	/*
 	 * 将复选框置灰和未被选中的复选框对应的div设置不可编辑，置灰
 	 */
@@ -58,8 +58,7 @@ function addTr(trHtml){
 /*
  * 保存
  */
-function baoCun(){
-	debugger;
+function save(){
 	var m=[];//请求的数组
 	for (var i=0 ; i<algorithms.length;++i){
 		/*
@@ -68,10 +67,12 @@ function baoCun(){
 		var b={};
 		var algorithmsId="algorithms"+algorithms[i];
 		b[algorithmsId]=algorithms[i];
+		  b["taskid"]=taskid;
 		  $("#"+algorithms[i]+" input[type=text]").each(function(){		  
 			  var id = $(this).attr("id");
 			   b[id]=$(this).val();
 			  });
+		  
 		  m.push(b);
 	}
 	var param={
@@ -84,22 +85,36 @@ function baoCun(){
 			data: param,
 			url :  '/PowerInfo/calculatePlan/saveData',
 			success : function(data) {
-				_menus = data;
+				if(data=="1"){
+					$.messager.alert('提示','保存成功！','info');
+				}else{
+					$.messager.alert('提示','保存失败！','info');
+
+				}
 			
 			}
 		});
  
  }
 
-function start111(){
+function init(){
+	debugger;
+	var taskParam={
+			taskid:taskid
+	} ;
+	var jsonResult={};
 	 $.ajax({
 			type : 'POST',
 			async : false,
 			dataType: 'json',
-			url :  '/PowerInfo/calculatePlan/startCalculate',
+			data: taskParam,
+			url :  '/PowerInfo/calculatePlan/initData',
 			success : function(data) {
-				_menus = data;
-			
+				jsonResult = data;
 			}
 		});
+	 for (key in jsonResult){
+		  $("#"+key).val(jsonResult[key]);
+	 }
 }
+

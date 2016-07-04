@@ -1,6 +1,7 @@
 package com.github.totalquantity.calculatePlan.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
 /**
@@ -21,4 +22,5 @@ public interface CalculatePlanDao {
 	 * @return 算法参数对象的数据集
 	 */
 	public List<CalculatePlan> getDataBytask(String taskid);
+
 }

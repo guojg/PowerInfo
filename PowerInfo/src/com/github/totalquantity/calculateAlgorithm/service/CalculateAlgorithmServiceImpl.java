@@ -34,9 +34,9 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 	 * @param list
 	 * @return
 	 */
-	public  double  averageGrowthRate(JSONObject obj,List<CalculatePlan> list){
+	public  double  averageGrowthRate(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list){
 		//基准年电量*（1+i）^(2020-2015)
-		double d = 0.0;	//基准年电量
+		double d = 0;	//基准年电量>>>
 		double i = subjectiveConcept(list);  //主观概率计算
 		int baseyear=obj.getInt("baseyear");	//基准年
 		int planyear=obj.getInt("planyear");	//预测年
@@ -48,14 +48,22 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		pdObj.put("planyear", planyear);
 		pdObj.put("taskid", taskid);
 		pdObj.put("index_type", "");//用电量代号
+		for(PrepareData pd :prepareData){
+			switch(pd.getIndex_type()){
+			case "1" :
+				d = pd.getValue() ;
+				break;
+			
+			}
+		}
 		/*
 		 *获取用电量数据 
 		 */
-		List<PrepareData> pdList =getPrepareDataByIndexType(pdObj) ;
+		/*List<PrepareData> pdList =getPrepareDataByIndexType(pdObj) ;
 		if(pdList.size()>0){
 			String valueStr = pdList.get(0).getValue()==null?"0":pdList.get(0).getValue().toString() ;
 			d= Double.parseDouble(valueStr) ;
-		}
+		}*/
 		double result = d* Math.pow(1+i, planyear-baseyear) ;
 		return result ;
 	}
@@ -97,9 +105,9 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 	 * @param list
 	 * @return
 	 */
-	public double elasticityCoefficient(JSONObject obj,List<CalculatePlan> list){
+	public double elasticityCoefficient(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list){
 		double result = 0.0 ;
-		double baseyearElectricity=5.44;//规划期初期(即基准年)用电量
+		double baseyearElectricity=5.44;//规划期初期(即基准年)用电量>>>
 		double coefficient=0.0; //电力弹性系数
 		double incrementSpeed=0.0;//国内生产总值平均年增长速度
 		int baseyear=obj.getInt("baseyear");	//基准年
@@ -127,17 +135,16 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 	 */
 	public  double avgElectricityConsumption(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list){
 		double result=0.0 ;
-		int planPeople=0;//预测年人口数
+		double planPeople=0;//预测年人口数---
 		for(PrepareData pd :prepareData){
 			if("2".equals(pd.getIndex_type())){
-				String peopleStr = pd.getValue()==null?"0": pd.getValue();
-				planPeople = Integer.parseInt(peopleStr) ;
+				planPeople = pd.getValue() ;
 				break;
 			}
 		}
 		int baseyear=obj.getInt("baseyear");	//基准年
 		int planyear=obj.getInt("planyear");	//预测年
-		double  avgElectricityConsumption=0.0;//基准年人均用电量
+		double  avgElectricityConsumption=10;//基准年人均用电量>>>
 		double i= subjectiveConcept(list);
 		result = avgElectricityConsumption*Math.pow(1+i, planyear-baseyear)*planPeople;
 		return result;
@@ -153,34 +160,30 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 	 */
 	public double productionValuePerUnitConsumption(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list){
 		double result=0.0 ;
-		int planPeople=0;//预测年人口数
-		double oneGDP=0.0;//预测年一产GDP
-		double twoGDP=0.0;//预测年二产GDP
-		double threeGDP=0.0;//预测年三产GDP
+		double planPeople=0;//预测年人口数---
+		double oneGDP=0;//预测年一产GDP---
+		double twoGDP=0;//预测年二产GDP---
+		double threeGDP=0;//预测年三产GDP---
 		for(PrepareData pd :prepareData){
 			switch(pd.getIndex_type()){
 			case "2" :
-				String peopleStr = pd.getValue()==null?"0": pd.getValue();
-				planPeople = Integer.parseInt(peopleStr) ;
+				planPeople = pd.getValue() ;
 				break;
 			case "3" :
-				String oneGDPStr = pd.getValue()==null?"0": pd.getValue();
-				oneGDP = Double.parseDouble(oneGDPStr) ;
+				oneGDP = pd.getValue() ;
 				break;
 			case "4" :
-				String twoGDPStr = pd.getValue()==null?"0": pd.getValue();
-				twoGDP = Double.parseDouble(twoGDPStr) ;
+				twoGDP = pd.getValue() ;
 				break;
 			case "5" :
-				String threeGDPStr = pd.getValue()==null?"0": pd.getValue();
-				threeGDP = Double.parseDouble(threeGDPStr) ;
+				threeGDP = pd.getValue() ;
 				break;
 			}
 		}
-		double onePerUnit=1.0;//基准年一产单耗
-		double twoPerUnit=2.0;//基准年二产单耗
-		double threePerUnit=3.0;//基准年三产单耗
-		double avgElectricityConsumption=4.0;//基准年人均居民生活用电量
+		double onePerUnit=1.0;//基准年一产单耗>>>
+		double twoPerUnit=2.0;//基准年二产单耗>>>
+		double threePerUnit=3.0;//基准年三产单耗>>>
+		double avgElectricityConsumption=4.0;//基准年人均居民生活用电量>>>
 		
 		
 		double onePerUnitRate=0.0;//一产单耗增长率
@@ -193,16 +196,16 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			String value = list.get(j).getIndex_value();
 			switch(key){
 			case "onePerUnitRate": //一产单耗增长率
-				onePerUnitRate = Integer.parseInt(value) ;
+				onePerUnitRate = Double.parseDouble(value) ;
 				break;
 			case "twoPerUnitRate": //二产单耗增长率
-				twoPerUnitRate = Integer.parseInt(value) ;
+				twoPerUnitRate = Double.parseDouble(value) ;
 				break;
 			case "threePerUnitRate": //三产单耗增长率
-				threePerUnitRate = Integer.parseInt(value) ;
+				threePerUnitRate = Double.parseDouble(value) ;
 				break;
 			case "avgElectricityRate": //人均居民生活用电量增长率
-				avgElectricityRate = Integer.parseInt(value) ;
+				avgElectricityRate =Double.parseDouble(value) ;
 				break;
 			}
 		}
@@ -219,14 +222,16 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 	 */
 	public double avgValue(List<Map<String,Double>> list){
 		double result=0.0 ;
+		int count=0;
 		for(int i=0 ; i<list.size() ; ++i){
 			for(Map<String,Double> m : list){
 				for (String key : m.keySet()) {
 					result += m.get(key).doubleValue();
+					++count;
 				}
 			}
 		}
-		result = result/list.size();
+		result = result/count;
 		return result;
 	}
 	

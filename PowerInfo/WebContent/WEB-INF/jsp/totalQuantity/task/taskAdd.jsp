@@ -33,7 +33,7 @@ $(function() {
 
 	});
 });
- function baoCun(){
+ function save(){
 	 var task_name = $('#task_name').val();
 	 var baseyear =$('#baseyear').combobox('getValue');
 	 var planyear =$('#planyear').combobox('getValue');
@@ -44,7 +44,6 @@ $(function() {
 		    }
 		}); 
 	 algorithm=algorithm.substring(0,algorithm.length-1);
-	 alert(algorithm);
 	 var param = {
 		'task_name':task_name,
 		'baseyear':baseyear,
@@ -59,7 +58,9 @@ $(function() {
 			data: param,
 			url :  '/PowerInfo/task/saveData',
 			success : function(data) {
-				_menus = data;
+				$.messager.alert('提示','新增成功！','info');
+				//关闭窗口
+				window.parent.$('#win_div').window('close');
 			
 			}
 		});
@@ -81,21 +82,22 @@ $(function() {
 				<td ><input id="planyear" name="planyear" type="text"  /></td>	
 			</tr>
 			<tr>
-				<td ><input name="algorithm" type="checkbox" value="1" />平均增长率法</td>
-				<td><input name="algorithm" type="checkbox" value="2" />产值单耗法</td>
+				<td class="tdcength"><input name="algorithm" type="checkbox" value="1" />平均增长率法</td>
+				<td  class="tdcength"><input name="algorithm" type="checkbox" value="2" />产值单耗法</td>
 			</tr>
 			<tr>
-				<td ><input name="algorithm" type="checkbox" value="3" />弹性系数法</td>
-				<td><input name="algorithm" type="checkbox" value="4" />人均用电量法</td>
+				<td  class="tdcength"><input name="algorithm" type="checkbox" value="3" />弹性系数法</td>
+				<td  class="tdcength"><input name="algorithm" type="checkbox" value="4" />人均用电量法</td>
 			</tr>
 			<tr>
-				<td ><input name="algorithm" type="checkbox" value="5" />平均值法</td>
-				<td><input name="algorithm" type="checkbox" value="6" />最优权重法</td>
+				<td  class="tdcength"><input name="algorithm" type="checkbox" value="5" />平均值法</td>
+				<td  class="tdcength"><input name="algorithm" type="checkbox" value="6" />最优权重法</td>
 			</tr>
 			
 	</table> 
 	<div class="div_submit" >
-			<a id="btn_save"   href="javascript:baoCun();" >计算</a>
+			<a id="tool_save" href="javascript:save();" > <img src='<%=path%>/static/images/save.gif'
+			align='top' border='0' title='保存' /></a>
 		</div> 
 </body>
 </html>

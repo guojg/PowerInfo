@@ -1,12 +1,139 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>任务</title>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+
+<!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
+<%@include file="../../common/commonInclude.jsp"%>
+<script type="text/javascript" src="<%=path %>/js/totalquantity/common/sysdict.js"></script>
+
+	<%@include file="../../common/commonDefineBtn.jsp" %>
+
+<script type="text/javascript">
+	var frozenCols = [ [ {
+		field : 'task_name',
+		title : '任务名',
+		width : 100,
+		align : 'center',
+		formatter: function(value,row,index){
+
+
+    		return '<a href="#" onclick="detail('+row.baseyear+','+row.id+','+row.planyear+',\''+row.algorithm+'\')">'+value+'</a> ';
+		}
+	} ] ];
+	
+	var cols ='';
+	var algorithmJson=getSysDict();
+	$(function() {
+	
+	
+		
+		 cols = [ [
+		          	 {
+		          		field : 'baseyear',
+		          		title : '基准年',
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : 'planyear',
+		          		title : '预测年',
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : 'algorithm',
+		          		title : '算法',
+		          		width : 400,
+		          		align : 'center',
+		          		formatter: function(value,row,index){
+		          		  var valueArr= value.split(',');
+		          		    var resultShow='';
+		          		  for(var i=0;i<valueArr.length;i++){
+		          				resultShow +=algorithmJson[valueArr[i]]+",";
+		          		  }
+		          		  return resultShow.substring(0,resultShow.length-1);
+		    			}
+
+		          	}] ];
+		$("#tool_xjrw").bind("click", function() {
+			xjrw();
+		});
+		queryData();
+	});
+
+	//查询方法调用的函数
+	function queryData() {
+	
+		//查询条件暂时放外面
+		var queryParams = {};
+
+		var url = path + '/task/queryData';
+		var Height_Page = $("html").height();
+		var datagrid_title_height = $("#datagrid_div").position().top;
+		var height = Height_Page - datagrid_title_height - 5;
+		$('#datagrid').datagrid({
+			width : 'auto',
+			height : height,
+			autoRowHeight : false,
+			collapsible : true,
+			url : url,
+			remoteSort : false,
+			frozenColumns : frozenCols,
+			columns : cols,
+			rownumbers : true,
+			pagination : false,
+			queryParams : queryParams
+		});
+	}
+	function xjrw(){
+		commonHelper.toAdd({
+			title : '增加年份',
+			width : 500,
+			height : 300,
+			url : path + "/task/taskAdd"
+		});
+	}
+	function detail1(row){
+		debugger;
+	}
+	function detail(baseyear,id,planyear,algorithm){
+		debugger;
+		var param={
+				"baseyear":baseyear,
+				"planyear":planyear,
+				"algorithm":algorithm,
+				"taskid":id
+		};
+		$.ajax({
+			 type : 'POST',
+			 url : path+'/task/taskDetail',
+			 dataType: 'text',
+			 data: param,
+			 async:false,
+			 success:function(msg){
+					//页面跳转
+					window.parent.addNav(4);
+		 	 }
+		});
+	
+	}
+	
+	
+</script>
 </head>
 <body>
+	<!-- 引入自定义按钮页面 -->
+	<div id="btn_div">
+		<a id="tool_xjrw"> <img src='<%=path%>/static/images/xjrw.gif'
+			align='top' border='0' title='新建任务' />
+		</a>
+	</div>
+
+	<div id="datagrid_div">
+		<table id="datagrid"></table>
+	</div>
 
 </body>
 </html>

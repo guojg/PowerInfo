@@ -4,6 +4,8 @@ package com.github.totalquantity.task.dao;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,6 +27,13 @@ public class TaskDaoImpl implements TaskDao{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<Map<String, Object>> queryData(JSONObject param) {
+		String sql ="select id,task_name,baseyear,planyear,algorithm from total_task";
+		 List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
+		return list;
 	}
 	
 

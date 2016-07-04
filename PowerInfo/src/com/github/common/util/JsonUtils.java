@@ -11,6 +11,7 @@ import java.util.Set;
 
 import com.github.common.tree.AttributeMsg;
 import com.github.common.tree.NodeMsg;
+import com.github.totalquantity.sysdict.entity.Sysdict;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -30,6 +31,19 @@ public class JsonUtils {
 				rows.put(k, list.get(j).get(k));
 			}
 			
+		}
+		return rows.toString() ;
+	}
+	
+	/**
+	 * @param list	需转换的集合List<Map>
+	 * @return 转换后的json字符串
+	 */
+	public static String sysDictListTranJson(List<Sysdict> list){
+		JSONObject rows = new JSONObject();
+		for(int j=0 ;j <list.size(); j++){
+			Sysdict sd = list.get(j) ;	
+			rows.put(sd.getCode(),sd.getValue());			
 		}
 		return rows.toString() ;
 	}
@@ -63,6 +77,7 @@ public class JsonUtils {
 	public static String listTranJsonByMenu(List<Map<String, Object>> list){
 		JSONObject rows = new JSONObject();
 		JSONArray jsonArray  = new JSONArray();
+		String str="";
 		for(int j=0 ;j <list.size(); j++){
 			Set<String> set = list.get(j).keySet() ;
 			Iterator<String> iter = set.iterator();
@@ -71,11 +86,14 @@ public class JsonUtils {
 			while(iter.hasNext()){
 				String k = iter.next() ;
 				row.put(k, list.get(j).get(k));
+				if("icon".equals(k)){
+					str=list.get(j).get(k).toString();
+				}
 			}
 			jsonArray.add(row);
 			
 		}
-		rows.put("basic", jsonArray) ;
+		rows.put(str, jsonArray) ;
 		return rows.toString() ;
 	}
 	/**
