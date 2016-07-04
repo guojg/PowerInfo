@@ -30,7 +30,7 @@ String commonPath = path;
 <script type="text/javascript" src="<%=path%>/static/js/common/apppub.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/exportExcel.js"></script>
 <script type="text/javascript" src="<%=path%>/static/common/map.js"></script>
-<script type="text/javascript" src="<%=path%>/static/common/js/json2.js"></script>
+<script type="text/javascript" src="<%=path%>/static/js/common/jsonutil.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/common_dictionary.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/jtip/js/tooltip.js"></script>
 <link rel="stylesheet" href="<%=path%>/static/js/jtip/css/tooltip.css" type="text/css" />

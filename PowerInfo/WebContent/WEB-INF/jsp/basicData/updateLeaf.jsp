@@ -27,7 +27,7 @@ function save(){
 	
 	node.text=name;
 	
-	var param={"data":JSON.stringify(operationdata)};
+	var param={"data":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
 		  url: path + '/basicData/updateleaf',

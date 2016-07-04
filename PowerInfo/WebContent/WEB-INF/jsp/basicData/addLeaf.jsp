@@ -20,7 +20,7 @@ function save(){
 	var name =$('#name').val();
 	operationdata["name"]=name;//节点名称
 	
-	var param={"data":JSON.stringify(operationdata)};
+	var param={"data":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
 		  url: path + '/basicData/addleaf',
