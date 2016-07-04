@@ -12,6 +12,8 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.totalquantity.basedata.dao.BaseDao;
+import com.github.totalquantity.basedata.entity.QuoteBase;
 import com.github.totalquantity.calculateAlgorithm.service.CalculateAlgorithmService;
 import com.github.totalquantity.calculatePlan.dao.CalculatePlanDao;
 import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
@@ -33,6 +35,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	private PrepareDataDao prepareDataDao;
 	@Autowired
 	private TotalDataDao totalDataDao;
+	@Autowired
+	private BaseDao baseDao;
 	
 	@Autowired
 	private CalculateAlgorithmService calculateAlgorithmService;
@@ -180,29 +184,35 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	 */
 	public List<TotalData> calculateCondition(List<CalculatePlan>m,JSONObject obj){
 		List<PrepareData> prepareData = prepareDataDao.getAllPrepareData(obj) ;//准备数据
+		JSONObject baseparam = new JSONObject();
+		//92用电量；122,123,124 一、二、三产单耗；128人均用电量
+		baseparam.put("indexs", "92,122,123,124,128");
+		baseparam.put("year", obj.getString("planyear"));
+		List<QuoteBase> quoteBase = baseDao.queryBaseData(baseparam);//基准年数据
+
 	
 		/*
 		 * 平均增长率法
 		 */
 		List<Map<String,Double>> list = new ArrayList<Map<String,Double>>();
 		List<TotalData> resultList = new ArrayList<TotalData>();//插入数据库的集合
-		double	d1=calculateAlgorithmService.averageGrowthRate(prepareData,obj,m);
+		double	d1=calculateAlgorithmService.averageGrowthRate(quoteBase,obj,m);
 		Map<String,Double> map = new HashMap<String,Double>();
 		map.put("1", d1);
 		/*
 		 * 产值单耗法
 		 */
-		double	d2 = calculateAlgorithmService.productionValuePerUnitConsumption(prepareData,obj,m);
+		double	d2 = calculateAlgorithmService.productionValuePerUnitConsumption(quoteBase,prepareData,obj,m);
 		map.put("2", d2);
 		/*
 		 * 弹性系数法
 		 */
-		double d3 =calculateAlgorithmService.elasticityCoefficient(prepareData,obj,m);
+		double d3 =calculateAlgorithmService.elasticityCoefficient(quoteBase,obj,m);
 		map.put("3", d3);
 		/*
 		 * 人均用电量法	
 		 */
-		double d4 =calculateAlgorithmService.avgElectricityConsumption(prepareData,obj,m);
+		double d4 =calculateAlgorithmService.avgElectricityConsumption(quoteBase,prepareData,obj,m);
 		map.put("4", d4);
 		list.add(map);
 		/*

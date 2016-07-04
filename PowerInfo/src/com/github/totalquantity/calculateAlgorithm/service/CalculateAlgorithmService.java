@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import com.github.totalquantity.basedata.entity.QuoteBase;
 import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
 import com.github.totalquantity.prepareData.entity.PrepareData;
 /**
@@ -27,7 +28,7 @@ public interface CalculateAlgorithmService {
 	 * @param obj   常规参数（基准年、任务号、规划年之类的）
 	 * @return
 	 */
-	public  double  averageGrowthRate(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list);
+	public  double  averageGrowthRate(List<QuoteBase> quoteBase,JSONObject obj,List<CalculatePlan> list);
 	/**
 	 * 弹性系数法
 	 *  	规划期末期用电量=规划期初期(即基准年)用电量*
@@ -36,7 +37,7 @@ public interface CalculateAlgorithmService {
 	 * @param obj   常规参数（基准年、任务号、规划年之类的）
 	 * @return
 	 */
-	public double elasticityCoefficient(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list);
+	public double elasticityCoefficient(List<QuoteBase> quoteBase,JSONObject obj,List<CalculatePlan> list);
 	/**
 	 * 人均用电量法
 	 *    公式:基准年人均用电量* （1+i）^(2020-2015)*预测年人口数
@@ -45,7 +46,7 @@ public interface CalculateAlgorithmService {
 	 * @param prepareData   预测年数据
 	 * @return
 	 */
-	public  double avgElectricityConsumption(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list);
+	public  double avgElectricityConsumption(List<QuoteBase> quoteBase,List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list);
 	/**
 	 * 	产值单耗法
 	 * 		公式：预测年一产GDP*预测年一产单耗（即：基准年一产单耗*一产单耗增长率）+
@@ -57,7 +58,7 @@ public interface CalculateAlgorithmService {
 	 * @param prepareData   预测年数据
 	 * @return
 	 */
-	public double productionValuePerUnitConsumption(List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list);
+	public double productionValuePerUnitConsumption(List<QuoteBase> quoteBase,List<PrepareData>prepareData,JSONObject obj,List<CalculatePlan> list);
 	/**
 	 * 平均值法
 	 *     平均值法：(方法一预测值+方法二预测值+方法三预测值+方法四预测值)/4

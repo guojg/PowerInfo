@@ -23,40 +23,38 @@ String planyear = tt.getPlanyear();
 	var taskid='<%=taskid%>';  //任务号
 	var planyear='<%=planyear%>';//规划年
 	var algorithm='<%=algorithm%>';//算法
-			var path = '<%=request.getContextPath()%>';
-			$(function() {
-				$("#tool_query").bind("click", function() {
-					drawChart();
-				});
-
-				var itemJson =[{    
-				    "ID":planyear,    
-				    "TEXT":planyear+"年"   
-				}];
-				$('#years').combobox({   
-				    data:itemJson,   
-				    valueField:'ID',   
-				    textField:'TEXT',
-				    multiple:false
-				});
-				$('#years').combobox('setValue', planyear);
-				comboBoxInit({
-					id : "pic_type",
-					url : path + '/js/basicData/chartType.json',
-					textkey : "text",
-					valuekey : "id",
-					defaultVal : "column"
-				});
+		$(function() {
+			$("#tool_query").bind("click", function() {
 				
-				$("#pic_type").combobox({
-					onSelect:function(){
-						drawChart();
-					}
-				});
-
-				//queryData();
+				drawChart();
 			});
-		</script>
+			var itemJson =[{    
+			    "ID":planyear,    
+			    "TEXT":planyear+"年"   
+			}];
+			$('#years').combobox({   
+			    data:itemJson,   
+			    valueField:'ID',   
+			    textField:'TEXT',
+			    multiple:false
+			});
+			$('#years').combobox('setValue', planyear);
+
+			comboBoxInit({
+				id : "pic_type",
+				url : path + '/js/basicData/chartType.json',
+				textkey : "text",
+				valuekey : "id",
+				defaultVal : "column"
+			});
+			
+			$("#pic_type").combobox({
+				onSelect:function(){
+					drawChart();
+				}
+			});
+		});
+	</script>
 		</head>
 		<body>
 			<!-- 引入自定义按钮页面 -->
@@ -90,6 +88,6 @@ String planyear = tt.getPlanyear();
 				src="<%=path%>/static/js/Highcharts-4.0.1/js/modules/exporting.js"></script>
 			<script type="text/javascript"
 				src="<%=path%>/static/js/jquery-easyui-1.4/farbtastic/farbtastic.js"></script>
-			<script type="text/javascript" src="<%=path%>/js/basicData/basic.js"></script>
+	<script type="text/javascript" src="<%=path%>/js/totalquantity/totaldata/totaldatapic.js"></script>
 		</body>
 </html>

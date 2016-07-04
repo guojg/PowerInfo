@@ -42,10 +42,10 @@ public class TotalDataController {
 	}
 
 
-	@RequestMapping(value = "/queryData")
+	@RequestMapping(value = "/queryData" ,produces="text/plain;charset=UTF-8")
 	public @ResponseBody String queryData(HttpServletRequest request,
 			HttpServletResponse response) {
-		response.setCharacterEncoding("UTF-8");
+		//response.setCharacterEncoding("UTF-8");
 		// String jsonParam = request.getParameter("jsonParam");
 		 String taskid = request.getParameter("taskid");
 		 String planyear = request.getParameter("planyear")==null?"": request.getParameter("planyear");
