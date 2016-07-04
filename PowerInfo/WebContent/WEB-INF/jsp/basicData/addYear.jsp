@@ -12,10 +12,36 @@ function cancel(){
 	//关闭窗口
 	window.parent.$('#win_div').window('close');
 }
+function validate(startyear,endyear){
+	var regExp=/19|20\d{2}/;
+	if(!regExp.test(startyear)){
+		window.parent.$.messager.alert('提示','开始年份填写错误！','info');
+		return false;
+	}
+	if(!regExp.test(endyear)){
+		window.parent.$.messager.alert('提示','终止年份填写错误！','info');
+		return false;
+	}
+	if(startyear>=endyear){
+		window.parent.$.messager.alert('提示','终止年份必须要大于开始年份！','info');
+		return false;
+	}
+	
+	
+	return true;
+	
+}
 function save(){
+	var startyear=$("#startyear").val();
+	var endyear=$("#endyear").val();
+	if(!(validate(startyear,endyear))){
+		return;
+	}
 	var operationdata = new Object();
-	operationdata["startyear"]=$("#startyear").val();
-	operationdata["endyear"]=$("#endyear").val();
+	operationdata["startyear"]=startyear;
+	operationdata["endyear"]=endyear;
+
+	
 	
 	var param={"data":JSON.stringify(operationdata)};
 	$.ajax({

@@ -9,7 +9,12 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../common/commonInclude.jsp"%>
+<%
+	String pid = request.getAttribute("pid") == null ? "" : request
+			.getAttribute("pid").toString();
+%>
 <script type="text/javascript">
+	var pid='<%=pid%>';
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -22,42 +27,101 @@
 		align : 'center'
 	} ] ];
 	$(function() {
+
 		$("#tool_save").bind("click", function() {
 			save();
 		});
 		$("#tool_query").bind("click", function() {
 			queryData();
 		});
-
-
+		$("#tool_export").bind("click", function() {
+			ExportExcel();
+		});
 		comboBoxInit({
-			id:"years",
-			url:path + '/basicData/getyears',	
+			id : "years",
+			url : path + '/basicData/getyears',
 			textkey : "yearName",
 			valuekey : "year",
 			multiple : true
 		});
+		comboBoxInit({
+			id : "indexs",
+			url : path + '/basicData/getindexs?pid=' + pid,
+			textkey : "indexName",
+			valuekey : "indexItem",
+			multiple : true
+		});
 		queryData();
 	});
-
+	function ExportExcel() {//导出Excel文件
+		var years = $("#years").combo("getValues");
+		//水平年份
+		var yrs_s;
+		if (years != "") {
+			yrs_s = years + "";
+		} else {
+			yrs_s = "";
+		}
+		if (yrs_s == "") {
+			$.messager.alert("提示", "请选择年份！");
+			return;
+		}
+		var indexs = $("#indexs").combo("getValues");
+		//水平年份
+		var index_s;
+		if (years != "") {
+			index_s = indexs + "";
+		} else {
+			index_s = "";
+		}
+		if (index_s == "") {
+			$.messager.alert("提示", "请选择指标！");
+			return;
+		}
+		//用ajax发动到动态页动态写入xls文件中
+		var f = $('<form action="'+path+'/basicData/exportData" method="post" id="fm1"></form>');  
+        var i = $('<input type="hidden" id="years" name="years" />');  
+        var l = $('<input type="hidden" id="indexs" name="indexs" />');  
+    	i.val(yrs_s);  
+    	i.appendTo(f);  
+    	l.val(index_s);  
+    	l.appendTo(f);  
+    	f.appendTo(document.body).submit();  
+    	document.body.removeChild(f);  
+	}
 	//查询方法调用的函数
 	function queryData() {
 		var years = $("#years").combo("getValues");
 		//水平年份
 		var yrs_s;
-		if(years!=""){
-			yrs_s=years+"";
-		}else{
-			yrs_s="";
+		if (years != "") {
+			yrs_s = years + "";
+		} else {
+			yrs_s = "";
 		}
-		if(yrs_s==""){
+		if (yrs_s == "") {
 			$.messager.alert("提示", "请选择年份！");
+			return;
+		}
+		var indexs = $("#indexs").combo("getValues");
+		//水平年份
+		var index_s;
+		if (years != "") {
+			index_s = indexs + "";
+		} else {
+			index_s = "";
+		}
+		if (index_s == "") {
+			$.messager.alert("提示", "请选择指标！");
 			return;
 		}
 		//非冰冻列
 		cols = createCols(yrs_s);
 		//查询条件暂时放外面
-		var queryParams = {years:yrs_s};
+		var queryParams = {
+			years : yrs_s,
+			indexs : index_s
+		};
 
 		var url = path + '/basicData/queryData';
 		var Height_Page = $("html").height();
@@ -178,10 +242,9 @@
 		if (updates.length <= 0) {
 			return;
 		}
-		//	if(!validate($('#datagrid'), updates, ['index_item'], 10, 2))
-		//	{
-		//		return;
-		//	}
+		if (!validate($('#datagrid'), updates, [ 'index_name' ], 13, 2)) {
+			return;
+		}
 		var param = JSON.stringify(updates);
 		var data = {
 			editObj : param
@@ -207,53 +270,64 @@
 
 	/**
 	 * 数字验证
-
-	 function validate(o, upts, arr, a, b){
-	 var opts = o.datagrid('options');
-	 var flag = true;
-	 var regExp = /^-?[1-9]+(\.\d+)?$|^-?0(\.\d+)?$|^-?[1-9]+[0-9]*(\.\d+)?$/;	//数字验证
-	 var regExp2 = '/^-?(?:\\d{1,'+a+'})(?:\\.\\d{1,'+b+'})?$/';
-	 regExp2 = eval(regExp2);
-	 for(var i = 0; i < upts.length; i++) {
-	 var rowIndex = -1;
-	 rowIndex = o.datagrid('getRowIndex', upts[i]);
-	 if(rowIndex < 0) return;
-	 $.each(upts[i], function(oi, j){
-	 if(oi == opts.idField || j == '') {
-	 return;
-	 }
-	 var rflag = false;
-	 $.each(arr, function(ii, n){
-	 if(oi == n) {
-	 rflag = true;
-	 return false;
-	 }
-	 });
-	 if(rflag) {
-	 return;
-	 }
-	 var $cell = $('tr[datagrid-row-index='+ rowIndex +']').find('td[field=' + oi + ']');
-	 if($.trim(j) == ''){
-	 $cell.css('background', 'red');
-	 $cell.showTipp({flagInfo : '数据不能为空格！', flagWidth : '100'});
-	 flag = false;
-	 return;
-	 }
-	 if(!regExp.test(j)) {
-	 $cell.css('background', 'red');
-	 $cell.showTipp({flagInfo : '输入字符必须为数字！', flagWidth : '150'});
-	 flag = false;
-	 return;
-	 }
-	 if(!regExp2.test(j)) {
-	 $cell.css('background', 'red');
-	 $cell.showTipp({flagInfo : '输入字符精度为['+a+','+b+']！', flagWidth : '110'});
-	 flag = false;
-	 }
-	 });
-	 }
-	 return flag;
-	 }**/
+	 **/
+	function validate(o, upts, arr, a, b) {
+		var opts = o.datagrid('options');
+		var flag = true;
+		var regExp = /^-?[1-9]+(\.\d+)?$|^-?0(\.\d+)?$|^-?[1-9]+[0-9]*(\.\d+)?$/; //数字验证
+		var regExp2 = '/^-?(?:\\d{1,' + a + '})(?:\\.\\d{1,' + b + '})?$/';
+		regExp2 = eval(regExp2);
+		for (var i = 0; i < upts.length; i++) {
+			var rowIndex = -1;
+			rowIndex = o.datagrid('getRowIndex', upts[i]);
+			if (rowIndex < 0)
+				return;
+			$.each(upts[i], function(oi, j) {
+				if (oi == opts.idField || j == '') {
+					return;
+				}
+				var rflag = false;
+				$.each(arr, function(ii, n) {
+					if (oi == n) {
+						rflag = true;
+						return false;
+					}
+				});
+				if (rflag) {
+					return;
+				}
+				var $cell = $('tr[datagrid-row-index=' + rowIndex + ']').find(
+						'td[field=' + oi + ']');
+				if ($.trim(j) == '') {
+					$cell.css('background', 'red');
+					$cell.showTipp({
+						flagInfo : '数据不能为空格！',
+						flagWidth : '100'
+					});
+					flag = false;
+					return;
+				}
+				if (!regExp.test(j)) {
+					$cell.css('background', 'red');
+					$cell.showTipp({
+						flagInfo : '输入字符必须为数字！',
+						flagWidth : '150'
+					});
+					flag = false;
+					return;
+				}
+				if (!regExp2.test(j)) {
+					$cell.css('background', 'red');
+					$cell.showTipp({
+						flagInfo : '输入字符精度为[' + a + ',' + b + ']！',
+						flagWidth : '110'
+					});
+					flag = false;
+				}
+			});
+		}
+		return flag;
+	}
 </script>
 </head>
 <body>
@@ -263,6 +337,9 @@
 			align='top' border='0' title='查询' />
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' />
+		</a> <a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='保存' />
 		</a>
 	</div>
 	<fieldset id="field">
@@ -271,6 +348,8 @@
 			<tr>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
+				<td class="tdlft">指标：</td>
+				<td class="tdrgt"><input id="indexs" class="comboboxComponent" /></td>
 			</tr>
 		</table>
 	</fieldset>

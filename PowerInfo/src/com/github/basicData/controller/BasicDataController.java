@@ -1,7 +1,8 @@
 package com.github.basicData.controller;
 
-import java.io.IOException;
+
 import java.io.PrintWriter;
+
 import java.util.List;
 
 import net.sf.json.JSONObject;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.basicData.model.BasicIndex;
 import com.github.basicData.model.BasicYear;
 import com.github.basicData.service.BasicDataService;
 import com.github.common.tree.TreeUtil;
@@ -30,17 +32,19 @@ public class BasicDataController {
 			HttpServletResponse response) {
 		response.setCharacterEncoding("UTF-8");
 		String years = request.getParameter("years");
+		String indexs = request.getParameter("indexs");
 		
 		JSONObject obj = new JSONObject();
 		obj.put("years", years);
-		obj.put("pid", request.getSession().getAttribute("pid"));
-		String resultJson = basicDataService.queryData(obj);
+		obj.put("indexs", indexs);
 		try {
+			String resultJson = basicDataService.queryData(obj);
 			PrintWriter pw = response.getWriter();
 			pw.write(resultJson);
 			pw.flush();
 			pw.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -60,7 +64,7 @@ public class BasicDataController {
 		}
 	}
 
-	@RequestMapping(value = "/addleaf")
+	@RequestMapping(value = "/addleaf", produces="application/json;charset=UTF-8")
 	public @ResponseBody String addLeaf(HttpServletRequest request) {
 		try {
 			String data = request.getParameter("data");
@@ -95,6 +99,16 @@ public class BasicDataController {
 	public @ResponseBody List<BasicYear> getYears(HttpServletRequest request) {
 		try {
 			return basicDataService.getYears();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@RequestMapping(value = "/getindexs",produces="application/json;charset=UTF-8")
+	public @ResponseBody List<BasicIndex> getIndexs( String pid,HttpServletRequest request) {
+		try {
+			
+			return basicDataService.getIndexs(pid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -148,22 +162,38 @@ public class BasicDataController {
 	@RequestMapping("/exportData")
 	public void exportData(HttpServletRequest request,
 			HttpServletResponse response) {
+			response.setCharacterEncoding("UTF-8");
+			String years = request.getParameter("years");
+			String indexs = request.getParameter("indexs");
+			
+			JSONObject obj = new JSONObject();
+			obj.put("years", years);
+			obj.put("indexs", indexs);
+			try {
+				basicDataService.ExportExcel(obj, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
 
 	}
 
 	@RequestMapping(value = "/index")
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		request.getSession().setAttribute("pid", pid);
+		request.setAttribute("pid", pid);
 		return "basicData/basicDataMain";
 	}
 	@RequestMapping(value = "/table")
-	public String table(HttpServletRequest request, HttpServletResponse response) {
+	public String table(Long pid,HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("pid", pid);
 		return "basicData/basicDataSave";
 	}
 
 	@RequestMapping(value = "/image")
-	public String image(HttpServletRequest request, HttpServletResponse response) {
+	public String image(Long pid,HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("pid", pid);
 		return "basicData/basicDataPic";
 	}
 

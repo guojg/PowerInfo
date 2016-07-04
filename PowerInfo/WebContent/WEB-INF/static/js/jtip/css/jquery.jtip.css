@@ -1,0 +1,274 @@
+/*
+ * styles for jtip
+ *	
+ */
+/***********************************<<<< base >>>>>*****************************************************/
+/* ----- base default font size, type, and line height ----- */
+html body{font: 62.5%/1.4em Arial, Helvetica, sans-serif;color:#333333}
+html>body{font: 62.5%/1.4em Arial, Helvetica, sans-serif;color:#333333}
+
+/***********************************<<<< main >>>>>*****************************************************/
+.jtip {
+	position: relative;
+	text-align: center;
+	line-height: 22px;
+	margin-top: 30px;
+	border: solid 1px #CCC;
+	box-shadow: 2px 2px 2px 3px #CCC;
+	-moz-box-shadow: 2px 2px 3px #CCC;
+	-webkit-box-shadow: 2px 2px 3px #CCC;
+	box-shadow: 2px 2px 3px #CCC;
+	border-radius: 5px;
+	font-size: 12px;
+	text-shadow: 0px 0px 0px #CCC;
+	z-index: 999997;
+	display: none;
+}
+
+/***********************************<<<< top-left >>>>>*****************************************************/
+.jtip_arrow_top-left, .jtip_arrow_top-left div {
+	border-width: 15px;
+	border-style: dashed dashed dashed solid;
+	border-color: transparent transparent transparent #CCC;
+	height: 0;
+	width: 0;
+	position:absolute;
+	z-index: 999998;
+	line-height: 0;
+}
+
+.jtip_arrow_top-left div {
+	top: -13px;
+	left: -14px;
+	border-left-color: #FFF;
+}
+
+.jtip_content_top-left {
+	position: absolute;
+	top: 2px;
+	left: 0px;
+	margin-top: -2px;
+	margin-left: 2px;
+	margin-right: 10px;
+	margin-bottom: 2px;
+	text-align: center;
+	z-index: 999999;
+	background-color:#FFF;
+}
+
+/***********************************<<<< top-right >>>>>*****************************************************/
+.jtip_arrow_top-right, .jtip_arrow_top-right div {
+	border-width: 15px;
+	border-style: dashed solid dashed dashed ;
+	border-color: transparent #CCC transparent transparent;
+	height: 0;
+	width: 0;
+	position:absolute;
+	z-index: 999998;
+	line-height: 0;
+}
+
+.jtip_arrow_top-right div {
+	top: -13px;
+	left: -16px;
+	border-right-color: #FFF;
+}
+
+.jtip_content_top-right {
+	position: absolute;
+	top: 2px;
+	left: 0px;
+	margin-top: -2px;
+	margin-left: 2px;
+	margin-right: 10px;
+	margin-bottom: 2px;
+	text-align: center;
+	z-index: 999999;
+	background-color:#FFF;
+}
+
+/***********************************<<<< right-top >>>>>*****************************************************/
+.jtip_arrow_right-top, .jtip_arrow_right-top div {
+	border-width: 15px;
+	border-style: solid dashed dashed dashed;
+	border-color: #CCC transparent transparent transparent;
+	height: 0;
+	width: 0;
+	position:absolute;
+	z-index: 999998;
+	line-height: 0;
+}
+
+.jtip_arrow_right-top div {
+	top: -14px;
+	left: -18px;
+	border-top-color: #FFF;
+}
+
+.jtip_content_right-top {
+	position: absolute;
+	top: 2px;
+	left: 0px;
+	margin-top: -2px;
+	margin-left: 2px;
+	margin-right: 10px;
+	margin-bottom: 2px;
+	text-align: center;
+	z-index: 999999;
+	background-color:#FFF;
+}
+
+/***********************************<<<< right-bottom >>>>>*****************************************************/
+.jtip_arrow_right-bottom, .jtip_arrow_right-bottom div {
+	border-width: 15px;
+	border-style: dashed dashed solid dashed;
+	border-color: transparent transparent #CCC transparent;
+	height: 0;
+	width: 0;
+	position:absolute;
+	z-index: 999998;
+	line-height: 0;
+}
+
+.jtip_arrow_right-bottom div {
+	top: -16px;
+	left: -18px;
+	border-bottom-color: #FFF;
+}
+
+.jtip_content_right-bottom {
+	position: absolute;
+	top: 2px;
+	left: 0px;
+	margin-top: -2px;
+	margin-left: 2px;
+	margin-right: 10px;
+	margin-bottom: 2px;
+	text-align: center;
+	z-index: 999999;
+	background-color:#FFF;
+}
+
+/***********************************<<<< bottom-left >>>>>*****************************************************/
+.jtip_arrow_bottom-left, .jtip_arrow_bottom-left div {
+	border-width: 15px;
+	border-style: dashed dashed  dashed solid;
+	border-color: transparent transparent transparent #CCC;
+	height: 0;
+	width: 0;
+	position: absolute;
+	z-index: 999998;
+	line-height: 0;
+}
+
+.jtip_arrow_bottom-left div {
+	top: -17px;
+	left: -14px;
+	border-left-color: #FFF;
+}
+
+.jtip_content_bottom-left {
+	position: absolute;
+	top: -2px;
+	left: 0px;
+	margin-top: 2px;
+	margin-left: 2px;
+	margin-right: 10px;
+	margin-bottom: 2px;
+	text-align: center;
+	z-index: 999999;
+	background-color: #FFF;
+}
+
+/***********************************<<<< bottom-right >>>>>*****************************************************/
+.jtip_arrow_bottom-right, .jtip_arrow_bottom-right div {
+	border-width: 15px;
+	border-style: dashed solid dashed  dashed;
+	border-color: transparent #CCC transparent transparent;
+	height: 0;
+	width: 0;
+	position:absolute;
+	z-index: 999998;
+	line-height: 0;
+}
+
+.jtip_arrow_bottom-right div {
+	top: -17px;
+	left: -16px;
+	border-right-color: #FFF;
+}
+
+.jtip_content_bottom-right {
+	position: absolute;
+	top: 2px;
+	left: 0px;
+	margin-top: -2px;
+	margin-left: 2px;
+	margin-right: 10px;
+	margin-bottom: 2px;
+	text-align: center;
+	z-index: 999999;
+	background-color:#FFF;
+}
+
+/***********************************<<<< left-top >>>>>*****************************************************/
+.jtip_arrow_left-top, .jtip_arrow_left-top div {
+	border-width: 15px;
+	border-style: solid dashed dashed dashed;
+	border-color: #CCC transparent transparent transparent;
+	height: 0;
+	width: 0;
+	position:absolute;
+	z-index: 999998;
+	line-height: 0;
+}
+
+.jtip_arrow_left-top div {
+	top: -14px;
+	left: -13px;
+	border-top-color: #FFF;
+}
+
+.jtip_content_left-top {
+	position: absolute;
+	top: 2px;
+	left: 0px;
+	margin-top: -2px;
+	margin-left: 1px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+	z-index: 999999;
+	background-color:#FFF;
+}
+
+/***********************************<<<< left-bottom >>>>>*****************************************************/
+.jtip_arrow_left-bottom, .jtip_arrow_left-bottom div {
+	border-width: 15px;
+	border-style: dashed dashed solid dashed;
+	border-color: transparent transparent #CCC transparent;
+	height: 0;
+	width: 0;
+	position:absolute;
+	z-index: 999998;
+	line-height: 0;
+}
+
+.jtip_arrow_left-bottom div {
+	top: -16px;
+	left: -13px;
+	border-bottom-color: #FFF;
+}
+
+.jtip_content_left-bottom {
+	position: absolute;
+	top: 2px;
+	left: 0px;
+	margin-top: -2px;
+	margin-left: 1px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+	z-index: 999999;
+	background-color:#FFF;
+}

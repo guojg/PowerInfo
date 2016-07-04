@@ -3,6 +3,7 @@ package com.github.basicData.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.github.basicData.model.BasicIndex;
 import com.github.basicData.model.BasicYear;
 
 import net.sf.json.JSONArray;
@@ -16,7 +17,7 @@ public interface BasicDataDao {
 	 * @param param
 	 * @return
 	 */
-	public List<Map<String, Object>> queryData(JSONObject param);
+	public List<Map<String, Object>> queryData(JSONObject param) throws Exception;
 	/**
 	 * 保存业务数据
 	 * @return
@@ -27,4 +28,5 @@ public interface BasicDataDao {
 	public String deleteLeaf(String id)throws Exception;	
 	public String addYear(JSONObject param) throws Exception;
 	public List<BasicYear> getYears() throws Exception;
+	public List<BasicIndex> getIndexs(String pid) throws Exception;
 }

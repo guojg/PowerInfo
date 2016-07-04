@@ -32,8 +32,7 @@ function save(){
 		  type: "post",
 		  url: path + '/basicData/updateleaf',
 		  data:param,
-		  success:function(msg){
-			  var obj=$.parseJSON(msg);
+		  success:function(obj){
 			  if(obj.flag=='1'){
 				  window.parent.$.messager.alert('提示','修改成功！','info',function(){
 						//关闭窗口

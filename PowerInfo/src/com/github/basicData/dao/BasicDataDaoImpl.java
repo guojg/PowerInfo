@@ -17,9 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
+import sun.org.mozilla.javascript.internal.ObjArray;
+
 import com.github.basicData.model.BasicData;
+import com.github.basicData.model.BasicIndex;
 import com.github.basicData.model.BasicYear;
 import com.github.common.util.Contans;
 @Repository
@@ -28,11 +32,12 @@ public class BasicDataDaoImpl implements BasicDataDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<Map<String, Object>> queryData(JSONObject param) {
-
-		String pid = param.get("pid").toString();
-
+	public List<Map<String, Object>> queryData(JSONObject param) throws Exception {
+        String indexs[]=param.get("indexs")==null?null:param.get("indexs").toString().split(",");
+        
+        String tablename=getTableNameByIndex(indexs[0]);
 		StringBuffer sb = new StringBuffer();
+		
 		sb.append("SELECT tb.id index_item,tb.name index_name,tb.ORD");
 
 		for (String year : param.get("years").toString().split(",")) {
@@ -42,19 +47,30 @@ public class BasicDataDaoImpl implements BasicDataDao {
 			sb.append(year);
 			sb.append("'");
 		}
-		sb.append("  FROM (SELECT t2.id,t2.name,t2.ORD,t1.value,t1.yr ");
-		sb.append("        FROM  nationnal_data  t1 RIGHT JOIN (");
-
-		if (isLeaf(pid) == 1) {
-			sb.append("         select id,name,ord from sys_menu where p_id=?");
-		} else {
-			sb.append("         select id,name,ord from sys_menu where id=?");
+		sb.append("  FROM (SELECT t2.id,t2.name,t2.ORD,t1.value,t1.yr FROM ");		
+		sb.append(tablename);
+		sb.append("         t1 RIGHT JOIN (");
+		sb.append("         select id,name,ord from sys_menu where id in(");
+		String InSql="";
+		for (int i=0;i<indexs.length;i++) {
+			InSql=InSql+"?,";
 		}
+		sb.append(InSql.substring(0,InSql.length()-1));
+		sb.append("        )");
 		sb.append(" ) t2        ON t1.index_item= t2.id) tb");
 		sb.append(" GROUP BY tb.id,tb.name,tb.ORD");
-		return jdbcTemplate.queryForList(sb.toString(), new Object[] { pid });
+
+		
+		return jdbcTemplate.queryForList(sb.toString(), indexs);
 	}
 
+	private String getTableNameByIndex(String index) throws Exception{
+		
+		String sql="SELECT table_name FROM sys_menu WHERE  id=?";
+		
+		return jdbcTemplate.queryForMap(sql, new Object[]{index}).get("table_name").toString();
+		
+	}
 	/**
 	 * 保存基础数据业务数据
 	 */
@@ -79,7 +95,8 @@ public class BasicDataDaoImpl implements BasicDataDao {
 				basicdataList.add(basicData);
 			}
 		}
-		executeSQLS(basicdataList);
+		String tablename=getTableNameByIndex(rows.getJSONObject(0).get("index_item").toString());
+		executeSQLS(basicdataList,tablename);
 		return "";
 	}
 
@@ -93,9 +110,9 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		return basicdata;
 	}
 
-	private void executeSQLS(final List<BasicData> basicDatas) throws Exception {
+	private void executeSQLS(final List<BasicData> basicDatas,String tablename) throws Exception {
 
-		String deletesql = "delete from shiro.nationnal_data where INDEX_ITEM=? and YR=?";
+		String deletesql = "delete from "+tablename+" where INDEX_ITEM=? and YR=?";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -115,7 +132,7 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		};
 		jdbcTemplate.batchUpdate(deletesql, setdelete);
 
-		String insertsql = "insert shiro.nationnal_data(INDEX_ITEM,YR,VALUE) VALUES(?,?,?)";
+		String insertsql = "insert "+tablename+"(INDEX_ITEM,YR,VALUE) VALUES(?,?,?)";
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -228,11 +245,16 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		}
 		return returnFlag;
 	}
+	/**
+	 * 先删除年份表内数据，然后插入新的年份数据
+	 */
 
 	@Override
 	public String addYear(JSONObject row) throws Exception {
 		// TODO Auto-generated method stub
 		String returnFlag="1";
+		String del="delete from shiro.base_year";
+		jdbcTemplate.update(del);
 		Integer startyear = Integer.parseInt(row.getString("startyear"));
 		Integer endyear =  Integer.parseInt(row.getString("endyear"));
 		final List<BasicYear> years =createYears(startyear,endyear);
@@ -283,6 +305,19 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		
 		String sql="select year,year_name from base_year";
 		List<BasicYear>list =jdbcTemplate.query(sql, new BeanPropertyRowMapper(BasicYear.class));
+		return list;
+	}
+
+	@Override
+	public List<BasicIndex> getIndexs(final String pid) throws Exception {
+		// TODO Auto-generated method stub
+		String sql="";
+		if (isLeaf(pid) == 1) {
+			sql="select id index_item,name index_name from sys_menu where p_id=?";
+		} else {
+			sql="select id index_item,name index_name  from sys_menu where id=?";
+		}
+		List<BasicIndex> list =jdbcTemplate.query(sql,new Object[]{pid}, new BeanPropertyRowMapper(BasicIndex.class));
 		return list;
 	}
 }

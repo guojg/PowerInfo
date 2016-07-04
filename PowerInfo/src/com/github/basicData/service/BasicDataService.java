@@ -3,13 +3,16 @@ package com.github.basicData.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import com.github.basicData.model.BasicIndex;
 import com.github.basicData.model.BasicYear;
 
 import net.sf.json.JSONObject;
 
 public interface BasicDataService {
 
-	public String queryData(JSONObject param);
+	public String queryData(JSONObject param) throws Exception;
 
 	public String saveData(JSONObject param) throws Exception;
 
@@ -22,4 +25,8 @@ public interface BasicDataService {
 	public String addYear(JSONObject param) throws Exception;
 	
 	public List<BasicYear> getYears() throws Exception;
+	
+	public List<BasicIndex> getIndexs(String pid) throws Exception;
+	
+	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
 }

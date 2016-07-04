@@ -5,6 +5,9 @@
 <head>
 <title>图表生成</title>
 <%@include file="../common/commonInclude.jsp"%>
+<%
+String pid=request.getAttribute("pid")==null?"":request.getAttribute("pid").toString();
+%>
 <!-- 加载CSS -->
 <link rel="stylesheet"
 	href="<%=path%>/static/js/jquery-easyui-1.4/farbtastic/farbtastic.css" />
@@ -13,8 +16,33 @@
 <link rel="stylesheet" href="<%=path%>/static/css/chart.css" />
 <link rel="stylesheet" href="<%=path%>/static/css/index.css" />
 <script type="text/javascript">
+var pid='<%=pid%>';
 	$(function() {
 		$("#tool_query").bind("click", function() {
+			var years = $("#years").combo("getValues");
+			//水平年份
+			var yrs_s;
+			if(years!=""){
+				yrs_s=years+"";
+			}else{
+				yrs_s="";
+			}
+			if(yrs_s==""){
+				$.messager.alert("提示", "请选择年份！");
+				return;
+			}
+			var indexs = $("#indexs").combo("getValues");
+			//水平年份
+			var index_s;
+			if(years!=""){
+				index_s=indexs+"";
+			}else{
+				index_s="";
+			}
+			if(index_s==""){
+				$.messager.alert("提示", "请选择指标！");
+				return;
+			}
 			drawChart();
 		});
 
@@ -32,14 +60,18 @@
 			valuekey : "id",
 			defaultVal : "column"
 		});
-		
+		comboBoxInit({
+			id : "indexs",
+			url : path + '/basicData/getindexs?pid='+pid,
+			textkey : "indexName",
+			valuekey : "indexItem",
+			multiple : true
+		});
 		$("#pic_type").combobox({
 			onSelect:function(){
 				drawChart();
 			}
 		});
-
-		//queryData();
 	});
 </script>
 </head>
@@ -56,6 +88,8 @@
 			<tr>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
+				<td class="tdlft">指标：</td>
+				<td class="tdrgt"><input id="indexs" class="comboboxComponent" /></td>
 				<td class="tdlft">图标类型：</td>
 				<td class="tdrgt"><input id="pic_type"
 					class="comboboxComponent" /></td>

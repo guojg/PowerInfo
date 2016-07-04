@@ -28,10 +28,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <script type="text/javascript" src="<%=path%>/static/js/common/common_page.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/common_page_ext.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/apppub.js"></script>
+<script type="text/javascript" src="<%=path%>/static/js/common/exportExcel.js"></script>
 <script type="text/javascript" src="<%=path%>/static/common/map.js"></script>
 <script type="text/javascript" src="<%=path%>/static/common/js/json2.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/common_dictionary.js"></script>
-
+<script type="text/javascript" src="<%=path%>/static/js/jtip/js/tooltip.js"></script>
+<link rel="stylesheet" href="<%=path%>/static/js/jtip/css/tooltip.css" type="text/css" />
 <script type="text/javascript">
 	var path="<%=path%>";
 </script>

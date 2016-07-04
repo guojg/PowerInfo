@@ -8,17 +8,20 @@
 <meta http-equiv="cache-control" content="no-cache">
 	
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
-<%@include file="../common/commonInclude.jsp" %>	
-
+<%@include file="../common/commonInclude.jsp" %>
+<%
+String pid=request.getAttribute("pid")==null?"":request.getAttribute("pid").toString();
+%>
 <script type="text/javascript">
+var pid='<%=pid%>';
 $( function() {
 	$(window).bind('resize', function(event) {
 		$("#tt").tabs('resize');
 	});
 	//加载选项卡页面
 	var srcs = {
-			'表' : path+'/basicData/table',
-			'图' : path+'/basicData/image'
+			'表' : path+'/basicData/table?pid='+pid,
+			'图' : path+'/basicData/image?pid='+pid
 	};
 	var Height_Page = $("html").height();
 	var datagrid_height = $("#datagrid_div").position().top;
