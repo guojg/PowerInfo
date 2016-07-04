@@ -17,11 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
-
-import sun.org.mozilla.javascript.internal.ObjArray;
-
 import com.github.basicData.model.BasicData;
 import com.github.basicData.model.BasicIndex;
 import com.github.basicData.model.BasicYear;
@@ -103,6 +99,7 @@ public class BasicDataDaoImpl implements BasicDataDao {
 	private BasicData createModel(String indexid, String yr, String value)
 			throws Exception {
 
+		value="".equals(value)?null:value;
 		BasicData basicdata = new BasicData();
 		basicdata.setIndexItem(indexid);
 		basicdata.setYear(yr);
