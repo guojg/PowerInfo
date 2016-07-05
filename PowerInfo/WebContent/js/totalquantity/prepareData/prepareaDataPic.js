@@ -158,7 +158,7 @@ function createXLastLevel(years) {
  */
 function loadData($datagrid, chartType, yIndex, isInit) {
 	var data=[];
-	var queryParams = {"taskid":taskid,"planyear":planyear,"index_type":algorithm};
+	var queryParams = {"taskid":taskid,"planyear":planyear,"index_type": index_type};
 
 	$.ajax({
 		type : "post",

@@ -24,7 +24,7 @@ public class BaseDaoImpl implements BaseDao {
         String indexs=param.get("indexs")==null?null:param.get("indexs").toString();
 		// TODO Auto-generated method stub
 		StringBuffer sb = new StringBuffer();
-		String sql ="SELECT tb.index_item,tb.yr,tb.value from powersupply_data tb where tb.yr=? ";
+		String sql ="SELECT tb.index_item,tb.yr,tb.value from electricalsource_data tb where tb.yr=? ";
 		sb.append(sql);
 		String year = param.getString("year") ;
 		List<String> params = new ArrayList<String>();
@@ -33,7 +33,7 @@ public class BaseDaoImpl implements BaseDao {
 			sb.append(" and   instr(?,','||tb.index_item||',')>0") ;
 			params.add(indexs) ;
 		}
-		List<QuoteBase> list = this.jdbcTemplate.query(sql, params.toArray(), new ParameterizedRowMapper<QuoteBase>() {
+		List<QuoteBase> list = this.jdbcTemplate.query(sb.toString(), params.toArray(), new ParameterizedRowMapper<QuoteBase>() {
             @Override
             public QuoteBase mapRow(ResultSet rs, int index)
                     throws SQLException {

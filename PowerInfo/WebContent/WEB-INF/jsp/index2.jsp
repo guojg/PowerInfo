@@ -111,8 +111,8 @@ var _menus = '';
 
         <span  style="float:left;"><img id="logo1" src="static/images/top_01.png" /></span>
 		<ul id="css3menu" >
-				<li style="float:left"><img name="basic" src="static/images/top_03.png" /></li>
-				<li><img name="totalQuantity" src="static/images/top_03.png" /></li>
+				<li style="float:left"><img name="basic" src="static/images/top_02.png" title="基础数据"/></li>
+				<li><img name="totalQuantity" src="static/images/top_03.png"  title="电力需求预测"/></li>
 		</ul>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">

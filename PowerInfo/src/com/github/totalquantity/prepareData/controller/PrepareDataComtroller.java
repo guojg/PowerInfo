@@ -23,20 +23,23 @@ public class PrepareDataComtroller {
 	 private PrepareDataService prepareDataService ;
 	 
 	@RequestMapping(value ="/index")
-	public String index(HttpServletRequest request, HttpServletResponse response){
+	public String index(long pid,HttpServletRequest request, HttpServletResponse response){
 		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		request.setAttribute("p_id", pid);
 		 return "totalQuantity/prepareData/prepareDataMain";
 	}
 	
 	@RequestMapping(value ="/imageData")
-	public String imageData(HttpServletRequest request, HttpServletResponse response){
+	public String imageData(String index_type ,HttpServletRequest request, HttpServletResponse response){
 		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		request.setAttribute("index_type", index_type);
 		 return "totalQuantity/prepareData/prepareDataPic";
 	}
 	
 	@RequestMapping(value ="/showData")
-	public String showData(HttpServletRequest request, HttpServletResponse response){
+	public String showData(String index_type ,HttpServletRequest request, HttpServletResponse response){
 		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		request.setAttribute("index_type", index_type);
 		 return "totalQuantity/prepareData/prepareData";
 	}
 

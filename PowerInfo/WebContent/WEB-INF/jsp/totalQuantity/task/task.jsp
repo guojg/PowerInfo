@@ -95,11 +95,8 @@
 			url : path + "/task/taskAdd"
 		});
 	}
-	function detail1(row){
-		debugger;
-	}
+
 	function detail(baseyear,id,planyear,algorithm){
-		debugger;
 		var param={
 				"baseyear":baseyear,
 				"planyear":planyear,
@@ -114,7 +111,7 @@
 			 async:false,
 			 success:function(msg){
 					//页面跳转
-					window.parent.addNav(4);
+					window.parent.addNav(5);
 		 	 }
 		});
 	

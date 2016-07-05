@@ -85,12 +85,17 @@ public class PrepareDataDaoImpl implements PrepareDataDao {
 		sb.append(" FROM prepare_data d right join sys_dict_table t on d.index_type=t.code  and task_id=? ") ;
 		List<String> params = new ArrayList<String>();
 		params.add(taskid) ;
+		String indexsql = "";
 		if(!"".equals(index_type) && index_type!=null){
 			sb.append(" and instr(?,index_type)>0") ;
+			indexsql=" and instr(?,t.code)>0";
+			params.add(index_type) ;
 			params.add(index_type) ;
 		}
 
-		sb.append(" where t.domain_id=11 group by task_id,index_type,t.value order by t.ord");
+		sb.append(" where t.domain_id=11 ");
+		sb.append(indexsql);
+		sb.append(" group by task_id,index_type,t.value order by t.ord");
 	
 	
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),params.toArray());
@@ -114,7 +119,11 @@ public class PrepareDataDaoImpl implements PrepareDataDao {
 				pd.setIndex_type(index_type);
 				pd.setTask_id(taskid);
 				pd.setYear(it);
-				pd.setValue(row.getDouble(it));
+				if(!"".equals(row.getString(it))){
+					pd.setValue(row.getDouble(it));
+				}else{
+					pd.setValue(null);
+				}
 				
 				list.add(pd);
 			}

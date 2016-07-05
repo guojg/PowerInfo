@@ -80,7 +80,7 @@ function startCalculate(){
 	
  
 	<div class="div_submit" >
-		<a id="tool_start" href="javascript:startCalculate();" > <img src='<%=path%>/static/images/save.gif'
+		<a id="tool_start" href="javascript:startCalculate();" > <img src='<%=path%>/static/images/js.gif'
 			align='top' border='0' title='保存' /></a>
 	</div> 
 

@@ -12,6 +12,8 @@ TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
 String algorithm = tt.getAlgorithm() ;
 String taskid = tt.getId();
 String planyear = tt.getPlanyear();
+String index_type=request.getAttribute("index_type")==null?"":request.getAttribute("index_type").toString();
+
 %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/icon.css" />
@@ -23,6 +25,8 @@ String planyear = tt.getPlanyear();
 	var taskid='<%=taskid%>';  //任务号
 	var planyear='<%=planyear%>';//规划年
 	var algorithm='<%=algorithm%>';//算法
+	var index_type='<%=index_type%>';
+
 		$(function() {
 			$("#tool_query").bind("click", function() {
 				

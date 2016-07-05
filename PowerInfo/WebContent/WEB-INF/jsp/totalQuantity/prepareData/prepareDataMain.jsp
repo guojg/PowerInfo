@@ -9,14 +9,25 @@
 	
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp" %>	
-
+<%
+String p_id=request.getAttribute("p_id")==null?"":request.getAttribute("p_id").toString();
+%>
 <script type="text/javascript">
 $( function() {
-
+	var p_id='<%=p_id%>';
+	var tablepath="";
+	var imagepath="";
 	//加载选项卡页面
+	if(p_id==156){
+		tablepath=path+'/prepareData/showData?index_type=2';
+		 imagepath= path+'/prepareData/imageData?index_type=2';
+	}else{
+		tablepath=path+'/prepareData/showData?index_type=3,4,5';
+		imagepath= path+'/prepareData/imageData?index_type=3,4,5';
+	}
 	var srcs = {
-			'表' : path+'/prepareData/showData',
-			'图' : path+'/prepareData/imageData'
+			'表' : tablepath,
+			'图' :imagepath
 	};
 	var Height_Page = $("html").height();
 	var datagrid_height = $("#datagrid_div").position().top;

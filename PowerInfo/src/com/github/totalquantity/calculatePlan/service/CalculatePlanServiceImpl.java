@@ -186,8 +186,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		List<PrepareData> prepareData = prepareDataDao.getAllPrepareData(obj) ;//准备数据
 		JSONObject baseparam = new JSONObject();
 		//92用电量；122,123,124 一、二、三产单耗；128人均用电量
-		baseparam.put("indexs", "92,122,123,124,128");
-		baseparam.put("year", obj.getString("planyear"));
+		baseparam.put("indexs", "107,122,123,124,128");
+		baseparam.put("year", obj.getString("baseyear"));
 		List<QuoteBase> quoteBase = baseDao.queryBaseData(baseparam);//基准年数据
 
 	

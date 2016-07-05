@@ -17,11 +17,14 @@ TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
 String algorithm = tt.getAlgorithm() ;
 String taskid = tt.getId();
 String planyear = tt.getPlanyear();
+String index_type=request.getAttribute("index_type")==null?"":request.getAttribute("index_type").toString();
+
 %>
 <script type="text/javascript">
 var taskid='<%=taskid%>';  //任务号
 var planyear='<%=planyear%>';//规划年
 var algorithm='<%=algorithm%>';//算法
+var index_type='<%=index_type%>';
 //id,taskid,algorithm,year,value from totaldata
 	var cols;
 	var savEvtTime = 0;
@@ -60,7 +63,7 @@ var algorithm='<%=algorithm%>';//算法
 		//非冰冻列
 		cols = createCols(years);
 		//查询条件暂时放外面
-		var queryParams = {"taskid":taskid,"planyear":planyear,"index_type":algorithm};
+		var queryParams = {"taskid":taskid,"planyear":planyear,"index_type":index_type};
 
 		var url = path + '/prepareData/queryData';
 		var Height_Page = $("html").height();

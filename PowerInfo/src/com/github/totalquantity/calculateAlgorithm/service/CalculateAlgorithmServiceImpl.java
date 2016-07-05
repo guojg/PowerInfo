@@ -22,7 +22,7 @@ import com.github.totalquantity.prepareData.entity.PrepareData;
  * 				人均用电量法：avgElectricityConsumption
  * 				平均值法:avgValue
  * 				最优权重法：optimalWeight
- * //92用电量；122,123,124 一、二、三产单耗；128人均用电量
+ * //107用电量；122,123,124 一、二、三产单耗；128人均用电量
  * @author guo
  *
  */
@@ -52,7 +52,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		pdObj.put("index_type", "");//用电量代号 */
 		for(QuoteBase qb :quoteBase){
 			switch(qb.getIndexItem()){
-			case "92" :
+			case "107" :
 				d = qb.getValue() ;
 				break;
 			
@@ -116,7 +116,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		int planyear=obj.getInt("planyear");	//预测年
 		for(QuoteBase qb :quoteBase){
 			switch(qb.getIndexItem()){
-			case "92" :
+			case "107" :
 				baseyearElectricity = qb.getValue() ;
 				break;
 			
@@ -157,7 +157,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		double  avgElectricityConsumption=0;//基准年人均用电量>>>
 		for(QuoteBase qb :quoteBase){
 			switch(qb.getIndexItem()){
-			case "92" :
+			case "128" :
 				avgElectricityConsumption = qb.getValue() ;
 				break;
 			
@@ -198,9 +198,9 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 				break;
 			}
 		}
-		double onePerUnit=1.0;//基准年一产单耗>>>
-		double twoPerUnit=2.0;//基准年二产单耗>>>
-		double threePerUnit=3.0;//基准年三产单耗>>>
+		double onePerUnit=0;//基准年一产单耗>>>
+		double twoPerUnit=0;//基准年二产单耗>>>
+		double threePerUnit=0;//基准年三产单耗>>>
 		double avgElectricityConsumption=0;//基准年人均居民生活用电量>>>
 		
 		for(QuoteBase qb :quoteBase){
@@ -228,13 +228,13 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			String key = list.get(j).getIndex_type() ;
 			String value = list.get(j).getIndex_value();
 			switch(key){
-			case "onePerUnitRate": //一产单耗增长率
+			case "oneProductionRate": //一产单耗增长率
 				onePerUnitRate = Double.parseDouble(value) ;
 				break;
-			case "twoPerUnitRate": //二产单耗增长率
+			case "twoProductionRate": //二产单耗增长率
 				twoPerUnitRate = Double.parseDouble(value) ;
 				break;
-			case "threePerUnitRate": //三产单耗增长率
+			case "threeProductionRate": //三产单耗增长率
 				threePerUnitRate = Double.parseDouble(value) ;
 				break;
 			case "avgElectricityRate": //人均居民生活用电量增长率
