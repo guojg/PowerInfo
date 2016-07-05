@@ -245,7 +245,7 @@
 		if (!validate($('#datagrid'), updates, [ 'index_name' ], 13, 2)) {
 			return;
 		}
-		var param = JSON.stringify(updates);
+		var param = JSONH.stringify(updates);
 		var data = {
 			editObj : param
 		};

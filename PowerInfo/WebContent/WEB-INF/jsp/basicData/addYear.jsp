@@ -43,7 +43,7 @@ function save(){
 
 	
 	
-	var param={"data":JSON.stringify(operationdata)};
+	var param={"data":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
 		  url: path + '/basicData/addyear',

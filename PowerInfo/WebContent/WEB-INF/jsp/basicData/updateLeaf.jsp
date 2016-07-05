@@ -18,16 +18,35 @@ function cancel(){
 	//关闭窗口
 	window.parent.$('#win_div').window('close');
 }
+function isOnly(indexname){
+	var param={index_name:indexname};
+	var flag=true;
+	$.ajax({
+		  type: "post",
+		  url: path + '/basicData/isonly',
+		  data:param,
+		  async:false,
+		  success:function(obj){
+				if(obj.flag==1){
+					flag=false;
+				}
+		  }
+		});
+	return flag;
+}
 function save(){
 	var node = window.parent.$('#tt').tree('getSelected');
 	var operationdata = new Object();
 	operationdata["id"]=node.id;
 	var name =$('#name').val();
+	if(node.text!=name&&!isOnly(name)){
+		window.parent.$.messager.alert('提示','该指标已存在！','info');
+		return ;
+	}
 	operationdata["name"]=name;//节点名称
-	
 	node.text=name;
 	
-	var param={"data":JSON.stringify(operationdata)};
+	var param={"data":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
 		  url: path + '/basicData/updateleaf',

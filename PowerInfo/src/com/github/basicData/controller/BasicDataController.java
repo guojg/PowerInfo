@@ -95,6 +95,19 @@ public class BasicDataController {
 			return "0";
 		}
 	}
+	@RequestMapping(value = "/isonly",produces="application/json;charset=UTF-8")
+	public @ResponseBody String isOnly(HttpServletRequest request) {
+		try {
+			String index_name = request.getParameter("index_name");
+			JSONObject returnobj=new JSONObject();
+			String returnflag=basicDataService.isOnly(index_name) ;
+			returnobj.put("flag", returnflag);
+			return returnobj.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
 	@RequestMapping(value = "/getyears",produces="application/json;charset=UTF-8")
 	public @ResponseBody List<BasicYear> getYears(HttpServletRequest request) {
 		try {
@@ -114,7 +127,7 @@ public class BasicDataController {
 			return null;
 		}
 	}
-	@RequestMapping(value = "/updateleaf")
+	@RequestMapping(value = "/updateleaf",produces="application/json;charset=UTF-8")
 	public @ResponseBody String updateLeaf(HttpServletRequest request) {
 		try {
 			String data = request.getParameter("data");

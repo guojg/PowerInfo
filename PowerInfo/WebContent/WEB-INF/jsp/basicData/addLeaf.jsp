@@ -7,10 +7,27 @@
 </head>
 <%@include file="../common/commonInclude.jsp" %>	
 <script type="text/javascript">
+
 //取消
 function cancel(){
 	//关闭窗口
 	window.parent.$('#win_div').window('close');
+}
+function isOnly(indexname){
+	var param={index_name:indexname};
+	var flag=true;
+	$.ajax({
+		  type: "post",
+		  url: path + '/basicData/isonly',
+		  data:param,
+		  async:false,
+		  success:function(obj){
+				if(obj.flag==1){
+					flag=false;
+				}
+		  }
+		});
+	return flag;
 }
 function save(){
 	var node = window.parent.$('#tt').tree('getSelected');
@@ -19,8 +36,11 @@ function save(){
 	operationdata["tablename"]=node.attributes.tablename;
 	var name =$('#name').val();
 	operationdata["name"]=name;//节点名称
-	
-	var param={"data":JSON.stringify(operationdata)};
+	if(!isOnly(name)){
+		window.parent.$.messager.alert('提示','该指标已存在！','info');
+		return ;
+	}
+	var param={"data":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
 		  url: path + '/basicData/addleaf',
