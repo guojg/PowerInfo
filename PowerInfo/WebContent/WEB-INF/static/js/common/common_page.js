@@ -171,7 +171,7 @@ function forward_add(toAddObj){
 			$(this).window('center');
 		},
 		onClose:function(){
-			$("#win_src").attr("src",commonPath+"/resources/jsp/kong.jsp");
+			//$("#win_src").attr("src",commonPath+"/resources/jsp/kong.jsp");
 		}
 	});
 	$("#win_src").attr("src",toAddObj.url);

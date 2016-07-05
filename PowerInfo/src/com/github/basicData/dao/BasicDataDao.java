@@ -29,4 +29,5 @@ public interface BasicDataDao {
 	public String addYear(JSONObject param) throws Exception;
 	public List<BasicYear> getYears() throws Exception;
 	public List<BasicIndex> getIndexs(String pid) throws Exception;
+	public String isOnly(String name) throws Exception;
 }

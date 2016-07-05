@@ -135,4 +135,10 @@ public class BasicDataServiceImpl implements BasicDataService {
 
 	}
 
+	@Override
+	public String isOnly(String name) throws Exception{
+		// TODO Auto-generated method stub
+		return basicDataDao.isOnly(name);
+	}
+
 }

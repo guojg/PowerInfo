@@ -1,5 +1,7 @@
 package com.github.basicData.dao;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -14,26 +16,33 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.CallableStatementCallback;
+import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 import com.github.basicData.model.BasicData;
 import com.github.basicData.model.BasicIndex;
 import com.github.basicData.model.BasicYear;
 import com.github.common.util.Contans;
+
 @Repository
 public class BasicDataDaoImpl implements BasicDataDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<Map<String, Object>> queryData(JSONObject param) throws Exception {
-        String indexs[]=param.get("indexs")==null?null:param.get("indexs").toString().split(",");
-        
-        String tablename=getTableNameByIndex(indexs[0]);
+	public List<Map<String, Object>> queryData(JSONObject param)
+			throws Exception {
+		String indexs[] = param.get("indexs") == null ? null : param
+				.get("indexs").toString().split(",");
+
+		String tablename = getTableNameByIndex(indexs[0]);
 		StringBuffer sb = new StringBuffer();
-		
+
 		sb.append("SELECT tb.id index_item,tb.name index_name,tb.ORD");
 
 		for (String year : param.get("years").toString().split(",")) {
@@ -43,30 +52,31 @@ public class BasicDataDaoImpl implements BasicDataDao {
 			sb.append(year);
 			sb.append("'");
 		}
-		sb.append("  FROM (SELECT t2.id,t2.name,t2.ORD,t1.value,t1.yr FROM ");		
+		sb.append("  FROM (SELECT t2.id,t2.name,t2.ORD,t1.value,t1.yr FROM ");
 		sb.append(tablename);
 		sb.append("         t1 RIGHT JOIN (");
 		sb.append("         select id,name,ord from sys_menu where id in(");
-		String InSql="";
-		for (int i=0;i<indexs.length;i++) {
-			InSql=InSql+"?,";
+		String InSql = "";
+		for (int i = 0; i < indexs.length; i++) {
+			InSql = InSql + "?,";
 		}
-		sb.append(InSql.substring(0,InSql.length()-1));
+		sb.append(InSql.substring(0, InSql.length() - 1));
 		sb.append("        )");
 		sb.append(" ) t2        ON t1.index_item= t2.id) tb");
 		sb.append(" GROUP BY tb.id,tb.name,tb.ORD");
 
-		
 		return jdbcTemplate.queryForList(sb.toString(), indexs);
 	}
 
-	private String getTableNameByIndex(String index) throws Exception{
-		
-		String sql="SELECT table_name FROM sys_menu WHERE  id=?";
-		
-		return jdbcTemplate.queryForMap(sql, new Object[]{index}).get("table_name").toString();
-		
+	private String getTableNameByIndex(String index) throws Exception {
+
+		String sql = "SELECT table_name FROM sys_menu WHERE  id=?";
+
+		return jdbcTemplate.queryForMap(sql, new Object[] { index })
+				.get("table_name").toString();
+
 	}
+
 	/**
 	 * 保存基础数据业务数据
 	 */
@@ -91,15 +101,16 @@ public class BasicDataDaoImpl implements BasicDataDao {
 				basicdataList.add(basicData);
 			}
 		}
-		String tablename=getTableNameByIndex(rows.getJSONObject(0).get("index_item").toString());
-		executeSQLS(basicdataList,tablename);
+		String tablename = getTableNameByIndex(rows.getJSONObject(0)
+				.get("index_item").toString());
+		executeSQLS(basicdataList, tablename);
 		return "";
 	}
 
 	private BasicData createModel(String indexid, String yr, String value)
 			throws Exception {
 
-		value="".equals(value)?null:value;
+		value = "".equals(value) ? null : value;
 		BasicData basicdata = new BasicData();
 		basicdata.setIndexItem(indexid);
 		basicdata.setYear(yr);
@@ -107,9 +118,11 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		return basicdata;
 	}
 
-	private void executeSQLS(final List<BasicData> basicDatas,String tablename) throws Exception {
+	private void executeSQLS(final List<BasicData> basicDatas, String tablename)
+			throws Exception {
 
-		String deletesql = "delete from "+tablename+" where INDEX_ITEM=? and YR=?";
+		String deletesql = "delete from " + tablename
+				+ " where INDEX_ITEM=? and YR=?";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -129,7 +142,8 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		};
 		jdbcTemplate.batchUpdate(deletesql, setdelete);
 
-		String insertsql = "insert "+tablename+"(INDEX_ITEM,YR,VALUE) VALUES(?,?,?)";
+		String insertsql = "insert " + tablename
+				+ "(INDEX_ITEM,YR,VALUE) VALUES(?,?,?)";
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -214,7 +228,7 @@ public class BasicDataDaoImpl implements BasicDataDao {
 	@Override
 	public String updatLeaf(JSONObject row) throws Exception {
 		// TODO Auto-generated method stub
-		String returnFlag="1";
+		String returnFlag = "1";
 		String id = row.getString("id");
 		String name = row.getString("name");
 		StringBuffer buffer = new StringBuffer();
@@ -222,9 +236,10 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		buffer.append("update shiro.sys_menu");
 		buffer.append(" set name=?");
 		buffer.append(" where id=?");
-		int count=jdbcTemplate.update(buffer.toString(), new Object[] { name, id });
-		if(count<1){
-			returnFlag="0";
+		int count = jdbcTemplate.update(buffer.toString(), new Object[] { name,
+				id });
+		if (count < 1) {
+			returnFlag = "0";
 		}
 		return returnFlag;
 	}
@@ -233,15 +248,17 @@ public class BasicDataDaoImpl implements BasicDataDao {
 	public String deleteLeaf(String id) throws Exception {
 		// TODO Auto-generated method stub
 		StringBuffer buffer = new StringBuffer();
-		String returnFlag="1";
+		String returnFlag = "1";
 		buffer.append("delete from shiro.sys_menu");
 		buffer.append(" where id=? or p_id=?");
-		int count=jdbcTemplate.update(buffer.toString(), new Object[] { id, id });
-		if(count<1){
-			returnFlag="0";
+		int count = jdbcTemplate.update(buffer.toString(), new Object[] { id,
+				id });
+		if (count < 1) {
+			returnFlag = "0";
 		}
 		return returnFlag;
 	}
+
 	/**
 	 * 先删除年份表内数据，然后插入新的年份数据
 	 */
@@ -249,12 +266,12 @@ public class BasicDataDaoImpl implements BasicDataDao {
 	@Override
 	public String addYear(JSONObject row) throws Exception {
 		// TODO Auto-generated method stub
-		String returnFlag="1";
-		String del="delete from shiro.base_year";
+		String returnFlag = "1";
+		String del = "delete from shiro.base_year";
 		jdbcTemplate.update(del);
 		Integer startyear = Integer.parseInt(row.getString("startyear"));
-		Integer endyear =  Integer.parseInt(row.getString("endyear"));
-		final List<BasicYear> years =createYears(startyear,endyear);
+		Integer endyear = Integer.parseInt(row.getString("endyear"));
+		final List<BasicYear> years = createYears(startyear, endyear);
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append("insert into  shiro.base_year");
@@ -277,44 +294,76 @@ public class BasicDataDaoImpl implements BasicDataDao {
 				return years.size();
 			}
 		};
-		int count[]=jdbcTemplate.batchUpdate(buffer.toString(), setinsert);
-		
-		if(count.length<1){
-			returnFlag="0";
+		int count[] = jdbcTemplate.batchUpdate(buffer.toString(), setinsert);
+
+		if (count.length < 1) {
+			returnFlag = "0";
 		}
 		return returnFlag;
 	}
-	
-	private List<BasicYear> createYears(Integer startyear,Integer endyear){
-	    List<BasicYear> years=new ArrayList<BasicYear>();
-	    for(int year=startyear;year<=endyear;year++){
-	    	BasicYear basicyear=new BasicYear();
-	    	basicyear.setYear(year+"");
-	    	basicyear.setYearName(year+Contans.YEARUNIT);
-	    	years.add(basicyear);
-	    }
+
+	private List<BasicYear> createYears(Integer startyear, Integer endyear) {
+		List<BasicYear> years = new ArrayList<BasicYear>();
+		for (int year = startyear; year <= endyear; year++) {
+			BasicYear basicyear = new BasicYear();
+			basicyear.setYear(year + "");
+			basicyear.setYearName(year + Contans.YEARUNIT);
+			years.add(basicyear);
+		}
 		return years;
 	}
 
 	@Override
 	public List<BasicYear> getYears() throws Exception {
 		// TODO Auto-generated method stub
-		
-		String sql="select year,year_name from base_year";
-		List<BasicYear>list =jdbcTemplate.query(sql, new BeanPropertyRowMapper(BasicYear.class));
+
+		String sql = "select year,year_name from base_year";
+		List<BasicYear> list = jdbcTemplate.query(sql,
+				new BeanPropertyRowMapper(BasicYear.class));
 		return list;
 	}
 
 	@Override
 	public List<BasicIndex> getIndexs(final String pid) throws Exception {
 		// TODO Auto-generated method stub
-		String sql="";
+		String sql = "";
 		if (isLeaf(pid) == 1) {
-			sql="select id index_item,name index_name from sys_menu where p_id=?";
+			sql = "select id index_item,name index_name from sys_menu where p_id=?";
 		} else {
-			sql="select id index_item,name index_name  from sys_menu where id=?";
+			sql = "select id index_item,name index_name  from sys_menu where id=?";
 		}
-		List<BasicIndex> list =jdbcTemplate.query(sql,new Object[]{pid}, new BeanPropertyRowMapper(BasicIndex.class));
+		List<BasicIndex> list = jdbcTemplate.query(sql, new Object[] { pid },
+				new BeanPropertyRowMapper(BasicIndex.class));
 		return list;
+	}
+
+	@Override
+	public String isOnly(String name) throws Exception {
+		StringBuffer sb = new StringBuffer();
+		String flag="1";
+		// this.jdbcTemplate.execute("call pro_show_childLst(?)");
+		this.jdbcTemplate.execute(new CallableStatementCreator() {
+			public CallableStatement createCallableStatement(Connection con)
+					throws SQLException {
+				String storedProc = "{call pro_show_childLst(?)}";// 调用的sql
+				CallableStatement cs = con.prepareCall(storedProc);
+				cs.setInt(1, 1);// 设置输入参数的值
+				return cs;
+			}
+		}, new CallableStatementCallback() {
+			public Object doInCallableStatement(CallableStatement cs)
+					throws SQLException, DataAccessException {
+				cs.execute();
+				return null;// 获取输出参数的值
+			}
+
+		});
+
+		sb.append("  SELECT count(1)  FROM tmpLst,shiro.sys_menu WHERE tmpLst.id=shiro.sys_menu.id and sys_menu.name like ?");
+		int count= jdbcTemplate.queryForInt(sb.toString(),new Object[]{name});
+		if(count<=0){
+			flag="0";
+		}
+		return flag;
 	}
 }

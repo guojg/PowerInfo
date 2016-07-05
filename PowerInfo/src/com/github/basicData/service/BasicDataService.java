@@ -29,4 +29,6 @@ public interface BasicDataService {
 	public List<BasicIndex> getIndexs(String pid) throws Exception;
 	
 	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
+	
+	public String isOnly(String name) throws Exception;
 }
