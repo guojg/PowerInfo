@@ -58,9 +58,10 @@ $(function() {
 			data: param,
 			url :  '/PowerInfo/task/saveData',
 			success : function(data) {
-				$.messager.alert('提示','新增成功！','info');
+				window.parent.$.messager.alert('提示','新增成功！','info');
 				//关闭窗口
 				window.parent.$('#win_div').window('close');
+				window.parent.$('#datagrid').datagrid('reload');
 			
 			}
 		});

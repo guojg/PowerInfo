@@ -1,6 +1,7 @@
 package com.github.totalquantity.calculatePlan.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -184,47 +185,68 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	 */
 	public List<TotalData> calculateCondition(List<CalculatePlan>m,JSONObject obj){
 		List<PrepareData> prepareData = prepareDataDao.getAllPrepareData(obj) ;//准备数据
+		String algorithm = obj.getString("algorithm");
+		String[] algorithmArray = algorithm.split(",");
+		Arrays.sort(algorithmArray);
 		JSONObject baseparam = new JSONObject();
 		//92用电量；122,123,124 一、二、三产单耗；128人均用电量
 		baseparam.put("indexs", "107,122,123,124,128");
 		baseparam.put("year", obj.getString("baseyear"));
 		List<QuoteBase> quoteBase = baseDao.queryBaseData(baseparam);//基准年数据
-
-	
-		/*
-		 * 平均增长率法
-		 */
-		List<Map<String,Double>> list = new ArrayList<Map<String,Double>>();
 		List<TotalData> resultList = new ArrayList<TotalData>();//插入数据库的集合
-		double	d1=calculateAlgorithmService.averageGrowthRate(quoteBase,obj,m);
 		Map<String,Double> map = new HashMap<String,Double>();
-		map.put("1", d1);
-		/*
-		 * 产值单耗法
-		 */
-		double	d2 = calculateAlgorithmService.productionValuePerUnitConsumption(quoteBase,prepareData,obj,m);
-		map.put("2", d2);
-		/*
-		 * 弹性系数法
-		 */
-		double d3 =calculateAlgorithmService.elasticityCoefficient(quoteBase,obj,m);
-		map.put("3", d3);
-		/*
-		 * 人均用电量法	
-		 */
-		double d4 =calculateAlgorithmService.avgElectricityConsumption(quoteBase,prepareData,obj,m);
-		map.put("4", d4);
-		list.add(map);
-		/*
-		 * 平均值法
-		 */
-		double d5 =calculateAlgorithmService.avgValue(list);
-		/*
-		 * 最优权重法
-		 */
-		double d6 =calculateAlgorithmService.optimalWeight(list, m);
-		map.put("5", d5);
-		map.put("6", d6);
+		List<Map<String,Double>> list = new ArrayList<Map<String,Double>>();
+		for(String str : algorithmArray){
+			switch(str){
+			case "1":
+			/*
+			 * 平均增长率法
+			 */
+			
+			double	d1=calculateAlgorithmService.averageGrowthRate(quoteBase,obj,m);
+			map.put("1", d1);
+			break;
+			case "2":
+			/*
+			 * 产值单耗法
+			 */
+			double	d2 = calculateAlgorithmService.productionValuePerUnitConsumption(quoteBase,prepareData,obj,m);
+			map.put("2", d2);
+			break;
+			case "3":
+			/*
+			 * 弹性系数法
+			 */
+			double d3 =calculateAlgorithmService.elasticityCoefficient(quoteBase,obj,m);
+			map.put("3", d3);
+			break;
+			case "4":
+			/*
+			 * 人均用电量法	
+			 */
+			double d4 =calculateAlgorithmService.avgElectricityConsumption(quoteBase,prepareData,obj,m);
+			map.put("4", d4);
+			list.add(map);
+			break;
+			case "5":
+			/*
+			 * 平均值法
+			 */
+			double d5 =calculateAlgorithmService.avgValue(list);
+			map.put("5", d5);
+			break;
+			case "6":
+			/*
+			 * 最优权重法
+			 */
+			double d6 =calculateAlgorithmService.optimalWeight(list, m);
+		
+			map.put("6", d6);
+			break;
+			}
+		}
+	
+	
 		int planyear=obj.getInt("planyear");	//预测年
 		String taskid=obj.getString("taskid");	//预测年
 		for (String key : map.keySet()) {

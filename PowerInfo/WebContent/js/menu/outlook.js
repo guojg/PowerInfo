@@ -149,6 +149,9 @@ function InitTreeData(data) {
 						left : e.pageX,
 						top : e.pageY
 					});
+				},onLoadSuccess:function(){
+					var rooNode = $("#tt").tree('getRoot');
+					$("#tt").tree("expand",rooNode.target);  
 				}
 				
 
