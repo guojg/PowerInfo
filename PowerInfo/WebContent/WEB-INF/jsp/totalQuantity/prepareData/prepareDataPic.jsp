@@ -1,24 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<title>图表生成</title>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" /> 
+		
 		<!-- 加载CSS -->
 		<%@include file="../../common/commonInclude.jsp" %>	
 		<% 
-TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
-String algorithm = tt.getAlgorithm() ;
-String taskid = tt.getId();
-String planyear = tt.getPlanyear();
-String index_type=request.getAttribute("index_type")==null?"":request.getAttribute("index_type").toString();
-
-%>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/icon.css" />
+		TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
+		String algorithm = tt.getAlgorithm() ;
+		String taskid = tt.getId();
+		String planyear = tt.getPlanyear();
+		String index_type=request.getAttribute("index_type")==null?"":request.getAttribute("index_type").toString();
+		
+		%>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/icon.css" />
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/farbtastic/farbtastic.css" />
-		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/css//button.css" >
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/css/button.css" >
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/chart.css" />
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css" />
 		<script type="text/javascript">
@@ -79,7 +80,8 @@ String index_type=request.getAttribute("index_type")==null?"":request.getAttribu
 					</tr>
 				</table>
 			</fieldset>
-			<div id="container" style="width: 80%; height: 70%"></div>
+			<div id="container" style="width: 80%; height: 70%">
+			</div>
 
 
 			<script type="text/javascript"

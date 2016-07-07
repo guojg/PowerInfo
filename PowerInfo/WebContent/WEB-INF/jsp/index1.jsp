@@ -108,11 +108,19 @@ var _menus = '';
         background: #F3F3F7 repeat-x center 50%;
         line-height: 20px;color: #F3F3F7; font-family: Verdana, 微软雅黑,黑体">
        <!--  <span style="float:right; padding-right:20px;" class="head">欢迎[<shiro:principal/>] <a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a></span> -->
-        <span  style="float:left;margin:0;padding:0"><img id="logo1" src="static/images/top_01.png" /></span>
-		<ul id="css3menu" style="list-style:none;margin:0;padding:0;width:100%; " >
-				<li style="float:left"><img name="basic" src="static/images/top_02.png" title="基础数据"/></li>
-				<li><img name="totalQuantity" src="static/images/top_03.png"  title="电力需求预测"/></li>
+	<div  style="float:left;width:23%;min-width:240px">
+        <!--  <span  style="float:left;margin:0;padding:0"><img id="logo1" src="static/images/top_01.png" /></span>-->
+        <img id="logo1" src="static/images/top_01.png" />
+	</div>
+	<div  style="float:left;width:55%">
+		<ul id="css3menu" style="list-style:none;margin:0;padding:0; " >
+				<li style="float:left;margin:0;padding:0;"><img name="basic"  style="display:inline-blocks" src="static/images/top_02.png" title="基础数据"/></li>
+				<li style="float:left;margin:0;padding:0;"><img name="totalQuantity" style="display:inline-blocks" src="static/images/top_03.png"  title="电力需求预测"/></li>
 		</ul>
+	</div>
+	<div  style="float:right;width:21%;min-width:225px">
+	<a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a>
+	</div>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
         <div class="footer"></div>

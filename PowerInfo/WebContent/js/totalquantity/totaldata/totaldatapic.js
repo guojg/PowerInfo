@@ -1,6 +1,5 @@
 // 图表
 var chart;
-var _$ = window.parent.frames["iframe0"].jQuery;
 var areas = [];
 
 // 图表固定配置
@@ -92,7 +91,7 @@ function getSettings() {
 										'$1="rgb($2)" $1-opacity="$3"');
 					});
 	var pic_type = $("#pic_type").combo("getValue");
-	var data = loadData(_$('#datagrid'), pic_type, 0, true);
+	var data = loadData( pic_type, 0, true);
 	var settings = {};
 	settings.title = {
 		text : ""
@@ -156,7 +155,7 @@ function createXLastLevel(years) {
 /**
  * 加载数据
  */
-function loadData($datagrid, chartType, yIndex, isInit) {
+function loadData( chartType, yIndex, isInit) {
 	var data=[];
 	var queryParams = {"taskid":taskid,"planyear":planyear,"index_type":"1,2,3,4,5,6"};
 
