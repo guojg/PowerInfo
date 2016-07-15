@@ -3,10 +3,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
- <head id="Head1">
+ <head >
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>区域电力市场预测分析平台</title>
-    <link href="Css/default.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/PowerInfo/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
     <link rel="stylesheet" type="text/css" href="/PowerInfo/static/js/jquery-easyui-1.4/themes/icon.css" />
     <script type="text/javascript" src="/PowerInfo/static/js/jquery-easyui-1.4/jquery-1.8.3.js"></script>
@@ -40,34 +39,6 @@ var _menus = '';
 
         
 
-        //修改密码
-        function serverLogin() {
-            var $newpass = $('#txtNewPass');
-            var $rePass = $('#txtRePass');
-
-            if ($newpass.val() == '') {
-                msgShow('系统提示', '请输入密码！', 'warning');
-                return false;
-            }
-            if ($rePass.val() == '') {
-                msgShow('系统提示', '请在一次输入密码！', 'warning');
-                return false;
-            }
-
-            if ($newpass.val() != $rePass.val()) {
-                msgShow('系统提示', '两次密码不一至！请重新输入', 'warning');
-                return false;
-            }
-
-            $.post('/ajax/editpassword.ashx?newpass=' + $newpass.val(), function(msg) {
-                msgShow('系统提示', '恭喜，密码修改成功！<br>您的新密码为：' + msg, 'info');
-                $newpass.val('');
-                $rePass.val('');
-                close();
-            })
-            
-        }
-
         $(function() {
 
             openPwd();
@@ -96,33 +67,81 @@ var _menus = '';
 
     </script>
 <Style>
+.lll{
+background-attachment:scroll;
+background-repeat:no-repeat;
+background-size:auto;
+background-origin:padding-box;
+background-clip:border-box;
+vertical-align:top;
+}
 
+#css3menu{
+list-style:none;
+margin:0;
+padding:0; 
+box-sizing:border-box;
+
+
+}
+
+#css3menu  li{
+height:78px;
+float:left;
+margin:0;
+padding:0;
+width:90px;
+box-sizing:border-box;
+}
+a{
+display:inline-block;
+text-decoration:none;
+}
 </style>
 </head>
 <body class="easyui-layout" style="overflow-y: hidden"  scroll="no">
-<noscript>
-<div style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
-    <img src="images/noscript.gif" alt='抱歉，请开启脚本支持！' />
-</div></noscript>
-    <div region="north" split="true" border="false" style="overflow: hidden; height: 80px;
-        background: #F3F3F7 repeat-x center 50%;
-        line-height: 20px;color: #F3F3F7; font-family: Verdana, 微软雅黑,黑体">
-       <!--  <span style="float:right; padding-right:20px;" class="head">欢迎[<shiro:principal/>] <a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a></span> -->
-        <span  style="float:left;margin:0;padding:0"><img id="logo1" src="static/images/top_01.png" /></span>
-		<ul id="css3menu" style="list-style:none;margin:0;padding:0;width:100%; " >
-				<li style="float:left"><img name="basic" src="static/images/top_02.png" title="基础数据"/></li>
-				<li><img name="totalQuantity" src="static/images/top_03.png"  title="电力需求预测"/></li>
+
+    <div region="north" border="false" style="overflow: hidden; height: 78px;
+        background: #3385FF;
+        line-height: 20px;color: #3385FF; font-family: Verdana, 微软雅黑,黑体">
+     <div  style="float:left;width:23%;min-width:240px;height:100%; ">
+         <span  style="float:left;margin:0;padding:0"><img id="logo1" src="static/images/top_0.png" /></span>
+	</div>
+	<div  style="float:left;width:55%;height:100%;text-align:center;">
+		<ul id="css3menu">
+				<li ><a name="basic" href="#">
+				<span class="lll"><img src="static/images/1.jpg" style="width:40px;height:50px"></span>
+				<span style="display: block;margin-top: 0px"> 基 础 数 据 </span></a></li>
+				<li style="float:left;margin:0;padding:0;">
+				<a name="totalQuantity" href="#">
+					<span  class="lll"><img src="static/images/blocks.gif"></img></span>
+					<span style="display: block;margin-top: 0px">电力需求预测</span>
+				</a></li>
+				<li style="float:left;margin:0;padding:0;">
+				<a name="balance" href="#">
+					<span  class="lll"><img src="static/images/blocks.gif"></img></span>
+					<span style="display: block;margin-top: 0px">电力电量平衡</span>
+				</a></li>
+				<li style="float:left;margin:0;padding:0;">
+				<a name="station" href="#">
+					<span  class="lll"><img src="static/images/1.gif"></img></span>
+					<span style="display: block;margin-top: 0px">区域电厂竞争力</span>
+				</a></li>
 		</ul>
+	</div>
+	<div  style="float:right;width:21%;min-width:225px;height:100%;">
+	<a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a>
+	</div>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
         <div class="footer"></div>
     </div>
     <div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west">
-<div id='wnav' class="easyui-accordion" fit="true" border="false">
-<ul id='tt'></ul>
+		<div id='wnav' class="easyui-accordion" fit="true" border="false">
+				<ul id='tt'></ul>
 		<!--  导航内容 -->
 				
-			</div>
+		</div>
 
     </div>
     <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
@@ -135,43 +154,7 @@ var _menus = '';
 		</div>
     </div>
     
-    
-    <!--修改密码窗口-->
-    <div id="w" class="easyui-window" title="修改密码" collapsible="false" minimizable="false"
-        maximizable="false" icon="icon-save"  style="width: 300px; height: 150px; padding: 5px;
-        background: #fafafa;">
-        <div class="easyui-layout" fit="true">
-            <div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc;">
-                <table cellpadding=3>
-                    <tr>
-                        <td>新密码：</td>
-                        <td><input id="txtNewPass" type="Password" class="txt01" /></td>
-                    </tr>
-                    <tr>
-                        <td>确认密码：</td>
-                        <td><input id="txtRePass" type="Password" class="txt01" /></td>
-                    </tr>
-                </table>
-            </div>
-            <div region="south" border="false" style="text-align: right; height: 30px; line-height: 30px;">
-                <a id="btnEp" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" >
-                    确定</a> <a id="btnCancel" class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)">取消</a>
-            </div>
-        </div>
-    </div>
 
-	<div id="mm" class="easyui-menu" style="width:150px;">
-		<div id="mm-tabupdate">刷新</div>
-		<div class="menu-sep"></div>
-		<div id="mm-tabclose">关闭</div>
-		<div id="mm-tabcloseall">全部关闭</div>
-		<div id="mm-tabcloseother">除此之外全部关闭</div>
-		<div class="menu-sep"></div>
-		<div id="mm-tabcloseright">当前页右侧全部关闭</div>
-		<div id="mm-tabcloseleft">当前页左侧全部关闭</div>
-		<div class="menu-sep"></div>
-		<div id="mm-exit">退出</div>
-	</div>
 	<div id="treemm" class="easyui-menu" style="width:140px;">
 		<div onclick="append()"  iconcls="icon-add">添加节点</div>
 		<div onclick="update()" iconcls="icon-edit">修改节点</div>

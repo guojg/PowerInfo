@@ -27,11 +27,15 @@ public class CalculatePlanController {
 	 public void saveData(HttpServletRequest request, HttpServletResponse response){
 			
 			String param = request.getParameter("param")!=null?request.getParameter("param"):"";
+			String algorithmRadio = request.getParameter("algorithmRadio")!=null?request.getParameter("algorithmRadio"):"";
+			TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
+			tt.setAlgorithmRadio(algorithmRadio);
+			
 			JSONArray  array=JSONArray.fromObject(param);
 			String	resultJson ="";
 			try {
 				PrintWriter pw = response.getWriter();
-				calculatePlanService.saveData(array);
+				calculatePlanService.saveData(array,tt);
 				resultJson ="1";
 				pw.write(resultJson);
 				pw.flush();

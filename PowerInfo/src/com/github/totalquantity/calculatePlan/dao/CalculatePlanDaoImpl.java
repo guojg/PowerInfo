@@ -33,7 +33,8 @@ public class CalculatePlanDaoImpl implements CalculatePlanDao{
 		            ps.setString(1, list.get(i).getTaskid());//任务号
 		            ps.setString(2, list.get(i).getAlgorithm());//算法代号
 		            ps.setString(3, list.get(i).getIndex_type());//算法参数key
-		            ps.setString(4, list.get(i).getIndex_value());//算法参数值
+		           // ps.setDouble(4, list.get(i).getIndex_value());//算法参数值
+		        	ps.setObject(4, "".equals(list.get(i).getIndex_value())?null:list.get(i).getIndex_value());
 		          }
 		          public int getBatchSize() {
 		            return list.size();
@@ -61,7 +62,8 @@ public class CalculatePlanDaoImpl implements CalculatePlanDao{
                     	CalculatePlan cp = new CalculatePlan();
                     	cp.setAlgorithm(rs.getString("Algorithm"));
                     	cp.setIndex_type(rs.getString("index_type"));
-                    	cp.setIndex_value(rs.getString("index_value"));
+                    	//cp.setIndex_value(rs.getDouble("index_value"));
+                    	cp.setIndex_value(rs.getString("index_value")==null?null:rs.getDouble("index_value"));
                     	cp.setTaskid(rs.getString("taskid"));
                        
  

@@ -9,7 +9,7 @@ public class CalculatePlan {
 	private String taskid ;
 	private String algorithm;
 	private String index_type ;
-	private String index_value ;
+	private Double index_value ;
 	
 	public String getTaskid() {
 		return taskid;
@@ -29,10 +29,10 @@ public class CalculatePlan {
 	public void setIndex_type(String index_type) {
 		this.index_type = index_type;
 	}
-	public String getIndex_value() {
+	public Double getIndex_value() {
 		return index_value;
 	}
-	public void setIndex_value(String index_value) {
+	public void setIndex_value(Double index_value) {
 		this.index_value = index_value;
 	}
 	

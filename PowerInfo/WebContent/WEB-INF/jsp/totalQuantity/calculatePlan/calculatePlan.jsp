@@ -69,8 +69,13 @@
 						   </tr>
 					</table> 
 				</td>
-				<td>	
-
+				<td>
+					<table id="4">
+						<tr><td colspan="2">期望增长率</td></tr>
+						   <tr> <td class="tdlft">最大值：</td> <td class="tdrgt"><input  type="text" name="maxRate4" id="maxRate4"></td></tr>
+						    <tr> <td  class="tdlft">最小值：</td> <td class="tdrgt"><input  type="text" name="minRate4" id="minRate4"></td></tr>
+						 <tr> <td class="tdlft">最可能值：</td> <td class="tdrgt"><input  type="text" name="possibleRate4" id="possibleRate4"></td></tr>
+					</table> 
 				</td>
 			</tr>
 			<tr>

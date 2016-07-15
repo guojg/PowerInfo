@@ -83,16 +83,46 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 				double b=0d;
 				for(int j= 0 ; j<list.size() ; ++j){
 					String key = list.get(j).getIndex_type() ;
-					String value = list.get(j).getIndex_value();
+					Double value = list.get(j).getIndex_value();
 					switch(key){
 					case "maxRate": //最大值
-						a = Double.parseDouble(value) ;
+						a = value;
 						break;
 					case "minRate"://最小值
-						b = Double.parseDouble(value) ;
+						b = value ;
 						break;
 					case "possibleRate"://最可能值
-						m = Double.parseDouble(value) ;
+						m = value ;
+						break;
+					}	
+				}
+				double i= (a+4*m+b)/6;
+		return i ;
+	}
+	
+	/**
+	 * 人均用电量法：主观概率计算i=(a+4m+b)/6
+	 * 其中：最大值　ａ
+　	 *       最小值　ｂ
+　　  *　          最可能值 ｍ
+	 */
+	
+	public  double avgSubjectiveConcept(List<CalculatePlan> list){
+				double a=0d;
+				double m=0d;
+				double b=0d;
+				for(int j= 0 ; j<list.size() ; ++j){
+					String key = list.get(j).getIndex_type() ;
+					Double value = list.get(j).getIndex_value();
+					switch(key){
+					case "avgMaxRate": //最大值
+						a = value ;
+						break;
+					case "avgMinRate"://最小值
+						b = value ;
+						break;
+					case "avgPossibleRate"://最可能值
+						m = value ;
 						break;
 					}	
 				}
@@ -124,13 +154,13 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		}
 		for(int j= 0 ; j<list.size() ; ++j){
 			String key = list.get(j).getIndex_type() ;
-			String value = list.get(j).getIndex_value();
+			Double value = list.get(j).getIndex_value();
 			switch(key){
 			case "coefficient": //电力弹性系数
-				coefficient = Double.parseDouble(value) ;
+				coefficient = value ;
 				break;
 			case "incrementSpeed"://国内生产总值平均年增长速度
-				incrementSpeed = Double.parseDouble(value) ;
+				incrementSpeed = value ;
 				break;
 			}
 		}
@@ -163,7 +193,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			
 			}
 		}
-		double i= subjectiveConcept(list);
+		double i= avgSubjectiveConcept(list);
 		result = avgElectricityConsumption*Math.pow(1+i, planyear-baseyear)*planPeople;
 		return result;
 	}
@@ -226,19 +256,20 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 
 		for(int j= 0 ; j<list.size() ; ++j){
 			String key = list.get(j).getIndex_type() ;
-			String value = list.get(j).getIndex_value();
+			System.out.println("----"+key);
+			Double value = list.get(j).getIndex_value();
 			switch(key){
 			case "oneProductionRate": //一产单耗增长率
-				onePerUnitRate = Double.parseDouble(value) ;
+				onePerUnitRate =value;
 				break;
 			case "twoProductionRate": //二产单耗增长率
-				twoPerUnitRate = Double.parseDouble(value) ;
+				twoPerUnitRate = value ;
 				break;
 			case "threeProductionRate": //三产单耗增长率
-				threePerUnitRate = Double.parseDouble(value) ;
+				threePerUnitRate = value ;
 				break;
 			case "avgElectricityRate": //人均居民生活用电量增长率
-				avgElectricityRate =Double.parseDouble(value) ;
+				avgElectricityRate =value;
 				break;
 			}
 		}
@@ -290,11 +321,11 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		}*/
 		for(CalculatePlan cp : weightlist){
 			String index_type = cp.getIndex_type() ;
-			String index_value = cp.getIndex_value() ;
+			Double index_value = cp.getIndex_value() ;
 			for(Map<String,Double> m : list){
 				for (String key : m.keySet()) {
 					if(index_type.equals("weight"+key) && index_value!=null && !"".equals(index_value)){
-						result += m.get(key).doubleValue()*Double.parseDouble(index_value);
+						result += m.get(key).doubleValue()*index_value;
 					}
 				}
 			}

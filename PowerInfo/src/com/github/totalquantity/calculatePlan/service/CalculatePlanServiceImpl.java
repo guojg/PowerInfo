@@ -21,6 +21,8 @@ import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
 import com.github.totalquantity.common.Containts;
 import com.github.totalquantity.prepareData.dao.PrepareDataDao;
 import com.github.totalquantity.prepareData.entity.PrepareData;
+import com.github.totalquantity.task.dao.TaskDao;
+import com.github.totalquantity.task.entity.TotalTask;
 import com.github.totalquantity.totaldata.dao.TotalDataDao;
 import com.github.totalquantity.totaldata.entity.TotalData;
 /**
@@ -38,6 +40,9 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	private TotalDataDao totalDataDao;
 	@Autowired
 	private BaseDao baseDao;
+	@Autowired
+	private TaskDao taskDao;
+	
 	
 	@Autowired
 	private CalculateAlgorithmService calculateAlgorithmService;
@@ -45,10 +50,11 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	 * 保存
 	 */
 	@Override
-	public void saveData(JSONArray array) {
+	public void saveData(JSONArray array,TotalTask task ) {
 		
 		List<CalculatePlan> list =  this.getCalculatePlanList(array);
 		calculatePlanDao.saveData(list);
+		taskDao.updateData(task);
 	}
 	
 	/**
@@ -78,7 +84,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 				  cp.setTaskid(taskid); 
 				  cp.setAlgorithm(algorithm);
 				  cp.setIndex_type(key);   //输入key
-				  cp.setIndex_value(value);//输入值
+				  cp.setIndex_value("".equals(value)?null:Double.parseDouble(value));
+
 				 list.add(cp) ;
 			  } 
 		}

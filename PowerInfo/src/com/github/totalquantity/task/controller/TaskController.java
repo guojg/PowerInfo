@@ -1,10 +1,7 @@
 package com.github.totalquantity.task.controller;
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,20 +22,11 @@ public class TaskController {
 	 private TaskService taskService ;
 	 
 	@RequestMapping(value ="/queryData")
-	public void queryData(HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody String queryData(HttpServletRequest request, HttpServletResponse response){
 		response.setCharacterEncoding("UTF-8");
-		//String jsonParam	= request.getParameter("jsonParam");
 		JSONObject obj = new JSONObject();
-		String	resultJson ="";
-		try {
-			PrintWriter pw = response.getWriter();
-			resultJson = taskService.queryData(obj);
-			pw.write(resultJson);
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return taskService.queryData(obj);
+		
 	}
 	@RequestMapping(value ="/saveData")
 	public void saveData(HttpServletRequest request, HttpServletResponse response){
@@ -54,13 +41,7 @@ public class TaskController {
         task.setPlanyear(planyear);
         task.setAlgorithm(algorithm);
         taskService.saveData(task);
-		//String param = request.getParameter("abc")!=null?request.getParameter("abc"):"";
-		 // JSONObject jb=new JSONObject();
-		  //  JSONArray array=(JSONArray)jb.fromObject(param).get("allMenu");
-		//JSONArray  array=JSONArray.fromObject(param);
-		//JSONObject obj = (JSONObject) array.get(0);
-		//obj.get("1");
-		//System.out.println(obj.get("1"));
+
 	}
 	@RequestMapping("/exportData")
 	public void exportData(HttpServletRequest request, HttpServletResponse response){
@@ -81,15 +62,19 @@ public class TaskController {
 	public @ResponseBody void taskDetail(HttpServletRequest request, HttpServletResponse response){
 		 //return "basicData/nationalEconomy/nationalEconomyMain";
 			String baseyear = request.getParameter("baseyear")==null?"":request.getParameter("baseyear");
+			String task_name = request.getParameter("task_name")==null?"":request.getParameter("task_name");
 			String planyear = request.getParameter("planyear")==null?"":request.getParameter("planyear");
 			String algorithm = request.getParameter("algorithm")==null?"":request.getParameter("algorithm");
 			String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
+			String algorithmRadio = request.getParameter("algorithmRadio")==null?"":request.getParameter("algorithmRadio");
+			request.getSession().removeAttribute("totaltask");
 			TotalTask tt = new TotalTask();
 			tt.setBaseyear(baseyear);
+			tt.setTask_name(task_name);
 			tt.setId(taskid);
 			tt.setPlanyear(planyear);
 			tt.setAlgorithm(algorithm);
-			request.getSession().removeAttribute("totaltask");
+			tt.setAlgorithmRadio(algorithmRadio);
 			request.getSession().setAttribute("totaltask", tt);
 	}
 	

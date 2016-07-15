@@ -19,8 +19,7 @@
 		align : 'center',
 		formatter: function(value,row,index){
 
-
-    		return '<a href="#" onclick="detail('+row.baseyear+','+row.id+','+row.planyear+',\''+row.algorithm+'\')">'+value+'</a> ';
+    		return '<a href="#" onclick="detail(\''+row.task_name+"\',"+row.baseyear+','+row.id+','+row.planyear+",\'"+row.algorithmradio+'\',\''+row.algorithm+'\')">'+value+'</a> ';
 		}
 	} ] ];
 	
@@ -95,12 +94,14 @@
 		});
 	}
 
-	function detail(baseyear,id,planyear,algorithm){
+	function detail(task_name,baseyear,id,planyear,algorithmradio,algorithm){
 		var param={
 				"baseyear":baseyear,
 				"planyear":planyear,
 				"algorithm":algorithm,
-				"taskid":id
+				'algorithmRadio':algorithmradio,
+				"taskid":id,
+				"task_name":task_name
 		};
 		$.ajax({
 			 type : 'POST',

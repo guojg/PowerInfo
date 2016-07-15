@@ -13,5 +13,6 @@ public interface TaskDao {
 	public void saveData(TotalTask task);
 
 	public List<Map<String, Object>> queryData(JSONObject param);
+	public void updateData(TotalTask task);
 	
 }

@@ -2,15 +2,15 @@
 	//getAccordion("basic");
 	tabClose();
 	tabCloseEven();
-	var keyValue={"basic":1,"totalQuantity":4};
+	var keyValue={"basic":1,"totalQuantity":4,"balance":159,"station":168};
 	$('#css3menu').css("margin-left", $('#logo1').width());
-	$('#css3menu img').click(function() {
-		$('#css3menu img').removeClass('active');
+	$('#css3menu a').click(function() {
+		$('#css3menu a').removeClass('active');
 		$(this).addClass('active');
 		//getAccordion($(this).attr('name'));
 		//var d = _menus[$(this).attr('name')];
 		var d = $(this).attr('name') ;
-		
+		$(this).css("background","#65B292");
 		Clearnav();
 		addNav(keyValue[d]);
 		InitLeftMenu();
@@ -21,7 +21,8 @@
 		animate : false
 	});
 
-	var firstMenuName = $('#css3menu img:first').attr('name');
+	var firstMenuName = $('#css3menu a:first').attr('name');
+	$('#css3menu a:first').css("background","#C56FA5");
 	addNav(keyValue[firstMenuName]);
 	InitLeftMenu();
 });

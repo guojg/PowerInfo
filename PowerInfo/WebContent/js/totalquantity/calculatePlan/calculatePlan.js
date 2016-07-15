@@ -5,26 +5,22 @@ $(function() {
 	/*
 	 * 给算法复选框赋值
 	 */
-	var trHtml="<tr><td></td><td></td><td><table id='6'>";
-	for (var i=0 ; i<algorithms.length;++i){
-		$("input:checkbox[value="+algorithms[i]+"]").attr('checked','true');		
-		
-		if(algorithms[i]==6){
-			/*
-			 * 追加权重
-			 */
-			trHtml+="</td></div> </tr>";
-			addTr(trHtml);
-		}else if(algorithms[i]==5){
-			
-		}else{
-			trHtml +="<tr> <td class='tdlft'> "+algorithmJson[algorithms[i]]+"权重：</td> " +
-					"<td class='tdrgt'>" +
-					"<input type='text' name='weight"+algorithms[i]+"' id='weight"+algorithms[i]+"' >" +
-					"</td></tr>";
-		}
+	//var trHtml="<tr><td></td><td class='bs3'></td><td class='bs3'><table id='6' class='bs2'>";
+	
+	 if(algorithmRadio!=null && algorithmRadio!=""){
+			$("input:radio[value="+algorithmRadio+"]").attr('checked','true');
+			/*if(algorithmRadio=="5"){
+				removeTr();
+			}else{
+				addWeight();
+			}*/
 	}
+		addWeight();
+	
+
+
 	init();
+	
 	/*
 	 * 将复选框置灰和未被选中的复选框对应的div设置不可编辑，置灰
 	 */
@@ -41,6 +37,7 @@ $(function() {
 			});
 		}
 	}
+	
 
 });
 /*
@@ -54,21 +51,57 @@ function addTr(trHtml){
     }
     $tr.after(trHtml);
  }
+/*
+ * 追加行
+ */
+function removeTr(){
+    var $tr=$("#bbb");
+    if($tr.size()==0){
+       alert("指定的table id或行数不存在！");
+       return;
+    }
+    //$tr.css('display','none');
+    $tr.remove();
+ }
+
+function addTd(trHtml){
+    var $tr=$("#calculateTable tr:last");
+    $tr.each(function (i) { 
+    	var  $td=$(this).children("td:eq(1)"); 
+    	$td.append(trHtml);
+    	}); 
+ 
+ }
+
+function addWeight(){
+	var trHtml="<table id='6' class='bs2'>";
+	for (var i=0 ; i<algorithms.length;++i){
+		$("input:checkbox[value="+algorithms[i]+"]").attr('checked','true');		
+		trHtml +="<tr> <td class='tdlft'> "+algorithmJson[algorithms[i]]+"权重：</td> " +
+		"<td class='tdrgt'>" +
+		"<input type='text' name='weight"+algorithms[i]+"' id='weight"+algorithms[i]+"' >" +
+		"</td></tr>";
+	}
+	trHtml +="</table>";
+	addTd(trHtml);
+}
 //$("#div1 input[type=text]")
 /*
  * 保存
  */
 function save(){
 	var m=[];//请求的数组
-	for (var i=0 ; i<algorithms.length;++i){
+	var algorithmRadioValue=$('input:radio:checked').val();
+	var algorithmAndRadio = (algorithmStr+","+algorithmRadioValue).split(",");
+	for (var i=0 ; i<algorithmAndRadio.length;++i){
 		/*
 		 * 每个算法的需要的文本值
 		 */
 		var b={};
-		var algorithmsId="algorithms"+algorithms[i];
-		b[algorithmsId]=algorithms[i];
+		var algorithmsId="algorithms"+algorithmAndRadio[i];
+		b[algorithmsId]=algorithmAndRadio[i];
 		  b["taskid"]=taskid;
-		  $("#"+algorithms[i]+" input[type=text]").each(function(){		  
+		  $("#"+algorithmAndRadio[i]+" input[type=text]").each(function(){		  
 			  var id = $(this).attr("id");
 			   b[id]=$(this).val();
 			  });
@@ -76,7 +109,8 @@ function save(){
 		  m.push(b);
 	}
 	var param={
-				  "param":JSONH.stringify(m)
+				  "param":JSONH.stringify(m),
+				  "algorithmRadio":algorithmRadioValue
 		  };
 	 $.ajax({
 			type : 'POST',
@@ -98,7 +132,6 @@ function save(){
  }
 
 function init(){
-	debugger;
 	var taskParam={
 			taskid:taskid
 	} ;
@@ -116,5 +149,6 @@ function init(){
 	 for (key in jsonResult){
 		  $("#"+key).val(jsonResult[key]);
 	 }
+	
 }
 

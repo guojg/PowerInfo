@@ -6,6 +6,7 @@ public class TotalTask {
 	private String baseyear;
 	private String planyear;
 	private String algorithm;
+	private String algorithmRadio;
 	
 	public String getId() {
 		return id;
@@ -36,6 +37,12 @@ public class TotalTask {
 	}
 	public void setAlgorithm(String algorithm) {
 		this.algorithm = algorithm;
+	}
+	public String getAlgorithmRadio() {
+		return algorithmRadio;
+	}
+	public void setAlgorithmRadio(String algorithmRadio) {
+		this.algorithmRadio = algorithmRadio;
 	}
 	
 }
