@@ -102,24 +102,24 @@ text-decoration:none;
 <body class="easyui-layout" style="overflow-y: hidden"  scroll="no">
 
     <div region="north" border="false" style="overflow: hidden; height: 78px;
-        background: #3385FF;
+        background: #65B292;
         line-height: 20px;color: #3385FF; font-family: Verdana, 微软雅黑,黑体">
      <div  style="float:left;width:23%;min-width:240px;height:100%; ">
-         <span  style="float:left;margin:0;padding:0"><img id="logo1" src="static/images/top_0.png" /></span>
+         <span  style="float:left;margin:0;padding:0"><h1 style="color:white">区域电力市场预测分析平台</h1></span>
 	</div>
 	<div  style="float:left;width:55%;height:100%;text-align:center;">
 		<ul id="css3menu">
 				<li ><a name="basic" href="#">
-				<span class="lll"><img src="static/images/1.jpg" style="width:40px;height:50px"></span>
+				<span class="lll"><img src="static/images/4.jpg" ></span>
 				<span style="display: block;margin-top: 0px"> 基 础 数 据 </span></a></li>
 				<li style="float:left;margin:0;padding:0;">
 				<a name="totalQuantity" href="#">
-					<span  class="lll"><img src="static/images/blocks.gif"></img></span>
+					<span  class="lll"><img src="static/images/2.jpg"></img></span>
 					<span style="display: block;margin-top: 0px">电力需求预测</span>
 				</a></li>
 				<li style="float:left;margin:0;padding:0;">
 				<a name="balance" href="#">
-					<span  class="lll"><img src="static/images/blocks.gif"></img></span>
+					<span  class="lll"><img src="static/images/3.jpg"></img></span>
 					<span style="display: block;margin-top: 0px">电力电量平衡</span>
 				</a></li>
 				<li style="float:left;margin:0;padding:0;">
@@ -153,7 +153,17 @@ text-decoration:none;
 			</div>
 		</div>
     </div>
-    
+    <div id="mm" class="easyui-menu" style="width:180px;">
+		<div id="mm-tabupdate">刷新</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabcloseall">全部关闭</div>
+		<div id="mm-tabcloseother">除此之外全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabcloseright">当前页右侧全部关闭</div>
+		<div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-exit">退出</div>
+	</div>
 
 	<div id="treemm" class="easyui-menu" style="width:140px;">
 		<div onclick="append()"  iconcls="icon-add">添加节点</div>

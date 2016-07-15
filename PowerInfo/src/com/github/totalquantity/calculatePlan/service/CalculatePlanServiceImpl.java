@@ -202,6 +202,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		List<QuoteBase> quoteBase = baseDao.queryBaseData(baseparam);//基准年数据
 		List<TotalData> resultList = new ArrayList<TotalData>();//插入数据库的集合
 		Map<String,Double> map = new HashMap<String,Double>();
+		Map<String,Map<Integer,Double>> mm = new HashMap<String,Map<Integer,Double>>();
+		List<Map<String,Map<Integer,Double>>> l = new ArrayList<Map<String,Map<Integer,Double>>>();
 		List<Map<String,Double>> list = new ArrayList<Map<String,Double>>();
 		for(String str : algorithmArray){
 			switch(str){
@@ -209,8 +211,10 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 			/*
 			 * 平均增长率法
 			 */
-			
 			double	d1=calculateAlgorithmService.averageGrowthRate(quoteBase,obj,m);
+			mm=this.averageCalculate(d1,obj,"1");
+			l.add(mm);
+
 			map.put("1", d1);
 			break;
 			case "2":
@@ -218,6 +222,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 			 * 产值单耗法
 			 */
 			double	d2 = calculateAlgorithmService.productionValuePerUnitConsumption(quoteBase,prepareData,obj,m);
+			mm=this.averageCalculate(d2,obj,"2");
+			l.add(mm);
 			map.put("2", d2);
 			break;
 			case "3":
@@ -225,6 +231,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 			 * 弹性系数法
 			 */
 			double d3 =calculateAlgorithmService.elasticityCoefficient(quoteBase,obj,m);
+			mm=this.averageCalculate(d3,obj,"3");
+			l.add(mm);
 			map.put("3", d3);
 			break;
 			case "4":
@@ -232,6 +240,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 			 * 人均用电量法	
 			 */
 			double d4 =calculateAlgorithmService.avgElectricityConsumption(quoteBase,prepareData,obj,m);
+			mm=this.averageCalculate(d4,obj,"4");
+			l.add(mm);
 			map.put("4", d4);
 			list.add(map);
 			break;
@@ -240,6 +250,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 			 * 平均值法
 			 */
 			double d5 =calculateAlgorithmService.avgValue(list);
+			mm=this.averageCalculate(d5,obj,"5");
+			l.add(mm);
 			map.put("5", d5);
 			break;
 			case "6":
@@ -247,6 +259,8 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 			 * 最优权重法
 			 */
 			double d6 =calculateAlgorithmService.optimalWeight(list, m);
+			mm=this.averageCalculate(d6,obj,"6");
+			l.add(mm);
 		
 			map.put("6", d6);
 			break;
@@ -256,16 +270,56 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 	
 		int planyear=obj.getInt("planyear");	//预测年
 		String taskid=obj.getString("taskid");	//预测年
-		for (String key : map.keySet()) {
+		/*for (String key : map.keySet()) {
 			TotalData td = new TotalData();
 			td.setAlgorithm(key);
 			td.setValue(map.get(key));
 			td.setTask_id(taskid);
 			td.setYear(planyear);
 			resultList.add(td) ;
+		}*/
+		for(Map<String,Map<Integer,Double>> mmm : l){
+			for (String key : mmm.keySet()) {
+				Map<Integer,Double> imap = mmm.get(key);
+				for (Integer ikey : imap.keySet()) {
+					TotalData td = new TotalData();
+					td.setAlgorithm(key);
+					td.setValue(imap.get(ikey));
+					td.setTask_id(taskid);
+					td.setYear(ikey);
+					resultList.add(td) ;
+				}
+				
+			}
 		}
 		return resultList;
 
+	}
+
+	private Map<String,Map<Integer,Double>> averageCalculate(double d1, JSONObject obj,String flag) {
+		Map<Integer,Double> map = new HashMap<Integer,Double>();
+		List<Integer> years = this.getYear(obj) ;
+		int baseyear=years.get(0);	//基准年
+		int planyear=years.get(years.size()-1);
+		double d = d1/(planyear-baseyear);
+		map.put(planyear, d1);
+		for(int i=years.size()-2; i >=1 ;--i){
+			d1=d1-d;
+			map.put(years.get(i), d1);	
+		}
+		Map<String,Map<Integer,Double>> resultMap = new HashMap<String,Map<Integer,Double>>();
+		 resultMap.put(flag, map);
+		 return resultMap;
+		
+	}
+	private List<Integer> getYear( JSONObject obj){
+		List<Integer> years = new ArrayList<Integer>();
+		int baseyear=obj.getInt("baseyear");	//基准年
+		int planyear=obj.getInt("planyear");	//预测年
+		for(int i=baseyear ; i<=planyear;++i){
+			years.add(i);
+		}
+		return years;
 	}
 
 	@Override

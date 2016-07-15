@@ -9,8 +9,9 @@
 		$(this).addClass('active');
 		//getAccordion($(this).attr('name'));
 		//var d = _menus[$(this).attr('name')];
+		$("#css3menu a").css("background","#65B292");
 		var d = $(this).attr('name') ;
-		$(this).css("background","#65B292");
+		$(this).css("background","#3385FF");
 		Clearnav();
 		addNav(keyValue[d]);
 		InitLeftMenu();
@@ -22,7 +23,7 @@
 	});
 
 	var firstMenuName = $('#css3menu a:first').attr('name');
-	$('#css3menu a:first').css("background","#C56FA5");
+	$('#css3menu a:first').css("background","#3385FF");
 	addNav(keyValue[firstMenuName]);
 	InitLeftMenu();
 });

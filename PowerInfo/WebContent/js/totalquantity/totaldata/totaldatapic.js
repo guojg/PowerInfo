@@ -91,6 +91,7 @@ function getSettings() {
 										'$1="rgb($2)" $1-opacity="$3"');
 					});
 	var pic_type = $("#pic_type").combo("getValue");
+	//var data = loadData( pic_type, 0, true);
 	var data = loadData( pic_type, 0, true);
 	var settings = {};
 	settings.title = {
@@ -142,7 +143,7 @@ Array.prototype.getValue = function(resKey, resVal, retKey) {
 		}
 	}
 }
-function createXLastLevel(years) {
+/*function createXLastLevel(years) {
 	var cols=[];
 	for (var i = 0; i < years.length; i++) {
 		cols.push({
@@ -151,11 +152,11 @@ function createXLastLevel(years) {
 		});
 	}
 	return cols;
-}
+}*/
 /**
  * 加载数据
  */
-function loadData( chartType, yIndex, isInit) {
+/*function loadData( chartType, yIndex, isInit) {
 	var data=[];
 	var queryParams = {"taskid":taskid,"planyear":planyear,"index_type":"1,2,3,4,5,6"};
 
@@ -207,6 +208,41 @@ function loadData( chartType, yIndex, isInit) {
 			enabled : true
 		};
 		series.data = picdata;
+		list.push(series);
+	}
+	return list;
+}*/
+function loadData(chartType, yIndex, isInit) {
+	var selections = $('#datagrid').datagrid('getRows');
+	var type = chartType;
+	var xLastLevel =cols[0];
+	var frozon =$('#datagrid').datagrid('getColumnFields',true);
+	var ylastField = frozon.pop();
+	var xlastField = null;
+	var list = [];
+	
+	for (var i = 0,len = selections.length; i < len; i++) {
+		var series = {};
+		var data = [];
+		series.name = selections[i][ylastField];
+		series.type = type;
+		
+		if (!isInit) {
+			series.color = getRandomColor();
+		}
+		for (var j = 0, len2 = xLastLevel.length; j < len2; j++) {
+			var slice = [];
+			xlastField = xLastLevel[j]['field'];
+			var shortname = areas.getValue('name', xLastLevel[j]['title'], 'shortname') || xLastLevel[j]['title'];
+			slice.push(shortname);
+			slice.push(Number(selections[i][xlastField]));
+			data.push(slice);
+			if (i == 0) {
+				categories.push(shortname);
+			}
+		}
+		series.dataLabels = {enabled: true};
+		series.data = data;
 		list.push(series);
 	}
 	return list;

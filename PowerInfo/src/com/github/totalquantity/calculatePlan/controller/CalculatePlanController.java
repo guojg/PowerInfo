@@ -81,7 +81,7 @@ public class CalculatePlanController {
 		 	obj.put("baseyear", tt.getBaseyear()==null?"0": tt.getBaseyear()) ;
 		 	obj.put("planyear", tt.getPlanyear()==null?"0": tt.getPlanyear()) ;
 		 	obj.put("taskid", tt.getId()==null?"0":tt.getId()) ;
-		 	obj.put("algorithm", tt.getAlgorithm()==null?"1,2,3,4,5,6":tt.getAlgorithm());
+		 	obj.put("algorithm", tt.getAlgorithm()==null?"1,2,3,4,5,6":(tt.getAlgorithmRadio()==null?tt.getAlgorithm():(tt.getAlgorithm()+","+tt.getAlgorithmRadio())));
 			calculatePlanService.startCalculate(obj);
 			
 		}

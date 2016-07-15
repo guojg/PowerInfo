@@ -40,6 +40,38 @@ public class TotalDataController {
 		 //return "basicData/nationalEconomy/nationalEconomyMain";
 		 return "totalQuantity/totaldata/totaldata";
 	}
+	@RequestMapping(value ="/showData1")
+	public String showData1(HttpServletRequest request, HttpServletResponse response){
+		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		 return "totalQuantity/totaldata/totaldata1";
+	}
+	@RequestMapping(value ="/showData2")
+	public String showData2(HttpServletRequest request, HttpServletResponse response){
+		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		 return "totalQuantity/totaldata/totaldata2";
+	}
+	@RequestMapping(value ="/showData3")
+	public String showData3(HttpServletRequest request, HttpServletResponse response){
+		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		 return "totalQuantity/totaldata/totaldata3";
+	}
+	@RequestMapping(value ="/showData4")
+	public String showData4(HttpServletRequest request, HttpServletResponse response){
+		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		 return "totalQuantity/totaldata/totaldata4";
+	}
+
+	@RequestMapping(value ="/showData5")
+	public String showData5(HttpServletRequest request, HttpServletResponse response){
+		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		 return "totalQuantity/totaldata/totaldata5";
+	}
+	@RequestMapping(value ="/showData6")
+	public String showData6(HttpServletRequest request, HttpServletResponse response){
+		 //return "basicData/nationalEconomy/nationalEconomyMain";
+		 return "totalQuantity/totaldata/totaldata6";
+	}
+	
 
 
 	@RequestMapping(value = "/queryData" ,produces="text/plain;charset=UTF-8")
@@ -48,12 +80,12 @@ public class TotalDataController {
 		//response.setCharacterEncoding("UTF-8");
 		// String jsonParam = request.getParameter("jsonParam");
 		 String taskid = request.getParameter("taskid");
-		 String planyear = request.getParameter("planyear")==null?"": request.getParameter("planyear");
+		 String year = request.getParameter("year")==null?"": request.getParameter("year");
 
 		 String index_type = request.getParameter("index_type")==null?"": request.getParameter("index_type");
 
 		JSONObject obj = new JSONObject();
-		obj.put("year", planyear);
+		obj.put("year", year);
 		obj.put("algorithm", index_type);
 		obj.put("taskid",taskid);
 		String resultJson = totalDataService.queryData(obj);
