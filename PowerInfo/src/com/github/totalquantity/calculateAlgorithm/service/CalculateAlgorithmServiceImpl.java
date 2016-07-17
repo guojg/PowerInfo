@@ -8,8 +8,10 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.common.util.MyMath;
 import com.github.totalquantity.basedata.entity.QuoteBase;
 import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
+import com.github.totalquantity.common.Containts;
 import com.github.totalquantity.prepareData.dao.PrepareDataDao;
 import com.github.totalquantity.prepareData.entity.PrepareData;
 
@@ -66,7 +68,8 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			String valueStr = pdList.get(0).getValue()==null?"0":pdList.get(0).getValue().toString() ;
 			d= Double.parseDouble(valueStr) ;
 		}*/
-		double result = d* Math.pow(1+i, planyear-baseyear) ;
+		//double result = d* Math.pow(1+i, planyear-baseyear) ;
+		double result =MyMath.round(MyMath.mul(d, Math.pow(1+i, planyear-baseyear)),Containts.PRECISION);
 		return result ;
 	}
 	
@@ -83,7 +86,11 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 				double b=0d;
 				for(int j= 0 ; j<list.size() ; ++j){
 					String key = list.get(j).getIndex_type() ;
-					Double value = list.get(j).getIndex_value();
+					//Double value = list.get(j).getIndex_value();
+					Double value = 0.0;
+					if(list.get(j).getIndex_value()!=null){
+						value = list.get(j).getIndex_value() ;
+					}
 					switch(key){
 					case "maxRate": //最大值
 						a = value;
@@ -96,7 +103,8 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 						break;
 					}	
 				}
-				double i= (a+4*m+b)/6;
+				//double i= (a+4*m+b)/6;
+				double i=MyMath.div(MyMath.add(MyMath.add(a, MyMath.mul(4, m)), b), 6, Containts.PRECISION);
 		return i ;
 	}
 	
@@ -113,7 +121,11 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 				double b=0d;
 				for(int j= 0 ; j<list.size() ; ++j){
 					String key = list.get(j).getIndex_type() ;
-					Double value = list.get(j).getIndex_value();
+					//Double value = list.get(j).getIndex_value();
+					Double value = 0.0;
+					if(list.get(j).getIndex_value()!=null){
+						value = list.get(j).getIndex_value() ;
+					}
 					switch(key){
 					case "avgMaxRate": //最大值
 						a = value ;
@@ -126,7 +138,9 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 						break;
 					}	
 				}
-				double i= (a+4*m+b)/6;
+				//double i= (a+4*m+b)/6;
+				double i=MyMath.div(MyMath.add(MyMath.add(a, MyMath.mul(4, m)), b), 6, Containts.PRECISION);
+
 		return i ;
 	}
 	/**
@@ -154,7 +168,11 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		}
 		for(int j= 0 ; j<list.size() ; ++j){
 			String key = list.get(j).getIndex_type() ;
-			Double value = list.get(j).getIndex_value();
+			//Double value = list.get(j).getIndex_value();
+			Double value = 0.0;
+			if(list.get(j).getIndex_value()!=null){
+				value = list.get(j).getIndex_value() ;
+			}
 			switch(key){
 			case "coefficient": //电力弹性系数
 				coefficient = value ;
@@ -164,7 +182,8 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 				break;
 			}
 		}
-		result=baseyearElectricity*Math.pow(1+coefficient*incrementSpeed, planyear-baseyear) ;
+		//result=baseyearElectricity*Math.pow(1+coefficient*incrementSpeed, planyear-baseyear) ;
+		result=MyMath.round(MyMath.mul(baseyearElectricity, Math.pow(1+coefficient*incrementSpeed, planyear-baseyear)), Containts.PRECISION);
 		return result ;
 	}
 	/**
@@ -194,7 +213,9 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			}
 		}
 		double i= avgSubjectiveConcept(list);
-		result = avgElectricityConsumption*Math.pow(1+i, planyear-baseyear)*planPeople;
+		//result = avgElectricityConsumption*Math.pow(1+i, planyear-baseyear)*planPeople;
+		result=MyMath.round(MyMath.mul(MyMath.mul(avgElectricityConsumption,Math.pow(1+i, planyear-baseyear)),planPeople) , Containts.PRECISION);
+
 		return result;
 	}
 	/**
@@ -256,8 +277,10 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 
 		for(int j= 0 ; j<list.size() ; ++j){
 			String key = list.get(j).getIndex_type() ;
-			System.out.println("----"+key);
-			Double value = list.get(j).getIndex_value();
+			Double value = 0.0;
+			if(list.get(j).getIndex_value()!=null){
+				value = list.get(j).getIndex_value() ;
+			}
 			switch(key){
 			case "oneProductionRate": //一产单耗增长率
 				onePerUnitRate =value;
@@ -276,6 +299,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		result = oneGDP*onePerUnit*onePerUnitRate+twoGDP*twoPerUnit*twoPerUnitRate
 				+threeGDP*threePerUnit*threePerUnitRate+
 				avgElectricityConsumption*avgElectricityRate*planPeople;
+		result = MyMath.round(result, Containts.PRECISION);
 		return result;
 	}
 	/**
@@ -290,12 +314,15 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		for(int i=0 ; i<list.size() ; ++i){
 			for(Map<String,Double> m : list){
 				for (String key : m.keySet()) {
-					result += m.get(key).doubleValue();
+					//result += m.get(key).doubleValue();
+					result = MyMath.add(result, m.get(key).doubleValue());
 					++count;
 				}
 			}
 		}
-		result = result/count;
+		//result = result/count;
+		result=MyMath.div(result, count, Containts.PRECISION);
+
 		return result;
 	}
 	
@@ -325,11 +352,13 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			for(Map<String,Double> m : list){
 				for (String key : m.keySet()) {
 					if(index_type.equals("weight"+key) && index_value!=null && !"".equals(index_value)){
-						result += m.get(key).doubleValue()*index_value;
+						//result += m.get(key).doubleValue()*index_value;
+						result = MyMath.add(result,MyMath.mul(m.get(key).doubleValue(), index_value));
 					}
 				}
 			}
 		}
+		result = MyMath.round(result, Containts.PRECISION);
 		return result;
 	}
 	

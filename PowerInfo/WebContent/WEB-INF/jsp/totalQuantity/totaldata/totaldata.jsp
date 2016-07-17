@@ -102,19 +102,7 @@ var algorithm='<%=algorithm%>';
 	$(function() {
 	
 		queryData();
-		comboBoxInit({
-			id : "pic_type",
-			url : path + '/js/basicData/chartType.json',
-			textkey : "text",
-			valuekey : "id",
-			defaultVal : "column"
-		});
 		
-		$("#pic_type").combobox({
-			onSelect:function(){
-				drawChart();
-			}
-		});
 	});
 
 	//查询方法调用的函数
@@ -199,7 +187,7 @@ var algorithm='<%=algorithm%>';
 											'$1="rgb($2)" $1-opacity="$3"');
 						});
 		
-		var pic_type = $("#pic_type").combo("getValue");
+		var pic_type = "spline";
 		//var data = loadData( pic_type, 0, true);
 		var data = loadData( pic_type, 0, true);
 		var settings = {};
@@ -294,9 +282,8 @@ var algorithm='<%=algorithm%>';
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>
-	<input id="pic_type"
-							class="comboboxComponent" />
-	<div id="container" style="width: 100%; height: 70%"></div>
+
+	<div id="container" style="width: 100%; height: 65%"></div>
 	<script type="text/javascript"
 				src="<%=path%>/static/js/Highcharts-4.0.1/raphael.js"></script>
 			<script type="text/javascript"

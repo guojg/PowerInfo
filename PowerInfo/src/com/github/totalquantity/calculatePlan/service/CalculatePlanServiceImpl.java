@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.common.util.MyMath;
 import com.github.totalquantity.basedata.dao.BaseDao;
 import com.github.totalquantity.basedata.entity.QuoteBase;
 import com.github.totalquantity.calculateAlgorithm.service.CalculateAlgorithmService;
@@ -301,10 +302,12 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		List<Integer> years = this.getYear(obj) ;
 		int baseyear=years.get(0);	//基准年
 		int planyear=years.get(years.size()-1);
-		double d = d1/(planyear-baseyear);
+		//double d = d1/(planyear-baseyear);
+		double d = MyMath.div(d1, planyear-baseyear, Containts.PRECISION);
 		map.put(planyear, d1);
 		for(int i=years.size()-2; i >=1 ;--i){
-			d1=d1-d;
+			d1= MyMath.round(MyMath.sub(d1, d),Containts.PRECISION);
+			//d1=d1-d;
 			map.put(years.get(i), d1);	
 		}
 		Map<String,Map<Integer,Double>> resultMap = new HashMap<String,Map<Integer,Double>>();
