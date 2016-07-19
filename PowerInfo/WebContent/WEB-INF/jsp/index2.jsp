@@ -137,12 +137,9 @@ text-decoration:none;
         <div class="footer"></div>
     </div>
     <div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west">
-		<div id='wnav' class="easyui-accordion" fit="true" border="false">
 				<ul id='tt'></ul>
 		<!--  导航内容 -->
 				
-		</div>
-
     </div>
     <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
         <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
