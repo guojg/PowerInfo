@@ -27,13 +27,19 @@ function startCalculate(){
 </head>
 <body>
 	<p class="p1">
+	预测流程:
+	</p>
+	<p class="p2">
+				<img src="/PowerInfo/static/images/liuchengtu.gif"></img>
+	</p>
+				<br>
+		<p class="p1">
 	平均增长率法:
 	</p>
 		<p class="p2">
 			基准年电量*（1+i）^(2020-2015)，其中i=(a+4m+b)/6（主观概率计算）
 		</p>
-				<br>
-		
+				<br>	
 	<p class="p1">
 	产值单耗法:
 	</p>
