@@ -10,6 +10,7 @@
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/totalquantity/jsonutil.js"></script>
+<script type="text/javascript" src="<%=path %>/js/totalquantity/common/validatedatagrid.js"></script>
 
 <% 
 TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
@@ -182,6 +183,9 @@ var index_type='<%=index_type%>';
 		endEdit();
 		var updates = $('#datagrid').datagrid('getChanges');
 		if (updates.length <= 0) {
+			return;
+		}
+		if (!validate($('#datagrid'), updates,[ 'index_name' ],13, 2)) {
 			return;
 		}
 		var param = JSONH.stringify(updates);

@@ -5,11 +5,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@include file="../../common/commonInclude.jsp" %>	
+<script type="text/javascript" src="<%=path %>/js/totalquantity/common/my-validatebox-ext.js"></script>
+
 <script type="text/javascript"> 
 $(function() {
+	  $("#task_name").validatebox({
+           required: true,
+           novalidate: true,
+           validType: ['checkText','maxLength[25]'],
+           missingMessage: '任务名不能为空。',
+           invalidMessage: '机组名称的输入长度不能超过25个汉字，且不能包含特殊字符。'
+       });
 	$('#baseyear').combobox({    
 		 valueField:'id',    
 		 textField:'text' ,
+		  editable:false,
 		 data:[{    
 			    "id":2015,    
 			    "text":"2015"   
@@ -23,6 +33,7 @@ $(function() {
 	$('#planyear').combobox({    
 		 valueField:'id',    
 		 textField:'text' ,
+		  editable:false,
 		 data:[{    
 			    "id":2020,    
 			    "text":"2020"   
@@ -87,20 +98,23 @@ $(function() {
  }
  function validate(param){
 	 var algorithmVal= param["algorithm"];
-	 var task_name = param["task_name"];
 	 var flag=true;
 	 var resultNmame="";
 	 var resultAlgorithm="";
-	 if(task_name==""){
-			
-			$('#task_name').css('background','red');
-			resultNmame="请填写任务名。";
-			flag=false;
-	}else{
-		$('#task_name').css('background','white');
-		resultNmame="";
-		//flag=true;
-	}
+	 $('.validatebox-text').each(function(i,obj){
+			$(this).validatebox('enableValidation').validatebox('validateTip');
+		});
+		var tipsStr = $("#validateMessage").html();
+		var tipsArr = tipsStr.split(",");
+		if(tipsArr[1]!=null){
+			resultNmame=tipsArr[1];
+		}
+		
+		
+		var flagV=$('#detailTable').form('validate');
+		if(flagV==false){
+			flag=flagV;
+		}
 	if(algorithmVal==null || algorithmVal==""){
 		resultAlgorithm="请至少选择一种算法。";
 		flag= false;
@@ -110,6 +124,8 @@ $(function() {
 	}
 	$('#validateMessage').html(resultNmame+resultAlgorithm);
 	 return flag ;
+
+		
  }
  /*去掉平均值法和最优权重法就没用了
  function validate(param){
