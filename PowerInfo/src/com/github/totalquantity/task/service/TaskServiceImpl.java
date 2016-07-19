@@ -38,7 +38,8 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public String queryData(JSONObject param) {
 		List<Map<String, Object>> list = taskDao.queryData(param);
-		return JsonUtils.listTranJsonByQuery(list);
+		int count = taskDao.queryDataCount(param);
+		return JsonUtils.listTranJsonByPage(list,count);
 	}
 
 

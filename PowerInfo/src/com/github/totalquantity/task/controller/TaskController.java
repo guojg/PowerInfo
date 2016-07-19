@@ -24,7 +24,16 @@ public class TaskController {
 	@RequestMapping(value ="/queryData")
 	public @ResponseBody String queryData(HttpServletRequest request, HttpServletResponse response){
 		response.setCharacterEncoding("UTF-8");
+		String pageNum = request.getParameter("page");
+		String pageSize = request.getParameter("rows");
+		if (pageNum == null || "null".equals(pageNum) || "".equals(pageNum))
+			pageNum = "1";
+		if (pageSize == null || "null".equals(pageSize)
+				|| "".equals(pageSize))
+			pageSize = "10";
 		JSONObject obj = new JSONObject();
+		obj.put("pageNum", pageNum);
+		obj.put("pageSize", pageSize);
 		return taskService.queryData(obj);
 		
 	}

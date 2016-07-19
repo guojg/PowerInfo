@@ -82,7 +82,8 @@
 			columns : cols,
 			rownumbers : true,
 			pagination : false,
-			queryParams : queryParams
+			queryParams : queryParams,
+			pagination: true
 		});
 	}
 	function xjrw(){
