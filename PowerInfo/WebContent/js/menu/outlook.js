@@ -12,16 +12,13 @@
 		$("#css3menu a").css("background","#65B292");
 		var d = $(this).attr('name') ;
 		$(this).css("background","#3385FF");
-		Clearnav();
+		//Clearnav();
 		addNav(keyValue[d]);
 		InitLeftMenu();
 	});
 
 	// 导航菜单绑定初始化
-	$("#wnav").accordion({
-		animate : false
-	});
-
+	
 	var firstMenuName = $('#css3menu a:first').attr('name');
 	$('#css3menu a:first').css("background","#3385FF");
 	addNav(keyValue[firstMenuName]);
@@ -53,7 +50,7 @@ function getMenu() {
 		}
 	});
 }
-function Clearnav() {
+/*function Clearnav() {
 	var pp = $('#wnav').accordion('panels');
 
 	$.each(pp, function(i, n) {
@@ -67,7 +64,7 @@ function Clearnav() {
 		var title = pp.panel('options').title;
 		$('#wnav').accordion('remove', title);
 	}
-}
+}*/
 
 function addNav(data) {
 	/*$.each(data, function(i, sm) {
@@ -184,7 +181,7 @@ function InitLeftMenu() {
 
 	hoverMenuItem();
 
-	$('#wnav li a').live('click', function() {
+	$('#tt li a').live('click', function() {
 		var tabTitle = $(this).children('.nav').text();
 
 		var url = $(this).attr("rel");
@@ -192,7 +189,7 @@ function InitLeftMenu() {
 		var icon = getIcon(menuid, icon);
 
 		addTab(tabTitle, url, icon);
-		$('#wnav li div').removeClass("selected");
+		$('#tt li div').removeClass("selected");
 		$(this).parent().addClass("selected");
 	});
 

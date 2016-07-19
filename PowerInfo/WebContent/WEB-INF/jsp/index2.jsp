@@ -136,7 +136,7 @@ text-decoration:none;
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
         <div class="footer"></div>
     </div>
-    <div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west">
+    <div region="west" hide="true" split="true" title="导航菜单" style="width:220px;" id="west">
 				<ul id='tt'></ul>
 		<!--  导航内容 -->
 				
