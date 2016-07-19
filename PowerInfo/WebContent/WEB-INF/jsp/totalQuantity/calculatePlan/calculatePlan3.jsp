@@ -12,7 +12,6 @@ TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
 String algorithm = tt.getAlgorithm() ;
 String taskid = tt.getId();
 String algorithmRadio = tt.getAlgorithmRadio();
-System.out.print(algorithmRadio);
 %>
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />
 <script type="text/javascript" src="<%=path %>/js/totalquantity/common/sysdict.js"></script>
@@ -38,7 +37,6 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 			<tr>
 				<td class="bs3">
 					<table id="1"  class="bs2">
-						<tr><td colspan="2">期望增长率</td></tr>
 						   <tr> <td class="tdlft">最大值：</td> <td class="tdrgt"><input  type="text" name="maxRate" id="maxRate"></td></tr>
 						    <tr> <td  class="tdlft">最小值：</td> <td class="tdrgt"><input  type="text" name="minRate" id="minRate"></td></tr>
 						 <tr> <td class="tdlft">最可能值：</td> <td class="tdrgt"><input  type="text" name="possibleRate" id="possibleRate"></td></tr>
@@ -78,21 +76,22 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 				</td>
 				<td class="bs3">
 					<table id="4"  class="bs2" >
-						<tr><td colspan="2">期望增长率</td></tr>
 						   <tr> <td class="tdlft">最大值：</td> <td class="tdrgt"><input  type="text" name="avgMaxRate" id="avgMaxRate"></td></tr>
 						    <tr> <td  class="tdlft">最小值：</td> <td class="tdrgt"><input  type="text" name="avgMinRate" id="avgMinRate"></td></tr>
 						 <tr> <td class="tdlft">最可能值：</td> <td class="tdrgt"><input  type="text" name="avgPossibleRate" id="avgPossibleRate"></td></tr>
 					</table> 
 				</td>
 			</tr>
-			<tr>
+			<tr id="ccc">
 				
 				<td class="bs1" id="aaa" rowspan="2">综合预测</td>
-				<td class="bs3"><input name="algorithmRadio" type="radio" value="5" />平均值法</td>
-				<td class="bs3"><input name="algorithmRadio" type="radio" value="6" />最优权重法</td>
+				<td class="bs3"><input name="algorithmRadio" type="radio" value="5" /><font class="fontred">平均值法</font></td>
+				<td class="bs3"><input name="algorithmRadio" type="radio" value="6" /><font class="fontred">最优权重法 </font></td>
 			</tr>
 			<tr id="bbb">
-				<td class="bs3"></td>
+				<td class="bs3">
+				<div id="avgvalidate" class="divred"></div>
+				</td>
 				<td class="bs3"></td>
 			</tr>
 		

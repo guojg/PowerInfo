@@ -16,7 +16,8 @@ $(function() {
 			},{    
 			    "id":2016,    
 			    "text":"2016"   
-			}]  
+			}]  ,
+			value:2015
 
 	});
 	$('#planyear').combobox({    
@@ -28,10 +29,24 @@ $(function() {
 			},{    
 			    "id":2021,    
 			    "text":"2021"   
-			}]  
+			},{    
+			    "id":2022,    
+			    "text":"2022"   
+			},{    
+			    "id":2023,    
+			    "text":"2023"   
+			},{    
+			    "id":2024,    
+			    "text":"2024"   
+			},{    
+			    "id":2025,    
+			    "text":"2025"   
+			}],
+			value:2020
 
 	});
 });
+
  function save(){
 	 var task_name = $('#task_name').val();
 	 var baseyear =$('#baseyear').combobox('getValue');
@@ -49,7 +64,10 @@ $(function() {
 		'planyear':planyear,
 		'algorithm':algorithm
 	 };
-	 if(validate(param)){
+	 if(!validate(param)){
+		 return ;
+	 }
+	 //if(validate(param)){
 		 $.ajax({
 				type : 'POST',
 				async : false,
@@ -64,10 +82,35 @@ $(function() {
 				
 				}
 			});
-	 }
+	 //}
 
  }
- 
+ function validate(param){
+	 var algorithmVal= param["algorithm"];
+	 var task_name = param["task_name"];
+	 var flag=true;
+	 var resultNmame="";
+	 var resultAlgorithm="";
+	 if(task_name==""){
+			
+			$('#task_name').css('background','red');
+			resultNmame="请填写任务名。";
+			flag=false;
+	}else{
+		$('#task_name').css('background','white');
+		resultNmame="";
+		//flag=true;
+	}
+	if(algorithmVal==null || algorithmVal==""){
+		resultAlgorithm="请至少选择一种算法。";
+		flag= false;
+	}else{
+		resultAlgorithm="";
+		//flag=true;
+	}
+	$('#validateMessage').html(resultNmame+resultAlgorithm);
+	 return flag ;
+ }
  /*去掉平均值法和最优权重法就没用了
  function validate(param){
 	 var algorithm = param["algorithm"];
@@ -123,6 +166,9 @@ $(function() {
 			<tr>
 				<td  class="tdcength"><input name="algorithm" type="checkbox" value="3" />弹性系数法</td>
 				<td  class="tdcength"><input name="algorithm" type="checkbox" value="4" />人均用电量法</td>
+			</tr>
+			<tr>
+			<td colspan="2"><span>提示信息：</span><span style="color:red;" id="validateMessage"></span></td>
 			</tr>
 			<!--  <tr>
 				<td  class="tdcength"><input name="algorithm" type="checkbox" value="5" />平均值法</td>

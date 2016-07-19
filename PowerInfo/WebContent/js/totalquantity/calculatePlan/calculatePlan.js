@@ -5,20 +5,14 @@ $(function() {
 	/*
 	 * 给算法复选框赋值
 	 */
-	//var trHtml="<tr><td></td><td class='bs3'></td><td class='bs3'><table id='6' class='bs2'>";
-	
-	 if(algorithmRadio!=null && algorithmRadio!=""){
+	 if(algorithmRadio!=null && algorithmRadio!="" && algorithmRadio!="undefined"){
 			$("input:radio[value="+algorithmRadio+"]").attr('checked','true');
-			/*if(algorithmRadio=="5"){
-				removeTr();
-			}else{
-				addWeight();
-			}*/
+			
 	}
-		addWeight();
 	
-
-
+	
+	
+	addWeight(); 
 	init();
 	
 	/*
@@ -37,7 +31,10 @@ $(function() {
 			});
 		}
 	}
-	
+	 if(algorithms.length<=1){
+		 removeTr("ccc");
+		  removeTr("bbb");
+	 }
 
 });
 /*
@@ -54,8 +51,8 @@ function addTr(trHtml){
 /*
  * 追加行
  */
-function removeTr(){
-    var $tr=$("#bbb");
+function removeTr(id){
+    var $tr=$("#"+id+"");
     if($tr.size()==0){
        alert("指定的table id或行数不存在！");
        return;
@@ -85,13 +82,14 @@ function addWeight(){
 	trHtml +="</table>";
 	addTd(trHtml);
 }
-//$("#div1 input[type=text]")
 /*
  * 保存
  */
 function save(){
+	
 	var m=[];//请求的数组
 	var algorithmRadioValue=$('input:radio:checked').val();
+	
 	var algorithmAndRadio = (algorithmStr+","+algorithmRadioValue).split(",");
 	for (var i=0 ; i<algorithmAndRadio.length;++i){
 		/*
@@ -108,10 +106,14 @@ function save(){
 		  
 		  m.push(b);
 	}
+	
 	var param={
 				  "param":JSONH.stringify(m),
 				  "algorithmRadio":algorithmRadioValue
 		  };
+	if(!validate(m)){
+		return ;
+	}
 	 $.ajax({
 			type : 'POST',
 			async : false,
@@ -150,5 +152,18 @@ function init(){
 		  $("#"+key).val(jsonResult[key]);
 	 }
 	
+}
+
+
+function validate(param){
+	if(algorithms.length>1 && $('input:radio:checked').val() ==undefined ){
+		$('#avgvalidate').html("请你选择一种综合算法作为您的最终推荐值");
+		$(".fontred").css('color','red');
+		return false;
+	}else{
+		$('#avgvalidate').html("");
+		$(".fontred").css('color','black');
+	}
+	return true;
 }
 
