@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.menu.service.MenuService;
 
@@ -43,22 +44,12 @@ public class MenuController {
 	}
 	
 	
-	@RequestMapping(value ="/queryMenu")
-	public void queryMenu(HttpServletRequest request, HttpServletResponse response){
-		response.setCharacterEncoding("UTF-8");
+	@RequestMapping(value ="/queryMenu", produces="application/json;charset=UTF-8")
+	public @ResponseBody String queryMenu(HttpServletRequest request, HttpServletResponse response){
 		String jsonParam	= request.getParameter("pid");
 		JSONObject obj = new JSONObject();
 		obj.put("jsonParam", jsonParam);
-
-
-		String	resultJson = menuService.queryMenu(obj);
-		try {
-			PrintWriter pw = response.getWriter();
-			pw.write(resultJson);
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return menuService.queryMenu(obj);
+		
 	}
 }

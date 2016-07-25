@@ -1,10 +1,9 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <title>任务</title>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-
-
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
 <script type="text/javascript" src="<%=path %>/js/totalquantity/common/sysdict.js"></script>
@@ -25,6 +24,7 @@
 	
 	var cols ='';
 	var algorithmJson=getSysDict();
+
 	$(function() {
 	
 	
@@ -68,9 +68,9 @@
 		var queryParams = {};
 
 		var url = path + '/task/queryData';
-		var Height_Page = $("html").height();
+		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
-		var height = Height_Page - datagrid_title_height - 5;
+		var height = Height_Page - datagrid_title_height;
 		$('#datagrid').datagrid({
 			width : 'auto',
 			height : height,

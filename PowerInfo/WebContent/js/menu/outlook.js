@@ -1,18 +1,14 @@
 ﻿$(function() {
-	//getAccordion("basic");
 	tabClose();
 	tabCloseEven();
 	var keyValue={"basic":1,"totalQuantity":4,"balance":159,"station":168};
-	$('#css3menu').css("margin-left", $('#logo1').width());
+	//$('#css3menu').css("margin-left", $('#logo1').width());
 	$('#css3menu a').click(function() {
 		$('#css3menu a').removeClass('active');
 		$(this).addClass('active');
-		//getAccordion($(this).attr('name'));
-		//var d = _menus[$(this).attr('name')];
-		$("#css3menu a").css("background","#65B292");
+		$("#css3menu a").css("background","#EDF1FA");
 		var d = $(this).attr('name') ;
 		$(this).css("background","#3385FF");
-		//Clearnav();
 		addNav(keyValue[d]);
 		InitLeftMenu();
 	});
@@ -23,6 +19,27 @@
 	$('#css3menu a:first').css("background","#3385FF");
 	addNav(keyValue[firstMenuName]);
 	InitLeftMenu();
+	
+	 openPwd();
+
+     $('#editpass').click(function() {
+         $('#w').window('open');
+     });
+
+     $('#btnEp').click(function() {
+         serverLogin();
+     });
+
+		$('#btnCancel').click(function(){closePwd();});
+
+     $('#loginOut').click(function() {
+         $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function(r) {
+
+             if (r) {
+                 location.href = '/ajax/loginout.ashx';
+             }
+         });
+     });
 });
 function getAccordion(param) {
 	$.ajax({
@@ -50,40 +67,12 @@ function getMenu() {
 		}
 	});
 }
-/*function Clearnav() {
-	var pp = $('#wnav').accordion('panels');
 
-	$.each(pp, function(i, n) {
-		if (n) {
-			var t = n.panel('options').title;
-			$('#wnav').accordion('remove', t);
-		}
-	});
-	pp = $('#wnav').accordion('getSelected');
-	if (pp) {
-		var title = pp.panel('options').title;
-		$('#wnav').accordion('remove', title);
-	}
-}*/
 
 function addNav(data) {
-	/*$.each(data, function(i, sm) {
-		var menulist = "<ul id='tt'></ul></ul>";
 
-		$('#wnav').accordion('add', {
-			title : sm.menuname,
-			content : menulist,
-			id : sm.menuid,
-			iconCls : 'icon ' + sm.icon
-		});
-
-	});*/
 	/** 初始化树* */
 	InitTreeData(data);
-
-	/*var pp = $('#wnav').accordion('panels');
-	var t = pp[0].panel('options').title;
-	$('#wnav').accordion('select', t);*/
 
 }
 /**
@@ -179,7 +168,7 @@ function append() {
 // 初始化左侧
 function InitLeftMenu() {
 
-	hoverMenuItem();
+	//hoverMenuItem();
 
 	$('#tt li a').live('click', function() {
 		var tabTitle = $(this).children('.nav').text();
@@ -239,7 +228,7 @@ function addTab(subtitle, url, icon) {
 
 function createFrame(url) {
 	var s = '<iframe scrolling="auto" frameborder="0"  src="' + url
-			+ '" style="width:100%;height:100%;"></iframe>';
+			+ '" style="width:100%;height:98%;"></iframe>';
 	return s;
 }
 
@@ -363,4 +352,20 @@ function clockon() {
 	$("#bgclock").html(time);
 
 	var timer = setTimeout("clockon()", 200);
+}
+//设置登录窗口
+function openPwd() {
+    $('#w').window({
+        title: '修改密码',
+        width: 300,
+        modal: true,
+        shadow: true,
+        closed: true,
+        height: 160,
+        resizable:false
+    });
+}
+//关闭登录窗口
+function closePwd() {
+    $('#w').window('close');
 }

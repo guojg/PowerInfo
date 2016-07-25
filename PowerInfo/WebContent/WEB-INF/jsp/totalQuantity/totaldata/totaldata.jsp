@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
+ <!DOCTYPE html>
 <html>
 <head>
 <title>基础数据库填报</title>
@@ -122,9 +123,6 @@ var algorithm='<%=algorithm%>';
 		var queryParams = {"taskid":taskid,"year":years,"index_type":"1,2,3,4,5,6"};
 
 		var url = path + '/totalData/queryData';
-		var Height_Page = $("html").height();
-		var datagrid_title_height = $("#datagrid_div").position().top;
-		var height = Height_Page - datagrid_title_height - 5;
 		$('#datagrid').datagrid({
 			width : 'auto',
 			autoRowHeight : true,
@@ -282,8 +280,8 @@ var algorithm='<%=algorithm%>';
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>
-
-	<div id="container" style="width: 100%; height: 65%"></div>
+	<br>
+	<div id="container" style="width: 100%; height: 60%"></div>
 	<script type="text/javascript"
 				src="<%=path%>/static/js/Highcharts-4.0.1/raphael.js"></script>
 			<script type="text/javascript"
