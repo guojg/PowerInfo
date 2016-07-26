@@ -36,14 +36,14 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 			</tr>
 			<tr>
 				<td class="bs3">
-					<table id="1"  class="bs2">
+					<table id="1"  class="bs2" style="width:250px">
 						   <tr> <td class="tdlft">最大值：</td> <td class="tdrgt"><input  type="text" name="maxRate" id="maxRate"></td></tr>
 						    <tr> <td  class="tdlft">最小值：</td> <td class="tdrgt"><input  type="text" name="minRate" id="minRate"></td></tr>
 						 <tr> <td class="tdlft">最可能值：</td> <td class="tdrgt"><input  type="text" name="possibleRate" id="possibleRate"></td></tr>
 					</table> 
 				</td>
 				<td class="bs3">
-					<table id="2" class="bs2">
+					<table id="2" class="bs2" style="width:300px">
 						     <tr> 
 						     	<td class="tdlft"> 一产单耗增长率：</td> 
 						     	<td class="tdrgt"><input  type="text" name="oneProductionRate" id="oneProductionRate"></td>
@@ -63,9 +63,9 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 					</table> 
 				</td>
 				<td  class="bs3">	
-					<table id="3" class="bs2">
+					<table id="3" class="bs2" style="width:300px">
 						 <tr> 
-						  	   <td class="tdlft">    期间电力弹性系数：</td> 
+						  	   <td class="tdlft">  期间电力弹性系数：</td> 
 						       <td class="tdrgt"><input  type="text" name="coefficient" id="coefficient"></td>
 						   </tr>
 						  <tr> 
@@ -75,7 +75,7 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 					</table> 
 				</td>
 				<td class="bs3">
-					<table id="4"  class="bs2" >
+					<table id="4"  class="bs2" style="width:250px">
 						   <tr> <td class="tdlft">最大值：</td> <td class="tdrgt"><input  type="text" name="avgMaxRate" id="avgMaxRate"></td></tr>
 						    <tr> <td  class="tdlft">最小值：</td> <td class="tdrgt"><input  type="text" name="avgMinRate" id="avgMinRate"></td></tr>
 						 <tr> <td class="tdlft">最可能值：</td> <td class="tdrgt"><input  type="text" name="avgPossibleRate" id="avgPossibleRate"></td></tr>
