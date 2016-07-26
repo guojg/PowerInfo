@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
-
+ <!DOCTYPE html>
 <html>
 	<head>
 		<title>图表生成</title>

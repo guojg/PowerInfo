@@ -18,7 +18,7 @@ import com.github.totalquantity.totaldata.service.TotalDataService;
 
 @Controller
 @RequestMapping(value ="/prepareData")
-public class PrepareDataComtroller {
+public class PrepareDataController {
 	 @Autowired
 	 private PrepareDataService prepareDataService ;
 	 
@@ -44,10 +44,9 @@ public class PrepareDataComtroller {
 	}
 
 
-	@RequestMapping(value = "/queryData")
-	public void queryData(HttpServletRequest request,
+	@RequestMapping(value = "/queryData",produces= "text/plain;charset=UTF-8")
+	public @ResponseBody String queryData(HttpServletRequest request,
 			HttpServletResponse response) {
-		response.setCharacterEncoding("UTF-8");
 		 String taskid = request.getParameter("taskid");
 		 String planyear = request.getParameter("planyear")==null?"": request.getParameter("planyear");
 
@@ -59,15 +58,8 @@ public class PrepareDataComtroller {
 		//String algorithm = param.getString("algorithm") ;
 		//String taskid = request.getSession().getAttribute("taskid").toString();
 		obj.put("taskid",taskid);
-		String resultJson = prepareDataService.queryData(obj);
-		try {
-			PrintWriter pw = response.getWriter();
-			pw.write(resultJson);
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return prepareDataService.queryData(obj);
+	
 	}
 	@RequestMapping(value = "/saveData")
 	public @ResponseBody

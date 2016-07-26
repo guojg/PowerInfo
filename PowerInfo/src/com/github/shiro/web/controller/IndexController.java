@@ -28,8 +28,7 @@ public class IndexController {
 
 	 @RequestMapping("/")
 	    public String index(@CurrentUser User loginUser, Model model) {
-	        System.out.println("-----");
-	        
+		 
 	        return "index2";
 	    }
     @RequestMapping("/welcome")
