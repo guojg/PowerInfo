@@ -28,7 +28,7 @@ public class JsonUtils {
 			Iterator<String> iter = set.iterator();
 			while(iter.hasNext()){
 				String k = iter.next() ;
-				rows.put(k, list.get(j).get(k));
+				rows.put(k.toUpperCase(), list.get(j).get(k));
 			}
 			
 		}

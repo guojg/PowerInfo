@@ -32,11 +32,9 @@ $(function() {
 	 if(algorithmRadio!=null && algorithmRadio!=""){
 			$("input:radio[value="+algorithmRadio+"]").attr('checked','true');	
 		}
-	debugger;
 	//trHtml +="</table></td></tr>";
 	trHtml +="</table>";
 	addTd(trHtml);
-	debugger;
 	//$('#aaa').attr('rowSpan','2');
 	//$('#aaa').text("综合预测");
 	init();

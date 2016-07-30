@@ -2,9 +2,9 @@
 
 #calculateTable{
 	table-layout:fixed;
-	margin:10px auto 10px auto;
+	margin:5px;
 	border-collapse: collapse;
-	border:solid 1px #3385FF;
+	border:solid 1px #5faba7;
 }
 
 #calculateTable tr td{
@@ -30,15 +30,14 @@ font-size:12px;
 } 
 
 .bs1{
-width:15px;
-border:solid 1px #3385FF;
+border:solid 1px #5faba7;
 }
 
 .bs2{
-border:solid 0px;
+border:none;
 }
 .bs3{
-	border:solid 1px #3385FF;
+	border:solid 1px #5faba7;
 }
 
 .divred{

@@ -559,7 +559,13 @@ function init_operate(url){
 	                	}else if(clas.indexOf("comboboxComponent")>=0){//combobox
 	                		$(this).combobox('setValue',item[upperCaseAttrName]);
 	                	
+	                	}else if(clas.indexOf("comboComponentarr")>=0){//combobox
+	                		if(item[upperCaseAttrName]!=null){
+	                			$(this).combobox('setValues',item[upperCaseAttrName].split(","));
+	                		}
+                	
 	                	}else if(clas.indexOf("comboComponent")>=0){//combobox
+	                		
 	                		$(this).combobox('setValue',item[upperCaseAttrName]);
 	                	
 	                	}
@@ -567,6 +573,9 @@ function init_operate(url){
 	                		$(this).val(item[upperCaseAttrName]);
 	                	}else if(clas.indexOf("easyui-datebox")>=0){//日期
 		            		inputVal = $(this).datebox('setValue',item[upperCaseAttrName]);
+		            	}else if(clas.indexOf("easyui-datetimebox")>=0){
+		            		inputVal = $(this).datetimebox('setValue',item[upperCaseAttrName]);
+
 		            	}
 	        		}else{
 	        			$(this).val(item[upperCaseAttrName]);//普通文本

@@ -120,7 +120,7 @@ var algorithm='<%=algorithm%>';
 		cols = createCols(years);
 		//查询条件暂时放外面
 		//var queryParams = {};
-		var queryParams = {"taskid":taskid,"year":years,"index_type":"1,2,3,4,5,6"};
+		var queryParams = {"taskid":taskid,"year":years,"index_type":algorithm+','+algorithmRadio};
 
 		var url = path + '/totalData/queryData';
 		$('#datagrid').datagrid({

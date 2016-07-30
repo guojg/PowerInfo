@@ -19,9 +19,12 @@ import org.springframework.stereotype.Service;
 
 
 
+
+
 import com.github.common.util.JsonUtils;
 import com.github.totalquantity.task.dao.TaskDao;
 import com.github.totalquantity.task.entity.TotalTask;
+import com.github.totalquantity.task.entity.TotalYear;
 
 @Service
 public class TaskServiceImpl implements TaskService{
@@ -31,7 +34,12 @@ public class TaskServiceImpl implements TaskService{
 
 	@Override
 	public void saveData(TotalTask task) {
-		taskDao.saveData(task);
+		if("".equals(task.getId())){
+			taskDao.saveData(task);
+		}else{
+			taskDao.updateData(task);
+		}
+		
 		
 	}
 
@@ -40,6 +48,25 @@ public class TaskServiceImpl implements TaskService{
 		List<Map<String, Object>> list = taskDao.queryData(param);
 		int count = taskDao.queryDataCount(param);
 		return JsonUtils.listTranJsonByPage(list,count);
+	}
+
+	@Override
+	public List<TotalYear> getBaseYears() throws Exception {
+		// TODO Auto-generated method stub
+		return taskDao.getBaseYears();
+	}
+
+	@Override
+	public List<TotalYear> getPlanYears() throws Exception {
+		// TODO Auto-generated method stub
+		return taskDao.getPlanYears();
+	}
+
+	@Override
+	public String initData(String id) {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> list = taskDao.initData(id);
+		return JsonUtils.listTranJson(list);
 	}
 
 

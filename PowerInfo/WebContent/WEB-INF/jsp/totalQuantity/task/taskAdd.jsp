@@ -1,63 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@include file="../../common/commonInclude.jsp" %>	
 <script type="text/javascript" src="<%=path %>/js/totalquantity/common/my-validatebox-ext.js"></script>
-
+<%
+String id=request.getParameter("id")==null?"":request.getParameter("id");
+%>
 <script type="text/javascript"> 
+var id='<%=id%>';
 $(function() {
 	  $("#task_name").validatebox({
            required: true,
            novalidate: true,
            validType: ['checkText','maxLength[25]'],
            missingMessage: '任务名不能为空。',
-           invalidMessage: '机组名称的输入长度不能超过25个汉字，且不能包含特殊字符。'
+           invalidMessage: '任务名称的输入长度不能超过25个汉字。'
        });
-	$('#baseyear').combobox({    
-		 valueField:'id',    
-		 textField:'text' ,
-		  editable:false,
-		 data:[{    
-			    "id":2015,    
-			    "text":"2015"   
-			},{    
-			    "id":2016,    
-			    "text":"2016"   
-			}]  ,
-			value:2015
-
-	});
-	$('#planyear').combobox({    
-		 valueField:'id',    
-		 textField:'text' ,
-		  editable:false,
-		 data:[{    
-			    "id":2020,    
-			    "text":"2020"   
-			},{    
-			    "id":2021,    
-			    "text":"2021"   
-			},{    
-			    "id":2022,    
-			    "text":"2022"   
-			},{    
-			    "id":2023,    
-			    "text":"2023"   
-			},{    
-			    "id":2024,    
-			    "text":"2024"   
-			},{    
-			    "id":2025,    
-			    "text":"2025"   
-			}],
-			value:2020
-
-	});
+	  comboBoxInit({
+			id : "baseyear",
+			url : path + '/task/getBaseYears',
+			textkey : "yearName",
+			valuekey : "year",
+			multiple : false,
+			defaultVal:"last"
+		});
+	  comboBoxInit({
+			id : "planyear",
+			url : path + '/task/getPlanYears',
+			textkey : "yearName",
+			valuekey : "year",
+			multiple:false,
+			defaultVal:"first"
+		});
+	  if(id!=""){
+		  initData();
+	  }
 });
-
+function initData(){
+	 var url=path+"/task/initData?id="+id;
+	   //commonHelper.updInit(url);
+	 $.ajax({
+			type: "POST",
+			url:url,
+			dataType:"json",
+			success:function(item){
+				debugger;
+				//赋值开始
+				$('#task_name').val(item['TASK_NAME']);
+		 		$('#baseyear').combobox('setValue',item['BASEYEAR']);
+				$('#planyear').combobox('setValue',item['PLANYEAR']);
+		 		var alstrs = item['ALGORITHM'].split(",");
+				for (var i=0 ; i<alstrs.length;++i){
+					$("input:checkbox[value="+alstrs[i]+"]").attr('checked','true');		
+				}
+			}
+		});
+}
  function save(){
 	 var task_name = $('#task_name').val();
 	 var baseyear =$('#baseyear').combobox('getValue');
@@ -73,7 +75,8 @@ $(function() {
 		'task_name':task_name,
 		'baseyear':baseyear,
 		'planyear':planyear,
-		'algorithm':algorithm
+		'algorithm':algorithm,
+		'id':id
 	 };
 	 if(!validate(param)){
 		 return ;
@@ -86,7 +89,7 @@ $(function() {
 				data: param,
 				url :  '/PowerInfo/task/saveData',
 				success : function(data) {
-					window.parent.$.messager.alert('提示','新增成功！','info');
+					window.parent.$.messager.alert('提示','保存成功！','info');
 					//关闭窗口
 					window.parent.$('#win_div').window('close');
 					window.parent.$('#datagrid').datagrid('reload');
@@ -162,6 +165,7 @@ $(function() {
 </script>
 </head>
 <body>
+<form id="paramsForm">
 	<table id="detailTable">
 			<tr>
 				<td class="tdlft">任务名称：</td>
@@ -169,19 +173,19 @@ $(function() {
 			</tr>
 			<tr>
 				<td  class="tdlft">基准年：</td>
-				<td ><input id="baseyear" name="baseyear" type="text"  /></td>	
+				<td ><input id="baseyear" name="baseyear" class="comboboxComponent" type="text"  /></td>	
 			</tr>
 			<tr>
 				<td class="tdlft">预测年：</td>
-				<td ><input id="planyear" name="planyear" type="text"  /></td>	
+				<td ><input id="planyear" name="planyear" class="comboboxComponent"  type="text"  /></td>	
 			</tr>
 			<tr>
-				<td class="tdcength"><input name="algorithm" type="checkbox" value="1" />平均增长率法</td>
-				<td  class="tdcength"><input name="algorithm" type="checkbox" value="2" />产值单耗法</td>
+				<td ><input name="algorithm" type="checkbox" value="1" style="margin-left: 30px;"/>平均增长率法</td>
+				<td ><input name="algorithm" type="checkbox" value="2" style="margin-left: 30px;"/>产值单耗法</td>
 			</tr>
 			<tr>
-				<td  class="tdcength"><input name="algorithm" type="checkbox" value="3" />弹性系数法</td>
-				<td  class="tdcength"><input name="algorithm" type="checkbox" value="4" />人均用电量法</td>
+				<td><input name="algorithm" type="checkbox" value="3" style="margin-left: 30px;"/>弹性系数法</td>
+				<td><input name="algorithm" type="checkbox" value="4" style="margin-left: 30px;"/>人均用电量法</td>
 			</tr>
 			<tr>
 			<td colspan="2"><span>提示信息：</span><span style="color:red;" id="validateMessage"></span></td>
@@ -197,5 +201,6 @@ $(function() {
 			<a id="tool_save" href="javascript:save();" > <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' /></a>
 		</div> 
+		</form>
 </body>
 </html>
