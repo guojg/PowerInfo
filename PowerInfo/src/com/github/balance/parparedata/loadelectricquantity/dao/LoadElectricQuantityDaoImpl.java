@@ -32,9 +32,9 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 		sb.append("SELECT tb.id index_item,tb.name index_name,tb.ORD");
 
 		for (String year : param.get("years").toString().split(",")) {
-			sb.append(",SUM(CASE tb.yr WHEN ");
+			sb.append(",CASE tb.yr WHEN ");
 			sb.append(year);
-			sb.append(" THEN tb.value END) '");
+			sb.append(" THEN tb.value END '");
 			sb.append(year);
 			sb.append("'");
 		}
@@ -81,7 +81,6 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 		executeSQLS(basicdataList);
 		return "";
 	}
-
 	private BasicData createModel(String indexid, String yr, String value)
 			throws Exception {
 

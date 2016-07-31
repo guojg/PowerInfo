@@ -3,7 +3,6 @@ package com.github.balance.parparedata.hinderedidleCapacity.dao;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 import com.github.basicData.model.BasicData;
 
 @Repository
@@ -79,9 +79,16 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 			}
 		}
 		executeSQLS(basicdataList);
+		executeSum(rows);
 		return "";
 	}
-
+	   private void executeSum(JSONArray rows) throws Exception{
+		   String deleteSql="delete from hinderedidlecapacity_data where index_item='205'";
+		   jdbcTemplate.update(deleteSql);
+		   StringBuffer buffer=new StringBuffer("INSERT INTO hinderedidlecapacity_data (yr,index_item,VALUE)");
+		   buffer.append(" SELECT yr,205,SUM(VALUE) FROM hinderedidlecapacity_data GROUP BY yr");
+		   jdbcTemplate.update(buffer.toString());
+	   }
 	private BasicData createModel(String indexid, String yr, String value)
 			throws Exception {
 
