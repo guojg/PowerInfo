@@ -48,7 +48,6 @@ $( function() {
 	
 	var algorithmArray = algorithmstr.split(",");
 	for(var i=0 ; i <algorithmArray.length ;++i){
-		debugger;
 		if(algorithmArray[i]!="5" && algorithmArray[i]!="6"){
 		addTab(algorithmJson[algorithmArray[i]], path+'/totalData/showData'+algorithmArray[i],i+1);
 		srcs[algorithmJson[algorithmArray[i]]]=path+'/totalData/showData'+algorithmArray[i];

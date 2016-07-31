@@ -234,7 +234,7 @@ var index_type='<%=index_type%>';
 		</table>
 	</fieldset>
 	<div id="datagrid_div">
-		<table id="datagrid"></table>
+		<table id="datagrid" ></table>
 	</div>
 
 </body>

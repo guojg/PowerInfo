@@ -6,13 +6,12 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
-<script type="text/javascript" src="<%=path %>/js/totalquantity/common/sysdict.js"></script>
 
 	<%@include file="../../common/commonDefineBtn.jsp" %>
 
 <script type="text/javascript">
-	var frozenCols = [ [
-	    {field:'id',align:'center',checkbox:true},
+	var frozenCols = [ [  
+	   {field:'id',align:'center',checkbox:true},
 	    {
 		field : 'task_name',
 		title : '任务名',
@@ -20,42 +19,23 @@
 		align : 'center',
 		formatter: function(value,row,index){
 
-    		return '<a href="#" onclick="detail(\''+row.task_name+"\',"+row.baseyear+','+row.id+','+row.planyear+",\'"+row.algorithmradio+'\',\''+row.algorithm+'\')">'+value+'</a> ';
+    		return '<a href="#" onclick="detail(\''+row.task_name+"\',"+"\'"+row.year+'\','+row.id+')">'+value+'</a> ';
 		}
 	} ] ];
 	
 	var cols ='';
-	var algorithmJson=getSysDict();
 
 	$(function() {
 	
 	
 		
 		 cols = [ [
-		          	 {
-		          		field : 'baseyear',
-		          		title : '基准年',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : 'planyear',
-		          		title : '预测年',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : 'algorithm',
-		          		title : '算法',
+		          
+		          	{
+		          		field : 'year',
+		          		title : '水平年',
 		          		width : 400,
-		          		align : 'center',
-		          		formatter: function(value,row,index){
-		          		  var valueArr= value.split(',');
-		          		    var resultShow='';
-		          		  for(var i=0;i<valueArr.length;i++){
-		          				resultShow +=algorithmJson[valueArr[i]]+",";
-		          		  }
-		          		  return resultShow.substring(0,resultShow.length-1);
-		    			}
-
+		          		align : 'center'
 		          	}] ];
 		$("#tool_xjrw").bind("click", function() {
 			xjrw();
@@ -72,7 +52,7 @@
 		//查询条件暂时放外面
 		var queryParams = {};
 
-		var url = path + '/task/queryData';
+		var url = path + '/balancetask/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
@@ -85,8 +65,6 @@
 			remoteSort : false,
 			frozenColumns : frozenCols,
 			columns : cols,
-			checkOnSelect:true,
-			singleSelect:true,
 			rownumbers : true,
 			pagination : false,
 			queryParams : queryParams,
@@ -97,40 +75,34 @@
 		commonHelper.toAdd({
 			title : '新建任务',
 			width : 500,
-			height : 300,
-			url : path + "/task/taskAdd"
+			height : 250,
+			url : path + "/balancetask/taskAdd"
 		});
 	}
-	
 	function xgrw(){
 		var rows = $('#datagrid').datagrid('getChecked');
 		commonHelper.toAdd({
 			title : '修改任务',
 			width : 500,
-			height : 300,
-			url : path + "/task/taskAdd?id="+rows[0].id
+			height : 250,
+			url : path + "/balancetask/taskAdd?id="+rows[0].id
 		});
 	}
-
-
-	function detail(task_name,baseyear,id,planyear,algorithmradio,algorithm){
+	function detail(task_name,year,id){
 		var param={
-				"baseyear":baseyear,
-				"planyear":planyear,
-				"algorithm":algorithm,
-				'algorithmRadio':algorithmradio,
+				"year":year,
 				"taskid":id,
 				"task_name":task_name
 		};
 		$.ajax({
 			 type : 'POST',
-			 url : path+'/task/taskDetail',
+			 url : path+'/balancetask/taskDetail',
 			 dataType: 'text',
 			 data: param,
 			 async:false,
 			 success:function(msg){
 					//页面跳转
-					window.parent.addNav(5);
+					window.parent.addNav(169);
 		 	 }
 		});
 	

@@ -55,10 +55,10 @@ function comboBoxInit(obj) {
 							comboboxObj.combobox("setValues", arrDefaultV);
 						}
 					} else {// 单选的话加上请选择,默认单选
-						// debugger;
-						if (obj.singleOne) {
+						if (obj.defaultVal=="first") {
+							var defaultVal='';
 							if (data != null && data.length > 0) {
-								obj.defaultVal = data[0].valuekey;
+								defaultVal = data[0][valuekey];
 
 							}
 							$("#" + obj.id).combobox({
@@ -66,7 +66,21 @@ function comboBoxInit(obj) {
 								textField : textkey,
 								multiple : false,
 								editable : false,
-								value : obj.defaultVal,
+								value : defaultVal,
+								data : data
+							});
+						}else if(obj.defaultVal=="last"){
+							var lastVal='';
+							if (data != null && data.length > 0) {
+								lastVal = data[data.length-1][valuekey];
+
+							}
+							$("#" + obj.id).combobox({
+								valueField : valuekey,
+								textField : textkey,
+								multiple : false,
+								editable : false,
+								value : lastVal,
 								data : data
 							});
 						} else {

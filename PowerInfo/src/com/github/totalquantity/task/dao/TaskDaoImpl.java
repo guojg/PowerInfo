@@ -11,7 +11,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.github.basicData.model.BasicYear;
 import com.github.totalquantity.task.entity.TotalTask;
+import com.github.totalquantity.task.entity.TotalYear;
 
 
 @Repository
@@ -46,8 +48,8 @@ public class TaskDaoImpl implements TaskDao{
 
 	@Override
 	public void updateData(TotalTask task) {
-		String sql = "update total_task set task_name=?,baseyear=?,planyear=?,algorithm=?,algorithmradio=? where  id=?";
-		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getBaseyear(),task.getPlanyear(),task.getAlgorithm(),task.getAlgorithmRadio(),task.getId()});
+		String sql = "update total_task set task_name=?,baseyear=?,planyear=?,algorithm=? where  id=?";
+		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getBaseyear(),task.getPlanyear(),task.getAlgorithm(),task.getId()});
 		
 	}
 
@@ -56,6 +58,28 @@ public class TaskDaoImpl implements TaskDao{
 		String sql ="select count(1) from total_task";
 		int count =this.jdbcTemplate.queryForInt(sql);
 		return count;
+	}
+
+	@Override
+	public List<TotalYear> getBaseYears() throws Exception {
+		String sql = "select year,year_name from total_year where flag=0";
+		List<TotalYear> list = jdbcTemplate.query(sql,
+				new BeanPropertyRowMapper(TotalYear.class));
+		return list;
+	}
+
+	@Override
+	public List<TotalYear> getPlanYears() throws Exception {
+		String sql = "select year,year_name from total_year where flag=1";
+		List<TotalYear> list = jdbcTemplate.query(sql,
+				new BeanPropertyRowMapper(TotalYear.class));
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> initData(String id) {
+		String sql ="select id,task_name,baseyear,planyear,algorithm,algorithmradio from total_task where id=?";
+		return  this.jdbcTemplate.queryForList(sql,new Object[]{id});
 	}
 	
 

@@ -2,6 +2,8 @@ package com.github.totalquantity.task.controller;
 
 
 
+import java.util.List;
+
 import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.totalquantity.task.entity.TotalTask;
+import com.github.totalquantity.task.entity.TotalYear;
 import com.github.totalquantity.task.service.TaskService;
 
 @Controller
@@ -44,11 +47,13 @@ public class TaskController {
         String baseyear = request.getParameter("baseyear")!=null?request.getParameter("baseyear"):"";
         String planyear = request.getParameter("planyear")!=null?request.getParameter("planyear"):"";
         String algorithm = request.getParameter("algorithm")!=null?request.getParameter("algorithm"):"";
+        String id = request.getParameter("id")!=null?request.getParameter("id"):"";
         TotalTask task = new TotalTask();
         task.setTask_name(task_name);
         task.setBaseyear(baseyear);
         task.setPlanyear(planyear);
         task.setAlgorithm(algorithm);
+        task.setId(id);
         taskService.saveData(task);
 
 	}
@@ -66,6 +71,11 @@ public class TaskController {
 	public String taskAdd(HttpServletRequest request, HttpServletResponse response){
 	
 		return "totalQuantity/task/taskAdd";
+	}
+	@RequestMapping(value ="/initData",produces="application/json;charset=UTF-8")
+	public @ResponseBody String initData(HttpServletRequest request, HttpServletResponse response){
+		String id = request.getParameter("id")==null?"":request.getParameter("id");
+		return  taskService.initData(id);
 	}
 	@RequestMapping(value ="/taskDetail")
 	public @ResponseBody void taskDetail(HttpServletRequest request, HttpServletResponse response){
@@ -86,6 +96,23 @@ public class TaskController {
 			tt.setAlgorithmRadio(algorithmRadio);
 			request.getSession().setAttribute("totaltask", tt);
 	}
-	
+	@RequestMapping(value = "/getBaseYears",produces="application/json;charset=UTF-8")
+	public @ResponseBody List<TotalYear> getBaseYears(HttpServletRequest request) {
+		try {
+			return taskService.getBaseYears();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@RequestMapping(value = "/getPlanYears",produces="application/json;charset=UTF-8")
+	public @ResponseBody List<TotalYear> getPlanYears(HttpServletRequest request) {
+		try {
+			return taskService.getPlanYears();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 }

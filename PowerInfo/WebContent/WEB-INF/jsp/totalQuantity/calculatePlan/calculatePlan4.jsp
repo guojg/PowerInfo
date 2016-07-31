@@ -25,15 +25,14 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 
 </head>
 <body>
-		<a id="tool_save" href="javascript:save();" style="margin:5px;"> <img src='<%=path%>/static/images/save.gif'
-			align='top' border='0' title='保存' /></a>
 	<table id="calculateTable">
 		
 			<tr>
-			<td rowspan="4" class="bs1">预测算法</td>
+			<td rowspan="2" class="bs1">预测算法</td>
 				<td  class="bs3"><input name="algorithm" type="checkbox" value="1" />平均增长率法</td>
 				<td class="bs3"><input name="algorithm" type="checkbox" value="2" />产值单耗法</td>
-			
+				<td class="bs3"><input name="algorithm" type="checkbox" value="3" />弹性系数法</td>
+				<td class="bs3"><input name="algorithm" type="checkbox" value="4" />人均用电量法</td>
 			</tr>
 			<tr>
 				<td class="bs3">
@@ -63,13 +62,6 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 						  </tr>
 					</table> 
 				</td>
-				
-			</tr>
-			<tr>
-				<td class="bs3"><input name="algorithm" type="checkbox" value="3" />弹性系数法</td>
-				<td class="bs3"><input name="algorithm" type="checkbox" value="4" />人均用电量法</td>
-			</tr>
-			<tr>
 				<td  class="bs3">	
 					<table id="3" class="bs2" style="width:300px">
 						 <tr> 
@@ -108,7 +100,10 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 	</table>
 	
  
-
+	<div class="div_submit" >
+		<a id="tool_save" href="javascript:save();" > <img src='<%=path%>/static/images/save.gif'
+			align='top' border='0' title='保存' /></a>
+		</div> 
 
 </body>
 </html>

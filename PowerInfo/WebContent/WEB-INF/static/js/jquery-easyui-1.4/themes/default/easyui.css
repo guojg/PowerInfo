@@ -1205,7 +1205,7 @@
 }
 .datagrid-header-inner {
   float: left;
-  width: 10000px;
+  width: 100%;
 }
 .datagrid-header-row{
 	height: 30px;
@@ -1268,7 +1268,7 @@
 .datagrid-footer-inner {
   border-width: 1px 0 0 0;
   border-style: solid;
-  width: 10000px;
+  width: 100%;
   float: left;
 }
 .datagrid-row-editing .datagrid-cell {
@@ -1293,7 +1293,7 @@
 .datagrid-resize-proxy {
   position: absolute;
   width: 1px;
-  height: 10000px;
+  height: 100px;
   top: 0;
   cursor: e-resize;
   display: none;
