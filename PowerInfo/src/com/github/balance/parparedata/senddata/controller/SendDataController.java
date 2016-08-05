@@ -1,4 +1,4 @@
-package com.github.balance.parparedata.hinderedidleCapacity.controller;
+package com.github.balance.parparedata.senddata.controller;
 
 
 import java.io.PrintWriter;
@@ -13,26 +13,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.balance.parparedata.hinderedidleCapacity.service.HinderedIdleCapacityService;
+import com.github.balance.parparedata.senddata.service.SendDataService;
 
 @Controller
-@RequestMapping(value = "/hinderedIdleCapacity")
-public class HinderedIdleCapacityController {
+@RequestMapping(value = "/sendData")
+public class SendDataController {
 	@Autowired
-	private HinderedIdleCapacityService hinderedIdleCapacityService;
+	private SendDataService sendDataService;
 
 	@RequestMapping(value = "/queryData")
 	public void queryData(HttpServletRequest request,
 			HttpServletResponse response) {
 		response.setCharacterEncoding("UTF-8");
-		String years = request.getParameter("years");
-		String indexs = request.getParameter("indexs");
-		
+		String years = "2015,2016";	
 		JSONObject obj = new JSONObject();
 		obj.put("years", years);
-		obj.put("indexs", indexs);
 		try {
-			String resultJson = hinderedIdleCapacityService.queryData(obj);
+			String resultJson = sendDataService.queryData(obj);
 			PrintWriter pw = response.getWriter();
 			pw.write(resultJson);
 			pw.flush();
@@ -50,7 +47,7 @@ public class HinderedIdleCapacityController {
 			String editObj = request.getParameter("editObj");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("editObj", editObj);
-			hinderedIdleCapacityService.saveData(jsonobj);
+			sendDataService.saveData(jsonobj);
 			return "1";
 		} catch (Exception e) {
 			e.printStackTrace();
