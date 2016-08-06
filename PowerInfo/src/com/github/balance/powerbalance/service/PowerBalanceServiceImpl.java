@@ -21,5 +21,10 @@ public class PowerBalanceServiceImpl implements PowerBalanceService {
 		List<Map<String, Object>> list = powerBalanceDao.queryData(param);
 		return JsonUtils.listTranJsonByQuery(list);
 	}
+	@Override
+	public String extractData(JSONObject obj) {
+		int  result =  powerBalanceDao.extractData(obj);
+		return null;
+	}
 
 }

@@ -14,6 +14,9 @@
 <script type="text/javascript">
 var cols;
 $(function() {
+	$("#tool_save").bind("click", function() {
+		extractData();
+	});
 	//非冰冻列
 	cols = createCols("2016,2017");
 $('#datagrid').treegrid({    
@@ -47,6 +50,19 @@ function createCols(years) {
 		});
 	}
 	return new Array(cols);
+}
+function extractData(){
+	 $.ajax({
+			type : 'POST',
+			async : false,
+			dataType: 'json',
+			url :  path+'/powerbalance/extractData',
+			success : function(data) {
+				
+				$.messager.alert("提示", "计算成功！");
+
+			}
+		});
 }
 </script>
 </head>

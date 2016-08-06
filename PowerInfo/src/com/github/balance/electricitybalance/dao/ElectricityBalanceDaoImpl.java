@@ -37,5 +37,45 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{11});
 		return list;
 	}
+	/**
+	 * 全社会用电量100
+	 * 同比增长率
+	 * 外购(+)外送(-)200
+	 * 需自发用电量300
+	 * 煤电利用小时400
+	 */
+	@Override
+	public  int extractData(JSONObject obj) {
+	
+		StringBuffer sb = new StringBuffer();
+		sb.append(" insert into power_data(year,p_index_item,index_item,value) ");
+		sb.append(" SELECT yr,NULL,100,VALUE FROM loadelectricquantity_data  WHERE index_item=1 ");
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT yr,200,1,VALUE FROM loadelectricquantity_data  WHERE index_item=2 ");
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT yr,200,2,VALUE FROM loadelectricquantity_data  WHERE index_item=3  ");
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT l1.yr,NULL,200,l1.VALUE*l2.VALUE FROM loadelectricquantity_data l1 JOIN loadelectricquantity_data l2  ");
+		sb.append("  WHERE l1.yr=l2.yr AND  l1.index_item=2 AND l2.index_item=3  ");
+		sb.append("    UNION ALL  ");
+		sb.append("  SELECT YEAR ,NULL,300,SUM(VALUE) FROM t_dldln_dylxrl WHERE sbzt=1  GROUP BY YEAR ");
+		sb.append("    UNION ALL  ");
+		sb.append("  SELECT YEAR ,inex_item,300,VALUE FROM t_dldln_dylxrl WHERE sbzt=1  ");
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT YEAR ,NULL,400,SUM(VALUE) FROM t_dldln_dylxrl WHERE sbzt=2  GROUP BY YEAR  ");
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT YEAR ,inex_item,400,VALUE FROM t_dldln_dylxrl WHERE sbzt=2 ");
+		sb.append("    UNION ALL  ");
+		sb.append("  SELECT YEAR ,NULL,500,SUM(VALUE) FROM t_dldln_dylxrl WHERE sbzt=3  GROUP BY YEAR ");
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT YEAR ,inex_item,500,VALUE FROM t_dldln_dylxrl WHERE sbzt=3  ");
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT yr,NULL,600,SUM(VALUE) FROM hinderedidlecapacity_data GROUP BY yr ");
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT yr,600,index_item,VALUE FROM hinderedidlecapacity_data ");
+
+
+		return 0;
+	}
 
 }
