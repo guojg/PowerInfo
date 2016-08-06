@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.balance.parparedata.loadelectricquantity.service.LoadElectricQuantityService;
-import com.github.basicData.model.BasicIndex;
-import com.github.basicData.model.BasicYear;
-import com.github.basicData.service.BasicDataService;
-import com.github.common.tree.TreeUtil;
-import com.github.common.util.JsonUtils;
 
 @Controller
 @RequestMapping(value = "/loadElectricQuantity")
