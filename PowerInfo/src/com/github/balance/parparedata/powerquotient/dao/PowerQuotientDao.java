@@ -1,9 +1,10 @@
-package com.github.balance.powerquotient.dao;
+package com.github.balance.parparedata.powerquotient.dao;
 
 
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.github.totalquantity.totaldata.entity.TotalData;
@@ -14,10 +15,10 @@ import com.github.totalquantity.totaldata.entity.TotalData;
  */
 public interface PowerQuotientDao {
 	/**
-	 * 保存
-	 * @param data
+	 * 保存业务数据
+	 * @return
 	 */
-	public void saveData( List<TotalData> data) ;
+	public String saveData(JSONArray array);
 	
 	/**
 	 * 查询数据

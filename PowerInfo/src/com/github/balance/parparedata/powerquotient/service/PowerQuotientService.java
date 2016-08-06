@@ -1,4 +1,4 @@
-package com.github.balance.powerquotient.service;
+package com.github.balance.parparedata.powerquotient.service;
 
 
 import java.util.List;
@@ -17,4 +17,6 @@ public interface PowerQuotientService {
 	 */
 	
 	public String queryData(JSONObject param);
+
+	public String saveData(JSONObject jsonobj);
 }
