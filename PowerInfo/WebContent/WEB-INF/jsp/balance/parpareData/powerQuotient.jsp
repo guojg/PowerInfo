@@ -10,6 +10,8 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
+<script type="text/javascript" src="<%=path%>/js/totalquantity/jsonutil.js"></script>
+<script type="text/javascript" src="<%=path %>/js/totalquantity/common/validatedatagrid.js"></script>
 
 <script type="text/javascript">
 var cols;
@@ -41,10 +43,18 @@ $('#datagrid').datagrid({
 	pagination : false,
 	queryParams : {},
 	onClickCell : function(rowIndex, field, value) {
+		if($('#datagrid').datagrid('getData').rows[rowIndex] .code==3 && field=="hour_num"){
+			
+		}else{
 		clickEvent(rowIndex, field, value);
+		}
 
-	}  
+	}
 }); 
+
+$("#tool_save").bind("click", function() {
+	save();
+});
 });
 
 //动态生成列
@@ -69,7 +79,14 @@ function createCols(years) {
 		'title' : "机组利用小时数",
 		'align' : 'center',
 		'width' : 120,
-		'editor' : 'text'
+		'editor' : 'text',
+		'formatter': function(value,row,index){
+			if(row['code']==3){
+				return "-";
+			}else{
+				return value;
+			}
+			}
 
 	});
 	return new Array(cols);
@@ -138,6 +155,41 @@ function endEdit() {
 	}
 
 }
+/**
+ * ‘保存’按钮功能
+ */
+function save() {
+	endEdit();
+	var updates = $('#datagrid').datagrid('getChanges');
+	if (updates.length <= 0) {
+		return;
+	}
+	if (!validate($('#datagrid'), updates,[ 'displayvalue' ],10, 2)) {
+		return;
+	}
+	var param = JSONH.stringify(updates);
+	var data = {
+		"taskid":"1",
+		"editObj" : param
+	};
+	$.ajax({
+		type : 'POST',
+		async : false,
+		url : path + '/powerQuotient/saveData',
+		data : data,
+		success : function(data) {
+			if (data == "undifined") {
+				$.messager.alert("提示", "保存失败！");
+				$('#datagrid').datagrid('reload');
+			} else {
+				$.messager.alert("提示", "保存成功！");
+				$('#datagrid').datagrid('reload');
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -145,6 +197,8 @@ function endEdit() {
 	<div id="btn_div">
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
+		</a><a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
+			align='top' border='0' title='保存' />
 		</a>
 	</div>
 	<fieldset id="field">

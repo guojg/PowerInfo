@@ -53,6 +53,7 @@ public class PowerQuotientController {
 		String editObj = request.getParameter("editObj");
 		JSONObject jsonobj = new JSONObject();
 		jsonobj.put("editObj", editObj);
+		jsonobj.put("taskid", "1");
 		return powerQuotientService.saveData(jsonobj);
 		
 	}

@@ -29,7 +29,9 @@ public class PowerQuotientServiceImpl implements PowerQuotientService {
 		if (param.get("editObj") != null) {
 			rows = JSONArray.fromObject(param.get("editObj"));
 		}
-		return powerQuotientDao.saveData(rows);
+		JSONObject obj = new JSONObject();
+		obj.put("taskid", param.get("taskid")==null?"":param.get("taskid").toString());
+		return powerQuotientDao.saveData(rows,obj);
 	}
 
 }

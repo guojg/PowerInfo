@@ -18,7 +18,7 @@ public interface PowerQuotientDao {
 	 * 保存业务数据
 	 * @return
 	 */
-	public String saveData(JSONArray array);
+	public String saveData(JSONArray array,JSONObject obj);
 	
 	/**
 	 * 查询数据
