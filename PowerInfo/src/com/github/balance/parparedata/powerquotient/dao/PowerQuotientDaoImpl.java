@@ -201,13 +201,13 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 
 	@Override
 	public List<Map<String, Object>> queryData(JSONObject param) {
-		//String year = param.getString("year") ;
-		String year ="2014,2015,2016";
-		//String taskid = param.getString("taskid") ;
-		String taskid ="1";
+		String year = param.getString("year") ;
+		//String year ="2014,2015,2016";
+		String taskid = param.getString("taskid") ;
+		//String taskid ="1";
 		String type = param.getString("type") ;
 		List<String> params = new ArrayList<String>();
-		params.add(taskid) ;
+		
 
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT m.*, n.hour_num   FROM (") ;
@@ -231,7 +231,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 		sb.append("   ) m LEFT JOIN  power_hour   n");
 		sb.append("  ON m.code=n.index_item AND n.task_id=?  ORDER BY m.ord");
 		params.add(taskid) ;
-		
+		params.add(taskid) ;
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),params.toArray());
 		return list;
 	}

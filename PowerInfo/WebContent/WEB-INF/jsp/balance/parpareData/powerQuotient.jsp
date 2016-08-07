@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
+<%@ page import="com.github.balance.task.entity.BalanceTask"%>
  <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +12,15 @@
 <%@include file="../../common/commonInclude.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/totalquantity/jsonutil.js"></script>
 <script type="text/javascript" src="<%=path %>/js/totalquantity/common/validatedatagrid.js"></script>
-
+<% 
+		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
+		String taskid = tt.getId();
+		String year = tt.getYear();
+		
+		%>
 <script type="text/javascript">
+var taskid='<%=taskid%>';
+var years = '<%=year%>';
 var cols;
 var savEvtTime = 0;
 var dcAt = 0;
@@ -21,42 +28,64 @@ var dcTime = 250;
 var savTO = null;
 $(function() {
 
+	 comboBoxInit({
+			id : "dylxs",
+			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
+			textkey : "value",
+			valuekey : "code",
+			multiple : true
+		});
+	 comboBoxInit({
+			id : "years",
+			url : path + '/sysdict/getBalanceYears?year='+years,
+			textkey : "value",
+			valuekey : "code",
+			multiple : true
+		});
+	 queryData();
+
+	$("#tool_save").bind("click", function() {
+		save();
+	});
+	$("#tool_query").bind("click", function() {
+		queryData();
+	});
+});
+function queryData(){
+	var index_type = $('#dylxs').combo('getValues').join(",");
+	var yrs = $('#years').combo('getValues').join(",");
+
 	//非冰冻列
-	cols = createCols("2014,2015,2016,2017");
+	cols = createCols(yrs);
 	var Height_Page = $(document).height();
 	var datagrid_title_height = $("#datagrid_div").position().top;
 	var height = Height_Page - datagrid_title_height;
-$('#datagrid').datagrid({    
-   url:path+'/powerQuotient/queryData',   
-	width : 'auto',
-	height : height,
-	autoRowHeight : false,
-	collapsible : true,
-	remoteSort : false,
-    frozenColumns:[[    
-        {title:'code',field:'code',width:180,hidden:true},    
-        {field:'displayvalue',title:'电源类型',width:120}  
-    ]] ,
-	columns : cols,
-	rownumbers : true,
-	singleSelect:true,
-	pagination : false,
-	queryParams : {},
-	onClickCell : function(rowIndex, field, value) {
-		if($('#datagrid').datagrid('getData').rows[rowIndex] .code==3 && field=="hour_num"){
-			
-		}else{
-		clickEvent(rowIndex, field, value);
-		}
+	$('#datagrid').datagrid({    
+		   url:path+'/powerQuotient/queryData',   
+			width : 'auto',
+			height : height,
+			autoRowHeight : false,
+			collapsible : true,
+			remoteSort : false,
+		    frozenColumns:[[    
+		        {title:'code',field:'code',width:180,hidden:true},    
+		        {field:'displayvalue',title:'电源类型',width:120}  
+		    ]] ,
+			columns : cols,
+			rownumbers : true,
+			singleSelect:true,
+			pagination : false,
+			queryParams : {"index_type":index_type,"year":yrs,"taskid":taskid},
+			onClickCell : function(rowIndex, field, value) {
+				if($('#datagrid').datagrid('getData').rows[rowIndex] .code==3 && field=="hour_num"){
+					
+				}else{
+				clickEvent(rowIndex, field, value);
+				}
 
-	}
-}); 
-
-$("#tool_save").bind("click", function() {
-	save();
-});
-});
-
+			}
+		}); 
+}
 //动态生成列
 function createCols(years) {
 	var cols = [];
@@ -204,6 +233,13 @@ function save() {
 	<fieldset id="field">
 		<legend>查询条件</legend>
 		<table id="search_tbl">
+		<tr>
+			<tr>
+				<td class="tdlft">电源类型：</td>
+				<td class="tdrgt"><input id="dylxs" class="comboboxComponent" /></td>
+				<td class="tdlft">年份：</td>
+				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
+			</tr>
 		</table>
 	</fieldset>
 	<div id="datagrid_div">

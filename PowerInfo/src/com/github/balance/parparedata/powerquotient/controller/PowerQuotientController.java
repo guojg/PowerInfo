@@ -34,7 +34,7 @@ public class PowerQuotientController {
 			HttpServletResponse response) {
 		//response.setCharacterEncoding("UTF-8");
 		// String jsonParam = request.getParameter("jsonParam");
-		 String taskid = request.getParameter("taskid");
+		 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
 		 String year = request.getParameter("year")==null?"": request.getParameter("year");
 
 		 String index_type = request.getParameter("index_type")==null?"": request.getParameter("index_type");
