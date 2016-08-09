@@ -10,10 +10,16 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
+import com.github.balance.parparedata.electricpowerplant.model.PowerPlant;
+import com.github.balance.parparedata.senddata.model.Domain;
+import com.github.balance.parparedata.senddata.model.SendItemName;
 import com.github.basicData.model.BasicData;
+import com.github.basicData.model.BasicYear;
 
 @Repository
 public class SendDataDaoImpl implements SendDataDao {
@@ -23,33 +29,60 @@ public class SendDataDaoImpl implements SendDataDao {
 	@Override
 	public List<Map<String, Object>> queryData(JSONObject param)
 			throws Exception {
-		String indexs[] = param.get("indexs") == null ? null : param
-				.get("indexs").toString().split(",");
 		StringBuffer sb = new StringBuffer();
-
-		sb.append("SELECT tb.id index_item,tb.name index_name,tb.ORD");
-
-		for (String year : param.get("years").toString().split(",")) {
-			sb.append(",SUM(CASE tb.yr WHEN ");
-			sb.append(year);
-			sb.append(" THEN tb.value END) '");
-			sb.append(year);
-			sb.append("'");
+		String years[]=param.get("years")==null?null:param.get("years").toString().split(",");
+	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.ID,b.pid");	
+	    sb.append(addYearSql(years));
+	    sb.append(" FROM senddata_data  a ");
+	    sb.append(" RIGHT JOIN (SELECT a.id ,a.pro_name,b.value,a.task_id,a.wgwstdlyxss,a.sdshl,a.pid FROM senddata_itemname a  RIGHT JOIN ");
+	    sb.append("  sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code IN(1,2,3,4,5)) b ON b.id=a.index_item");
+	    sb.append("  WHERE b.task_id=1");
+	                                                                                                                                             
+	    sb.append(" UNION ALL");
+	    sb.append("  SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.ID ,b.pid");
+	    sb.append(addYearSql(years));
+	    sb.append(" FROM senddata_data  a ");
+	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='5'");
+	    sb.append(" UNION ALL");
+	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.ID,b.pid");
+	    sb.append(addYearSql(years));
+	    sb.append(" FROM senddata_data  a ");
+	    sb.append(" RIGHT JOIN ( SELECT a.id ,b.value,a.pro_name,a.task_id,a.wgwstdlyxss,a.sdshl,a.pid FROM senddata_itemname a");
+	    sb.append("  RIGHT JOIN sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code=6) b ON b.id=a.index_item");
+	    sb.append("   WHERE b.task_id=1");
+	    sb.append(" UNION ALL");
+	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.ID,b.pid");
+	    sb.append(addYearSql(years));
+	    sb.append(" FROM senddata_data  a ");
+	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='6'");
+	    sb.append(" UNION ALL");
+	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.ID,b.pid");
+	    sb.append(addYearSql(years));
+	    sb.append(" FROM senddata_data  a ");
+	    sb.append(" RIGHT JOIN ( SELECT a.id ,b.value,a.pro_name,a.task_id,a.wgwstdlyxss,a.sdshl,a.pid FROM senddata_itemname a");
+	    sb.append("  RIGHT JOIN sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code=7) b ON b.id=a.index_item WHERE");
+	    sb.append("   b.task_id=1");
+	    sb.append(" UNION ALL");
+	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.ID,b.pid");
+	    sb.append(addYearSql(years));
+	    sb.append(" FROM senddata_data  a ");
+	    sb.append(" RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='7'");		
+		return jdbcTemplate.queryForList(sb.toString());
+	}
+	
+	private String addYearSql(String[]  years){
+		StringBuffer sb=new StringBuffer("");
+		if(years!=null){
+			for (String year :years) {
+				sb.append(",CASE a.yr WHEN ");
+				sb.append(year);
+				sb.append(" THEN a.value END '");
+				sb.append(year);
+				sb.append("'");
+			}
 		}
-		sb.append("  FROM (SELECT t2.id,t2.name,t2.ORD,t1.value,t1.yr FROM ");
-		sb.append(" hinderedIdleCapacity_data");
-		sb.append("         t1 RIGHT JOIN (");
-		sb.append("         select id,name,ord from sys_menu where id in(");
-		String InSql = "";
-		for (int i = 0; i < indexs.length; i++) {
-			InSql = InSql + "?,";
-		}
-		sb.append(InSql.substring(0, InSql.length() - 1));
-		sb.append("        )");
-		sb.append(" ) t2        ON t1.index_item= t2.id) tb");
-		sb.append(" GROUP BY tb.id,tb.name,tb.ORD");
+		return sb.toString();
 
-		return jdbcTemplate.queryForList(sb.toString(), indexs);
 	}
 
 	/**
@@ -77,14 +110,122 @@ public class SendDataDaoImpl implements SendDataDao {
 			}
 		}
 		executeSQLS(basicdataList);
-		executeSum(rows);
+		//executeSum();
 		return "";
 	}
 	   private void executeSum(JSONArray rows) throws Exception{
-		   String deleteSql="delete from hinderedidlecapacity_data where index_item='205'";
+		   String deleteSql="delete from senddata_data where index_item='205'";
 		   jdbcTemplate.update(deleteSql);
-		   StringBuffer buffer=new StringBuffer("INSERT INTO hinderedidlecapacity_data (yr,index_item,VALUE)");
-		   buffer.append(" SELECT yr,205,SUM(VALUE) FROM hinderedidlecapacity_data GROUP BY yr");
+
+		   StringBuffer buffer=new StringBuffer("");
+		   buffer.append("INSERT INTO senddata_data (yr,VALUE,index_item)");
+		   buffer.append(" SELECT ");
+		   buffer.append(" yr,");
+		   buffer.append(" SUM(a.`sdshl`*b.value),");
+		   buffer.append(" '3' index_item");
+		   buffer.append(" FROM");
+		   buffer.append(" senddata_itemname  a");
+		   buffer.append(" RIGHT JOIN ");
+		   buffer.append(" (SELECT ");
+		   buffer.append(" VALUE,");
+		   buffer.append(" yr,");
+		   buffer.append(" index_item ");
+		   buffer.append(" FROM");
+		   buffer.append(" senddata_data ");
+		   buffer.append(" WHERE index_item IN ");
+		   buffer.append(" (SELECT ");
+		   buffer.append(" id ");
+		   buffer.append(" FROM  senddata_itemname WHERE task_id=1 AND pid IS NOT NULL");
+		   buffer.append(" )");
+		   buffer.append(" ) b ON a.`id`=b.index_item GROUP  BY b.yr");
+		   buffer.append(" UNION ALL");
+		   buffer.append(" SELECT ");
+		   buffer.append(" yr,");
+		   buffer.append(" SUM(b.value)-SUM(a.`sdshl`*b.value),");
+		   buffer.append(" '1' index_item");
+
+		   buffer.append(" FROM");
+		   buffer.append(" senddata_itemname  a");
+		   buffer.append("  RIGHT JOIN ");
+		   buffer.append(" (SELECT ");
+		   buffer.append(" VALUE,");
+		   buffer.append(" yr,");
+		   buffer.append(" index_item ");
+		   buffer.append(" FROM");
+		   buffer.append(" senddata_data ");
+		   buffer.append("  WHERE index_item IN ");
+		   buffer.append(" (SELECT ");
+		   buffer.append("  id ");
+		   buffer.append(" FROM  senddata_itemname WHERE task_id=1 AND pid IS NOT NULL");
+		   buffer.append(" )");
+		   buffer.append(" ) b ON a.`id`=b.index_item GROUP  BY b.yr");
+		   buffer.append(" UNION ALL");
+		   buffer.append(" SELECT ");
+		   buffer.append("  b.yr,");
+		   buffer.append("  SUM(b.value*a.wgwstdlyxss/10000),");
+		   buffer.append("  '4' index_item");
+		   buffer.append(" FROM");
+		   buffer.append("  senddata_itemname  a");
+		   buffer.append("  RIGHT JOIN ");
+		   buffer.append("  (SELECT ");
+		   buffer.append("    VALUE,");
+		   buffer.append("   yr,");
+		   buffer.append("    index_item ");
+		   buffer.append("  FROM");
+		   buffer.append("    senddata_data ");
+		   buffer.append("  WHERE index_item IN ");
+		   buffer.append("  (SELECT ");
+		   buffer.append("    id ");
+		   buffer.append("   FROM  senddata_itemname WHERE task_id=1 AND pid IS NOT NULL");
+		   buffer.append("    )");
+		   buffer.append("    ) b ON a.`id`=b.index_item GROUP  BY b.yr");
+		   buffer.append("  UNION ALL");
+		   buffer.append("  SELECT yr,");
+		   buffer.append("      SUM(VALUE) VALUE,");
+		   buffer.append("       2 AS index_item");
+		          
+		   buffer.append("   FROM");
+		   buffer.append("     senddata_data tb ");
+		   buffer.append("  WHERE index_item IN ");
+		   buffer.append(" (SELECT ");
+		   buffer.append("     id ");
+		   buffer.append("    FROM  senddata_itemname WHERE task_id=1 AND pid IS NOT NULL");
+		   buffer.append("    )   GROUP BY yr");
+		   buffer.append("  UNION ALL");
+		   buffer.append("  SELECT  tb.yr,");
+		   buffer.append(" 	SUM(tb.value) VALUE,");
+		   buffer.append(" 	5 AS index_item");
+		   buffer.append("  FROM");
+		   buffer.append("    senddata_data tb ");
+		   buffer.append("  WHERE tb.index_item IN ");
+		   buffer.append("   (SELECT ");
+		   buffer.append("     id ");
+		   buffer.append("   FROM  senddata_itemname WHERE task_id=1 AND pid =5");
+		   buffer.append("    )   GROUP BY yr");
+		   buffer.append("    UNION ALL");
+		   buffer.append("  SELECT ");
+		   buffer.append(" 	tb.yr,");
+		   buffer.append(" 	SUM(tb.value),");
+		   buffer.append(" 	'6'  index_item");
+		   buffer.append("  FROM");
+		   buffer.append("   senddata_data tb ");
+		   buffer.append("  WHERE index_item IN ");
+		   buffer.append("    (SELECT ");
+		   buffer.append("     id ");
+		   buffer.append("  FROM  senddata_itemname WHERE task_id=1 AND pid =6");
+		   buffer.append("   )   GROUP BY yr");
+		   buffer.append("    UNION ALL");
+		   buffer.append("    SELECT ");
+		   buffer.append("     tb.yr,");
+		   buffer.append("  SUM(tb.value),");
+		   buffer.append("  7 AS index_item");
+		   buffer.append("  FROM");
+		   buffer.append("  senddata_data tb ");
+		   buffer.append("  WHERE index_item IN ");
+		   buffer.append("   (SELECT ");
+		   buffer.append("    id ");
+		   buffer.append("    FROM  senddata_itemname WHERE task_id=1 AND pro_name =7");
+		   buffer.append("  )   GROUP BY yr ");
 		   jdbcTemplate.update(buffer.toString());
 	   }
 	private BasicData createModel(String indexid, String yr, String value)
@@ -143,5 +284,40 @@ public class SendDataDaoImpl implements SendDataDao {
 			}
 		};
 		jdbcTemplate.batchUpdate(insertsql, setinsert);
+	}
+
+	@Override
+	public String addProData(final SendItemName sendItemName) throws Exception {
+		String insertsql = "insert  senddata_itemname" 
+				+ "(pro_name,pid,task_id) VALUES(?,?,?)";
+		PreparedStatementSetter setinsert = new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				// TODO Auto-generated method stub
+				ps.setString(1, sendItemName.getPro_name());
+				ps.setString(2, sendItemName.getPid());
+				ps.setString(3, sendItemName.getTask_id());
+			}
+
+		};
+		jdbcTemplate.update(insertsql, setinsert);
+		return "1";
+	}
+
+	@Override
+	public String deleteProData(String ids) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Domain> getTypes() throws Exception {
+		// TODO Auto-generated method stub
+
+		String sql = "select code,value name from sys_dict_table where domain_id=18 and code in(5,6,7)";
+		List<Domain> list = jdbcTemplate.query(sql,
+				new BeanPropertyRowMapper(Domain.class));
+		return list;
 	}
 }

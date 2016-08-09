@@ -40,6 +40,7 @@ String commonPath = path;
 <script type="text/javascript">
 	var path="<%=path%>";
 	var commonPath="<%=path%>";
+	var basePath="<%=basePath%>";
 </script>
 
 
