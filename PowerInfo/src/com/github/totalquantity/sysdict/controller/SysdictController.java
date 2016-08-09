@@ -32,4 +32,28 @@ public class SysdictController {
 	
 	
 	}
+	
+	@RequestMapping(value = "/getDataByCodeValue", produces="application/json;charset=UTF-8")
+	public  @ResponseBody String getDataByCodeValue(HttpServletRequest request,
+			HttpServletResponse response) {
+		JSONObject obj = new JSONObject();
+        String domain_id = request.getParameter("domain_id")!=null?request.getParameter("domain_id"):"";
+        obj.put("domain_id", domain_id);
+       
+		String a= sysdictService.getDataByCodeValue(obj) ;
+		return a;
+		
+	}
+	
+	@RequestMapping(value = "/getBalanceYears", produces="application/json;charset=UTF-8")
+	public  @ResponseBody String getBalanceYears(HttpServletRequest request,
+			HttpServletResponse response) {
+		JSONObject obj = new JSONObject();
+        String year = request.getParameter("year")!=null?request.getParameter("year"):"";
+        obj.put("year", year);
+       
+		String a= sysdictService.getBalanceYears(obj) ;
+		return a;
+		
+	}
 }

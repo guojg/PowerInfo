@@ -41,11 +41,17 @@ function createCols(years) {
 			'field' : tmp[i] + "",
 			'title' : "" + tmp[i] + "年",
 			'align' : 'center',
-			'width' : 120,
-			'editor' : 'text'
+			'width' : 120
 
 		});
 	}
+	cols.push({
+		'field' : "hour_num",
+		'title' : "机组利用小时数",
+		'align' : 'center',
+		'width' : 120
+
+	});
 	return new Array(cols);
 }
 </script>

@@ -32,7 +32,18 @@ public class PowerBalanceController {
 		obj.put("year", year);
 		obj.put("taskid",taskid);
 		String resultJson = powerBalanceService.queryData(obj);
-	System.out.println(resultJson);
+		return resultJson;
+	}
+	
+	@RequestMapping(value = "/extractData" ,produces="text/plain;charset=UTF-8")
+	public @ResponseBody String extractData(HttpServletRequest request,
+			HttpServletResponse response) {
+		 String taskid = request.getParameter("taskid");
+		 String year = request.getParameter("year")==null?"": request.getParameter("year");
+		JSONObject obj = new JSONObject();
+		obj.put("year", year);
+		obj.put("taskid",taskid);
+		String resultJson = powerBalanceService.extractData(obj);
 		return resultJson;
 	}
 	

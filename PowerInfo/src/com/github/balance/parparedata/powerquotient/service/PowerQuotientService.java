@@ -1,4 +1,4 @@
-package com.github.balance.powerbalance.service;
+package com.github.balance.parparedata.powerquotient.service;
 
 
 import java.util.List;
@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
 
 import com.github.common.util.JsonUtils;
 
-public interface PowerBalanceService {
+public interface PowerQuotientService {
 	
 	/**
 	 * 查询
@@ -17,10 +17,6 @@ public interface PowerBalanceService {
 	 */
 	
 	public String queryData(JSONObject param);
-	/**
-	 * 抽取
-	 * @param obj
-	 * @return
-	 */
-	public String extractData(JSONObject obj);
+
+	public String saveData(JSONObject jsonobj);
 }
