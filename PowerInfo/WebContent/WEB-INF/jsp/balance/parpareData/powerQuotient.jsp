@@ -233,7 +233,6 @@ function save() {
 	<fieldset id="field">
 		<legend>查询条件</legend>
 		<table id="search_tbl">
-		<tr>
 			<tr>
 				<td class="tdlft">电源类型：</td>
 				<td class="tdrgt"><input id="dylxs" class="comboboxComponent" /></td>

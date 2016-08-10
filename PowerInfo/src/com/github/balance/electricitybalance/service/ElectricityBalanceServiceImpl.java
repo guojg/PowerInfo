@@ -22,5 +22,9 @@ public class ElectricityBalanceServiceImpl implements ElectricityBalanceService 
 		List<Map<String, Object>> list = electricityBalanceDao.queryData(param);
 		return JsonUtils.listTranJsonByQuery(list);
 	}
-
+	@Override
+	public String extractData(JSONObject obj) {
+		int  result =  electricityBalanceDao.extractData(obj);
+		return null;
+	}
 }
