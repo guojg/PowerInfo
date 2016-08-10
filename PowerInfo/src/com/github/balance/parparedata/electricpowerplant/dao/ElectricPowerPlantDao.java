@@ -15,7 +15,7 @@ public interface ElectricPowerPlantDao {
 	
 
 	public List<Map<String, Object>> queryData(JSONObject param) throws Exception;
-	public String addRecord(PowerPlant powerPlant) throws Exception;
+	public String addRecord(final PowerPlant powerPlant) throws Exception;
 	public String updateRecord(PowerPlant powerPlant) throws Exception;	
 	public String deleteRecord(String delectArr[]) throws Exception;
 	public String importRecord(List<PowerPlant> list) throws Exception;

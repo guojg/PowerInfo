@@ -6,7 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.github.balance.parparedata.electricpowerplant.model.PowerPlant;
 import com.github.balance.parparedata.senddata.dao.SendDataDao;
+import com.github.balance.parparedata.senddata.model.Domain;
+import com.github.balance.parparedata.senddata.model.SendItemName;
 import com.github.common.util.JsonUtils;
 
 import net.sf.json.JSONArray;
@@ -34,11 +38,41 @@ public class SendDataServiceImpl implements  SendDataService{
 		}
 		return sendData.saveData(rows);
 	}
+	
+	
 
 	@Override
 	public String deleteData(String[] ids) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String addProData(JSONObject obj) throws Exception {
+		// TODO Auto-generated method stub
+		return sendData.addProData(createModle(obj));
+	}
+	private SendItemName createModle(JSONObject obj){
+		SendItemName p=new SendItemName();
+		JSONObject data=null;
+		if(obj!=null){
+			 data=JSONObject.fromObject(obj.get("data"));
+		}
+		p.setTask_id(data.getString("task_id"));
+		p.setPid(data.getString("pid"));
+		p.setPro_name(data.getString("pro_name"));
+//		if(data.get("id")!=null){
+//			p.setId(data.getString("id"));
+//		}
+		return p;
+	}
+
+	@Override
+	public List<Domain> getTypes() throws Exception {
+		// TODO Auto-generated method stub
+		return sendData.getTypes();
+	}
+
+
 
 }
