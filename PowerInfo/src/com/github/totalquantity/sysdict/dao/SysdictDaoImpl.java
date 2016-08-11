@@ -21,7 +21,7 @@ public class SysdictDaoImpl implements SysdictDao {
 	@Override
 	public List<Sysdict> queryData(JSONObject obj) {
 		String domain_id = obj.getString("domain_id");
-		String sql ="select code ,value from sys_dict_table where domain_id=?";
+		String sql ="select code ,value from sys_dict_table where domain_id=? ORDER BY ORD";
 		List<Sysdict> list = this.jdbcTemplate.query(sql, new Object[]{domain_id}, new ParameterizedRowMapper<Sysdict>() {
             @Override
             public Sysdict mapRow(ResultSet rs, int index)
@@ -38,7 +38,7 @@ public class SysdictDaoImpl implements SysdictDao {
 	@Override
 	public List<Map<String, Object>> queryDataByMap(JSONObject obj) {
 		String domain_id = obj.getString("domain_id");
-		String sql ="select code ,value from sys_dict_table where domain_id=?";
+		String sql ="select code ,value from sys_dict_table where domain_id=? ORDER BY ORD";
 		List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql, new Object[]{domain_id});
 		return list;
 	}

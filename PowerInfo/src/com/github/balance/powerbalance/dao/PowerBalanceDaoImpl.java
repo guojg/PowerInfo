@@ -14,13 +14,13 @@ import net.sf.json.JSONObject;
 @Repository
 public class PowerBalanceDaoImpl implements PowerBalanceDao {
 
-	private static final String LOADSQL=" SELECT yr,NULL,100,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=1 and task_id=?" ;//全社会(统调)最大负荷
+	private static final String LOADSQL=" SELECT yr,NULL,100,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=201 and task_id=? " ;//全社会(统调)最大负荷
 	private static final String ZJRLSQL=" SELECT yr,200,1,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=2 and task_id=?" ;//有效备用容量
-	private static final String BYRLSQL=" SELECT yr,200,2,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=3 and task_id=?" ;//有效备用系数
+	private static final String BYRLSQL=" SELECT yr,200,2,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=203 and task_id=?" ;//有效备用系数
 	//需要有效装机容量
 	private static final String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*l2.VALUE,l1.task_id FROM loadelectricquantity_data l1 JOIN loadelectricquantity_data l2  WHERE l1.yr=l2.yr AND  l1.index_item=2 AND l2.index_item=3 and l1.task_id=? and l2.task_id=?" ;//需要有效装机容量
-	private static final String SZKXRLSQL=" SELECT yr,NULL,600,SUM(VALUE),task_id FROM hinderedidlecapacity_data where task_id=? GROUP BY task_id,yr ";//受阻及空闲容量
-	private static final String SZKXRLSUBSQL=" SELECT yr,600,index_item,VALUE,task_id FROM hinderedidlecapacity_data where task_id=? ";//受阻及空闲容量子项
+	private static final String SZKXRLSQL=" SELECT yr,NULL,600,SUM(VALUE),task_id FROM hinderedidlecapacity_data where task_id=? and index_item=1 GROUP BY task_id,yr ";//受阻及空闲容量
+	private static final String SZKXRLSUBSQL=" SELECT yr,600,index_item,VALUE,task_id FROM hinderedidlecapacity_data where task_id=? and index_item !=1";//受阻及空闲容量子项
 
 	
 	@Autowired
@@ -132,15 +132,17 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 	 */
 	private String getExistingCapacitySQL(String year,String task_id){
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SELECT yr,null,1000,SUM(plant_capacity), ");
+		sb.append(" SELECT yr,null,1000,SUM(plant_capacity),");
 		sb.append(task_id)
-		.append	( "FROM electricpowerplant_data JOIN  ")
+		.append	( " FROM electricpowerplant_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)<t.yr ")
 		.append( " AND (SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)>t.yr OR end_date IS NULL)")
 		.append("  GROUP BY yr") 
 		.append(" union all ")
-		.append(" SELECT yr,1000,index_item,SUM(plant_capacity) FROM electricpowerplant_data JOIN  ")
+		.append(" SELECT yr,1000,index_item,SUM(plant_capacity),")
+		.append(task_id)
+		.append( " FROM electricpowerplant_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)<t.yr ")
 		.append( " AND (SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)>t.yr OR end_date IS NULL)")
@@ -154,14 +156,16 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 	 */
 	private String getRetireCapacitySQL(String year,String task_id){
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SELECT yr,null,400,SUM(plant_capacity) , ");
+		sb.append(" SELECT yr,null,400,SUM(plant_capacity),");
 		sb.append(task_id)
-		.append	( "FROM electricpowerplant_data JOIN  ")
+		.append	( " FROM electricpowerplant_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)=t.yr ")
 		.append("  GROUP BY yr") 
 		.append(" union all ")
-		.append(" SELECT yr,400,index_item,SUM(plant_capacity) FROM electricpowerplant_data JOIN  ")
+		.append(" SELECT yr,400,index_item,SUM(plant_capacity),")
+		.append(task_id)		
+		.append( " FROM electricpowerplant_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)=t.yr ")
 		.append("  GROUP BY index_item,yr") ;
@@ -235,7 +239,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(" ) t GROUP BY t.task_id, t.year,t.index_item")
 		.append(" UNION ALL ")
 		.append(" SELECT NULL,500,m.year,SUM(m.value),task_id FROM (")
-		.append(" SELECT YEAR,VALUE FROM power_data WHERE  index_item IN (1000,300) and task_id=? ")
+		.append(" SELECT YEAR,VALUe,task_id FROM power_data WHERE  index_item IN (1000,300) and task_id=? ")
 		.append(" UNION ALL")
 		.append(" SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  index_item IN (400) and task_id=? ")
 		.append(" ) m GROUP BY m.task_id,m.year") ;

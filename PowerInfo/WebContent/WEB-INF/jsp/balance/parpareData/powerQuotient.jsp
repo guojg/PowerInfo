@@ -30,7 +30,7 @@ $(function() {
 
 	 comboBoxInit({
 			id : "dylxs",
-			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
+			url : path + '/sysdict/getDataByCodeValue?domain_id=13',
 			textkey : "value",
 			valuekey : "code",
 			multiple : true

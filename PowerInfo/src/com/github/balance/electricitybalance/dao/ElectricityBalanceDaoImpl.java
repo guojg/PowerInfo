@@ -14,7 +14,7 @@ import net.sf.json.JSONObject;
 
 @Repository
 public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
-	private static final String ELECSQL=" SELECT yr,NULL,100,VALUE FROM loadelectricquantity_data  WHERE index_item=2 and task_id=?" ;//全社会(统调)最大负荷
+	private static final String ELECSQL=" SELECT yr,NULL,100,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=202 and task_id=?" ;//全社会(统调)最大负荷
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -64,7 +64,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 				sb.append(  ELECSQL);
 				sb.append("    UNION ALL  ");
 				sb.append(yearRateSql);
-				int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id});
+				int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id});
 				 execSeftElec(task_id);
 				 execSeftElecByType(task_id);
 				 execCoalHour(task_id);
@@ -122,7 +122,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		.append(" UNION ALL")
 		.append(" SELECT YEAR,0-VALUE,task_id FROM electricity_data WHERE  index_item=200 and task_id=? ")
 		.append(" ) m GROUP BY m.task_id,m.year");
-		int count = this.jdbcTemplate.update(sb.toString()) ;
+		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id}) ;
 		return count;
 	}
 	/**
@@ -135,7 +135,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		sb.append(" insert into electricity_data(p_index_item,index_item,year,value,task_id) ")
 		.append( " SELECT 300,t1.index_item ,t1.year,t1.value*t2.hour_num/10000,t1.task_id FROM power_data t1 ")
 		.append(" JOIN power_hour_copy  t2 ON  t1.p_index_item=500 AND t1.index_item=t2.index_item and t1.task_id=t2.task_id and t1.task_id=? AND t1.index_item !=3 ");
-		int count = this.jdbcTemplate.update(sb.toString()) ;
+		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id}) ;
 		StringBuffer sub = new StringBuffer();
 		sub.append(" insert into electricity_data(p_index_item,index_item,year,value,task_id) ")
 		.append( " SELECT 300 ,3,m.year,SUM(m.value),m.task_id FROM (")
@@ -143,7 +143,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		.append(" UNION ALL")
 		.append(" SELECT YEAR,0-VALUE,task_id FROM electricity_data WHERE  p_index_item=300 and task_id=? AND index_item !=3  ")
 		.append(" ) m GROUP BY m.task_id,m.year");
-		int subCount = this.jdbcTemplate.update(sub.toString(),new Object[]{task_id,task_id,task_id}) ;
+		int subCount = this.jdbcTemplate.update(sub.toString(),new Object[]{task_id,task_id}) ;
 		return count;
 	}
 	
@@ -154,7 +154,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 	private int  execCoalHour(String task_id){
 
 		StringBuffer sub = new StringBuffer();
-		sub.append(" insert into power_hour_copy(index_item,value) ")
+		sub.append(" insert into power_hour_copy(index_item,hour_num) ")
 		.append( "  SELECT x.YEAR,CASE WHEN y.value=0 THEN NULL ELSE x.VALUE/y.value*10000 END AS VALUE  FROM electricity_data X  JOIN ( ")
 		.append(" SELECT m.year,SUM(m.value) VALUE,task_id FROM ( ")
 		.append(" SELECT YEAR,VALUE,task_id FROM power_data WHERE  p_index_item =500  and task_id=? AND index_item=3")

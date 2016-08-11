@@ -77,7 +77,7 @@ function createCols(years) {
 function extractData(){
 	 var param = {
 				'taskid':taskid,
-				'year':year
+				'year':years
 			 };
 	 $.ajax({
 			type : 'POST',
