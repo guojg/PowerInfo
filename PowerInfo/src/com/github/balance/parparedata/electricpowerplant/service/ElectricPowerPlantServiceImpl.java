@@ -56,6 +56,7 @@ public class ElectricPowerPlantServiceImpl implements  ElectricPowerPlantService
 		p.setPlantCapacity(data.getString("plant_capacity"));
 		p.setPlantName(data.getString("plant_name"));
 		p.setStartDate(data.getString("start_date"));
+		p.setIndexItem(data.getString("index_item"));
 		if(data.get("id")!=null){
 			p.setId(data.getString("id"));
 		}

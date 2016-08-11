@@ -1,4 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.github.balance.task.entity.BalanceTask"%>
+
 <html>
 <head>
 <title>负荷电量数据</title>
@@ -11,9 +13,14 @@
 <%
 	String pid = request.getAttribute("pid") == null ? "" : request
 			.getAttribute("pid").toString();
+	BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
+	String taskid = tt.getId();
+	String years=tt.getYear();
 %>
 <script type="text/javascript">
 	var pid='<%=pid%>';
+	var taskid='<%=taskid%>';
+	var years='<%=years%>';
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -36,20 +43,20 @@
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
-		comboBoxInit({
-			id : "years",
-			url : path + '/basicData/getyears',
-			textkey : "yearName",
-			valuekey : "year",
-			multiple : true
-		});
-		comboBoxInit({
-			id : "indexs",
-			url : path + '/basicData/getindexs?pid=200',
-			textkey : "indexName",
-			valuekey : "indexItem",
-			multiple : true
-		});
+		 comboBoxInit({
+				id : "years",
+				url : path + '/sysdict/getBalanceYears?year='+years,
+				textkey : "value",
+				valuekey : "code",
+				multiple : true
+			});
+		 comboBoxInit({
+				id : "indexs",
+				url : path + '/sysdict/getDataByCodeValue?domain_id=200',
+				textkey : "value",
+				valuekey : "code",
+				multiple : true
+			});
 		queryData();
 	});
 	function ExportExcel() {//导出Excel文件
@@ -119,7 +126,8 @@
 		//查询条件暂时放外面
 		var queryParams = {
 			years : yrs_s,
-			indexs : index_s
+			indexs : index_s,
+			taskid : taskid
 		};
 
 		var url = path + '/loadElectricQuantity/queryData';
@@ -247,7 +255,8 @@
 		}
 		var param = JSONH.stringify(updates);
 		var data = {
-			editObj : param
+			editObj : param,
+			taskid:taskid
 		};
 		$.ajax({
 			type : 'POST',
@@ -336,10 +345,11 @@
 			align='top' border='0' title='查询' />
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' />
-		</a> <a id="tool_export"> <img
+		</a> 
+		<!--  <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='保存' />
-		</a>
+		</a>-->
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>

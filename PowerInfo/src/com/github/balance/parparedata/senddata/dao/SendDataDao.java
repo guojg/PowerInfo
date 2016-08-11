@@ -22,11 +22,11 @@ public interface SendDataDao {
 	 * 保存业务数据
 	 * @return
 	 */
-	public String saveData(JSONArray array) throws Exception;
+	public String saveData(JSONObject obj) throws Exception;
 	
 	public String addProData(final SendItemName sendItemName)throws Exception;
 	
-	public String deleteProData(String ids)throws Exception;
+	public String deleteProData(String[] delectArr)throws Exception;
 	
 	public List<Domain> getTypes()throws Exception;
 }

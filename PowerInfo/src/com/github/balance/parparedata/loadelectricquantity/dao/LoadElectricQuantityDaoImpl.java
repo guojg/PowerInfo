@@ -27,21 +27,24 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 			throws Exception {
 		String indexs[] = param.get("indexs") == null ? null : param
 				.get("indexs").toString().split(",");
+		String taskid = param.get("taskid") == null ? null : param
+				.get("taskid").toString();
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("SELECT tb.id index_item,tb.name index_name,tb.ORD");
 
 		for (String year : param.get("years").toString().split(",")) {
-			sb.append(",CASE tb.yr WHEN ");
+			sb.append(",sum(CASE tb.yr WHEN ");
 			sb.append(year);
-			sb.append(" THEN tb.value END '");
+			sb.append(" THEN tb.value END) '");
 			sb.append(year);
 			sb.append("'");
 		}
 		sb.append("  FROM (SELECT t2.id,t2.name,t2.ORD,t1.value,t1.yr FROM ");
-		sb.append(" loadelectricquantity_data");
-		sb.append("         t1 RIGHT JOIN (");
-		sb.append("         select id,name,ord from sys_menu where id in(");
+		sb.append(" (select * from  loadelectricquantity_data where task_id=");
+		sb.append(taskid);
+		sb.append("        ) t1 RIGHT JOIN (");
+		sb.append("    SELECT code id,value name,ord FROM sys_dict_table where  domain_id=200 and code in(");
 		String InSql = "";
 		for (int i = 0; i < indexs.length; i++) {
 			InSql = InSql + "?,";
@@ -58,8 +61,14 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 	 * 保存基础数据业务数据
 	 */
 	@Override
-	public String saveData(JSONArray rows) throws Exception {
+	public String saveData(JSONObject param) throws Exception {
 		// TODO Auto-generated method stub
+		JSONArray rows = null;
+		if (param.get("editObj") != null) {
+			rows = JSONArray.fromObject(param.get("editObj"));
+		}
+		String taskid = param.get("taskid") == null ? null : param
+				.get("taskid").toString();
 		List<BasicData> basicdataList = new ArrayList<BasicData>();
 		for (int i = 0; i < rows.size(); i++) {
 			JSONObject row = rows.getJSONObject(i);
@@ -74,14 +83,14 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 					continue;
 
 				BasicData basicData = createModel(index_item, it,
-						row.getString(it));
+						row.getString(it),taskid);
 				basicdataList.add(basicData);
 			}
 		}
 		executeSQLS(basicdataList);
 		return "";
 	}
-	private BasicData createModel(String indexid, String yr, String value)
+	private BasicData createModel(String indexid, String yr, String value,String taskid)
 			throws Exception {
 
 		value = "".equals(value) ? null : value;
@@ -89,6 +98,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 		basicdata.setIndexItem(indexid);
 		basicdata.setYear(yr);
 		basicdata.setValue(value);
+		basicdata.setTaskId(taskid);
 		return basicdata;
 	}
 
@@ -96,7 +106,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 			throws Exception {
 
 		String deletesql = "delete from  loadelectricquantity_data"
-				+ " where INDEX_ITEM=? and YR=?";
+				+ " where INDEX_ITEM=? and YR=? and task_id=?";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -106,6 +116,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 				BasicData basicdata = basicDatas.get(i);
 				ps.setString(1, basicdata.getIndexItem());
 				ps.setString(2, basicdata.getYear());
+				ps.setString(3, basicdata.getTaskId());
 			}
 
 			@Override
@@ -117,7 +128,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 		jdbcTemplate.batchUpdate(deletesql, setdelete);
 
 		String insertsql = "insert  loadelectricquantity_data"
-				+ "(INDEX_ITEM,YR,VALUE) VALUES(?,?,?)";
+				+ "(INDEX_ITEM,YR,VALUE,task_id) VALUES(?,?,?,?)";
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -128,6 +139,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 				ps.setString(1, basicdata.getIndexItem());
 				ps.setString(2, basicdata.getYear());
 				ps.setString(3, basicdata.getValue());
+				ps.setString(4, basicdata.getTaskId());
 			}
 
 			@Override

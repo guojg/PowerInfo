@@ -32,11 +32,8 @@ public class SendDataServiceImpl implements  SendDataService{
 	@Transactional
 	public String saveData(JSONObject param) throws Exception {
 		// TODO Auto-generated method stub
-		JSONArray rows = null;
-		if (param.get("editObj") != null) {
-			rows = JSONArray.fromObject(param.get("editObj"));
-		}
-		return sendData.saveData(rows);
+
+		return sendData.saveData(param);
 	}
 	
 	
@@ -61,9 +58,6 @@ public class SendDataServiceImpl implements  SendDataService{
 		p.setTask_id(data.getString("task_id"));
 		p.setPid(data.getString("pid"));
 		p.setPro_name(data.getString("pro_name"));
-//		if(data.get("id")!=null){
-//			p.setId(data.getString("id"));
-//		}
 		return p;
 	}
 

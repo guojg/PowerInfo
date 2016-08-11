@@ -27,6 +27,8 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 			throws Exception {
 		String indexs[] = param.get("indexs") == null ? null : param
 				.get("indexs").toString().split(",");
+		String taskid = param.get("taskid") == null ? null : param
+				.get("taskid").toString();
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("SELECT tb.id index_item,tb.name index_name,tb.ORD");
@@ -39,9 +41,10 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 			sb.append("'");
 		}
 		sb.append("  FROM (SELECT t2.id,t2.name,t2.ORD,t1.value,t1.yr FROM ");
-		sb.append(" hinderedIdleCapacity_data");
-		sb.append("         t1 RIGHT JOIN (");
-		sb.append("         select id,name,ord from sys_menu where id in(");
+		sb.append("(select * from  hinderedIdleCapacity_data  where task_id=");
+		sb.append(taskid);
+		sb.append("     )    t1 RIGHT JOIN (");
+		sb.append("             SELECT code id,value name,ord FROM sys_dict_table where  domain_id=13 and code in(");
 		String InSql = "";
 		for (int i = 0; i < indexs.length; i++) {
 			InSql = InSql + "?,";
@@ -58,8 +61,14 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 	 * 保存基础数据业务数据
 	 */
 	@Override
-	public String saveData(JSONArray rows) throws Exception {
+	public String saveData(JSONObject param) throws Exception {
 		// TODO Auto-generated method stub
+		JSONArray rows = null;
+		if (param.get("editObj") != null) {
+			rows = JSONArray.fromObject(param.get("editObj"));
+		}
+		String taskid = param.get("taskid") == null ? null : param
+				.get("taskid").toString();
 		List<BasicData> basicdataList = new ArrayList<BasicData>();
 		for (int i = 0; i < rows.size(); i++) {
 			JSONObject row = rows.getJSONObject(i);
@@ -70,26 +79,26 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 				String it = its.next();
 				index_item = row.getString("index_item");
 
-				if (it.equals("index_item") || it.equals("index_name"))
+				if (it.equals("index_item") || it.equals("index_name")||it.equals("ORD"))
 					continue;
 
 				BasicData basicData = createModel(index_item, it,
-						row.getString(it));
+						row.getString(it),taskid);
 				basicdataList.add(basicData);
 			}
 		}
 		executeSQLS(basicdataList);
-		executeSum(rows);
+		executeSum(rows,taskid);
 		return "";
 	}
-	   private void executeSum(JSONArray rows) throws Exception{
-		   String deleteSql="delete from hinderedidlecapacity_data where index_item='205'";
-		   jdbcTemplate.update(deleteSql);
-		   StringBuffer buffer=new StringBuffer("INSERT INTO hinderedidlecapacity_data (yr,index_item,VALUE)");
-		   buffer.append(" SELECT yr,205,SUM(VALUE) FROM hinderedidlecapacity_data GROUP BY yr");
-		   jdbcTemplate.update(buffer.toString());
+	   private void executeSum(JSONArray rows,String taskid) throws Exception{
+		   String deleteSql="delete from hinderedidlecapacity_data where index_item='1' and task_id=?";
+		   jdbcTemplate.update(deleteSql,new Object[]{taskid});
+		   StringBuffer buffer=new StringBuffer("INSERT INTO hinderedidlecapacity_data (yr,index_item,VALUE,task_id)");
+		   buffer.append(" SELECT yr,1,SUM(VALUE),task_id FROM hinderedidlecapacity_data where task_id=? GROUP BY yr,task_id");
+		   jdbcTemplate.update(buffer.toString(),new Object[]{taskid});
 	   }
-	private BasicData createModel(String indexid, String yr, String value)
+	private BasicData createModel(String indexid, String yr, String value,String taskid)
 			throws Exception {
 
 		value = "".equals(value) ? null : value;
@@ -97,6 +106,7 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 		basicdata.setIndexItem(indexid);
 		basicdata.setYear(yr);
 		basicdata.setValue(value);
+		basicdata.setTaskId(taskid);
 		return basicdata;
 	}
 
@@ -104,7 +114,7 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 			throws Exception {
 
 		String deletesql = "delete from  hinderedIdleCapacity_data"
-				+ " where INDEX_ITEM=? and YR=?";
+				+ " where INDEX_ITEM=? and YR=? and task_id=?";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -114,6 +124,7 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 				BasicData basicdata = basicDatas.get(i);
 				ps.setString(1, basicdata.getIndexItem());
 				ps.setString(2, basicdata.getYear());
+				ps.setString(3, basicdata.getTaskId());
 			}
 
 			@Override
@@ -125,7 +136,7 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 		jdbcTemplate.batchUpdate(deletesql, setdelete);
 
 		String insertsql = "insert  hinderedIdleCapacity_data"
-				+ "(INDEX_ITEM,YR,VALUE) VALUES(?,?,?)";
+				+ "(INDEX_ITEM,YR,VALUE,task_id) VALUES(?,?,?,?)";
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -136,6 +147,7 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 				ps.setString(1, basicdata.getIndexItem());
 				ps.setString(2, basicdata.getYear());
 				ps.setString(3, basicdata.getValue());
+				ps.setString(4, basicdata.getTaskId());
 			}
 
 			@Override

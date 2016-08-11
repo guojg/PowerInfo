@@ -5,6 +5,13 @@ public class BasicData {
 	private String year;
 	private String indexItem;
 	private String value;
+	private String taskId;
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
 	public String getYear() {
 		return year;
 	}

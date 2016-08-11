@@ -30,11 +30,8 @@ public class LoadElectricQuantityServiceImpl implements  LoadElectricQuantitySer
 	@Transactional
 	public String saveData(JSONObject param) throws Exception {
 		// TODO Auto-generated method stub
-		JSONArray rows = null;
-		if (param.get("editObj") != null) {
-			rows = JSONArray.fromObject(param.get("editObj"));
-		}
-		return loadElectricQuantityDao.saveData(rows);
+
+		return loadElectricQuantityDao.saveData(param);
 	}
 
 }

@@ -22,5 +22,5 @@ public interface LoadElectricQuantityDao {
 	 * 保存业务数据
 	 * @return
 	 */
-	public String saveData(JSONArray array) throws Exception;
+	public String saveData(JSONObject param) throws Exception;
 }

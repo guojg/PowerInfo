@@ -7,7 +7,16 @@
 </head>
 <%@include file="../../common/commonInclude.jsp" %>
 <script type="text/javascript">
+$(function() {
+	 comboBoxInit({
+			id : "index_item",
+			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
+			textkey : "value",
+			valuekey : "code"
+			});
 
+}
+);
 //取消
 function cancel(){
 	//关闭窗口
@@ -19,6 +28,7 @@ function save(){
 	operationdata["plant_capacity"]=$('#plant_capacity').val();
 	operationdata["start_date"]=$('#start_date').datebox('getValue');
 	operationdata["end_date"]=$('#end_date').datebox('getValue');
+	operationdata["index_item"]=$('#index_item').combo('getValue');
 	var param={"editObj":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
@@ -53,9 +63,15 @@ function save(){
 					type="text" style='width: 120px' /></td>
 			</tr>
 			<tr>
+				<td class="tdlft" style='width: 100px'>电源类型：</td>
+				<td class="tdrgt" style='width: 120px'><input id="index_item"
+					type="text" style='width: 120px'/></td>
 				<td class="tdlft" style='width: 100px'>投产日期：</td>
 				<td class="tdrgt" style='width: 120px'><input id="start_date"
 					type="text" style='width: 120px' class="easyui-datebox"/></td>
+
+			</tr>	
+			<tr>
 				<td class="tdlft" style='width: 100px'>退役日期：</td>
 				<td class="tdrgt" style='width: 120px'><input id="end_date"
 					type="text" style='width: 120px' class="easyui-datebox"/></td>

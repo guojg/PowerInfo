@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.github.balance.task.entity.BalanceTask"%>
 <html>
 <head>
 <title>外购外送</title>
@@ -9,8 +10,15 @@
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
 <%@include file="../../common/commonDefineBtn.jsp"%>
+<%
+	BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
+	String taskid = tt.getId();
+	String years=tt.getYear();
+%>
 <script type="text/javascript">
 	var cols;
+	var taskid='<%=taskid%>';
+	var years='<%=years%>';
 	var savEvtTime = 0;
 	var dcAt = 0;
 	var dcTime = 250;
@@ -20,7 +28,7 @@
 				if(row['pid']==""||typeof(row['pid'])=='undefined'){
 					return '';
 				}else{
-					return '<input id="'+row['id']+'" type="checkbox" style="width:20px;"/>';
+					return '<input id="'+row['id']+'" name="idbox" type="checkbox" style="width:20px;"/>';
 				}
 			 }
 			},{
@@ -74,7 +82,8 @@
 		cols = createCols(yrs_s);
 		//查询条件暂时放外面
 		var queryParams = {
-			years : yrs_s
+			years : yrs_s,
+			taskid:taskid
 		};
 
 		var url = path + '/sendData/queryData';
@@ -213,17 +222,19 @@
 		if (updates.length <= 0) {
 			return;
 		}
-		if (!validate($('#datagrid'), updates, [ 'index_name' ], 13, 2)) {
+		if (!validate($('#datagrid'), updates, [ 'pro_name' ], 13, 2)) {
 			return;
 		}
 		var param = JSONH.stringify(updates);
 		var data = {
-			editObj : param
+			editObj : param,
+			taskid:taskid
+			
 		};
 		$.ajax({
 			type : 'POST',
 			async : false,
-			url : path + '/hinderedIdleCapacity/saveData',
+			url : path + '/sendData/saveData',
 			data : data,
 			success : function(data) {
 				if (data == "1") {
@@ -312,14 +323,14 @@
 			src='<%=path%>/static/images/new.gif' align='top' border='0'
 			title='新增' />
 		</a>
-		<a id="tool_del"> <img
+	<!-- 	<a id="tool_del"> <img
 			src='<%=path%>/static/images/delete.png' align='top' border='0'
 			title='删除' />
 		</a>
 		<a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />
-		</a>
+		</a> -->
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>

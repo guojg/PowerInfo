@@ -29,6 +29,11 @@
 		width : 100,
 		align : 'center'
 	}, {
+		field : 'index_itemname',
+		title : '电源类型',
+		width : 100,
+		align : 'center'
+	}, {
 		field : 'start_date',
 		title : '投产日期',
 		width : 100,

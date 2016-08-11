@@ -31,11 +31,7 @@ public class HinderedIdleCapacityServiceImpl implements  HinderedIdleCapacitySer
 	@Transactional
 	public String saveData(JSONObject param) throws Exception {
 		// TODO Auto-generated method stub
-		JSONArray rows = null;
-		if (param.get("editObj") != null) {
-			rows = JSONArray.fromObject(param.get("editObj"));
-		}
-		return hinderedIdleCapacityDao.saveData(rows);
+		return hinderedIdleCapacityDao.saveData(param);
 	}
 
 }

@@ -8,12 +8,21 @@
 <%@include file="../../common/commonInclude.jsp" %>	
 <script type="text/javascript">
 $(function() {
-	var row = window.parent.$('#datagrid').datagrid('getChecked');
+	 comboBoxInit({
+			id : "index_item",
+			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
+			textkey : "value",
+			valuekey : "code"
+			});
+	 debugger;
+	var rows = window.parent.$('#datagrid').datagrid('getChecked');
+	var row=rows[0];
+	
 	$('#plant_name').val(row.plant_name);
 	$('#plant_capacity').val(row.plant_capacity);
 	$('#start_date').datebox("setValue",row.start_date);
 	$('#end_date').datebox("setValue",row.end_date);
-
+	$('#index_item').combobox("setValue",row.index_item);
 }
 );
 //取消
@@ -24,12 +33,12 @@ function cancel(){
 function save(){
 	var row = window.parent.$('#datagrid').datagrid('getChecked');
 	var operationdata = new Object();
-	operationdata["id"]=row.id;
+	operationdata["id"]=row[0].id;
 	operationdata["plant_name"]=$('#plant_name').val();
 	operationdata["plant_capacity"]=$('#plant_capacity').val();
 	operationdata["start_date"]=$('#start_date').datebox('getValue');
 	operationdata["end_date"]=$('#end_date').datebox('getValue');
-	
+	operationdata["index_item"]=$('#index_item').datebox('getValue');
 	var param={"editObj":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
@@ -64,13 +73,18 @@ function save(){
 					type="text" style='width: 120px' /></td>
 			</tr>
 			<tr>
+				<td class="tdlft" style='width: 100px'>电源类型：</td>
+				<td class="tdrgt" style='width: 120px'><input id="index_item"
+					type="text" style='width: 120px'/></td>
 				<td class="tdlft" style='width: 100px'>投产日期：</td>
 				<td class="tdrgt" style='width: 120px'><input id="start_date" class="easyui-datebox"
 					type="text" style='width: 120px' /></td>
+			</tr>		
+			<tr>
 				<td class="tdlft" style='width: 100px'>退役日期：</td>
 				<td class="tdrgt" style='width: 120px'><input id="end_date"
 					type="text" style='width: 120px'  class="easyui-datebox"/></td>
-			</tr>			
+			</tr>	
 		</table>
 	</form>
 	<div class="div_submit">

@@ -1,4 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.github.balance.task.entity.BalanceTask"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -6,6 +8,10 @@
 <title>增加电厂</title>
 </head>
 <%@include file="../../common/commonInclude.jsp"%>
+<% 
+		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
+		String taskid = tt.getId();
+		%>
 <script type="text/javascript">
 $(function() {
 	comboBoxInit({
@@ -26,7 +32,7 @@ $(function() {
 		var operationdata = new Object();
 		operationdata["pro_name"] = $('#pro_name').val();
 		operationdata["pid"] = $('#pro_type').datebox('getValue');
-		operationdata["task_id"] = "1";
+		operationdata["task_id"] = taskid;
 		var param = {
 			"data" : JSONH.stringify(operationdata)
 		};

@@ -30,53 +30,57 @@ public class SendDataDaoImpl implements SendDataDao {
 	public List<Map<String, Object>> queryData(JSONObject param)
 			throws Exception {
 		StringBuffer sb = new StringBuffer();
+		
+
 		String years[]=param.get("years")==null?null:param.get("years").toString().split(",");
-	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.ID,b.pid");	
+		String taskid=param.get("taskid")==null?null:param.get("taskid").toString();
+		String taskids[]={taskid,taskid,taskid,taskid,taskid,taskid};
+	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.id,b.pid");	
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
 	    sb.append(" RIGHT JOIN (SELECT a.id ,a.pro_name,b.value,a.task_id,a.wgwstdlyxss,a.sdshl,a.pid FROM senddata_itemname a  RIGHT JOIN ");
 	    sb.append("  sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code IN(1,2,3,4,5)) b ON b.id=a.index_item");
-	    sb.append("  WHERE b.task_id=1");
+	    sb.append("  WHERE b.task_id=? group by b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	                                                                                                                                             
 	    sb.append(" UNION ALL");
-	    sb.append("  SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.ID ,b.pid");
+	    sb.append("  SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.id ,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
-	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='5'");
+	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='5' and b.task_id=?");
 	    sb.append(" UNION ALL");
-	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.ID,b.pid");
+	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
 	    sb.append(" RIGHT JOIN ( SELECT a.id ,b.value,a.pro_name,a.task_id,a.wgwstdlyxss,a.sdshl,a.pid FROM senddata_itemname a");
 	    sb.append("  RIGHT JOIN sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code=6) b ON b.id=a.index_item");
-	    sb.append("   WHERE b.task_id=1");
+	    sb.append("   WHERE b.task_id=?");
 	    sb.append(" UNION ALL");
-	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.ID,b.pid");
+	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
-	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='6'");
+	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='6' and b.task_id=?");
 	    sb.append(" UNION ALL");
-	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.ID,b.pid");
+	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
 	    sb.append(" RIGHT JOIN ( SELECT a.id ,b.value,a.pro_name,a.task_id,a.wgwstdlyxss,a.sdshl,a.pid FROM senddata_itemname a");
 	    sb.append("  RIGHT JOIN sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code=7) b ON b.id=a.index_item WHERE");
-	    sb.append("   b.task_id=1");
+	    sb.append("   b.task_id=?");
 	    sb.append(" UNION ALL");
-	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.ID,b.pid");
+	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
-	    sb.append(" RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='7'");		
-		return jdbcTemplate.queryForList(sb.toString());
+	    sb.append(" RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='7' and b.task_id=?");		
+		return jdbcTemplate.queryForList(sb.toString(),taskids);
 	}
 	
 	private String addYearSql(String[]  years){
 		StringBuffer sb=new StringBuffer("");
 		if(years!=null){
 			for (String year :years) {
-				sb.append(",CASE a.yr WHEN ");
+				sb.append(",sum(CASE a.yr WHEN ");
 				sb.append(year);
-				sb.append(" THEN a.value END '");
+				sb.append(" THEN a.value END) '");
 				sb.append(year);
 				sb.append("'");
 			}
@@ -89,40 +93,53 @@ public class SendDataDaoImpl implements SendDataDao {
 	 * 保存基础数据业务数据
 	 */
 	@Override
-	public String saveData(JSONArray rows) throws Exception {
+	public String saveData(JSONObject param) throws Exception {
 		// TODO Auto-generated method stub
+		JSONArray rows = null;
+		if (param.get("editObj") != null) {
+			rows = JSONArray.fromObject(param.get("editObj"));
+		}
+		String taskid=param.getString("taskid");
 		List<BasicData> basicdataList = new ArrayList<BasicData>();
+		List<SendItemName> senditemnameList = new ArrayList<SendItemName>();
+
 		for (int i = 0; i < rows.size(); i++) {
 			JSONObject row = rows.getJSONObject(i);
 			Iterator<String> its = row.keys();
-
-			String index_item = "";
+			String id = row.getString("id");
+			String sdshl=row.get("sdshl")==null?null:row.get("sdshl").toString();
+			String wgwstdlyxss=row.get("wgwstdlyxss")==null?null:row.get("wgwstdlyxss").toString();
+			SendItemName itemname = createItemName(id, sdshl,
+					wgwstdlyxss);
+			senditemnameList.add(itemname);
+			executeSQLItem(senditemnameList);
 			while (its.hasNext()) {
 				String it = its.next();
-				index_item = row.getString("index_item");
-
-				if (it.equals("index_item") || it.equals("index_name"))
+				if (it.equals("id") || it.equals("pro_name")||it.equals("sdshl")
+						||it.equals("wgwstdlyxss")||it.equals("pid"))
 					continue;
-
-				BasicData basicData = createModel(index_item, it,
+				BasicData basicData = createModel(id, it,
 						row.getString(it));
 				basicdataList.add(basicData);
 			}
 		}
 		executeSQLS(basicdataList);
-		//executeSum();
-		return "";
+		executeSum( taskid);
+		return "1";
 	}
-	   private void executeSum(JSONArray rows) throws Exception{
-		   String deleteSql="delete from senddata_data where index_item='205'";
-		   jdbcTemplate.update(deleteSql);
-
+	   private void executeSum(String taskid) throws Exception{
+		   String deleteSql="DELETE FROM senddata_data WHERE index_item IN(SELECT id FROM"
+		   		+ " senddata_itemname WHERE task_id=? AND pro_name IN(1,2,3,4,5))";
+		   jdbcTemplate.update(deleteSql,new Object[]{taskid});
+		   String taskids[]={taskid,taskid,taskid,taskid,taskid,taskid,taskid};
+		   String itemtypesql="(SELECT id FROM senddata_itemname WHERE task_id=?";
 		   StringBuffer buffer=new StringBuffer("");
 		   buffer.append("INSERT INTO senddata_data (yr,VALUE,index_item)");
 		   buffer.append(" SELECT ");
 		   buffer.append(" yr,");
 		   buffer.append(" SUM(a.`sdshl`*b.value),");
-		   buffer.append(" '3' index_item");
+		   buffer.append(itemtypesql);
+		   buffer.append("  AND pro_name=3) index_item");
 		   buffer.append(" FROM");
 		   buffer.append(" senddata_itemname  a");
 		   buffer.append(" RIGHT JOIN ");
@@ -142,7 +159,8 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append(" SELECT ");
 		   buffer.append(" yr,");
 		   buffer.append(" SUM(b.value)-SUM(a.`sdshl`*b.value),");
-		   buffer.append(" '1' index_item");
+		   buffer.append(itemtypesql);
+		   buffer.append("  AND pro_name=1) index_item");
 
 		   buffer.append(" FROM");
 		   buffer.append(" senddata_itemname  a");
@@ -163,7 +181,8 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append(" SELECT ");
 		   buffer.append("  b.yr,");
 		   buffer.append("  SUM(b.value*a.wgwstdlyxss/10000),");
-		   buffer.append("  '4' index_item");
+		   buffer.append(itemtypesql);
+		   buffer.append("  AND pro_name=4) index_item");
 		   buffer.append(" FROM");
 		   buffer.append("  senddata_itemname  a");
 		   buffer.append("  RIGHT JOIN ");
@@ -182,7 +201,8 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  UNION ALL");
 		   buffer.append("  SELECT yr,");
 		   buffer.append("      SUM(VALUE) VALUE,");
-		   buffer.append("       2 AS index_item");
+		   buffer.append(itemtypesql);
+		   buffer.append("  AND pro_name=2) index_item");
 		          
 		   buffer.append("   FROM");
 		   buffer.append("     senddata_data tb ");
@@ -194,7 +214,8 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  UNION ALL");
 		   buffer.append("  SELECT  tb.yr,");
 		   buffer.append(" 	SUM(tb.value) VALUE,");
-		   buffer.append(" 	5 AS index_item");
+		   buffer.append(itemtypesql);
+		   buffer.append("  AND pro_name=5) index_item");
 		   buffer.append("  FROM");
 		   buffer.append("    senddata_data tb ");
 		   buffer.append("  WHERE tb.index_item IN ");
@@ -206,7 +227,8 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  SELECT ");
 		   buffer.append(" 	tb.yr,");
 		   buffer.append(" 	SUM(tb.value),");
-		   buffer.append(" 	'6'  index_item");
+		   buffer.append(itemtypesql);
+		   buffer.append("  AND pro_name=6) index_item");
 		   buffer.append("  FROM");
 		   buffer.append("   senddata_data tb ");
 		   buffer.append("  WHERE index_item IN ");
@@ -218,7 +240,8 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("    SELECT ");
 		   buffer.append("     tb.yr,");
 		   buffer.append("  SUM(tb.value),");
-		   buffer.append("  7 AS index_item");
+		   buffer.append(itemtypesql);
+		   buffer.append("  AND pro_name=7) index_item");
 		   buffer.append("  FROM");
 		   buffer.append("  senddata_data tb ");
 		   buffer.append("  WHERE index_item IN ");
@@ -226,7 +249,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("    id ");
 		   buffer.append("    FROM  senddata_itemname WHERE task_id=1 AND pro_name =7");
 		   buffer.append("  )   GROUP BY yr ");
-		   jdbcTemplate.update(buffer.toString());
+		   jdbcTemplate.update(buffer.toString(),taskids);
 	   }
 	private BasicData createModel(String indexid, String yr, String value)
 			throws Exception {
@@ -238,11 +261,18 @@ public class SendDataDaoImpl implements SendDataDao {
 		basicdata.setValue(value);
 		return basicdata;
 	}
-
+	private SendItemName createItemName(String id,String sdshl,String wgwstdlyxss)
+			throws Exception {
+		SendItemName itemname = new SendItemName();
+		itemname.setId(id);
+		itemname.setSdshl(sdshl);
+		itemname.setWgwstdlyxss(wgwstdlyxss);
+		return itemname;
+	}
 	private void executeSQLS(final List<BasicData> basicDatas)
 			throws Exception {
 
-		String deletesql = "delete from  hinderedIdleCapacity_data"
+		String deletesql = "delete from senddata_data"
 				+ " where INDEX_ITEM=? and YR=?";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
@@ -263,7 +293,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		};
 		jdbcTemplate.batchUpdate(deletesql, setdelete);
 
-		String insertsql = "insert  hinderedIdleCapacity_data"
+		String insertsql = "insert  senddata_data"
 				+ "(INDEX_ITEM,YR,VALUE) VALUES(?,?,?)";
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 
@@ -285,7 +315,31 @@ public class SendDataDaoImpl implements SendDataDao {
 		};
 		jdbcTemplate.batchUpdate(insertsql, setinsert);
 	}
+	private void executeSQLItem(final List<SendItemName> itemnames)
+			throws Exception {
+		String updateSql = "update  senddata_itemname set sdshl=?,wgwstdlyxss=?"
+				+ "where id=?";
+		BatchPreparedStatementSetter setupdate = new BatchPreparedStatementSetter() {
 
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				// TODO Auto-generated method stub
+				SendItemName basicdata = itemnames.get(i);
+				ps.setString(1, basicdata.getSdshl());
+				ps.setString(2, basicdata.getWgwstdlyxss());
+				ps.setString(3, basicdata.getId());
+			}
+
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return itemnames.size();
+			}
+		};
+		jdbcTemplate.batchUpdate(updateSql, setupdate);
+
+	}
 	@Override
 	public String addProData(final SendItemName sendItemName) throws Exception {
 		String insertsql = "insert  senddata_itemname" 
@@ -306,9 +360,27 @@ public class SendDataDaoImpl implements SendDataDao {
 	}
 
 	@Override
-	public String deleteProData(String ids) throws Exception {
+	public String deleteProData(String[] delectArr) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		StringBuffer  buffer=new StringBuffer("delete from senddata_itemname where id in(");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		
+		StringBuffer  buf=new StringBuffer("delete from senddata_data where index_item in(");
+		String InSq = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSq = InSq + "?,";
+		}
+		buffer.append(InSq.substring(0, InSq.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buf.toString(),delectArr);
+		
+		return "1";
 	}
 
 	@Override

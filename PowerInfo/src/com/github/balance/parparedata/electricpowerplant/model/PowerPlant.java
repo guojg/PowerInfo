@@ -37,5 +37,12 @@ public class PowerPlant {
 	private String startDate;
 	private String endDate;
 	private String id;
+	private String indexItem;
+	public String getIndexItem() {
+		return indexItem;
+	}
+	public void setIndexItem(String indexItem) {
+		this.indexItem = indexItem;
+	}
 
 }
