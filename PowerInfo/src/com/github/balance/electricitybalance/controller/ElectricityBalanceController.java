@@ -33,9 +33,20 @@ public class ElectricityBalanceController {
 		 String year = request.getParameter("year")==null?"": request.getParameter("year");
 		JSONObject obj = new JSONObject();
 		obj.put("year", year);
-		obj.put("taskid",taskid);
+		obj.put("task_id",taskid);
 		String resultJson = electricityBalanceService.queryData(obj);
 	System.out.println(resultJson);
+		return resultJson;
+	}
+	@RequestMapping(value = "/extractData" ,produces="text/plain;charset=UTF-8")
+	public @ResponseBody String extractData(HttpServletRequest request,
+			HttpServletResponse response) {
+		 String taskid = request.getParameter("taskid");
+		 String year = request.getParameter("year")==null?"": request.getParameter("year");
+		JSONObject obj = new JSONObject();
+		obj.put("year", year);
+		obj.put("task_id",taskid);
+		String resultJson = electricityBalanceService.extractData(obj);
 		return resultJson;
 	}
 	

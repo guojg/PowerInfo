@@ -18,4 +18,10 @@ public interface ElectricityBalanceService {
 	 */
 	
 	public String queryData(JSONObject param);
+	/**
+	 * 抽取
+	 * @param obj
+	 * @return
+	 */
+	public String extractData(JSONObject obj);
 }

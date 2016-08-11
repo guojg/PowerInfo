@@ -1,7 +1,7 @@
 ﻿$(function() {
 	tabClose();
 	tabCloseEven();
-	var keyValue={"basic":1,"totalQuantity":4,"balance":159,"station":168};
+	var keyValue={"basic":1,"totalQuantity":4,"balance":157,"station":168};
 	//$('#css3menu').css("margin-left", $('#logo1').width());
 	$('#css3menu a').click(function() {
 		$('#css3menu a').removeClass('active');

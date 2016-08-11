@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
+<%@ page import="com.github.balance.task.entity.BalanceTask"%>
  <!DOCTYPE html>
 <html>
 <head>
@@ -10,29 +10,52 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
-
+<% 
+		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
+		String taskid = tt.getId();
+		String year = tt.getYear();
+		
+		%>
 <script type="text/javascript">
+var taskid='<%=taskid%>';
+var years = '<%=year%>';
 var cols;
 $(function() {
 	$("#tool_save").bind("click", function() {
 		extractData();
 	});
+	$("#tool_query").bind("click", function() {
+		queryData();
+	});
+	 comboBoxInit({
+			id : "years",
+			url : path + '/sysdict/getBalanceYears?year='+years,
+			textkey : "value",
+			valuekey : "code",
+			multiple : true
+		});
+	 queryData();
+});
+function queryData(){
+	var yrs = $('#years').combo('getValues').join(",");
+
 	//非冰冻列
-	cols = createCols("2016,2017");
+	cols = createCols(yrs);
 $('#datagrid').treegrid({    
    url:path+'/powerbalance/queryData',   
    //url:path+'/js/basicData/treegrid_data3.json',
     idField:'id',    
-    treeField:'code_name',    
+    treeField:'code_name',  
+	queryParams : {"year":yrs,"taskid":taskid},
     frozenColumns:[[    
         {title:'id',field:'id',width:180,hidden:true},    
         {field:'parentid',title:'_parentId',width:180,align:'right',hidden:true},  
         {field:'code_name',title:'指标',width:180},  
     ]] ,
-	columns : cols
+	columns : cols,
+	onLoadSuccess: function () {$('#datagrid').treegrid('collapseAll')}
 }); 
-});
-
+}
 //动态生成列
 function createCols(years) {
 	var cols = [];
@@ -52,10 +75,15 @@ function createCols(years) {
 	return new Array(cols);
 }
 function extractData(){
+	 var param = {
+				'taskid':taskid,
+				'year':years
+			 };
 	 $.ajax({
 			type : 'POST',
 			async : false,
 			dataType: 'json',
+			data: param,
 			url :  path+'/powerbalance/extractData',
 			success : function(data) {
 				
@@ -71,13 +99,17 @@ function extractData(){
 	<div id="btn_div">
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
-		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
+		</a> <a id="tool_save"> <img src='<%=path%>/static/images/js.gif'
 			align='top' border='0' title='计算' />
 		</a>
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>
 		<table id="search_tbl">
+		<tr>
+		<td class="tdlft">年份：</td>
+				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
+		</tr>
 		</table>
 	</fieldset>
 	<div id="datagrid_div">

@@ -30,7 +30,7 @@ public class PowerBalanceController {
 		 String year = request.getParameter("year")==null?"": request.getParameter("year");
 		JSONObject obj = new JSONObject();
 		obj.put("year", year);
-		obj.put("taskid",taskid);
+		obj.put("task_id",taskid);
 		String resultJson = powerBalanceService.queryData(obj);
 		return resultJson;
 	}
@@ -42,7 +42,7 @@ public class PowerBalanceController {
 		 String year = request.getParameter("year")==null?"": request.getParameter("year");
 		JSONObject obj = new JSONObject();
 		obj.put("year", year);
-		obj.put("taskid",taskid);
+		obj.put("task_id",taskid);
 		String resultJson = powerBalanceService.extractData(obj);
 		return resultJson;
 	}
