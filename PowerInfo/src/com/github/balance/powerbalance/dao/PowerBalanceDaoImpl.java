@@ -15,7 +15,7 @@ import net.sf.json.JSONObject;
 public class PowerBalanceDaoImpl implements PowerBalanceDao {
 
 	private static final String LOADSQL=" SELECT yr,NULL,100,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=201 and task_id=? " ;//全社会(统调)最大负荷
-	private static final String ZJRLSQL=" SELECT yr,200,1,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=2 and task_id=?" ;//有效备用容量
+	private static final String ZJRLSQL=" SELECT t1.yr,200,1,t1.VALUE*t2.value,t1.task_id FROM loadelectricquantity_data t1 JOIN  loadelectricquantity_data  t2 ON t1.yr=t2.yr AND t1.task_id=t2.task_id AND t1.task_id=? AND t1.index_item=201 AND t2.index_item=203 " ;//有效备用容量
 	private static final String BYRLSQL=" SELECT yr,200,2,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=203 and task_id=?" ;//有效备用系数
 	//需要有效装机容量
 	private static final String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*l2.VALUE,l1.task_id FROM loadelectricquantity_data l1 JOIN loadelectricquantity_data l2  WHERE l1.yr=l2.yr AND  l1.index_item=2 AND l2.index_item=3 and l1.task_id=? and l2.task_id=?" ;//需要有效装机容量
