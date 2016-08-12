@@ -2,19 +2,26 @@ package com.github.balance.task.dao;
 
 
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.github.balance.parparedata.senddata.model.SendItemName;
 import com.github.balance.task.entity.BalanceTask;
 import com.github.balance.task.entity.BalanceYear;
 import com.github.basicData.model.BasicYear;
+import com.github.totalquantity.prepareData.entity.PrepareData;
 import com.github.totalquantity.task.entity.TotalTask;
 
 
@@ -28,11 +35,88 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 		try{
 		String sql ="insert into shiro.balance_task(task_name,year) value(?,?)";
 		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getYear()});
+		this.execSendData(task.getTask_name()) ;
+		execPowerQuotient(task);
+		execHourNum(task);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 外购外送默认指标
+	 * @param task_name
+	 */
+	private void execSendData(String task_name){
+		String querySql = " SELECT b.id,s.code FROM sys_dict_table s  JOIN balance_task  b ON s.domain_id=18 AND b.task_name=?";
+		final List<SendItemName> list= this.jdbcTemplate.query(querySql, new Object[]{task_name} , new ParameterizedRowMapper<SendItemName>() {
+            @Override
+            public SendItemName mapRow(ResultSet rs, int index)
+                    throws SQLException {
+            	SendItemName st = new SendItemName();
+            	st.setTask_id(rs.getString("id"));
+            	st.setPro_name(rs.getString("code"));
+            	return st;
+            }
+        });
+		
+		String insertsql = " insert into senddata_itemname(task_id,pro_name) values(?,?)";
+		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				SendItemName pd = list.get(i);
+				ps.setString(1, pd.getTask_id());
+				ps.setString(2, pd.getPro_name());
+
+			}
+
+			@Override
+			public int getBatchSize() {
+				return list.size();
+			}
+		};
+		jdbcTemplate.batchUpdate(insertsql, setdelete);
+	}
+	/**
+	 * 电源装机默认系数
+	 * @param task_name
+	 */
+	private void execPowerQuotient(BalanceTask task){
+		String querySql="select id from balance_task where task_name=?" ;
+		Map<String ,Object> m = this.jdbcTemplate.queryForMap(querySql, new Object[]{task.getTask_name()});
+		if(m != null){
+			if(m.get("id") != null){
+				StringBuffer sb = new StringBuffer();
+				sb.append(" INSERT INTO quotient_data(index_item,VALUE,YEAR,task_id) ")
+				.append(" SELECT q.index_item,q.value,t.yr, " )
+				.append(m.get("id").toString())
+				.append( " FROM quotient_init q JOIN ")
+				.append(getYearDual(task.getYear()));
+				this.jdbcTemplate.update(sb.toString());
+			}
+		}
+		
+	}
+	/**
+	 * 电源装机默认小时数
+	 * @param task_name
+	 */
+	private void execHourNum(BalanceTask task){
+		String querySql="select id from balance_task where task_name=?" ;
+		Map<String ,Object> m = this.jdbcTemplate.queryForMap(querySql, new Object[]{task.getTask_name()});
+		if(m != null){
+			if(m.get("id") != null){
+				StringBuffer sb = new StringBuffer();
+				sb.append(" INSERT INTO power_hour (index_item,hour_num,task_id) ")
+				.append(" SELECT q.index_item,q.hour_num, " )
+				.append(m.get("id").toString())
+				.append( " FROM quotient_init q ");
+				this.jdbcTemplate.update(sb.toString());
+			}
+		}
+		
+	}
 	@Override
 	public List<Map<String, Object>> queryData(JSONObject param) {
 		String pageSize = param.getString("pageSize");
@@ -76,5 +160,23 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 		return  this.jdbcTemplate.queryForList(sql,new Object[]{id});
 	}
 	
+	/**
+	 * 组装年份
+	 * @param year
+	 * @return
+	 */
+	private String getYearDual(String year){
+		String[] aYears = year.split(",");
+		StringBuffer strYears = new StringBuffer();
+		strYears.append(" ( ") ;
+		for(int i=0;i<aYears.length;i++)
+		{
+			strYears.append("select ").append(aYears[i]).append(" as yr from dual");
+			if(i<aYears.length-1)
+				strYears.append(" union all ");
+		}
+		strYears.append(" ) t");
+		return strYears.toString();
+	}
 
 }

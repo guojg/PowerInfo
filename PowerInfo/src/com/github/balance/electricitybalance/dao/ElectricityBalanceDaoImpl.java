@@ -55,7 +55,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		//String year = obj.getString("year");"2016,2017,2018"
 				String year = obj.getString("year");
 				String task_id=obj.getString("task_id");
-				this.execCopyHour(task_id);
+			//	this.execCopyHour(task_id);
 
 				deleteData(task_id);
 				String yearRateSql=getYearRateSQL(year);
@@ -64,7 +64,10 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 				sb.append(  ELECSQL);
 				sb.append("    UNION ALL  ");
 				sb.append(yearRateSql);
-				int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id});
+				sb.append(" union all ");
+				sb.append(" SELECT  t1.yr,NULL,200,t1.value,t2.task_id FROM senddata_data t1 "
+						+ "JOIN   senddata_itemname t2 ON t2.task_id=? AND  t2.pro_name='4' AND t2.id=t1.index_item ");
+				int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id,task_id});
 				 execSeftElec(task_id);
 				 execSeftElecByType(task_id);
 				 execCoalHour(task_id);
@@ -154,8 +157,8 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 	private int  execCoalHour(String task_id){
 
 		StringBuffer sub = new StringBuffer();
-		sub.append(" insert into power_hour_copy(index_item,hour_num) ")
-		.append( "  SELECT x.YEAR,CASE WHEN y.value=0 THEN NULL ELSE x.VALUE/y.value*10000 END AS VALUE  FROM electricity_data X  JOIN ( ")
+		sub.append(" insert into electricity_data(p_index_item,index_item,year,value,task_id) ")
+		.append( "  SELECT null,400,x.YEAR,CASE WHEN y.value=0 THEN NULL ELSE x.VALUE/y.value*10000 END AS VALUE,x.task_id  FROM electricity_data X  JOIN ( ")
 		.append(" SELECT m.year,SUM(m.value) VALUE,task_id FROM ( ")
 		.append(" SELECT YEAR,VALUE,task_id FROM power_data WHERE  p_index_item =500  and task_id=? AND index_item=3")
 		.append(" UNION ALL")

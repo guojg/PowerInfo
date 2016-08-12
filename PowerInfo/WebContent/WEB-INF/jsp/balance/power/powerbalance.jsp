@@ -88,7 +88,7 @@ function extractData(){
 			success : function(data) {
 				
 				$.messager.alert("提示", "计算成功！");
-
+				queryData();
 			}
 		});
 }

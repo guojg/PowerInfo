@@ -30,7 +30,7 @@ $(function() {
 
 	 comboBoxInit({
 			id : "dylxs",
-			url : path + '/sysdict/getDataByCodeValue?domain_id=13',
+			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
 			textkey : "value",
 			valuekey : "code",
 			multiple : true
@@ -198,7 +198,7 @@ function save() {
 	}
 	var param = JSONH.stringify(updates);
 	var data = {
-		"taskid":"1",
+		"taskid":taskid,
 		"editObj" : param
 	};
 	$.ajax({

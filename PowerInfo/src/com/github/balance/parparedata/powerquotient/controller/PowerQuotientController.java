@@ -51,9 +51,11 @@ public class PowerQuotientController {
 	public @ResponseBody
 	String saveData(HttpServletRequest request){
 		String editObj = request.getParameter("editObj");
+		 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
+
 		JSONObject jsonobj = new JSONObject();
 		jsonobj.put("editObj", editObj);
-		jsonobj.put("taskid", "1");
+		jsonobj.put("taskid", taskid);
 		return powerQuotientService.saveData(jsonobj);
 		
 	}

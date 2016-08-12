@@ -21,7 +21,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 	private static final String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*l2.VALUE,l1.task_id FROM loadelectricquantity_data l1 JOIN loadelectricquantity_data l2  WHERE l1.yr=l2.yr AND  l1.index_item=2 AND l2.index_item=3 and l1.task_id=? and l2.task_id=?" ;//需要有效装机容量
 	private static final String SZKXRLSQL=" SELECT yr,NULL,600,SUM(VALUE),task_id FROM hinderedidlecapacity_data where task_id=? and index_item=1 GROUP BY task_id,yr ";//受阻及空闲容量
 	private static final String SZKXRLSUBSQL=" SELECT yr,600,index_item,VALUE,task_id FROM hinderedidlecapacity_data where task_id=? and index_item !=1";//受阻及空闲容量子项
-
+	
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -91,9 +91,9 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		sb.append(SZKXRLSQL);
 		sb.append("    UNION ALL  ");
 		sb.append(SZKXRLSUBSQL);
-		//sb.append("    UNION ALL  ");
-		//sb.append(" SELECT YEAR ,index_item,800,VALUE FROM t_dldln_dylxrl WHERE sbzt=3  ");
-		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id});
+		sb.append("    UNION ALL  ");
+		sb.append(" SELECT  t1.yr,NULL,800,t1.value,t2.task_id FROM senddata_data t1 JOIN   senddata_itemname t2 ON t2.task_id=? AND  t2.pro_name='2' AND t2.id=t1.index_item  ");
+		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id});
 		int operationalCount = this.execOperationalCapacitySum(task_id);
 		int endYearCount =this.execEndYearCapacitySum(task_id);
 		int currentYearCount = this.execCurrentYearCapacitySum(task_id);

@@ -148,9 +148,9 @@
 			queryParams : queryParams,
 
 			onClickCell : function(rowIndex, field, value) {
-				if(field!="index_name"&&rowIndex==2){
+				//if(field!="index_name"&&rowIndex==2){
 					clickEvent(rowIndex, field, value);
-				}
+				//}
 			}
 		});
 	}
