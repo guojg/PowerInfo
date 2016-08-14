@@ -4,6 +4,7 @@
 	var keyValue={"basic":1,"totalQuantity":4,"balance":157,"station":168};
 	//$('#css3menu').css("margin-left", $('#logo1').width());
 	$('#css3menu a').click(function() {
+		$('#mm-tabcloseall').click();
 		$('#css3menu a').removeClass('active');
 		$(this).addClass('active');
 		$("#css3menu a").css("background","#EDF1FA");
