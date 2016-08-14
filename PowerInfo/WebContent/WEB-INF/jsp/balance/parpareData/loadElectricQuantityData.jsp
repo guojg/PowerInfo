@@ -43,6 +43,9 @@
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
+		$("#tool_total").bind("click", function() {
+			totalData();
+		});
 		 comboBoxInit({
 				id : "years",
 				url : path + '/sysdict/getBalanceYears?year='+years,
@@ -59,6 +62,24 @@
 			});
 		queryData();
 	});
+    function totalData(){
+		$.messager.confirm('提示', '确认汇总?', function(r) {
+			if (r) {
+
+				$.post(path + '/loadElectricQuantity/totalData', {
+					"taskid" : taskid
+				}, function(data) {
+					var data = $.parseJSON(data);
+					if (data== '1') {
+						$.messager.alert('提示', '汇总成功！', 'info', function() {
+							queryData();
+
+						});
+					}
+				});
+			}
+		});
+    }
 	function ExportExcel() {//导出Excel文件
 		var years = $("#years").combo("getValues");
 		//水平年份
@@ -146,11 +167,11 @@
 			rownumbers : true,
 			pagination : false,
 			queryParams : queryParams,
-
+			singleSelect:true,
 			onClickCell : function(rowIndex, field, value) {
-				//if(field!="index_name"&&rowIndex==2){
+				if(field!="index_name"){
 					clickEvent(rowIndex, field, value);
-				//}
+				}
 			}
 		});
 	}
@@ -345,6 +366,9 @@
 			align='top' border='0' title='查询' />
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' />
+		</a> 
+ 		<a id="tool_total"> <img src='<%=path%>/static/images/huizong.gif'
+			align='top' border='0' title='汇总' />
 		</a> 
 		<!--  <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'

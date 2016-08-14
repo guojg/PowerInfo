@@ -43,6 +43,22 @@ public class SendDataController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping(value = "/deleteProData")
+	public @ResponseBody
+	String deleteRecord(HttpServletRequest request) {
+		try {
+			String deleteids = request.getParameter("ids");
+			//String taskid=request.getParameter("taskid");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("deleteids",deleteids );
+			//jsonobj.put("taskid",taskid );
+			sendDataService.deleteData(jsonobj);
+			return "1";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
 	@RequestMapping(value = "/addProData")
 	public @ResponseBody
 	String addProData(HttpServletRequest request) {

@@ -150,4 +150,19 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 		};
 		jdbcTemplate.batchUpdate(insertsql, setinsert);
 	}
+
+	@Override
+	public String totalData(String taskid) throws Exception {
+		// TODO Auto-generated method stub
+		StringBuffer buffer=new StringBuffer("INSERT INTO loadelectricquantity_data (yr,index_item,VALUE,task_id)");
+		buffer.append("SELECT yr,201 index_item,value,");
+		buffer.append(taskid);
+		buffer.append(" FROM electricalsource_data WHERE index_item=108");
+		buffer.append(" union all");
+		buffer.append(" SELECT yr,202 index_item,value,");
+		buffer.append(taskid);
+		buffer.append(" FROM electricalsource_data WHERE index_item=107");
+		jdbcTemplate.update(buffer.toString());
+		return "1";
+	}
 }

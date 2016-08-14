@@ -61,6 +61,20 @@ public class LoadElectricQuantityController {
 			return "0";
 		}
 	}
+	@RequestMapping(value = "/totalData")
+	public @ResponseBody
+	String totalData(HttpServletRequest request) {
+		try {
+			String taskid=request.getParameter("taskid");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("taskid", taskid);
+			loadElectricQuantityService.totalData(jsonobj);
+			return "1";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
 	@RequestMapping(value = "/main")
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {

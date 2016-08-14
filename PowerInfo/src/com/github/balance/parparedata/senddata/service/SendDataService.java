@@ -9,7 +9,7 @@ public interface SendDataService {
 
 	public String queryData(JSONObject param) throws Exception;
 	public String saveData(JSONObject param) throws Exception;
-	public String deleteData(String[] ids) throws Exception;
+	public String deleteData(JSONObject obj) throws Exception;
 	public String addProData(JSONObject param)throws Exception;
 	public List<Domain> getTypes() throws Exception;
 

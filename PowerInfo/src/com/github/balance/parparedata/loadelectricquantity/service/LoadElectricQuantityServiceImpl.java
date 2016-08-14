@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.balance.parparedata.loadelectricquantity.dao.LoadElectricQuantityDao;
 import com.github.common.util.JsonUtils;
-
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Service
@@ -32,6 +30,13 @@ public class LoadElectricQuantityServiceImpl implements  LoadElectricQuantitySer
 		// TODO Auto-generated method stub
 
 		return loadElectricQuantityDao.saveData(param);
+	}
+
+	@Override
+	public String totalData(JSONObject param) throws Exception {
+		// TODO Auto-generated method stub
+		String taskid=param.get("taskid")==null?null:param.getString("taskid");
+		return loadElectricQuantityDao.totalData(taskid);
 	}
 
 }
