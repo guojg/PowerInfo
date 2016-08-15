@@ -115,7 +115,7 @@ function remove() {
 function addyear() {
 	commonHelper.toAdd({
 		title : '增加年份',
-		width : 260,
+		width : 400,
 		height : 180,
 		url : "basicData/openAddYear"
 	});
