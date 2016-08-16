@@ -1,0 +1,21 @@
+.uploadify1 {
+	margin:5px;
+}
+.uploadify1 a {
+	margin: 7px;
+	padding: 4px 8px;
+	background-image: url('../../images/btn_03.png');
+	background-repeat:repeat-x;
+	cursor: hand;
+	color: #fafafa;
+	letter-spacing: 4px;
+	font-size: 13px;
+	display: inline;
+	text-align: center;
+	text-decoration: none;
+}
+.uploadify1 a:hover {
+	background-image: url('../../images/btn_02.png');
+	background-repeat:repeat-x;
+	
+	}
