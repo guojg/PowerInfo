@@ -23,19 +23,19 @@
 	var dcAt = 0;
 	var dcTime = 250;
 	var savTO = null;
-	var frozenCols = [ [ {field:'ck',title:'',width:30,align:'center',
-		 formatter:function(value,row,index){
-				if(row['pid']==""||typeof(row['pid'])=='undefined'){
-					return '';
-				}else{
-					return '<input id="'+row['id']+'" name="idbox" type="checkbox" style="width:20px;"/>';
-				}
-			 }
-			},{
+	var frozenCols = [ [ {field:'ck',title:'',width:30,align:'center',checkbox:true},
+	    {
 		field : 'pro_name',
 		title : '指标名称',
 		width : 200,
-		align : 'center'
+		align : 'center',formatter:function(value,row,index){
+			if(row['pid']==""||typeof(row['pid'])=='undefined'){
+				return '<font size=6>'+value+'</font>';
+			}
+			else{
+				return value;
+			}
+		 }
 	} ] ];
 	$(function() {
 		$("#tool_save").bind("click", function() {
@@ -47,13 +47,16 @@
 		$("#tool_add").bind("click", function() {
 			addProName();
 		});
-		comboBoxInit({
-			id : "years",
-			url : path + '/basicData/getyears',
-			textkey : "yearName",
-			valuekey : "year",
-			multiple : true
+		$("#tool_del").bind("click", function() {
+			delProName();
 		});
+		 comboBoxInit({
+				id : "years",
+				url : path + '/sysdict/getBalanceYears?year='+years,
+				textkey : "value",
+				valuekey : "code",
+				multiple : true
+			});
 		queryData();
 	});
 	function addProName() {
@@ -62,6 +65,32 @@
 			width : 300,
 			height : 250,
 			url : path + '/sendData/openAddProData'
+		});
+	}
+	function delProName(){
+		$.messager.confirm('提示', '确认删除?', function(r) {
+			if (r) {
+				var rows = $('#datagrid').datagrid('getChecked');
+				var ids = "";
+				for (rowindex in rows) {
+					if (parseInt(rowindex) + 1 == rows.length) {
+						ids = ids + rows[rowindex]["id"];
+					} else {
+						ids = ids + rows[rowindex]["id"] + ",";
+					}
+				}
+				$.post(path + '/sendData/deleteProData', {
+					"ids" : ids
+				}, function(data) {
+					var data = $.parseJSON(data);
+					if (data== '1') {
+						$.messager.alert('提示', '删除成功！', 'info', function() {
+							queryData();
+
+						});
+					}
+				});
+			}
 		});
 	}
 	//查询方法调用的函数
@@ -104,10 +133,23 @@
 			queryParams : queryParams,
 			onClickCell : function(rowIndex, field, value) {
 				var rows=$('#datagrid').datagrid('getRows');  
-				if(field!="index_name"&&!(rows[rowIndex]['pid']==""||typeof(rows[rowIndex]['pid'])=='undefined')){
+				if(field!="pro_name"&&!(rows[rowIndex]['pid']==""||typeof(rows[rowIndex]['pid'])=='undefined')){
 					clickEvent(rowIndex, field, value);
 				}
-			}
+			},
+	        onLoadSuccess:function(data){
+	        	$(".datagrid-header-row input[type='checkbox']").hide();	
+	            for(var i=0;i<data.rows.length;i++){
+	            	var row=data.rows[i];
+	            	var pid= row['pid'];
+	                if(pid==""||typeof(pid)=='undefined'){
+	                	$(".datagrid-row[datagrid-row-index="+i+"] input[type='checkbox']").hide();	       
+	                }
+	                if(row["pro_name"]==""){
+	                	$(".datagrid-row[datagrid-row-index="+i+"]").hide();	       
+	                }
+	            }
+	        }
 		});
 	}
 
@@ -323,11 +365,11 @@
 			src='<%=path%>/static/images/new.gif' align='top' border='0'
 			title='新增' />
 		</a>
-	<!-- 	<a id="tool_del"> <img
+		<a id="tool_del"> <img
 			src='<%=path%>/static/images/delete.png' align='top' border='0'
 			title='删除' />
 		</a>
-		<a id="tool_export"> <img
+		<!-- <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />
 		</a> -->

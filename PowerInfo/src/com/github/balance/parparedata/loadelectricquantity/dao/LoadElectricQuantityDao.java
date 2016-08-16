@@ -23,4 +23,6 @@ public interface LoadElectricQuantityDao {
 	 * @return
 	 */
 	public String saveData(JSONObject param) throws Exception;
+	
+	public String totalData(String taskid) throws Exception;
 }

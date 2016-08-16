@@ -13,6 +13,7 @@
 		String taskid = tt.getId();
 		%>
 <script type="text/javascript">
+var taskid='<%=taskid%>';
 $(function() {
 	comboBoxInit({
 		id : "pro_type",
@@ -29,6 +30,7 @@ $(function() {
 		window.parent.$('#win_div').window('close');
 	}
 	function save() {
+		debugger;
 		var operationdata = new Object();
 		operationdata["pro_name"] = $('#pro_name').val();
 		operationdata["pid"] = $('#pro_type').datebox('getValue');
@@ -42,7 +44,6 @@ $(function() {
 			data : param,
 			success : function(obj) {
 				if (obj == '1') {
-
 					window.parent.$.messager.alert('提示', '创建成功！', 'info',
 							function() {
 								//关闭窗口

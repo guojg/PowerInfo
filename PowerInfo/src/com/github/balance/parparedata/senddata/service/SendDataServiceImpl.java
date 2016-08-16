@@ -39,9 +39,11 @@ public class SendDataServiceImpl implements  SendDataService{
 	
 
 	@Override
-	public String deleteData(String[] ids) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public String deleteData(JSONObject obj) throws Exception {
+		String delectArr[] = obj.get("deleteids") == null ? null : obj
+				.get("deleteids").toString().split(",");
+		//String taskid=obj.getString("taskid");
+		return sendData.deleteProData(delectArr);
 	}
 
 	@Override

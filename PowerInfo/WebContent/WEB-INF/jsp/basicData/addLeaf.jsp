@@ -72,8 +72,8 @@ function save(){
 
 			<tr>
 				<td class="tdlft" style='width: 50px'>指标：</td>
-				<td class="tdrgt" style='width: 120px'><input id="name"
-					type="text" style='width: 120px' /></td>
+				<td class="tdrgt" style='width: 290px'><input id="name"
+					type="text" style='width: 280px' /></td>
 			</tr>
 		</table>
 	</form>

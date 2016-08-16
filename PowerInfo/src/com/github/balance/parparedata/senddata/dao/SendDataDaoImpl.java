@@ -46,7 +46,7 @@ public class SendDataDaoImpl implements SendDataDao {
 	    sb.append("  SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.id ,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
-	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='5' and b.task_id=?");
+	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='5' and b.task_id=? GROUP BY   b.pro_name, b.sdshl,b.wgwstdlyxss,b.id, b.pid");
 	    sb.append(" UNION ALL");
 	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
@@ -58,7 +58,7 @@ public class SendDataDaoImpl implements SendDataDao {
 	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
-	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='6' and b.task_id=?");
+	    sb.append("  RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='6' and b.task_id=? GROUP BY   b.pro_name, b.sdshl,b.wgwstdlyxss,b.id, b.pid");
 	    sb.append(" UNION ALL");
 	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
@@ -70,7 +70,7 @@ public class SendDataDaoImpl implements SendDataDao {
 	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
-	    sb.append(" RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='7' and b.task_id=?");		
+	    sb.append(" RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='7' and b.task_id=? GROUP BY   b.pro_name, b.sdshl,b.wgwstdlyxss,b.id, b.pid");		
 		return jdbcTemplate.queryForList(sb.toString(),taskids);
 	}
 	
@@ -376,8 +376,8 @@ public class SendDataDaoImpl implements SendDataDao {
 		for (int i = 0; i < delectArr.length; i++) {
 			InSq = InSq + "?,";
 		}
-		buffer.append(InSq.substring(0, InSq.length() - 1));
-		buffer.append(")");
+		buf.append(InSq.substring(0, InSq.length() - 1));
+		buf.append(")");
 		jdbcTemplate.update(buf.toString(),delectArr);
 		
 		return "1";
