@@ -20,6 +20,11 @@ $(function() {
            missingMessage: '任务名不能为空。',
            invalidMessage: '任务名称的输入长度不能超过25个汉字。'
        });
+	  $("#year").combobox({
+          required: true,
+          novalidate: true,
+          missingMessage: '水平年不能为空。'
+      });
 	  comboBoxInit({
 			id : "year",
 			url : path + '/balancetask/getyears',
@@ -62,6 +67,11 @@ function initData(){
 			});
 
  }
+//取消
+ function cancel(){
+ 	//关闭窗口
+ 	window.parent.$('#win_div').window('close');
+ }
  function validate(param){
 	 var flag=true;
 	 var resultNmame="";
@@ -76,8 +86,8 @@ function initData(){
 		
 		
 		var flagV=$('#detailTable').form('validate');
-		if(flagV==false){
-			flag=flagV;
+		if(flagV==false || resultNmame!=""){
+			flag=false;
 		}
 	
 	$('#validateMessage').html(resultNmame);
@@ -109,6 +119,8 @@ function initData(){
 	<div class="div_submit" >
 			<a id="tool_save" href="javascript:save();" > <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' /></a>
+			<a id="btn_cancel" href="javascript:cancel();" ><img src="/PowerInfo/static/images/quxiao.gif" border="0" style="vertical-align: middle"></a>
+			
 		</div> 
 		</form>
 </body>

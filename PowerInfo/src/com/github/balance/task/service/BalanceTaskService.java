@@ -24,6 +24,7 @@ public interface BalanceTaskService {
 	
 	public List<BalanceYear> getYears() throws Exception;
 	public String initData(String id);
+	public String deleteRecord(JSONObject obj) throws Exception;
 
 
 }

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 
 
+
 import com.github.balance.task.dao.BalanceTaskDao;
 import com.github.balance.task.entity.BalanceTask;
 import com.github.balance.task.entity.BalanceYear;
@@ -68,7 +69,13 @@ public class BalanceTaskServiceImpl implements BalanceTaskService{
 		return JsonUtils.listTranJson(list);
 	}
 
-
+	@Override
+	public String deleteRecord(JSONObject obj) throws Exception {
+		// TODO Auto-generated method stub
+		String delectArr[] = obj.get("deleteids") == null ? null : obj
+				.get("deleteids").toString().split(",");
+		return balanceTaskDao.deleteRecord(delectArr);
+	}
 	
 
 }

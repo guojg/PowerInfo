@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 
 
+
 import com.github.common.util.JsonUtils;
 import com.github.totalquantity.task.dao.TaskDao;
 import com.github.totalquantity.task.entity.TotalTask;
@@ -69,7 +70,13 @@ public class TaskServiceImpl implements TaskService{
 		return JsonUtils.listTranJson(list);
 	}
 
-
+	@Override
+	public String deleteRecord(JSONObject obj) throws Exception {
+		// TODO Auto-generated method stub
+		String delectArr[] = obj.get("deleteids") == null ? null : obj
+				.get("deleteids").toString().split(",");
+		return taskDao.deleteRecord(delectArr);
+	}
 	
 
 }

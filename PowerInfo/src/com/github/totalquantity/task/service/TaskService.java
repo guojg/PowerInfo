@@ -23,6 +23,7 @@ public interface TaskService {
 
 	public List<TotalYear> getPlanYears() throws Exception;
 	public String initData(String id);
+	public String deleteRecord(JSONObject obj) throws Exception;
 
 
 }
