@@ -17,6 +17,8 @@ String taskid = tt.getId();
 String baseyear = tt.getBaseyear();
 String planyear = tt.getPlanyear();
 String algorithmRadio = tt.getAlgorithmRadio();
+String task_name = tt.getTask_name();
+
 %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/icon.css" />
@@ -29,6 +31,8 @@ var taskid='<%=taskid%>';  //任务号
 var baseyear='<%=baseyear%>';//规划年
 var planyear='<%=planyear%>';//规划年
 var algorithmRadio='<%=algorithmRadio%>';
+var task_name='<%=task_name%>';
+
 var algorithm='<%=algorithm%>';
 
 //id,taskid,algorithm,year,value from totaldata
@@ -95,6 +99,8 @@ var algorithm='<%=algorithm%>';
 	};
 	var categories = [];
 	$(function() {
+		$('#task_name').val(task_name);
+
 		comboBoxInit({
 			id : "years",
 			url : path + '/totalData/getyears',
@@ -287,6 +293,8 @@ var algorithm='<%=algorithm%>';
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+				<td class="tdlft">任务：</td>
+				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 			</tr>
