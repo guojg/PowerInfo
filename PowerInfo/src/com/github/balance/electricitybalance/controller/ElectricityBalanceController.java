@@ -49,5 +49,22 @@ public class ElectricityBalanceController {
 		String resultJson = electricityBalanceService.extractData(obj);
 		return resultJson;
 	}
+	@RequestMapping("/exportData")
+	public void exportData(HttpServletRequest request,
+			HttpServletResponse response) {
+			response.setCharacterEncoding("UTF-8");
+			 String taskid = request.getParameter("taskid");
+			 String year = request.getParameter("year")==null?"": request.getParameter("year");
+			JSONObject obj = new JSONObject();
+			obj.put("year", year);
+			obj.put("task_id",taskid);
+			try {
+				electricityBalanceService.ExportExcel(obj, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			 
+
+	}
 	
 }

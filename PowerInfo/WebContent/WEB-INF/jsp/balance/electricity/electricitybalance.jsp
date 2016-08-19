@@ -31,6 +31,9 @@ $(function() {
 	$("#tool_save").bind("click", function() {
 		extractData();
 	});
+	$("#tool_export").bind("click", function() {
+		ExportExcel();
+	});
 	 comboBoxInit({
 			id : "years",
 			url : path + '/sysdict/getBalanceYears?year='+years,
@@ -60,6 +63,21 @@ $('#datagrid').treegrid({
     ]] ,
 	columns : cols
 }); 
+}
+function ExportExcel() {//导出Excel文件
+	var yrs = $('#years').combo('getValues').join(",");
+
+	//用ajax发动到动态页动态写入xls文件中
+	var f = $('<form action="'+path+'/electricitybalance/exportData" method="post" id="fm1"></form>');  
+    var i = $('<input type="hidden" id="year" name="year" />');  
+    var m = $('<input type="hidden" id="taskid" name="taskid" />');  
+	i.val(yrs);  
+	i.appendTo(f);  
+	
+	m.val(taskid);  
+	m.appendTo(f); 
+	f.appendTo(document.body).submit();  
+	document.body.removeChild(f);  
 }
 //动态生成列
 function createCols(years) {
@@ -112,6 +130,10 @@ function extractData(){
 			align='top' border='0' title='查询' />
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/js.gif'
 			align='top' border='0' title='计算' />
+		</a>
+		<a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
 		</a>
 	</div>
 	<fieldset id="field">
