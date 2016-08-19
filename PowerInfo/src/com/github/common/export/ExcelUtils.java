@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +49,7 @@ public class ExcelUtils {
 		this.excelParams = excelParams;
 	}
 	private WritableWorkbook createExcel(OutputStream os, List<MergeRules> rules, int[][] colsIndex, int[][] defineds) throws Exception{
-		
+    	DecimalFormat df = new DecimalFormat("#.#########");
 		String fileName	= excelParams.getFileName();
 		String[] excelName	= excelParams.getExcelTitle();
 		Alignment[] excelAlign	= excelParams.getExcelAlign();
@@ -210,11 +211,11 @@ public class ExcelUtils {
 							
 		    				tableContext.setAlignment(colAlign[j]);
 		    				// 判断数据类型后插入
-//		    				if(isNum(obj)) {
-//		    					sheet.addCell(new Number(j, i, obj == null ? 0 : ((BigDecimal)obj).doubleValue(), tableContext));
-//		    				} else {
+		    				if(isNum(obj) && obj !=null) {
+		    					sheet.addCell(new Number(j, i, Double.parseDouble(df.format(((BigDecimal)obj).doubleValue())), tableContext));
+		    				} else {
 		    					sheet.addCell(new Label(j, i, obj == null ? "" : obj.toString(), tableContext));
-//		    				}
+		    				}
 		    			}
 	    			}
 	    		}
