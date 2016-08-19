@@ -3,7 +3,7 @@
  <!DOCTYPE html>
 <html>
 <head>
-<title>电力平衡</title>
+<title>当年新增装机利用系数</title>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -52,6 +52,10 @@ $(function() {
 	$("#tool_query").bind("click", function() {
 		queryData();
 	});
+	$("#tool_export").bind("click", function() {
+		ExportExcel();
+	});
+
 });
 function queryData(){
 	var index_type = $('#dylxs').combo('getValues').join(",");
@@ -87,6 +91,24 @@ function queryData(){
 
 			}
 		}); 
+}
+function ExportExcel() {//导出Excel文件
+	var index_type = $('#dylxs').combo('getValues').join(",");
+	var yrs = $('#years').combo('getValues').join(",");
+
+	//用ajax发动到动态页动态写入xls文件中
+	var f = $('<form action="'+path+'/powerQuotient/exportData" method="post" id="fm1"></form>');  
+    var i = $('<input type="hidden" id="year" name="year" />');  
+    var l = $('<input type="hidden" id="index_type" name="index_type" />');
+    var m = $('<input type="hidden" id="taskid" name="taskid" />');  
+	i.val(yrs);  
+	i.appendTo(f);  
+	l.val(index_type);  
+	l.appendTo(f);  
+	m.val(taskid);  
+	m.appendTo(f); 
+	f.appendTo(document.body).submit();  
+	document.body.removeChild(f);  
 }
 //动态生成列
 function createCols(years) {
@@ -229,7 +251,10 @@ function save() {
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
 		</a><a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
-			align='top' border='0' title='保存' />
+			align='top' border='0' title='保存' /></a>
+		<a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
 		</a>
 	</div>
 	<fieldset id="field">
