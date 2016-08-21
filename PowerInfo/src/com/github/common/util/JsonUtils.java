@@ -145,12 +145,13 @@ public class JsonUtils {
 		for(int i=0;i<list.size();i++){
 			Map hashMap = (Map) list.get(i);
 			String url=hashMap.get("url")==null?"":hashMap.get("url").toString();
+			String unit_code=hashMap.get("unit_code")==null?"":hashMap.get("unit_code").toString();
 			String tablename=hashMap.get("tablename")==null?"":hashMap.get("tablename").toString();
 			NodeMsg node = new NodeMsg(hashMap.get("id")==null?"":hashMap.get("id").toString() , 
 										hashMap.get("text")==null?"":hashMap.get("text").toString() , 
 										hashMap.get("parent_id")==null?"":hashMap.get("parent_id").toString(),
 										hashMap.get("isleaf")==null?"":hashMap.get("isleaf").toString(),
-												new AttributeMsg(url,tablename));
+												new AttributeMsg(url,tablename,unit_code));
 			
 			resultList.add(node);
 		}

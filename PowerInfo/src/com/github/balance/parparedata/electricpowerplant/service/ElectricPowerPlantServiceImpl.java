@@ -1,8 +1,11 @@
 package com.github.balance.parparedata.electricpowerplant.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,10 @@ import org.springframework.stereotype.Service;
 import com.github.balance.parparedata.electricpowerplant.dao.ElectricPowerPlantDao;
 import com.github.balance.parparedata.electricpowerplant.model.PowerPlant;
 import com.github.balance.parparedata.hinderedidleCapacity.dao.HinderedIdleCapacityDao;
+import com.github.common.export.ExcelParams;
+import com.github.common.export.ExcelUtils;
+import com.github.common.export.rules.CellEqualMergeRules;
+import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
 
 import net.sf.json.JSONObject;
@@ -61,6 +68,34 @@ public class ElectricPowerPlantServiceImpl implements  ElectricPowerPlantService
 			p.setId(data.getString("id"));
 		}
 		return p;
+	}
+	public void ExportExcel(JSONObject param, HttpServletResponse response)
+			throws Exception {
+		String[] excelTitle = new String[] { "" };
+		List<Map<String, Object>> list = electricPowerPlantDao.queryData(param);
+		String[] colTitle = {"电厂名称","装机容量","电源类型","投产日期","退役日期"};
+		String[] colName = {"plant_name","plant_capacity","index_itemname","start_date","end_date"};
+		
+		String fileName = "电厂";
+		ExcelParams params = new ExcelParams(fileName, excelTitle, null,
+				colTitle, colName, list);
+
+		// 导出excel文件的固定列，默认序号从1开始
+		params.setColLock("1");
+
+		// 生成ExcelUtils对象，引入params对象
+		ExcelUtils ex = new ExcelUtils(params);
+
+		// 导出规则定义
+		MergeRules rule = new CellEqualMergeRules();
+
+		List<MergeRules> rules = new ArrayList<MergeRules>();
+		rules.add(rule);
+
+		int[] i = new int[] {};
+		// 第二个参数rules为导出规则的list集合，第三个参数为第二个参数所需的参数，一个rule参数为一个int数组
+		ex.exportExcel(response, rules, new int[][] { i });
+
 	}
 
 }

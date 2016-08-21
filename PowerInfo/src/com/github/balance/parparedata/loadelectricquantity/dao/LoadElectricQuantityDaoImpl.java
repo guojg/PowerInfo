@@ -79,7 +79,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 				String it = its.next();
 				index_item = row.getString("index_item");
 
-				if (it.equals("index_item") || it.equals("index_name"))
+				if (it.equals("index_item") || it.equals("index_name")||it.equals("ORD"))
 					continue;
 
 				BasicData basicData = createModel(index_item, it,

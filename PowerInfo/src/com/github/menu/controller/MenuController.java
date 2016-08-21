@@ -49,7 +49,8 @@ public class MenuController {
 		String jsonParam	= request.getParameter("pid");
 		JSONObject obj = new JSONObject();
 		obj.put("jsonParam", jsonParam);
-		return menuService.queryMenu(obj);
+		String returnString=menuService.queryMenu(obj);
+		return returnString;
 		
 	}
 }

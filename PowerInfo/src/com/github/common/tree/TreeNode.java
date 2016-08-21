@@ -160,6 +160,7 @@ public class TreeNode {
                 JSONObject subNode = new JSONObject();
                 subNode.put("url", node.getNodeMsg().getAttributes().getUrl()) ;
                 subNode.put("tablename", node.getNodeMsg().getAttributes().getTableName());
+                subNode.put("unit_code", node.getNodeMsg().getAttributes().getUnit_code());
                 jsonNode.put("id", node.getNodeMsg().getId());
                 jsonNode.put("text", node.getNodeMsg().getText());
                 jsonNode.put("attributes",subNode);

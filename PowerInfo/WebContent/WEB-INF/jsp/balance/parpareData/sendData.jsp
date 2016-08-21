@@ -50,6 +50,9 @@
 		$("#tool_del").bind("click", function() {
 			delProName();
 		});
+		$("#tool_export").bind("click", function() {
+			ExportExcel();
+		});
 		 comboBoxInit({
 				id : "years",
 				url : path + '/sysdict/getBalanceYears?year='+years,
@@ -92,6 +95,31 @@
 				});
 			}
 		});
+	}
+	function ExportExcel() {//导出Excel文件
+		var years = $("#years").combo("getValues");
+		//水平年份
+		var yrs_s;
+		if (years != "") {
+			yrs_s = years + "";
+		} else {
+			yrs_s = "";
+		}
+		if (yrs_s == "") {
+			$.messager.alert("提示", "请选择年份！");
+			return;
+		}
+		//用ajax发动到动态页动态写入xls文件中
+		var f = $('<form action="'+path+'/sendData/exportData" method="post" id="fm1"></form>');  
+        var i = $('<input type="hidden" id="years" name="years" />');  
+        var t_id=$('<input type="hidden" id="taskid" name="taskid" />');  
+
+    	i.val(yrs_s);  
+    	i.appendTo(f);  
+    	t_id.val(taskid);
+    	t_id.appendTo(f);
+    	f.appendTo(document.body).submit();  
+    	document.body.removeChild(f);  
 	}
 	//查询方法调用的函数
 	function queryData() {
@@ -369,10 +397,10 @@
 			src='<%=path%>/static/images/delete.png' align='top' border='0'
 			title='删除' />
 		</a>
-		<!-- <a id="tool_export"> <img
+		<a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />
-		</a> -->
+		</a>
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>

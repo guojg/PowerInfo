@@ -6,6 +6,7 @@
 <title>增加电厂</title>
 </head>
 <%@include file="../../common/commonInclude.jsp" %>
+<script type="text/javascript" src="<%=path%>/static/js/common/plantUtil.js"></script>
 <script type="text/javascript">
 $(function() {
 	 comboBoxInit({
@@ -22,6 +23,7 @@ function cancel(){
 	//关闭窗口
 	window.parent.$('#win_div').window('close');
 }
+
 function save(){
 	var operationdata = new Object();
 	operationdata["plant_name"]=$('#plant_name').val();
@@ -29,6 +31,10 @@ function save(){
 	operationdata["start_date"]=$('#start_date').datebox('getValue');
 	operationdata["end_date"]=$('#end_date').datebox('getValue');
 	operationdata["index_item"]=$('#index_item').combo('getValue');
+	
+	if(!validate(operationdata)){
+		return;
+	}
 	var param={"editObj":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
