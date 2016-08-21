@@ -20,6 +20,7 @@ public interface TaskDao {
 	public List<TotalYear> getPlanYears() throws Exception;
 
 	public List<Map<String, Object>> initData(String id);
+	public String deleteRecord(String delectArr[]) throws Exception;
 
 
 	

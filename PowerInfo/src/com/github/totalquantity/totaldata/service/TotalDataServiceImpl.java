@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import net.sf.json.JSONObject;
 
+import com.github.basicData.model.BasicYear;
 import com.github.common.util.JsonUtils;
 import com.github.totalquantity.totaldata.dao.TotalDataDao;
 import com.github.totalquantity.totaldata.entity.TotalData;
@@ -22,5 +23,16 @@ public class TotalDataServiceImpl implements TotalDataService {
 		List<Map<String, Object>> list = totalDataDao.queryData(param);
 		return JsonUtils.listTranJsonByQuery(list);
 	}
+	@Override
+	public List<BasicYear> getYears(JSONObject param) throws Exception {
+		// TODO Auto-generated method stub
 
+		return totalDataDao.getYears(param);
+	}
+	
+	@Override
+	public String queryData6(JSONObject param) {
+		List<Map<String, Object>> list = totalDataDao.queryData6(param);
+		return JsonUtils.listTranJsonByQuery(list);
+	}
 }

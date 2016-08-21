@@ -82,5 +82,17 @@ public class TaskDaoImpl implements TaskDao{
 		return  this.jdbcTemplate.queryForList(sql,new Object[]{id});
 	}
 	
-
+	@Override
+	public String deleteRecord(String[] delectArr) throws Exception {
+		// TODO Auto-generated method stub
+		StringBuffer  buffer=new StringBuffer("delete from total_task where id in(");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		return "1";
+	}
 }

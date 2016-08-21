@@ -99,6 +99,11 @@ function initData(){
 	 //}
 
  }
+//取消
+ function cancel(){
+ 	//关闭窗口
+ 	window.parent.$('#win_div').window('close');
+ }
  function validate(param){
 	 var algorithmVal= param["algorithm"];
 	 var flag=true;
@@ -169,23 +174,31 @@ function initData(){
 	<table id="detailTable">
 			<tr>
 				<td class="tdlft">任务名称：</td>
-				<td ><input id="task_name" name="task_name" type="text"  /></td>	
+				<td  class="tdrgt"><input id="task_name" name="task_name" type="text"  /></td>	
 			</tr>
 			<tr>
 				<td  class="tdlft">基准年：</td>
-				<td ><input id="baseyear" name="baseyear" class="comboboxComponent" type="text"  /></td>	
+				<td  class="tdrgt"><input id="baseyear" name="baseyear" class="comboboxComponent" type="text"  /></td>	
 			</tr>
 			<tr>
 				<td class="tdlft">预测年：</td>
-				<td ><input id="planyear" name="planyear" class="comboboxComponent"  type="text"  /></td>	
+				<td  class="tdrgt"><input id="planyear" name="planyear" class="comboboxComponent"  type="text"  /></td>	
 			</tr>
 			<tr>
-				<td ><input name="algorithm" type="checkbox" value="1" style="margin-left: 30px;"/>平均增长率法</td>
-				<td ><input name="algorithm" type="checkbox" value="2" style="margin-left: 30px;"/>产值单耗法</td>
+			<td rowspan="4" class="tdlft">算法：</td>
+				<td  class="tdrgt"><input name="algorithm" type="checkbox" value="1" style="margin-left: 30px;"/>平均增长率法</td>
 			</tr>
 			<tr>
-				<td><input name="algorithm" type="checkbox" value="3" style="margin-left: 30px;"/>弹性系数法</td>
-				<td><input name="algorithm" type="checkbox" value="4" style="margin-left: 30px;"/>人均用电量法</td>
+				<td  class="tdrgt"><input name="algorithm" type="checkbox" value="2" style="margin-left: 30px;"/>产值单耗法</td>
+			
+				
+			</tr>
+			<tr>
+				<td  class="tdrgt"><input name="algorithm" type="checkbox" value="3" style="margin-left: 30px;"/>弹性系数法</td>
+			</tr>
+			<tr>
+				<td  class="tdrgt"><input name="algorithm" type="checkbox" value="4" style="margin-left: 30px;"/>人均用电量法</td>
+
 			</tr>
 			<tr>
 			<td colspan="2"><span>提示信息：</span><span style="color:red;" id="validateMessage"></span></td>
@@ -200,6 +213,8 @@ function initData(){
 	<div class="div_submit" >
 			<a id="tool_save" href="javascript:save();" > <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' /></a>
+			<a id="btn_cancel" href="javascript:cancel();" ><img src="/PowerInfo/static/images/quxiao.gif" border="0" style="vertical-align: middle"></a>
+			
 		</div> 
 		</form>
 </body>

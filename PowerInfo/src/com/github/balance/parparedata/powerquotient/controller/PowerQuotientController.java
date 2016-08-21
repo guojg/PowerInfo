@@ -60,4 +60,26 @@ public class PowerQuotientController {
 		
 	}
 
+	@RequestMapping("/exportData")
+	public void exportData(HttpServletRequest request,
+			HttpServletResponse response) {
+			response.setCharacterEncoding("UTF-8");
+			 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
+			 String year = request.getParameter("year")==null?"": request.getParameter("year");
+
+			 String index_type = request.getParameter("index_type")==null?"": request.getParameter("index_type");
+
+			JSONObject obj = new JSONObject();
+			obj.put("year", year);
+			obj.put("type", index_type);
+			obj.put("taskid",taskid);
+			try {
+				powerQuotientService.ExportExcel(obj, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+
+	}
 }

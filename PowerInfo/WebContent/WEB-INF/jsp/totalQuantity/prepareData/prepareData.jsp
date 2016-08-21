@@ -19,12 +19,14 @@ String algorithm = tt.getAlgorithm() ;
 String taskid = tt.getId();
 String planyear = tt.getPlanyear();
 String index_type=request.getAttribute("index_type")==null?"":request.getAttribute("index_type").toString();
+String task_name = tt.getTask_name();
 
 %>
 <script type="text/javascript">
 var taskid='<%=taskid%>';  //任务号
 var planyear='<%=planyear%>';//规划年
 var algorithm='<%=algorithm%>';//算法
+var task_name='<%=task_name%>';
 var index_type='<%=index_type%>';
 //id,taskid,algorithm,year,value from totaldata
 	var cols;
@@ -39,6 +41,8 @@ var index_type='<%=index_type%>';
 		align : 'center'
 	} ] ];
 	$(function() {
+		$('#task_name').val(task_name);
+
 		var itemJson =[{    
 		    "ID":planyear,    
 		    "TEXT":planyear+"年"   
@@ -228,6 +232,8 @@ var index_type='<%=index_type%>';
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+			<td class="tdlft">任务：</td>
+				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 			</tr>

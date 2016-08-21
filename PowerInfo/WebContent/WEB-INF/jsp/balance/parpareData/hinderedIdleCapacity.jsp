@@ -15,12 +15,16 @@
 	BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
 	String taskid = tt.getId();
 	String years=tt.getYear();
+	String task_name = tt.getTask_name();
+
 %>
 
 <script type="text/javascript">
 	var pid='<%=pid%>';
 	var taskid='<%=taskid%>';
 	var years='<%=years%>';
+	var task_name='<%=task_name%>';
+
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -33,6 +37,7 @@
 		align : 'center'
 	} ] ];
 	$(function() {
+		$('#task_name').val(task_name);
 
 		$("#tool_save").bind("click", function() {
 			save();
@@ -359,6 +364,8 @@
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+			<td class="tdlft">任务：</td>
+				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 				<td class="tdlft">指标：</td>

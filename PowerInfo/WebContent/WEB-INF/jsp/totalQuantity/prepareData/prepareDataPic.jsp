@@ -14,7 +14,8 @@
 		String taskid = tt.getId();
 		String planyear = tt.getPlanyear();
 		String index_type=request.getAttribute("index_type")==null?"":request.getAttribute("index_type").toString();
-		
+		String task_name = tt.getTask_name();
+
 		%>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/icon.css" />
@@ -27,8 +28,11 @@
 	var planyear='<%=planyear%>';//规划年
 	var algorithm='<%=algorithm%>';//算法
 	var index_type='<%=index_type%>';
+	var task_name='<%=task_name%>';
 
 		$(function() {
+			$('#task_name').val(task_name);
+
 			$("#tool_query").bind("click", function() {
 				
 				drawChart();
@@ -72,6 +76,8 @@
 				<legend>查询条件</legend>
 				<table id="search_tbl">
 					<tr>
+						<td class="tdlft">任务：</td>
+				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
 						<td class="tdlft">年份：</td>
 						<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 						<td class="tdlft">图标类型：</td>

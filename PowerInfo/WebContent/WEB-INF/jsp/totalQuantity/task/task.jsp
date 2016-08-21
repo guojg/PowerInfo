@@ -63,6 +63,9 @@
 		$("#tool_xgrw").bind("click", function() {
 			xgrw();
 		});
+		$("#tool_scrw").bind("click", function() {
+			scrw();
+		});
 		queryData();
 	});
 
@@ -135,7 +138,36 @@
 		});
 	
 	}
-	
+	function scrw(){
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length<1){
+			$.messager.alert('提示', '请选择需要删除的任务！', 'info');
+			return ;
+		}
+		$.messager.confirm('提示', '确认删除?', function(r) {
+			if (r) {
+				var ids = "";
+				for (rowindex in rows) {
+					if (parseInt(rowindex) + 1 == rows.length) {
+						ids = ids + rows[rowindex]["id"];
+					} else {
+						ids = ids + rows[rowindex]["id"] + ",";
+					}
+				}
+				$.post(path+'/task/deleteRecord', {
+					"ids" : ids
+				}, function(data) {
+					var data = $.parseJSON(data);
+					if (data== '1') {
+						$.messager.alert('提示', '删除成功！', 'info', function() {
+							queryData();
+
+						});
+					}
+				});
+			}
+		});
+	}
 	
 </script>
 </head>
@@ -147,6 +179,9 @@
 		</a>
 		<a id="tool_xgrw"> <img src='<%=path%>/static/images/xiugai.gif'
 			align='top' border='0' title='修改' />
+		</a> <a id="tool_scrw"> <img
+			src='<%=path%>/static/images/delete.png' align='top' border='0'
+			title='删除' />
 		</a>
 	</div>
 

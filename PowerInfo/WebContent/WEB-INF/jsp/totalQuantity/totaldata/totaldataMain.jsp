@@ -36,11 +36,7 @@ $( function() {
 	var datagrid_height = $("#datagrid_div").position().top;
 	var height= Height_Page-datagrid_height;
 	$('#iframe0').attr('src', path+'/totalData/showData');
-	$('#tt').tabs({
-		fitColumns : true,
-		height : height,
-		tabHeight:32
-	});
+
 	var algorithmstr=algorithm;
 	if(algorithmRadio!=null && algorithmRadio !=""){
 		algorithmstr=algorithm+","+algorithmRadio;
@@ -49,10 +45,10 @@ $( function() {
 	var algorithmArray = algorithmstr.split(",");
 	for(var i=0 ; i <algorithmArray.length ;++i){
 		if(algorithmArray[i]!="5" && algorithmArray[i]!="6"){
-		addTab(algorithmJson[algorithmArray[i]], path+'/totalData/showData'+algorithmArray[i],i+1);
-		srcs[algorithmJson[algorithmArray[i]]]=path+'/totalData/showData'+algorithmArray[i];
+		//addTab(algorithmJson[algorithmArray[i]], path+'/totalData/showData'+algorithmArray[i],i+1);
+		//srcs[algorithmJson[algorithmArray[i]]]=path+'/totalData/showData'+algorithmArray[i];
 		}else{
-			addTab('建议值', path+'/totalData/showData'+algorithmArray[i],i+1);
+			addTab('建议值', path+'/totalData/showData'+algorithmArray[i],1);
 			srcs['建议值']=path+'/totalData/showData'+algorithmArray[i];
 
 		}
@@ -61,7 +57,7 @@ $( function() {
 		fitColumns : true,
 		height : height,
 		tabHeight:32,
-        closable:true ,
+        closable:false ,
 		onSelect : function(title, index){
 			$('#iframe' + index).attr('src', srcs[title]);
 		}
@@ -76,7 +72,7 @@ function addTab(title, url,a){
         $('#tt').tabs('add',{    
             title:title,    
             content:content,    
-            closable:true ,
+            closable:false ,
             selected: false
 
         });    

@@ -10,9 +10,11 @@ import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.github.basicData.model.BasicYear;
 import com.github.totalquantity.totaldata.entity.TotalData;
 @Repository
 public class TotalDataDaoImpl implements TotalDataDao {
@@ -74,6 +76,87 @@ public class TotalDataDaoImpl implements TotalDataDao {
 		return list;
 	}
 	
+	public  List<BasicYear> getYears(JSONObject param)  throws Exception {
+		String baseyear = param.getString("baseyear") ;
+		String planyear = param.getString("planyear") ;
+		int baseyearInt = Integer.parseInt(baseyear);
+		int planyearInt = Integer.parseInt(planyear);
+		List<BasicYear> list = this.getYearCurents(baseyearInt);
+		for(int i= baseyearInt+1 ; i<=planyearInt;++i){
+			BasicYear by = new BasicYear();
+			by.setYear(i+"");
+			by.setYearName(i+"年");
+			list.add(by) ;
+		}
+		return list;
+		
+
+	}
+	private List<BasicYear> getYearCurents(int baseyear) throws Exception {
+		// TODO Auto-generated method stub
+
+		String sql = "select year,year_name from base_year where year<=?";
+		List<BasicYear> list = jdbcTemplate.query(sql,new Object[]{baseyear},
+				new BeanPropertyRowMapper(BasicYear.class));
+		return list;
+	}
+	
+	@Override
+	public List<Map<String, Object>> queryData6(JSONObject param) {
+		int baseyearInt = param.getInt("baseyearInt") ;
+		String year = param.getString("year") ;
+		String taskid = param.getString("taskid") ;
+		String algorithm = param.getString("algorithm") ;
+		String[] years = year.split(",");
+		//List<Integer> aList = new ArrayList<Integer>();
+		//List<Integer> bList = new ArrayList<Integer>();
+		List<Object> list = new ArrayList<Object>();
+		StringBuffer ayear = new StringBuffer();
+		StringBuffer byear = new StringBuffer();
+		for(String str : years){
+			Integer a = Integer.parseInt(str);
+			if(a<=baseyearInt){
+				//aList.add(a);
+				ayear.append("?,");
+				
+			}else{
+				//bList.add(a);
+				byear.append("?,") ;
+			}
+			list.add(str);
+		}
+		list.add(algorithm);
+		list.add(taskid);
+		StringBuffer sb = new StringBuffer();
+		String sql ="select m.yr ";
+		sb.append(sql) ;
+		for (String yearStr :years) {
+			sb.append(",SUM(CASE m.yr WHEN ");
+			sb.append(yearStr);
+			sb.append(" THEN m.value END) '");
+			sb.append(yearStr);
+			sb.append("'");
+		}
+		sb.append(" from (SELECT tb.yr,tb.value FROM electricalsource_data tb WHERE ")
+		  .append( " index_item=107 ");
+		  if(ayear.toString().length()>=1){
+			  sb.append(" and tb.yr IN (")  
+			  .append(ayear.toString().substring(0, ayear.toString().length()-1))
+			  .append(") ") ;
+		  }
+		  sb.append(" union all")
+		  .append(" SELECT t.year,t.value FROM  total_data t WHERE 1=1   ");
+		  if(byear.toString().length()>=1){
+			  sb.append(" and YEAR IN (")  
+			   .append(byear.toString().substring(0, byear.toString().length()-1))
+			  .append(") ") ;
+		  }
+		  sb.append("  and t.algorithm=? AND t.task_id=? ) m");
+
+
+		List<Map<String, Object>>  resultList = this.jdbcTemplate.queryForList(sb.toString(),list.toArray());
+		return resultList;
+	}
 	
 
 }

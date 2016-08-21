@@ -15,18 +15,24 @@
 		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
 		String taskid = tt.getId();
 		String year = tt.getYear();
-		
+		String task_name = tt.getTask_name();
 		%>
 <script type="text/javascript">
 var taskid='<%=taskid%>';
 var years = '<%=year%>';
+var task_name='<%=task_name%>';
 var cols;
 $(function() {
+	$('#task_name').val(task_name);
+
 	$("#tool_query").bind("click", function() {
 		queryData();
 	});
 	$("#tool_save").bind("click", function() {
 		extractData();
+	});
+	$("#tool_export").bind("click", function() {
+		ExportExcel();
 	});
 	 comboBoxInit({
 			id : "years",
@@ -57,6 +63,21 @@ $('#datagrid').treegrid({
     ]] ,
 	columns : cols
 }); 
+}
+function ExportExcel() {//导出Excel文件
+	var yrs = $('#years').combo('getValues').join(",");
+
+	//用ajax发动到动态页动态写入xls文件中
+	var f = $('<form action="'+path+'/electricitybalance/exportData" method="post" id="fm1"></form>');  
+    var i = $('<input type="hidden" id="year" name="year" />');  
+    var m = $('<input type="hidden" id="taskid" name="taskid" />');  
+	i.val(yrs);  
+	i.appendTo(f);  
+	
+	m.val(taskid);  
+	m.appendTo(f); 
+	f.appendTo(document.body).submit();  
+	document.body.removeChild(f);  
 }
 //动态生成列
 function createCols(years) {
@@ -110,11 +131,17 @@ function extractData(){
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/js.gif'
 			align='top' border='0' title='计算' />
 		</a>
+		<a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
+		</a>
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 		<tr>
+					<td class="tdlft">任务：</td>
+				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
 		<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 		</tr>

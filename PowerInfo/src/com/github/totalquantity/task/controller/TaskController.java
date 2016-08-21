@@ -114,5 +114,19 @@ public class TaskController {
 			return null;
 		}
 	}
+	@RequestMapping(value = "/deleteRecord")
+	public @ResponseBody
+	String deleteRecord(HttpServletRequest request) {
+		try {
+			String deleteids = request.getParameter("ids");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("deleteids",deleteids );
+			taskService.deleteRecord(jsonobj);
+			return "1";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
 	
 }

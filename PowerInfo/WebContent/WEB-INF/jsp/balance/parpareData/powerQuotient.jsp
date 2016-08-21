@@ -3,7 +3,7 @@
  <!DOCTYPE html>
 <html>
 <head>
-<title>电力平衡</title>
+<title>当年新增装机利用系数</title>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -16,18 +16,20 @@
 		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
 		String taskid = tt.getId();
 		String year = tt.getYear();
+		String task_name = tt.getTask_name();
 		
 		%>
 <script type="text/javascript">
 var taskid='<%=taskid%>';
 var years = '<%=year%>';
+var task_name='<%=task_name%>';
 var cols;
 var savEvtTime = 0;
 var dcAt = 0;
 var dcTime = 250;
 var savTO = null;
 $(function() {
-
+	$('#task_name').val(task_name);
 	 comboBoxInit({
 			id : "dylxs",
 			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
@@ -50,6 +52,10 @@ $(function() {
 	$("#tool_query").bind("click", function() {
 		queryData();
 	});
+	$("#tool_export").bind("click", function() {
+		ExportExcel();
+	});
+
 });
 function queryData(){
 	var index_type = $('#dylxs').combo('getValues').join(",");
@@ -85,6 +91,24 @@ function queryData(){
 
 			}
 		}); 
+}
+function ExportExcel() {//导出Excel文件
+	var index_type = $('#dylxs').combo('getValues').join(",");
+	var yrs = $('#years').combo('getValues').join(",");
+
+	//用ajax发动到动态页动态写入xls文件中
+	var f = $('<form action="'+path+'/powerQuotient/exportData" method="post" id="fm1"></form>');  
+    var i = $('<input type="hidden" id="year" name="year" />');  
+    var l = $('<input type="hidden" id="index_type" name="index_type" />');
+    var m = $('<input type="hidden" id="taskid" name="taskid" />');  
+	i.val(yrs);  
+	i.appendTo(f);  
+	l.val(index_type);  
+	l.appendTo(f);  
+	m.val(taskid);  
+	m.appendTo(f); 
+	f.appendTo(document.body).submit();  
+	document.body.removeChild(f);  
 }
 //动态生成列
 function createCols(years) {
@@ -227,13 +251,18 @@ function save() {
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
 		</a><a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
-			align='top' border='0' title='保存' />
+			align='top' border='0' title='保存' /></a>
+		<a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
 		</a>
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+			<td class="tdlft">任务：</td>
+				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
 				<td class="tdlft">电源类型：</td>
 				<td class="tdrgt"><input id="dylxs" class="comboboxComponent" /></td>
 				<td class="tdlft">年份：</td>
