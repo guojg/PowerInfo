@@ -80,7 +80,7 @@
 		var indexs = $("#indexs").combo("getValues");
 		//水平年份
 		var index_s;
-		if (years != "") {
+		if (indexs != "") {
 			index_s = indexs + "";
 		} else {
 			index_s = "";
@@ -90,13 +90,16 @@
 			return;
 		}
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/basicData/exportData" method="post" id="fm1"></form>');  
+		var f = $('<form action="'+path+'/hinderedIdleCapacity/exportData" method="post" id="fm1"></form>');  
         var i = $('<input type="hidden" id="years" name="years" />');  
         var l = $('<input type="hidden" id="indexs" name="indexs" />');  
+        var t_id=$('<input type="hidden" id="taskid" name="taskid" />');  
     	i.val(yrs_s);  
     	i.appendTo(f);  
     	l.val(index_s);  
     	l.appendTo(f);  
+    	t_id.val(taskid);
+    	t_id.appendTo(f);
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
 	}
@@ -352,10 +355,10 @@
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' />
 		</a>
-		<!--  <a id="tool_export"> <img
+		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />
-		</a>--> 
+		</a>
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>

@@ -55,7 +55,7 @@ public class MenuDaoImpl implements MenuDao{
 		          } 
 		       ); 
 
-			sb.append( "      SELECT sys_menu.id,sys_menu.name text,sys_menu.p_id parent_id,sys_menu.url,sys_menu.table_name tablename FROM tmpLst,shiro.sys_menu WHERE tmpLst.id=shiro.sys_menu.id ORDER BY tmpLst.sno") ;
+			sb.append( "      SELECT sys_menu.id,sys_menu.name text,sys_menu.p_id parent_id,sys_menu.unit_code,sys_menu.url,sys_menu.table_name tablename FROM tmpLst,shiro.sys_menu WHERE tmpLst.id=shiro.sys_menu.id ORDER BY tmpLst.sno") ;
 
 	        return jdbcTemplate.queryForList(sb.toString());
 	}

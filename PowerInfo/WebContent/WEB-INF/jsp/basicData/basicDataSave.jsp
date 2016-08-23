@@ -104,9 +104,9 @@
 			return;
 		}
 		var indexs = $("#indexs").combo("getValues");
-		//水平年份
+		//指标
 		var index_s;
-		if (years != "") {
+		if (indexs != "") {
 			index_s = indexs + "";
 		} else {
 			index_s = "";

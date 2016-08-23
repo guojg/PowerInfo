@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<title>增加电厂</title>
+<title>外购外送新增</title>
 </head>
 <%@include file="../../common/commonInclude.jsp"%>
 <% 
@@ -30,7 +30,6 @@ $(function() {
 		window.parent.$('#win_div').window('close');
 	}
 	function save() {
-		debugger;
 		var operationdata = new Object();
 		operationdata["pro_name"] = $('#pro_name').val();
 		operationdata["pid"] = $('#pro_type').datebox('getValue');

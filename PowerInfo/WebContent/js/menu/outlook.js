@@ -151,7 +151,7 @@ function update() {
 	commonHelper.toAdd({
 		title : '修改指标',
 		width : 400,
-		height : 150,
+		height : 300,
 		url : "basicData/openUpdateLeaf"
 	});
 
@@ -161,7 +161,7 @@ function append() {
 	commonHelper.toAdd({
 		title : '增加指标',
 		width : 400,
-		height : 150,
+		height : 300,
 		url : "basicData/openAddLeaf"
 	});
 

@@ -66,24 +66,26 @@ public class HinderedIdleCapacityController {
 		return "balance/parpareData/hinderedIdleCapacity";
 	}
 
-//	@RequestMapping("/exportData")
-//	public void exportData(HttpServletRequest request,
-//			HttpServletResponse response) {
-//			response.setCharacterEncoding("UTF-8");
-//			String years = request.getParameter("years");
-//			String indexs = request.getParameter("indexs");
-//			
-//			JSONObject obj = new JSONObject();
-//			obj.put("years", years);
-//			obj.put("indexs", indexs);
-//			try {
-//				loadElectricQuantityService.ExportExcel(obj, response);
-//			}catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			 
-//
-//	}
+	@RequestMapping("/exportData")
+	public void exportData(HttpServletRequest request,
+			HttpServletResponse response) {
+			response.setCharacterEncoding("UTF-8");
+			String years = request.getParameter("years");
+			String indexs = request.getParameter("indexs");
+			String taskid =request.getParameter("taskid");
+			
+			JSONObject obj = new JSONObject();
+			obj.put("years", years);
+			obj.put("indexs", indexs);
+			obj.put("taskid", taskid);
+			try {
+				hinderedIdleCapacityService.ExportExcel(obj, response);
+			}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+
+	}
 
 }

@@ -26,6 +26,8 @@ public class ElectricPowerPlantController {
 		response.setCharacterEncoding("UTF-8");
 		String pageNum = request.getParameter("page");
 		String pageSize = request.getParameter("rows");
+		String indexs=request.getParameter("indexs");
+		String name=request.getParameter("name");
 		if (pageNum == null  || "".equals(pageNum))
 			pageNum = "1";
 		if (pageSize == null || "".equals(pageSize))
@@ -33,6 +35,8 @@ public class ElectricPowerPlantController {
 		JSONObject obj = new JSONObject();
 		obj.put("pageNum", pageNum);
 		obj.put("pageSize", pageSize);
+		obj.put("indexs", indexs);
+		obj.put("name", name);
 		try {
 			String resultJson = electricPowerPlantService.queryData(obj);
 			PrintWriter pw = response.getWriter();
@@ -102,6 +106,23 @@ public class ElectricPowerPlantController {
 			HttpServletResponse re) {
 		return "balance/parpareData/updatePlant";
 	}
+	@RequestMapping("/exportData")
+	public void exportData(HttpServletRequest request,
+			HttpServletResponse response) {
+			response.setCharacterEncoding("UTF-8");
+			String indexs=request.getParameter("indexs");
+			String name=request.getParameter("name");
+			JSONObject obj = new JSONObject();
+			obj.put("indexs", indexs);
+			obj.put("name", name);
+			try {
+				electricPowerPlantService.ExportExcel(obj, response);
+			}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
 
+	}
 
 }

@@ -108,24 +108,25 @@ public class SendDataController {
 			HttpServletResponse response) {
 		return "balance/parpareData/addSendData";
 	}
-//	@RequestMapping("/exportData")
-//	public void exportData(HttpServletRequest request,
-//			HttpServletResponse response) {
-//			response.setCharacterEncoding("UTF-8");
-//			String years = request.getParameter("years");
-//			String indexs = request.getParameter("indexs");
-//			
-//			JSONObject obj = new JSONObject();
-//			obj.put("years", years);
-//			obj.put("indexs", indexs);
-//			try {
-//				loadElectricQuantityService.ExportExcel(obj, response);
-//			}catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			 
-//
-//	}
+	@RequestMapping("/exportData")
+	public void exportData(HttpServletRequest request,
+			HttpServletResponse response) {
+			response.setCharacterEncoding("UTF-8");
+			String years = request.getParameter("years");
+			String taskid =request.getParameter("taskid");
+			
+			JSONObject obj = new JSONObject();
+			obj.put("years", years);
+			obj.put("taskid", taskid);
+			try {
+				sendDataService.ExportExcel(obj, response);
+			}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+
+	}
+
 
 }

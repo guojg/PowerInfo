@@ -45,7 +45,14 @@
 		align : 'center'
 	} ] ];
 	$(function() {
+		 comboBoxInit({
+				id : "index_item",
+				url : path + '/sysdict/getDataByCodeValue?domain_id=12',
+				textkey : "value",
+				valuekey : "code",
+				multiple : true
 
+		 });
 		$("#tool_add").bind("click", function() {
 			addRecord();
 		});
@@ -58,10 +65,56 @@
 		$("#tool_delete").bind("click", function() {
 			deleteRecords();
 		});
+		$("#tool_export").bind("click", function() {
+			ExportExcel();
+		});
 		queryData();
 	});
+	function ExportExcel() {//导出Excel文件
+		var indexs = $("#index_item").combo("getValues");
+		//指标
+		var index_s;
+		if (indexs != "") {
+			index_s = indexs + "";
+		} else {
+			index_s = "";
+		}
+		if (index_s == "") {
+			$.messager.alert("提示", "请选择电源类型！");
+			return;
+		}
+		var plant_name=$("#plant_name").val();
+		//用ajax发动到动态页动态写入xls文件中
+		var f = $('<form action="'+path+'/electricPowerPlant/exportData" method="post" id="fm1"></form>');
+        var i = $('<input type="hidden" id="indexs" name="indexs" />');  
+        var l=$('<input type="hidden" id="name" name="name" />');  
+    	i.val(index_s);  
+    	i.appendTo(f);  
+    	l.val(plant_name);  
+    	l.appendTo(f);  
+    	f.appendTo(document.body).submit();  
+    	document.body.removeChild(f);  
+	}
 	//查询方法调用的函数
 	function queryData() {
+		var indexs = $("#index_item").combo("getValues");
+		//指标
+		var index_s;
+		if (indexs != "") {
+			index_s = indexs + "";
+		} else {
+			index_s = "";
+		}
+		if (index_s == "") {
+			$.messager.alert("提示", "请选择电源类型！");
+			return;
+		}
+		var plant_name=$("#plant_name").val();
+		var queryParams = {
+			indexs : index_s,
+			name :plant_name
+			
+		};
 		var url = path + '/electricPowerPlant/queryData';
 		var Height_Page = $("html").height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
@@ -72,6 +125,7 @@
 			autoRowHeight : false,
 			collapsible : true,
 			url : url,
+			queryParams : queryParams,
 			remoteSort : false,
 			columns : cols,
 			rownumbers : true,
@@ -137,7 +191,22 @@
 			src='<%=path%>/static/images/delete.png' align='top' border='0'
 			title='删除' />
 		</a>
+		 <a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
+		</a>
 	</div>
+	<fieldset id="field">
+		<legend>查询条件</legend>
+		<table id="search_tbl">
+			<tr>
+				<td class="tdlft">电厂名称：</td>
+				<td class="tdrgt"><input id="plant_name"  name="plant_name"/></td>
+				<td class="tdlft">电源类型：</td>
+				<td class="tdrgt"><input id="index_item" name="index_item"/></td>
+			</tr>
+		</table>
+	</fieldset>
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>

@@ -3,6 +3,7 @@ package com.github.balance.parparedata.electricpowerplant.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +25,48 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	@Override
 	public List<Map<String, Object>> queryData(JSONObject param)
 			throws Exception {
-		int psize = Integer.parseInt(param.getString("pageSize"));
-		int pNum = Integer.parseInt(param.getString("pageNum"));
+		int psize =0;
+		int pNum=0;
+		String indexs[]=null;
+		List params = new ArrayList();
+		if(param.get("pageSize")!=null){
+			psize= Integer.parseInt(param.getString("pageSize"));
+		}
+		if(param.get("pageNum")!=null){
+		    pNum = Integer.parseInt(param.getString("pageNum"));
+		}
+		if(param.get("indexs")!=null){
+			 indexs=param.getString("indexs").split(",");
+		}
+		String name=param.getString("name");
 		int  startNum = psize*(pNum-1);
 		int  endNum = psize*pNum;
 		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,(select value from sys_dict_table where domain_id=12 and code=index_item) index_itemname,index_item,date_format(start_date,'%Y-%m-%d') start_date,");
-		buffer.append(" date_format(end_date,'%Y-%m-%d') end_date from shiro.electricpowerplant_data where 1=1 LIMIT ?, ? ");
-		return jdbcTemplate.queryForList(buffer.toString(),new Object[]{startNum,endNum});
+		buffer.append(" date_format(end_date,'%Y-%m-%d') end_date from shiro.electricpowerplant_data where 1=1");
+		if(!"".equals(name)){
+			buffer.append(" and plant_name like ?");
+			params.add("%"+name+"%");
+		}
+		if(indexs.length>0){
+			buffer.append(" and index_item in (");
+			String InSql = "";
+			for (int i = 0; i < indexs.length; i++) {
+				InSql = InSql + "?,";
+				params.add(indexs[i]);
+			}
+			buffer.append(InSql.substring(0, InSql.length() - 1));
+			buffer.append(")");
+		}
+		if(psize!=0){
+			buffer.append(" limit ?,?");
+			params.add(startNum);
+			params.add(endNum);
+			return jdbcTemplate.queryForList(buffer.toString(),params.toArray());
+		}else{
+			return jdbcTemplate.queryForList(buffer.toString(),params.toArray());
+		}	
+			
+		
 	}
 
 	@Override

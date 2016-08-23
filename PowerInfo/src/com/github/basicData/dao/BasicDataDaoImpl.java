@@ -192,16 +192,17 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		String pid = row.getString("p_id");
 		String tablename = row.getString("tablename");
 		String name = row.getString("name");
+		String unit_code=row.getString("unit_code");
 		if ("1".equals(pid)) {
 			tablename = CreateTable();
 		}
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append("INSERT INTO shiro.sys_menu");
-		buffer.append("( p_id, NAME, url, table_name)");
-		buffer.append("values(?, ?, ?, ?)");
+		buffer.append("( p_id, NAME, url, table_name,unit_code)");
+		buffer.append("values(?, ?, ?, ?,?)");
 		jdbcTemplate.update(buffer.toString(), new Object[] { pid, name,
-				Contans.BASEURL, tablename });
+				Contans.BASEURL, tablename ,unit_code});
 		// 查询最新插入的值
 		StringBuffer qusb = new StringBuffer(
 				"SELECT sys_menu.id,sys_menu.name TEXT,");
@@ -231,12 +232,13 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		String returnFlag = "1";
 		String id = row.getString("id");
 		String name = row.getString("name");
+		String unit_code = row.getString("unit_code");
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append("update shiro.sys_menu");
-		buffer.append(" set name=?");
+		buffer.append(" set name=?,unit_code=?");
 		buffer.append(" where id=?");
-		int count = jdbcTemplate.update(buffer.toString(), new Object[] { name,
+		int count = jdbcTemplate.update(buffer.toString(), new Object[] { name,unit_code,
 				id });
 		if (count < 1) {
 			returnFlag = "0";
