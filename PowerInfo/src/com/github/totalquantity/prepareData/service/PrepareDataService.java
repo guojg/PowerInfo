@@ -1,5 +1,7 @@
 package com.github.totalquantity.prepareData.service;
 
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONObject;
 
 public interface PrepareDataService {
@@ -13,4 +15,6 @@ public interface PrepareDataService {
 	public String queryData(JSONObject param);
 
 	public void saveData(JSONObject jsonobj);
+	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
+
 }

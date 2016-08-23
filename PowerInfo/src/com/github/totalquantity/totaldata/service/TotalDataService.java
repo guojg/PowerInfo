@@ -3,6 +3,8 @@ package com.github.totalquantity.totaldata.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONObject;
 
 import com.github.basicData.model.BasicYear;
@@ -25,4 +27,6 @@ public interface TotalDataService {
 	 */
 	
 	public String queryData6(JSONObject param);
+	public void  ExportExcel6(JSONObject param,HttpServletResponse response) throws Exception;
+
 }

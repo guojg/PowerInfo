@@ -59,6 +59,12 @@ var index_type='<%=index_type%>';
 		$("#tool_save").bind("click", function() {
 			save();
 		});
+		$("#tool_export").bind("click", function() {
+			ExportExcel();
+		});
+		$("#tool_query").bind("click", function() {
+			queryData();
+		});
 		queryData();
 	});
 
@@ -216,7 +222,24 @@ var index_type='<%=index_type%>';
 			}
 		});
 	}
+	function ExportExcel() {//导出Excel文件
 
+		var yrs = $('#years').combo('getValues').join(",");
+
+		//用ajax发动到动态页动态写入xls文件中
+		var f = $('<form action="'+path+'/prepareData/exportData" method="post" id="fm1"></form>');  
+	    var i = $('<input type="hidden" id="year" name="year" />');  
+	    var l = $('<input type="hidden" id="index_type" name="index_type" />');
+	    var m = $('<input type="hidden" id="taskid" name="taskid" />');  
+		i.val(yrs);  
+		i.appendTo(f);  
+		l.val(index_type);  
+		l.appendTo(f);  
+		m.val(taskid);  
+		m.appendTo(f); 
+		f.appendTo(document.body).submit();  
+		document.body.removeChild(f);  
+	}
 </script>
 </head>
 <body>
@@ -226,6 +249,10 @@ var index_type='<%=index_type%>';
 			align='top' border='0' title='查询' />
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' />
+		</a>
+		<a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
 		</a>
 	</div>
 	<fieldset id="field">
