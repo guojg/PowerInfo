@@ -173,7 +173,7 @@
 </head>
 <body>
 	<!-- 引入自定义按钮页面 -->
-	<div id="uploadify1">
+	<div id="btn_div">
 		<a id="tool_xjrw"> <img src='<%=path%>/static/images/xjrw.gif'
 			align='top' border='0' title='新建任务' />
 		</a>
@@ -183,7 +183,6 @@
 			src='<%=path%>/static/images/delete.png' align='top' border='0'
 			title='删除' />
 		</a>
-		<a id="btn_upload" href="javascript:submitfile();">上传</a>
 	</div>
 
 	<div id="datagrid_div">

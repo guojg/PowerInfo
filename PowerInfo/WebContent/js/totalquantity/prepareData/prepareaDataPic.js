@@ -39,7 +39,8 @@ var options = {
 	},
 	exporting : {
 		enabled : false,
-		url : path + "/chartExport"
+		url : path + "/export/exportImage",
+		type:"image/png"
 	},
 	plotOptions : {
 		column : {
@@ -61,6 +62,9 @@ var options = {
 };
 var categories = [];
 $(function() {
+	$("#exportBtn").bind("click", function() {
+		chart.exportChart();
+	});
 
 	drawChart();
 

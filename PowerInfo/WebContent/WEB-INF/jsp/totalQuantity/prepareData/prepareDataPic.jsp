@@ -71,6 +71,9 @@
 				<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 					align='top' border='0' title='查询' />
 				</a>
+				<div id="exportBtn" class="chart-button" name="export">
+	   				<label>导出</label>
+	   			</div>
 			</div>
 			<fieldset id="field">
 				<legend>查询条件</legend>
