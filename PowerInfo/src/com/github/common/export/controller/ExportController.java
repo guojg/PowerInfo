@@ -217,9 +217,9 @@ public class ExportController {
 	public  void exportImage(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		  request.setCharacterEncoding("utf-8");
 	        response.setCharacterEncoding("utf-8");
-	       // Map<String, String> parameters = getParameters(request);
-	    	String type = request.getParameter("type");
-			String svg = request.getParameter("svg");
+	        Map<String, String> parameters = getParameters(request);
+	    	String type = parameters.get("type");
+			String svg = parameters.get("svg");
 	        ServletOutputStream out = response.getOutputStream();
 	        
 	        if (null != type && null != svg) {
