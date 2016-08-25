@@ -286,7 +286,7 @@ var algorithm='<%=algorithm%>';
 		return list;
 	}
 	function ExportExcel() {//导出Excel文件
-		//chart.exportChart();
+		chart.exportChart();
 		/*var yrs = $('#years').combo('getValues').join(",");
 		var baseyearInt = parseInt(baseyear);
 
@@ -307,6 +307,11 @@ var algorithm='<%=algorithm%>';
 		n.appendTo(f); 
 		f.appendTo(document.body).submit();  
 		document.body.removeChild(f);  */
+		//abc();
+	}
+	function abc(){
+		var yrs = $('#years').combo('getValues').join(",");
+		var baseyearInt = parseInt(baseyear);
 		var param = 'baseyearInt=' + baseyearInt + '&year=' + yrs
 		+ '&taskid=' + taskid + '&algorithm=5';
 	window.location.href = path+'/totalData/exportData6?' + param;

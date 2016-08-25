@@ -55,10 +55,11 @@ text-decoration:none;
 
     <div region="north" border="false" style="overflow: hidden; height: 78px;
         background: #EDF1FA; font-family: Verdana, 微软雅黑,黑体">
-	     <div  style="float:left;width:23%;min-width:240px;height:100%; ">
-	     	<h1 style="color:#7cbcd6;width:100%">区域电力市场预测分析平台</h1>
+	     <div  style="float:left;width:24%;min-width:250px;height:100%; text-align:center;">
+	     	<!-- <h1 style="color:#7cbcd6;width:100%">区域电力市场预测分析平台</h1> -->
+	     	<img alt="" src="static/images/555.jpg">
 		</div>
-		<div  style="float:left;width:55%;height:100%;text-align:center;">
+		<div  style="float:left;width:54%;height:100%;text-align:center;">
 			<ul id="css3menu">
 					<li >
 						<a name="basic" href="#">
