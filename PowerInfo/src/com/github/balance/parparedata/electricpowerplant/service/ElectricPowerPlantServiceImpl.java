@@ -59,7 +59,11 @@ public class ElectricPowerPlantServiceImpl implements  ElectricPowerPlantService
 		if(obj!=null){
 			 data=JSONObject.fromObject(obj.get("editObj"));
 		}
-		p.setEndDate(data.getString("end_date"));
+		if(!"".equals(data.getString("end_date"))){
+			p.setEndDate(data.getString("end_date"));
+		}else{
+			p.setEndDate(null);
+		}
 		p.setPlantCapacity(data.getString("plant_capacity"));
 		p.setPlantName(data.getString("plant_name"));
 		p.setStartDate(data.getString("start_date"));
