@@ -77,7 +77,7 @@ var algorithm='<%=algorithm%>';
 		},
 		exporting : {
 			enabled : false,
-			url : path + "/chartExport"
+			url : path + "/export/exportImage"
 		},
 		plotOptions : {
 			column : {
@@ -110,6 +110,9 @@ var algorithm='<%=algorithm%>';
 		});
 		$("#tool_query").bind("click", function() {
 			queryData();
+		});
+		$("#tool_export").bind("click", function() {
+			ExportExcel();
 		});
 		queryData();
 		
@@ -176,7 +179,7 @@ var algorithm='<%=algorithm%>';
 	 */
 	function getSettings() {
 		// 解决导出时batik 不支持 css3 rgba属性的问题
-		Highcharts
+		/*Highcharts
 				.wrap(
 						Highcharts.Chart.prototype,
 						'getSVG',
@@ -186,7 +189,8 @@ var algorithm='<%=algorithm%>';
 									.replace(
 											/(fill|stroke)="rgba\(([ 0-9]+,[ 0-9]+,[ 0-9]+),([ 0-9\.]+)\)"/g,
 											'$1="rgb($2)" $1-opacity="$3"');
-						});
+						});*/
+						
 		
 		var pic_type = "spline";
 		//var data = loadData( pic_type, 0, true);
@@ -281,6 +285,37 @@ var algorithm='<%=algorithm%>';
 		}
 		return list;
 	}
+	function ExportExcel() {//导出Excel文件
+		chart.exportChart();
+		/*var yrs = $('#years').combo('getValues').join(",");
+		var baseyearInt = parseInt(baseyear);
+
+		//用ajax发动到动态页动态写入xls文件中
+		var f = $('<form action="'+path+'/totalData/exportData6" method="post" id="fm1"></form>');  
+	    var i = $('<input type="hidden" id="year" name="year" />');  
+	    var l = $('<input type="hidden" id="baseyearInt" name="baseyearInt" />');
+	    var m = $('<input type="hidden" id="taskid" name="taskid" />');  
+	    var n= $('<input type="hidden" id="algorithm" name="algorithm"  />');  
+
+		i.val(yrs);  
+		i.appendTo(f);  
+		l.val(baseyearInt);  
+		l.appendTo(f);  
+		m.val(taskid);  
+		m.appendTo(f); 
+		n.val("5");  
+		n.appendTo(f); 
+		f.appendTo(document.body).submit();  
+		document.body.removeChild(f);  */
+		//abc();
+	}
+	function abc(){
+		var yrs = $('#years').combo('getValues').join(",");
+		var baseyearInt = parseInt(baseyear);
+		var param = 'baseyearInt=' + baseyearInt + '&year=' + yrs
+		+ '&taskid=' + taskid + '&algorithm=5';
+	window.location.href = path+'/totalData/exportData6?' + param;
+	}
 </script>
 </head>
 <body>
@@ -288,6 +323,10 @@ var algorithm='<%=algorithm%>';
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
 		</a> 
+		<a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
+		</a>
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>
@@ -312,8 +351,9 @@ var algorithm='<%=algorithm%>';
 			<script type="text/javascript"
 				src="<%=path%>/static/js/Highcharts-4.0.1/js/themes/custom.js"></script>
 			<script type="text/javascript"
-				src="<%=path%>/static/js/Highcharts-4.0.1/js/modules/exporting.js"></script>
+				src="<%=path%>/static/js/Highcharts-4.0.1/js/modules/exporting.src.js"></script>
 			<script type="text/javascript"
 				src="<%=path%>/static/js/jquery-easyui-1.4/farbtastic/farbtastic.js"></script>
+				
 </body>
 </html>

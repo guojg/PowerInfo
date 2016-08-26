@@ -4,14 +4,27 @@ package com.github.common.export.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.batik.transcoder.Transcoder;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.JPEGTranscoder;
+import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.apache.fop.svg.PDFTranscoder;
 
 import jxl.SheetSettings;
 import jxl.Workbook;
@@ -28,6 +41,10 @@ import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import net.sf.json.JSONArray;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -195,4 +212,88 @@ public class ExportController {
 	        }finally{
 	        }
 	}
+	
+	@RequestMapping(value ="/exportImage")
+	public  void exportImage(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		  request.setCharacterEncoding("utf-8");
+	        response.setCharacterEncoding("utf-8");
+	        Map<String, String> parameters = getParameters(request);
+	    	String type = parameters.get("type");
+			String svg = parameters.get("svg");
+	        ServletOutputStream out = response.getOutputStream();
+	        
+	        if (null != type && null != svg) {
+	            svg = svg.replaceAll(":rect", "rect");
+	            String ext = "";
+	            Transcoder t = null;
+	            if (type.equals("image/png")) {
+	                ext = "png";
+	                t = new PNGTranscoder();
+	            } else if (type.equals("image/jpeg")) {
+	                ext = "jpg";
+	                t = new JPEGTranscoder();
+	            } else if (type.equals("application/pdf")) {
+	                ext = "pdf";
+	                t = new PDFTranscoder();
+	            } else if (type.equals("image/svg+xml")) {
+	                ext = "svg";
+	            }
+	            response.addHeader("Content-Disposition", "attachment; filename=chart." + ext);
+	            response.addHeader("Content-Type", type);
+	            
+	            if (null != t) {
+	                TranscoderInput input = new TranscoderInput(new StringReader(svg));
+	                TranscoderOutput output = new TranscoderOutput(out);
+	                try {
+	                    t.transcode(input, output);
+	                } catch (Exception e) {
+	                    out.print("编码流错误.");
+	                }
+	            } else if (ext == "svg") {
+	                svg = svg.replace("http://www.w3.org/2000/svg", "http://www.w3.org/TR/SVG11/");
+	                out.print(svg);
+	            } else {
+	                out.print("Invalid type: " + type);
+	            }
+	        } else {
+	            response.addHeader("Content-Type", "text/html");
+	        }
+	        
+	        out.flush();
+	        out.close();
+	}
+	public Map<String, String> getParameters(HttpServletRequest request) {
+        Map<String, String> parameters = new HashMap<String, String>();
+        String contentType = request.getContentType();
+        if (contentType.indexOf("multipart/form-data") != -1) {
+            try {
+                DiskFileItemFactory factory = new DiskFileItemFactory();
+                ServletFileUpload upload = new ServletFileUpload(factory);
+                List<?> fileItems = upload.parseRequest(request);
+                Iterator<?> iter = fileItems.iterator();
+                while (iter.hasNext()) {   
+                    FileItem item = (FileItem) iter.next();
+                    item.getInputStream();
+                    if (item.isFormField()) {
+                        String key = new String(item.getFieldName().getBytes("ISO-8859-1"),"UTF-8");
+                        String value = new String(item.getString().getBytes("ISO-8859-1"),"UTF-8");
+                        parameters.put(key, value);
+                    }
+                }
+            } catch (FileUploadException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+           Enumeration<String> enumeration = request.getParameterNames();
+           while (enumeration.hasMoreElements()) {
+               String key = enumeration.nextElement();
+               String value = request.getParameter(key);
+               parameters.put(key, value);
+           }
+        }
+        
+        return parameters;
+    }
 }

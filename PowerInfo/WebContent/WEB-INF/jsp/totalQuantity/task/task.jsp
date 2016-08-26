@@ -7,8 +7,7 @@
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
 <script type="text/javascript" src="<%=path %>/js/totalquantity/common/sysdict.js"></script>
-
-	<%@include file="../../common/commonDefineBtn.jsp" %>
+<%@include file="../../common/commonDefineBtn.jsp" %>
 
 <script type="text/javascript">
 	var frozenCols = [ [

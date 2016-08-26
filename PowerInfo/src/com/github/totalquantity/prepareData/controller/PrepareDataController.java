@@ -77,4 +77,28 @@ public class PrepareDataController {
 			return "0";
 		}
 	}
+	@RequestMapping("/exportData")
+	public void exportData(HttpServletRequest request,
+			HttpServletResponse response) {
+			response.setCharacterEncoding("UTF-8");
+			 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
+			 String year = request.getParameter("year")==null?"": request.getParameter("year");
+
+			 String index_type = request.getParameter("index_type")==null?"": request.getParameter("index_type");
+
+			JSONObject obj = new JSONObject();
+			obj.put("year", year);
+			obj.put("index_type", index_type);
+			//String algorithm = param.getString("algorithm") ;
+			//String taskid = request.getSession().getAttribute("taskid").toString();
+			obj.put("taskid",taskid);
+			try {
+				prepareDataService.ExportExcel(obj, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+
+	}
 }

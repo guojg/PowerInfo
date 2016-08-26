@@ -144,4 +144,28 @@ public class TotalDataController {
 	
 		return resultJson;
 	}
+	@RequestMapping("/exportData6")
+	public void exportData6(HttpServletRequest request,
+			HttpServletResponse response) {
+			response.setCharacterEncoding("UTF-8");
+			 String taskid = request.getParameter("taskid");
+			 String year = request.getParameter("year")==null?"": request.getParameter("year");
+
+			 String baseyear = request.getParameter("baseyearInt")==null?"2015": request.getParameter("baseyearInt");
+			 String algorithm = request.getParameter("algorithm")==null?"2015": request.getParameter("algorithm");
+
+			JSONObject obj = new JSONObject();
+			obj.put("year", year);
+			obj.put("baseyearInt", Integer.parseInt(baseyear));
+			obj.put("taskid",taskid);
+			obj.put("algorithm",algorithm);
+			try {
+				totalDataService.ExportExcel6(obj, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+
+	}
 }

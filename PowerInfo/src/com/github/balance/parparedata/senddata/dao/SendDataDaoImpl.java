@@ -318,7 +318,7 @@ public class SendDataDaoImpl implements SendDataDao {
 	private void executeSQLItem(final List<SendItemName> itemnames)
 			throws Exception {
 		String updateSql = "update  senddata_itemname set sdshl=?,wgwstdlyxss=?"
-				+ "where id=?";
+				+ " where id=?";
 		BatchPreparedStatementSetter setupdate = new BatchPreparedStatementSetter() {
 
 			@Override

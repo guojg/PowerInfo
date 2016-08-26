@@ -71,6 +71,10 @@
 				<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 					align='top' border='0' title='查询' />
 				</a>
+	   				<a id="exportBtn"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
+		</a>
 			</div>
 			<fieldset id="field">
 				<legend>查询条件</legend>

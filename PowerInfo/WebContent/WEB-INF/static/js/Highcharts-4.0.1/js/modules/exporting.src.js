@@ -286,35 +286,42 @@ extend(Chart.prototype, {
 
 		// sanitize
 		svg = svg
-			.replace(/zIndex="[^"]+"/g, '')
-			.replace(/isShadow="[^"]+"/g, '')
-			.replace(/symbolName="[^"]+"/g, '')
-			.replace(/jQuery[0-9]+="[^"]+"/g, '')
-			.replace(/url\([^#]+#/g, 'url(#')
-			.replace(/<svg /, '<svg xmlns:xlink="http://www.w3.org/1999/xlink" ')
-			.replace(/ href=/g, ' xlink:href=')
-			.replace(/\n/, ' ')
-			.replace(/<\/svg>.*?$/, '</svg>') // any HTML added to the container after the SVG (#894)
-			/* This fails in IE < 8
-			.replace(/([0-9]+)\.([0-9]+)/g, function(s1, s2, s3) { // round off to save weight
-				return s2 +'.'+ s3[0];
-			})*/
+		.replace(/zIndex="[^"]+"/g, '')
+		.replace(/isShadow="[^"]+"/g, '')
+		.replace(/symbolName="[^"]+"/g, '')
+		.replace(/jQuery[0-9]+="[^"]+"/g, '')
+		.replace(/url\([^#]+#/g, 'url(#')
+		.replace(/<svg /, '<svg xmlns:xlink="http://www.w3.org/1999/xlink" ')
+		.replace(/ (NS[0-9]+\:)?href=/g, ' xlink:href=') // #3567
+		.replace(/\n/, ' ')
+		// Any HTML added to the container after the SVG (#894)
+		.replace(/<\/svg>.*?$/, '</svg>') 
+		// Batik doesn't support rgba fills and strokes (#3095)
+		.replace(/(fill|stroke)="rgba\(([ 0-9]+,[ 0-9]+,[ 0-9]+),([ 0-9\.]+)\)"/g, '$1="rgb($2)" $1-opacity="$3"')
+		/* This fails in IE < 8
+		.replace(/([0-9]+)\.([0-9]+)/g, function(s1, s2, s3) { // round off to save weight
+			return s2 +'.'+ s3[0];
+		})*/
 
-			// Replace HTML entities, issue #347
-			.replace(/&nbsp;/g, '\u00A0') // no-break space
-			.replace(/&shy;/g,  '\u00AD') // soft hyphen
-
-			// IE specific
-			.replace(/<IMG /g, '<image ')
-			.replace(/height=([^" ]+)/g, 'height="$1"')
-			.replace(/width=([^" ]+)/g, 'width="$1"')
-			.replace(/hc-svg-href="([^"]+)">/g, 'xlink:href="$1"/>')
-			.replace(/id=([^" >]+)/g, 'id="$1"')
-			.replace(/class=([^" >]+)/g, 'class="$1"')
-			.replace(/ transform /g, ' ')
-			.replace(/:(path|rect)/g, '$1')
-			.replace(/style="([^"]+)"/g, function (s) {
-				return s.toLowerCase();
+		// Replace HTML entities, issue #347
+		.replace(/&nbsp;/g, '\u00A0') // no-break space
+		.replace(/&shy;/g,  '\u00AD') // soft hyphen
+		.replace(
+              /(opacity)="(undefined)"/g, 
+              ''
+        )
+		// IE specific
+		.replace(/<IMG /g, '<image ')
+		.replace(/<(\/?)TITLE>/g, '<$1title>')
+		.replace(/height=([^" ]+)/g, 'height="$1"')
+		.replace(/width=([^" ]+)/g, 'width="$1"')
+		.replace(/hc-svg-href="([^"]+)">/g, 'xlink:href="$1"/>')
+		.replace(/ id=([^" >]+)/g, ' id="$1"') // #4003
+		.replace(/class=([^" >]+)/g, 'class="$1"')
+		.replace(/ transform /g, ' ')
+		.replace(/:(path|rect)/g, '$1')
+		.replace(/style="([^"]+)"/g, function (s) {
+			return s.toLowerCase();
 			});
 
 		// IE9 beta bugs with innerHTML. Test again with final IE9.
