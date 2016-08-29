@@ -24,7 +24,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		String year = param.getString("year");
 		String task_id=param.getString("task_id");
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SELECT y.*,x.hour_num FROM power_hour_copy X RIGHT JOIN ( ") ;
+		sb.append(" SELECT y.*,x.hour_num FROM power_hour X RIGHT JOIN ( ") ;
 		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 id,p.value_2 code_name,d.*  ") ;
 		sb.append(" FROM (");
 		sb.append(" SELECT pcode,VALUE,code_2,value_2 FROM electricity4  ORDER BY ORD,ord_2 )p");
@@ -85,7 +85,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		sbRate.append("  SELECT t.yr,100,1,");
 		sbRate.append("         CASE WHEN t.yr = t2.yr THEN NULL ");
 		sbRate.append("   WHEN t.value IS NULL OR t2.value IS NULL OR t2.value = 0 THEN NULL");
-		sbRate.append("              ELSE  POWER(t.value / t2.value, 1 / (t.value - t2.value)) - 1");
+		sbRate.append("              ELSE  ROUND((POWER(t.value / t2.value, 1.0 / (t.yr - t2.yr)) - 1)*100,2)");
 		sbRate.append("    END AS tbzzl ");
 		sbRate.append("   ,t.task_id  FROM loadelectricquantity_data t,loadelectricquantity_data t2,(");
 		for(int i=0 ; i <sourceArr.length-1 ;++i){
@@ -96,7 +96,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		sbRate.append("select ").append(destinationArr[sourceArr.length-1])
 		.append(" as yr1,").append(sourceArr[sourceArr.length-1]).append(" as yr2")
 		.append(" from dual ");
-		sbRate.append("  )t3  WHERE t.index_item = 2  AND t2.index_item = 2 and t.task_id=? and t2.task_id=?   AND t.yr = t3.yr2 AND t2.yr = t3.yr1");
+		sbRate.append("  )t3  WHERE t.index_item = 202  AND t2.index_item = 202 and t.task_id=? and t2.task_id=?   AND t.yr = t3.yr2 AND t2.yr = t3.yr1");
 		return  sbRate.toString();
 	}
 	/**
@@ -137,7 +137,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		StringBuffer sb = new StringBuffer();
 		sb.append(" insert into electricity_data(p_index_item,index_item,year,value,task_id) ")
 		.append( " SELECT 300,t1.index_item ,t1.year,t1.value*t2.hour_num/10000,t1.task_id FROM power_data t1 ")
-		.append(" JOIN power_hour_copy  t2 ON  t1.p_index_item=500 AND t1.index_item=t2.index_item and t1.task_id=t2.task_id and t1.task_id=? AND t1.index_item !=3 ");
+		.append(" JOIN power_hour  t2 ON  t1.p_index_item=500 AND t1.index_item=t2.index_item and t1.task_id=t2.task_id and t1.task_id=? AND t1.index_item !=3 ");
 		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id}) ;
 		StringBuffer sub = new StringBuffer();
 		sub.append(" insert into electricity_data(p_index_item,index_item,year,value,task_id) ")
@@ -158,12 +158,12 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 
 		StringBuffer sub = new StringBuffer();
 		sub.append(" insert into electricity_data(p_index_item,index_item,year,value,task_id) ")
-		.append( "  SELECT null,400,x.YEAR,CASE WHEN y.value=0 THEN NULL ELSE x.VALUE/y.value*10000 END AS VALUE,x.task_id  FROM electricity_data X  JOIN ( ")
+		.append( "  SELECT null,400,x.YEAR,CASE WHEN y.value=0 THEN NULL ELSE round(x.VALUE/y.value*10000,4) END AS VALUE,x.task_id  FROM electricity_data X  JOIN ( ")
 		.append(" SELECT m.year,SUM(m.value) VALUE,task_id FROM ( ")
 		.append(" SELECT YEAR,VALUE,task_id FROM power_data WHERE  p_index_item =500  and task_id=? AND index_item=3")
 		.append(" UNION ALL")
 		.append("   SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  p_index_item =300  AND index_item=3  and task_id=? ")
-		.append("   )m GROUP BY m.task_id,m.year ) Y ON x.year = y.value AND x.index_item=3 AND x.p_index_item=300 and x.task_id=y.task_id");
+		.append("   )m GROUP BY m.task_id,m.year ) Y ON x.year = y.year AND x.index_item=3 AND x.p_index_item=300 and x.task_id=y.task_id");
 		int count =this.jdbcTemplate.update(sub.toString(),new Object[]{task_id,task_id});
 		return count;
 	}

@@ -15,10 +15,10 @@ import net.sf.json.JSONObject;
 public class PowerBalanceDaoImpl implements PowerBalanceDao {
 
 	private static final String LOADSQL=" SELECT yr,NULL,100,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=201 and task_id=? " ;//全社会(统调)最大负荷
-	private static final String ZJRLSQL=" SELECT t1.yr,200,1,t1.VALUE*t2.value,t1.task_id FROM loadelectricquantity_data t1 JOIN  loadelectricquantity_data  t2 ON t1.yr=t2.yr AND t1.task_id=t2.task_id AND t1.task_id=? AND t1.index_item=201 AND t2.index_item=203 " ;//有效备用容量
+	private static final String ZJRLSQL=" SELECT t1.yr,200,1,t1.VALUE*t2.value/100,t1.task_id FROM loadelectricquantity_data t1 JOIN  loadelectricquantity_data  t2 ON t1.yr=t2.yr AND t1.task_id=t2.task_id AND t1.task_id=? AND t1.index_item=201 AND t2.index_item=203 " ;//有效备用容量
 	private static final String BYRLSQL=" SELECT yr,200,2,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=203 and task_id=?" ;//有效备用系数
 	//需要有效装机容量
-	private static final String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*l2.VALUE,l1.task_id FROM loadelectricquantity_data l1 JOIN loadelectricquantity_data l2  WHERE l1.yr=l2.yr AND  l1.index_item=2 AND l2.index_item=3 and l1.task_id=? and l2.task_id=?" ;//需要有效装机容量
+	private static final String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*(1+l2.VALUE/100),l1.task_id FROM loadelectricquantity_data l1 JOIN loadelectricquantity_data l2  WHERE l1.yr=l2.yr AND  l1.index_item=201 AND l2.index_item=203 and l1.task_id=? and l2.task_id=?" ;//需要有效装机容量
 	private static final String SZKXRLSQL=" SELECT yr,NULL,600,SUM(VALUE),task_id FROM hinderedidlecapacity_data where task_id=? and index_item=1 GROUP BY task_id,yr ";//受阻及空闲容量
 	private static final String SZKXRLSUBSQL=" SELECT yr,600,index_item,VALUE,task_id FROM hinderedidlecapacity_data where task_id=? and index_item !=1";//受阻及空闲容量子项
 	
@@ -93,7 +93,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		sb.append(SZKXRLSUBSQL);
 		sb.append("    UNION ALL  ");
 		sb.append(" SELECT  t1.yr,NULL,800,t1.value,t2.task_id FROM senddata_data t1 JOIN   senddata_itemname t2 ON t2.task_id=? AND  t2.pro_name='2' AND t2.id=t1.index_item  ");
-		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id});
+		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id,task_id});
 		int operationalCount = this.execOperationalCapacitySum(task_id);
 		int endYearCount =this.execEndYearCapacitySum(task_id);
 		int currentYearCount = this.execCurrentYearCapacitySum(task_id);
@@ -111,7 +111,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		sbRate.append("  SELECT t.yr,100,1,");
 		sbRate.append("         CASE WHEN t.yr = t2.yr THEN NULL ");
 		sbRate.append("   WHEN t.value IS NULL OR t2.value IS NULL OR t2.value = 0 THEN NULL");
-		sbRate.append("              ELSE  POWER(t.value / t2.value, 1 / (t.value - t2.value)) - 1");
+		sbRate.append("              ELSE  ROUND((POWER(t.value / t2.value, 1.0 / (t.yr - t2.yr)) - 1)*100,2)");
 		sbRate.append("    END AS tbzzl ");
 		sbRate.append("   ,t.task_id FROM loadelectricquantity_data t,loadelectricquantity_data t2,(");
 		for(int i=0 ; i <sourceArr.length-1 ;++i){
@@ -122,7 +122,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		sbRate.append("select ").append(destinationArr[sourceArr.length-1])
 		.append(" as yr1,").append(sourceArr[sourceArr.length-1]).append(" as yr2")
 		.append(" from dual ");
-		sbRate.append("  )t3  WHERE t.index_item = 1  AND t2.index_item = 1 and t.task_id=? and t2.task_id=?  AND t.yr = t3.yr2 AND t2.yr = t3.yr1");
+		sbRate.append("  )t3  WHERE t.index_item = 201  AND t2.index_item = 201 and t.task_id=? and t2.task_id=?  AND t.yr = t3.yr2 AND t2.yr = t3.yr1");
 		return  sbRate.toString();
 	}
 	/**
@@ -186,7 +186,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)<t.yr ")
 		.append("  GROUP BY index_item,yr")
-		.append(" ) m JOIN quotient_data n ON m.index_item = n.index_item AND m.yr = n.year ");
+		.append(" ) m JOIN quotient_data n ON m.index_item = n.index_item AND m.yr = n.year and n.task_id=?");
 		return sb.toString();
 	}
 	/**
