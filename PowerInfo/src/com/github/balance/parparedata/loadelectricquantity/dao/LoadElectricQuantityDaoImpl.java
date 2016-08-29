@@ -154,6 +154,8 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 	@Override
 	public String totalData(String taskid) throws Exception {
 		// TODO Auto-generated method stub
+		StringBuffer delbuffer=new StringBuffer("delete from loadelectricquantity_data where task_id=? and index_item in (201,202)");
+		jdbcTemplate.update(delbuffer.toString(),new Object[]{taskid});
 		StringBuffer buffer=new StringBuffer("INSERT INTO loadelectricquantity_data (yr,index_item,VALUE,task_id)");
 		buffer.append("SELECT yr,201 index_item,value,");
 		buffer.append(taskid);

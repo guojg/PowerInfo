@@ -2,6 +2,8 @@ package com.github.shiro.web.controller;
 
 
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +37,12 @@ public class IndexController {
     public String welcome() {
         return "welcome";
     }
-
-
+	 @RequestMapping("/loginout")
+    public String logout() {
+    	Subject subject = SecurityUtils.getSubject();
+    	if (subject.isAuthenticated()) {
+    		subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存
+    	}
+    	return "login";
+    }
 }
