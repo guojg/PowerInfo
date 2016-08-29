@@ -131,7 +131,8 @@ public class SendDataDaoImpl implements SendDataDao {
 		   String deleteSql="DELETE FROM senddata_data WHERE index_item IN(SELECT id FROM"
 		   		+ " senddata_itemname WHERE task_id=? AND pro_name IN(1,2,3,4,5))";
 		   jdbcTemplate.update(deleteSql,new Object[]{taskid});
-		   String taskids[]={taskid,taskid,taskid,taskid,taskid,taskid,taskid};
+		   String taskids[]={taskid,taskid,taskid,taskid,taskid,taskid,
+				   taskid,taskid,taskid,taskid,taskid,taskid,taskid,taskid};
 		   String itemtypesql="(SELECT id FROM senddata_itemname WHERE task_id=?";
 		   StringBuffer buffer=new StringBuffer("");
 		   buffer.append("INSERT INTO senddata_data (yr,VALUE,index_item)");
@@ -152,7 +153,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append(" WHERE index_item IN ");
 		   buffer.append(" (SELECT ");
 		   buffer.append(" id ");
-		   buffer.append(" FROM  senddata_itemname WHERE task_id=1 AND pid IS NOT NULL");
+		   buffer.append(" FROM  senddata_itemname WHERE task_id=? AND pid IS NOT NULL");
 		   buffer.append(" )");
 		   buffer.append(" ) b ON a.`id`=b.index_item GROUP  BY b.yr");
 		   buffer.append(" UNION ALL");
@@ -174,7 +175,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  WHERE index_item IN ");
 		   buffer.append(" (SELECT ");
 		   buffer.append("  id ");
-		   buffer.append(" FROM  senddata_itemname WHERE task_id=1 AND pid IS NOT NULL");
+		   buffer.append(" FROM  senddata_itemname WHERE task_id=? AND pid IS NOT NULL");
 		   buffer.append(" )");
 		   buffer.append(" ) b ON a.`id`=b.index_item GROUP  BY b.yr");
 		   buffer.append(" UNION ALL");
@@ -195,7 +196,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  WHERE index_item IN ");
 		   buffer.append("  (SELECT ");
 		   buffer.append("    id ");
-		   buffer.append("   FROM  senddata_itemname WHERE task_id=1 AND pid IS NOT NULL");
+		   buffer.append("   FROM  senddata_itemname WHERE task_id=? AND pid IS NOT NULL");
 		   buffer.append("    )");
 		   buffer.append("    ) b ON a.`id`=b.index_item GROUP  BY b.yr");
 		   buffer.append("  UNION ALL");
@@ -209,7 +210,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  WHERE index_item IN ");
 		   buffer.append(" (SELECT ");
 		   buffer.append("     id ");
-		   buffer.append("    FROM  senddata_itemname WHERE task_id=1 AND pid IS NOT NULL");
+		   buffer.append("    FROM  senddata_itemname WHERE task_id=? AND pid IS NOT NULL");
 		   buffer.append("    )   GROUP BY yr");
 		   buffer.append("  UNION ALL");
 		   buffer.append("  SELECT  tb.yr,");
@@ -221,7 +222,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  WHERE tb.index_item IN ");
 		   buffer.append("   (SELECT ");
 		   buffer.append("     id ");
-		   buffer.append("   FROM  senddata_itemname WHERE task_id=1 AND pid =5");
+		   buffer.append("   FROM  senddata_itemname WHERE task_id=? AND pid =5");
 		   buffer.append("    )   GROUP BY yr");
 		   buffer.append("    UNION ALL");
 		   buffer.append("  SELECT ");
@@ -234,7 +235,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  WHERE index_item IN ");
 		   buffer.append("    (SELECT ");
 		   buffer.append("     id ");
-		   buffer.append("  FROM  senddata_itemname WHERE task_id=1 AND pid =6");
+		   buffer.append("  FROM  senddata_itemname WHERE task_id=? AND pid =6");
 		   buffer.append("   )   GROUP BY yr");
 		   buffer.append("    UNION ALL");
 		   buffer.append("    SELECT ");
@@ -247,7 +248,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		   buffer.append("  WHERE index_item IN ");
 		   buffer.append("   (SELECT ");
 		   buffer.append("    id ");
-		   buffer.append("    FROM  senddata_itemname WHERE task_id=1 AND pro_name =7");
+		   buffer.append("    FROM  senddata_itemname WHERE task_id=? AND pro_name =7");
 		   buffer.append("  )   GROUP BY yr ");
 		   jdbcTemplate.update(buffer.toString(),taskids);
 	   }

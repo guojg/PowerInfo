@@ -77,7 +77,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Set<String> findRoles(String username) {
 		// TODO Auto-generated method stub
-		return null;
+		Set<String> set=new HashSet<String>();
+		set.add("1");
+		return set;
 	}
 
 	@Override
