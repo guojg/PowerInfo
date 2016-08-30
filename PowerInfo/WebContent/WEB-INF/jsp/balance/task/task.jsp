@@ -78,7 +78,7 @@
 		commonHelper.toAdd({
 			title : '新建任务',
 			width : 500,
-			height : 250,
+			height : 290,
 			url : path + "/balancetask/taskAdd"
 		});
 	}
@@ -87,7 +87,7 @@
 		commonHelper.toAdd({
 			title : '修改任务',
 			width : 500,
-			height : 250,
+			height : 290,
 			url : path + "/balancetask/taskAdd?id="+rows[0].id
 		});
 	}

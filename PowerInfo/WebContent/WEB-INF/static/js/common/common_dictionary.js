@@ -64,6 +64,7 @@ function comboBoxInit(obj) {
 							$("#" + obj.id).combobox({
 								valueField : valuekey,
 								textField : textkey,
+								panelHeight:180,
 								multiple : false,
 								editable : false,
 								value : defaultVal,
@@ -78,6 +79,7 @@ function comboBoxInit(obj) {
 							$("#" + obj.id).combobox({
 								valueField : valuekey,
 								textField : textkey,
+								panelHeight:180,
 								multiple : false,
 								editable : false,
 								value : lastVal,
@@ -91,6 +93,7 @@ function comboBoxInit(obj) {
 							$("#" + obj.id).combobox({
 								valueField : valuekey,
 								textField : textkey,
+								panelHeight:180,
 								multiple : false,
 								editable : false,
 								value : obj.defaultVal,
@@ -112,6 +115,7 @@ function makeCombobox_common_dictionary(obj, data) {
 				textField : textkey,
 				multiple : true,
 				editable : false,
+				panelHeight:180,
 				data : data,
 				onSelect : function(record) {
 					var qxf_flag = $("#" + obj.id + "_qxf_checkbox").attr(
