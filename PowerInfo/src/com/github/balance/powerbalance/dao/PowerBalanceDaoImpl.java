@@ -108,7 +108,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		 * 增长率
 		 */
 		StringBuffer sbRate = new StringBuffer();
-		sbRate.append("  SELECT t.yr,100,1,");
+		sbRate.append("  SELECT t.yr,100,100,");
 		sbRate.append("         CASE WHEN t.yr = t2.yr THEN NULL ");
 		sbRate.append("   WHEN t.value IS NULL OR t2.value IS NULL OR t2.value = 0 THEN NULL");
 		sbRate.append("              ELSE  ROUND((POWER(t.value / t2.value, 1.0 / (t.yr - t2.yr)) - 1)*100,2)");
@@ -184,7 +184,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(" FROM (  ")
 		.append(" SELECT yr,300 p,index_item,SUM(plant_capacity) plant_capacity FROM electricpowerplant_data JOIN  ")
 		.append(getYearDual(year))
-		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)<t.yr ")
+		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)=t.yr ")
 		.append("  GROUP BY index_item,yr")
 		.append(" ) m JOIN quotient_data n ON m.index_item = n.index_item AND m.yr = n.year and n.task_id=?");
 		return sb.toString();
@@ -277,7 +277,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(" UNION ALL")
 		.append(" SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  index_item=200  and task_id=?")
 		.append(" UNION ALL")
-		.append(" SELECT YEAR,0-VALUE,task_id FROM power_data WHERE   index_item=800 and task_id=?")
+		.append(" SELECT YEAR,VALUE,task_id FROM power_data WHERE   index_item=800 and task_id=?")
 		.append(" ) m GROUP BY m.task_id,m.year");
 		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id}) ;
 		return count;

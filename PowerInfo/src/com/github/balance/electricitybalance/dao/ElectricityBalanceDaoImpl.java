@@ -25,7 +25,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		String task_id=param.getString("task_id");
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT y.*,x.hour_num FROM power_hour X RIGHT JOIN ( ") ;
-		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 id,p.value_2 code_name,d.*  ") ;
+		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 id,p.value_2 code_name,d.*,  ").append(task_id).append( " task_id ") ;
 		sb.append(" FROM (");
 		sb.append(" SELECT pcode,VALUE,code_2,value_2 FROM electricity4  ORDER BY ORD,ord_2 )p");
 		sb.append(" LEFT JOIN  (SELECT p_index_item,index_item ");
@@ -37,7 +37,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 			sb.append(yearStr);
 			sb.append("'");
 		}
-		sb.append(",task_id FROM electricity_data where task_id= ? GROUP BY task_id,p_index_item,index_item) ") ;
+		sb.append("  FROM electricity_data where task_id= ? GROUP BY task_id,p_index_item,index_item) ") ;
 		sb.append(" d ON  (p.pcode = d.p_index_item OR (p.pcode IS NULL AND d.p_index_item IS NULL) ) AND p.code_2=d.index_item");
 		sb.append(" ) Y ON y.id=x.index_item and x.task_id=y.task_id") ;
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{task_id});
@@ -82,7 +82,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		 * 增长率
 		 */
 		StringBuffer sbRate = new StringBuffer();
-		sbRate.append("  SELECT t.yr,100,1,");
+		sbRate.append("  SELECT t.yr,100,100,");
 		sbRate.append("         CASE WHEN t.yr = t2.yr THEN NULL ");
 		sbRate.append("   WHEN t.value IS NULL OR t2.value IS NULL OR t2.value = 0 THEN NULL");
 		sbRate.append("              ELSE  ROUND((POWER(t.value / t2.value, 1.0 / (t.yr - t2.yr)) - 1)*100,2)");
