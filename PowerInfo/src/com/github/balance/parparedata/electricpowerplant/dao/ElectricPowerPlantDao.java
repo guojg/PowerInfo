@@ -20,4 +20,6 @@ public interface ElectricPowerPlantDao {
 	public String deleteRecord(String delectArr[]) throws Exception;
 	public String importRecord(List<PowerPlant> list) throws Exception;
 	
+	public int getTotalCount();
+	
 }

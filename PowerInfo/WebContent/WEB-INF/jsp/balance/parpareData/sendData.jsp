@@ -89,7 +89,7 @@
 					}
 				}
 				$.post(path + '/sendData/deleteProData', {
-					"ids" : ids
+					"ids" : ids,"taskid":taskid
 				}, function(data) {
 					var data = $.parseJSON(data);
 					if (data== '1') {

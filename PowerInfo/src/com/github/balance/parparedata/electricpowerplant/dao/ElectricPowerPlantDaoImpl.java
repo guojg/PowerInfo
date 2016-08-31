@@ -68,6 +68,8 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 			
 		
 	}
+	
+	
 
 	@Override
 	public String addRecord(final PowerPlant powerPlant) throws Exception {
@@ -133,5 +135,16 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	public String importRecord(List<PowerPlant> list) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	@Override
+	public int getTotalCount() {
+		// TODO Auto-generated method stub
+		
+		String Sql="select count(1) from shiro.electricpowerplant_data";
+		
+		return jdbcTemplate.queryForInt(Sql);
 	}
 }

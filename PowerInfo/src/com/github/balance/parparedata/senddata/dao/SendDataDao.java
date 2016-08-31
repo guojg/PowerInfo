@@ -26,7 +26,7 @@ public interface SendDataDao {
 	
 	public String addProData(final SendItemName sendItemName)throws Exception;
 	
-	public String deleteProData(String[] delectArr)throws Exception;
+	public String deleteProData(String[] delectArr,String taskid)throws Exception;
 	
 	public List<Domain> getTypes()throws Exception;
 }

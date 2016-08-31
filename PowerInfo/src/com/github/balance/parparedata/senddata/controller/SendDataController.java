@@ -48,10 +48,10 @@ public class SendDataController {
 	String deleteRecord(HttpServletRequest request) {
 		try {
 			String deleteids = request.getParameter("ids");
-			//String taskid=request.getParameter("taskid");
+			String taskid=request.getParameter("taskid");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("deleteids",deleteids );
-			//jsonobj.put("taskid",taskid );
+			jsonobj.put("taskid",taskid );
 			sendDataService.deleteData(jsonobj);
 			return "1";
 		} catch (Exception e) {
