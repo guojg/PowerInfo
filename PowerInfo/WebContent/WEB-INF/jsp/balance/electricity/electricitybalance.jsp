@@ -51,6 +51,7 @@ function queryData(){
 	cols = createCols(yrs);
 
 $('#datagrid').treegrid({    
+	fitColumns:false,
    url:path+'/electricitybalance/queryData',   
    //url:path+'/js/basicData/treegrid_data3.json',
     idField:'id',    

@@ -99,7 +99,7 @@
 		commonHelper.toAdd({
 			title : '新建任务',
 			width : 500,
-			height : 300,
+			height : 320,
 			url : path + "/task/taskAdd"
 		});
 	}
@@ -109,7 +109,7 @@
 		commonHelper.toAdd({
 			title : '修改任务',
 			width : 500,
-			height : 300,
+			height : 320,
 			url : path + "/task/taskAdd?id="+rows[0].id
 		});
 	}
