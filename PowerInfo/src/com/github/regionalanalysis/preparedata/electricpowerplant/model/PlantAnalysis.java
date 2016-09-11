@@ -1,0 +1,105 @@
+package com.github.regionalanalysis.preparedata.electricpowerplant.model;
+
+public class PlantAnalysis {
+
+	private String plantName;
+	private String plantCapacity;
+	private String id;
+    private String generatingCapatity;
+    private String plantLoss;
+    private String startOutlay;
+    private String productYear;
+    private String economicalLife;
+    private String equiredReturn;
+	private String financialCost;
+    private String generationCoal;
+    private String operationRate;
+    private String operationCost;
+    private String unitCost;
+    public String getPlantName() {
+		return plantName;
+	}
+	public void setPlantName(String plantName) {
+		this.plantName = plantName;
+	}
+	public String getPlantCapacity() {
+		return plantCapacity;
+	}
+	public void setPlantCapacity(String plantCapacity) {
+		this.plantCapacity = plantCapacity;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getGeneratingCapatity() {
+		return generatingCapatity;
+	}
+	public void setGeneratingCapatity(String generatingCapatity) {
+		this.generatingCapatity = generatingCapatity;
+	}
+	public String getPlantLoss() {
+		return plantLoss;
+	}
+	public void setPlantLoss(String plantLoss) {
+		this.plantLoss = plantLoss;
+	}
+	public String getStartOutlay() {
+		return startOutlay;
+	}
+	public void setStartOutlay(String startOutlay) {
+		this.startOutlay = startOutlay;
+	}
+	public String getProductYear() {
+		return productYear;
+	}
+	public void setProductYear(String productYear) {
+		this.productYear = productYear;
+	}
+	public String getEconomicalLife() {
+		return economicalLife;
+	}
+	public void setEconomicalLife(String economicalLife) {
+		this.economicalLife = economicalLife;
+	}
+	public String getEquiredReturn() {
+		return equiredReturn;
+	}
+	public void setEquiredReturn(String equiredReturn) {
+		this.equiredReturn = equiredReturn;
+	}
+	public String getFinancialCost() {
+		return financialCost;
+	}
+	public void setFinancialCost(String financialCost) {
+		this.financialCost = financialCost;
+	}
+	public String getGenerationCoal() {
+		return generationCoal;
+	}
+	public void setGenerationCoal(String generationCoal) {
+		this.generationCoal = generationCoal;
+	}
+	public String getOperationRate() {
+		return operationRate;
+	}
+	public void setOperationRate(String operationRate) {
+		this.operationRate = operationRate;
+	}
+	public String getOperationCost() {
+		return operationCost;
+	}
+	public void setOperationCost(String operationCost) {
+		this.operationCost = operationCost;
+	}
+	public String getUnitCost() {
+		return unitCost;
+	}
+	public void setUnitCost(String unitCost) {
+		this.unitCost = unitCost;
+	}
+    
+
+}
