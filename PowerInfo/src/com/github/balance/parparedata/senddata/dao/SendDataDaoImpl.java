@@ -129,7 +129,7 @@ public class SendDataDaoImpl implements SendDataDao {
 	}
 	   private void executeSum(String taskid) throws Exception{
 		   String deleteSql="DELETE FROM senddata_data WHERE index_item IN(SELECT id FROM"
-		   		+ " senddata_itemname WHERE task_id=? AND pro_name IN(1,2,3,4,5))";
+		   		+ " senddata_itemname WHERE task_id=? AND pro_name IN(1,2,3,4,5,6,7))";
 		   jdbcTemplate.update(deleteSql,new Object[]{taskid});
 		   String taskids[]={taskid,taskid,taskid,taskid,taskid,taskid,
 				   taskid,taskid,taskid,taskid,taskid,taskid,taskid,taskid};
@@ -361,8 +361,11 @@ public class SendDataDaoImpl implements SendDataDao {
 	}
 
 	@Override
-	public String deleteProData(String[] delectArr) throws Exception {
+	public String deleteProData(String[] delectArr,String taskid) throws Exception {
 		// TODO Auto-generated method stub
+		String deleteSql="DELETE FROM senddata_data WHERE index_item IN(SELECT id FROM"
+			   		+ " senddata_itemname WHERE task_id=? AND pro_name IN(1,2,3,4,5,6,7))";
+		jdbcTemplate.update(deleteSql,new Object[]{taskid});
 		StringBuffer  buffer=new StringBuffer("delete from senddata_itemname where id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
@@ -380,6 +383,7 @@ public class SendDataDaoImpl implements SendDataDao {
 		buf.append(InSq.substring(0, InSq.length() - 1));
 		buf.append(")");
 		jdbcTemplate.update(buf.toString(),delectArr);
+		executeSum( taskid);
 		
 		return "1";
 	}

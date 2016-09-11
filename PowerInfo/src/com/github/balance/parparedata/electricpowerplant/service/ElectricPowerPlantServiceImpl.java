@@ -30,7 +30,8 @@ public class ElectricPowerPlantServiceImpl implements  ElectricPowerPlantService
 	@Override
 	public String queryData(JSONObject param) throws Exception {
 		List<Map<String, Object>> list = electricPowerPlantDao.queryData(param);
-		return JsonUtils.listTranJsonByPage(list,10);
+		int totalcount=electricPowerPlantDao.getTotalCount();
+		return JsonUtils.listTranJsonByPage(list,totalcount);
 	}
 
 	@Override

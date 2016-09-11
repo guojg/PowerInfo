@@ -23,7 +23,7 @@ String commonPath = path;
 <script type="text/javascript" src="<%=path%>/static/js/jquery-easyui-1.4/ext/jquery.datagrid.megincell-ext.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/jquery-easyui-1.4/ext/jquery.validatebox-ext.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/jquery-easyui-1.4/ext/jquery.editors-ext.js"></script>
-
+<script type="text/javascript" src="<%=path%>/static/js/jquery-easyui-1.4/ext/jquery.datebox-ext.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/jquery-easyui-1.4/locale/easyui-lang-zh_CN.js"></script>
 
 

@@ -15,10 +15,8 @@ $(function() {
 			textkey : "value",
 			valuekey : "code"
 			});
-	 debugger;
 	var rows = window.parent.$('#datagrid').datagrid('getChecked');
 	var row=rows[0];
-	
 	$('#plant_name').val(row.plant_name);
 	$('#plant_capacity').val(row.plant_capacity);
 	$('#start_date').datebox("setValue",row.start_date);
@@ -32,6 +30,7 @@ function cancel(){
 	window.parent.$('#win_div').window('close');
 }
 function save(){
+	debugger;
 	var row = window.parent.$('#datagrid').datagrid('getChecked');
 	var operationdata = new Object();
 	operationdata["id"]=row[0].id;
@@ -87,7 +86,7 @@ function save(){
 			<tr>
 				<td class="tdlft" style='width: 100px'>退役日期：</td>
 				<td class="tdrgt" style='width: 120px'><input id="end_date"
-					type="text" style='width: 120px'  class="easyui-datebox"/></td>
+					type="text" style='width: 120px' data-options="editable:false"  class="easyui-datebox"/></td>
 			</tr>	
 		</table>
 	</form>

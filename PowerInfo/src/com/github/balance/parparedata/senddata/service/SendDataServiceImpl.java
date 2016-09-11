@@ -46,12 +46,12 @@ public class SendDataServiceImpl implements  SendDataService{
 	
 	
 
-	@Override
+	@Transactional
 	public String deleteData(JSONObject obj) throws Exception {
 		String delectArr[] = obj.get("deleteids") == null ? null : obj
 				.get("deleteids").toString().split(",");
-		//String taskid=obj.getString("taskid");
-		return sendData.deleteProData(delectArr);
+		String taskid=obj.getString("taskid");
+		return sendData.deleteProData(delectArr,taskid);
 	}
 
 	@Override
