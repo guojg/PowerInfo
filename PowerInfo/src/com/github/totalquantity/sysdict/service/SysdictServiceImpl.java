@@ -41,4 +41,9 @@ public class SysdictServiceImpl implements SysdictService {
 		}
 		return jsonArray.toString();
 	}
+	@Override
+	public String queryDataNotCondition(JSONObject obj) {
+		List<Sysdict>  list =  sysdictDao.queryDataNotCondition(obj);
+		return JsonUtils.sysDictListTranJson(list);
+	}
 }

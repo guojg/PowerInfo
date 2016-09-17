@@ -15,4 +15,5 @@ public interface SysdictDao {
 
 	public List<Sysdict>  queryData(JSONObject obj );
 	public List<Map<String, Object>> queryDataByMap(JSONObject obj);
+	public List<Sysdict> queryDataNotCondition(JSONObject obj);
 }
