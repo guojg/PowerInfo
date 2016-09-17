@@ -33,6 +33,21 @@ public class SysdictController {
 	
 	}
 	
+	@RequestMapping(value = "/getDataByNotCondition", produces="application/json;charset=UTF-8")
+	public  @ResponseBody String getDataNotCondition(HttpServletRequest request,
+			HttpServletResponse response) {
+		JSONObject obj = new JSONObject();
+        String domain_id = request.getParameter("domain_id")!=null?request.getParameter("domain_id"):"";
+        obj.put("domain_id", domain_id);
+        String condition = request.getParameter("condition")!=null?request.getParameter("condition"):"20000";
+        obj.put("condition", condition);
+		String a= sysdictService.queryDataNotCondition(obj) ;
+		System.out.println(a);
+		return a;
+	
+	
+	}
+	
 	@RequestMapping(value = "/getDataByCodeValue", produces="application/json;charset=UTF-8")
 	public  @ResponseBody String getDataByCodeValue(HttpServletRequest request,
 			HttpServletResponse response) {

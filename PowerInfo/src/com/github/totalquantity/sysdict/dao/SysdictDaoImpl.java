@@ -43,5 +43,23 @@ public class SysdictDaoImpl implements SysdictDao {
 		return list;
 	}
 
+	@Override
+	public List<Sysdict> queryDataNotCondition(JSONObject obj) {
+		String domain_id = obj.getString("domain_id");
+		String condition = "and code not in ("+obj.getString("condition")+")";
+		String sql ="select code ,value from sys_dict_table where domain_id=? "+condition+" ORDER BY ORD";
+		List<Sysdict> list = this.jdbcTemplate.query(sql, new Object[]{domain_id}, new ParameterizedRowMapper<Sysdict>() {
+            @Override
+            public Sysdict mapRow(ResultSet rs, int index)
+                    throws SQLException {
+            	Sysdict sd = new Sysdict();
+            	sd.setCode(rs.getString("code"));
+            	sd.setValue(rs.getString("value"));
+                return sd;
+            }
+        });
+		return list;
+	}
+
 
 }
