@@ -1,4 +1,4 @@
-package com.github.balance.parparedata.loadelectricquantity.controller;
+package com.github.regionalanalysis.preparedata.coalcost.controller;
 
 
 import java.io.PrintWriter;
@@ -13,27 +13,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.balance.parparedata.loadelectricquantity.service.LoadElectricQuantityService;
+import com.github.regionalanalysis.preparedata.coalcost.service.CoalCostService;
 
 @Controller
-@RequestMapping(value = "/loadElectricQuantity")
-public class LoadElectricQuantityController {
+@RequestMapping(value = "/coalCost")
+public class CoalCostController {
 	@Autowired
-	private LoadElectricQuantityService loadElectricQuantityService;
+	private CoalCostService coalCostService;
 
 	@RequestMapping(value = "/queryData")
 	public void queryData(HttpServletRequest request,
 			HttpServletResponse response) {
 		response.setCharacterEncoding("UTF-8");
-		String years = request.getParameter("years");
-		String indexs = request.getParameter("indexs");
-		String taskid = request.getParameter("taskid");
+		String indexs = request.getParameter("index_xs");
 		JSONObject obj = new JSONObject();
-		obj.put("years", years);
-		obj.put("indexs", indexs);
-		obj.put("taskid", taskid);
+		obj.put("index_xs", indexs);
 		try {
-			String resultJson = loadElectricQuantityService.queryData(obj);
+			String resultJson = coalCostService.queryData(obj);
 			PrintWriter pw = response.getWriter();
 			pw.write(resultJson);
 			pw.flush();
@@ -49,25 +45,9 @@ public class LoadElectricQuantityController {
 	String saveData(HttpServletRequest request) {
 		try {
 			String editObj = request.getParameter("editObj");
-			String taskid=request.getParameter("taskid");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("editObj", editObj);
-			jsonobj.put("taskid", taskid);
-			loadElectricQuantityService.saveData(jsonobj);
-			return "1";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "0";
-		}
-	}
-	@RequestMapping(value = "/totalData")
-	public @ResponseBody
-	String totalData(HttpServletRequest request) {
-		try {
-			String taskid=request.getParameter("taskid");
-			JSONObject jsonobj = new JSONObject();
-			jsonobj.put("taskid", taskid);
-			loadElectricQuantityService.totalData(jsonobj);
+			coalCostService.saveData(jsonobj);
 			return "1";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,23 +57,20 @@ public class LoadElectricQuantityController {
 	@RequestMapping(value = "/main")
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "balance/parpareData/loadElectricQuantityData";
+		return "regionalanalysis/preparedata/CoalCost";
 	}
 
 	@RequestMapping("/exportData")
 	public void exportData(HttpServletRequest request,
 			HttpServletResponse response) {
 			response.setCharacterEncoding("UTF-8");
-			String years = request.getParameter("years");
-			String indexs = request.getParameter("indexs");
-			String taskid =request.getParameter("taskid");
-			
+			String indexs = request.getParameter("index_xs");
+			String index_text=request.getParameter("index_text");
 			JSONObject obj = new JSONObject();
-			obj.put("years", years);
-			obj.put("indexs", indexs);
-			obj.put("taskid", taskid);
+			obj.put("index_xs", indexs);
+			obj.put("index_text", index_text);
 			try {
-				loadElectricQuantityService.ExportExcel(obj, response);
+				coalCostService.ExportExcel(obj, response);
 			}catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

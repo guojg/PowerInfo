@@ -3,40 +3,34 @@
 
 <html>
 <head>
-<title>负荷电量数据</title>
+<title>燃煤成本数据</title>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
-<%
-	String pid = request.getAttribute("pid") == null ? "" : request
-			.getAttribute("pid").toString();
-	BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
-	String taskid = tt.getId();
-	String years=tt.getYear();
-	String task_name = tt.getTask_name();
-
-%>
 <script type="text/javascript">
-	var pid='<%=pid%>';
-	var taskid='<%=taskid%>';
-	var task_name='<%=task_name%>';
-	var years='<%=years%>';
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;
 	var dcTime = 250;
 	var savTO = null;
+	var gkarray=null;
 	var frozenCols = [ [ {
-		field : 'index_name',
+		field : 'index_y_name',
 		title : '指标名称',
 		width : 100,
-		align : 'center'
-	} ] ];
+		align : 'center',
+		rowspan:2
+	} , {
+		field : 'unit_name',
+		title : '单位',
+		width : 100,
+		align : 'center',
+		rowspan:2
+	}],[]];
 	$(function() {
-		$('#task_name').val(task_name);
 
 		$("#tool_save").bind("click", function() {
 			save();
@@ -47,57 +41,19 @@
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
-		$("#tool_total").bind("click", function() {
-			totalData();
-		});
 		 comboBoxInit({
-				id : "years",
-				url : path + '/sysdict/getBalanceYears?year='+years,
+				id : "index_x",
+				url : path + '/sysdict/getDataByCodeValue?domain_id=31',
 				textkey : "value",
 				valuekey : "code",
 				multiple : true
 			});
-		 comboBoxInit({
-				id : "indexs",
-				url : path + '/sysdict/getDataByCodeValue?domain_id=200',
-				textkey : "value",
-				valuekey : "code",
-				multiple : true
-			});
+		 debugger;
+		 gkarray=$("#index_x").combobox("getData");
 		queryData();
 	});
-    function totalData(){
-		$.messager.confirm('提示', '确认汇总?', function(r) {
-			if (r) {
-
-				$.post(path + '/loadElectricQuantity/totalData', {
-					"taskid" : taskid
-				}, function(data) {
-					var data = $.parseJSON(data);
-					if (data== '1') {
-						$.messager.alert('提示', '汇总成功！', 'info', function() {
-							queryData();
-
-						});
-					}
-				});
-			}
-		});
-    }
 	function ExportExcel() {//导出Excel文件
-		var years = $("#years").combo("getValues");
-		//水平年份
-		var yrs_s;
-		if (years != "") {
-			yrs_s = years + "";
-		} else {
-			yrs_s = "";
-		}
-		if (yrs_s == "") {
-			$.messager.alert("提示", "请选择年份！");
-			return;
-		}
-		var indexs = $("#indexs").combo("getValues");
+		var indexs = $("#index_x").combo("getValues");
 		//水平年份
 		var index_s;
 		if (indexs != "") {
@@ -106,39 +62,25 @@
 			index_s = "";
 		}
 		if (index_s == "") {
-			$.messager.alert("提示", "请选择指标！");
+			$.messager.alert("提示", "请选择工况！");
 			return;
 		}
+		var index_text=$("#index_x").combobox("getText");
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/loadElectricQuantity/exportData" method="post" id="fm1"></form>');  
-        var i = $('<input type="hidden" id="years" name="years" />');  
-        var l = $('<input type="hidden" id="indexs" name="indexs" />');  
-        var t_id=$('<input type="hidden" id="taskid" name="taskid" />');  
-    	i.val(yrs_s);  
-    	i.appendTo(f);  
+		var f = $('<form action="'+path+'/coalCost/exportData" method="post" id="fm1"></form>');  
+        var l = $('<input type="hidden" id="index_xs" name="index_xs" />'); 
+        var i= $('<input type="hidden" id="index_text" name="index_text" />'); 
     	l.val(index_s);  
     	l.appendTo(f);  
-    	t_id.val(taskid);
-    	t_id.appendTo(f);
+    	i.val(index_text);  
+    	i.appendTo(f);  
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
 	}
 	//查询方法调用的函数
 	function queryData() {
-		var years = $("#years").combo("getValues");
-		//水平年份
-		var yrs_s;
-		if (years != "") {
-			yrs_s = years + "";
-		} else {
-			yrs_s = "";
-		}
-		if (yrs_s == "") {
-			$.messager.alert("提示", "请选择年份！");
-			return;
-		}
-		var indexs = $("#indexs").combo("getValues");
-		//水平年份
+
+		var indexs = $("#index_x").combo("getValues");
 		var index_s;
 		if (indexs != "") {
 			index_s = indexs + "";
@@ -146,19 +88,19 @@
 			index_s = "";
 		}
 		if (index_s == "") {
-			$.messager.alert("提示", "请选择指标！");
+			$.messager.alert("提示", "请选择工况！");
 			return;
 		}
+		
 		//非冰冻列
-		cols = createCols(yrs_s);
+		cols = createCols(index_s);
 		//查询条件暂时放外面
+		debugger;
 		var queryParams = {
-			years : yrs_s,
-			indexs : index_s,
-			taskid : taskid
+				index_xs : index_s
 		};
 
-		var url = path + '/loadElectricQuantity/queryData';
+		var url = path + '/coalCost/queryData';
 		var Height_Page = $("html").height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height - 5;
@@ -176,7 +118,7 @@
 			queryParams : queryParams,
 			singleSelect:true,
 			onClickCell : function(rowIndex, field, value) {
-				if(field!="index_name"){
+				if(!(field=="index_y_name"||field=="unit_name"||rowIndex==4||rowIndex==5)){
 					clickEvent(rowIndex, field, value);
 				}
 			}
@@ -184,21 +126,32 @@
 	}
 
 	//动态生成列
-	function createCols(years) {
-		var cols = [];
+	function createCols(indexs) {
+		var rows=new Array();
+		var row1=[];
+		var row2 = [];
 		var tmp = [];
-		tmp = years.split(",");
-		for (var i = 0; i < tmp.length; i++) {
-			cols.push({
-				'field' : tmp[i] + "",
-				'title' : "" + tmp[i] + "年",
+		tmp = indexs.split(",");
+		var collength=tmp.length;
+		row1.push({
+			'field' : 'gk',
+			'title' : '工况',
+			'align' : 'center',
+			'width' : 120,
+			'colspan' : collength
+		});
+		for (var i = 0; i < collength; i++) {
+			row2.push({
+				'field' : gkarray[1+i]["code"] + "",
+				'title' : "" + gkarray[1+i]["value"],
 				'align' : 'center',
 				'width' : 120,
 				'editor' : 'text'
-
 			});
 		}
-		return new Array(cols);
+		rows.push(row1);
+		rows.push(row2);
+		return rows;
 	}
 
 	//点击事件
@@ -278,18 +231,17 @@
 		if (updates.length <= 0) {
 			return;
 		}
-		if (!validate($('#datagrid'), updates, [ 'index_name' ], 13, 2)) {
+		if (!validate($('#datagrid'), updates, [ 'index_y_name','unit_name' ], 13, 2)) {
 			return;
 		}
 		var param = JSONH.stringify(updates);
 		var data = {
-			editObj : param,
-			taskid:taskid
+			editObj : param
 		};
 		$.ajax({
 			type : 'POST',
 			async : false,
-			url : path + '/loadElectricQuantity/saveData',
+			url : path + '/coalCost/saveData',
 			data : data,
 			success : function(data) {
 				if (data == "1") {
@@ -386,12 +338,8 @@
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
-			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
-				<td class="tdlft">年份：</td>
-				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
-				<td class="tdlft">指标：</td>
-				<td class="tdrgt"><input id="indexs" class="comboboxComponent" /></td>
+				<td class="tdlft">工况：</td>
+				<td class="tdrgt"><input id="index_x" class="comboboxComponent" /></td>
 			</tr>
 		</table>
 	</fieldset>

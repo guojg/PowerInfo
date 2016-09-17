@@ -1,7 +1,6 @@
 package com.github.basicData.model;
 
 public class BasicData {
-	
 	private String year;
 	private String indexItem;
 	private String value;
