@@ -1,6 +1,8 @@
 package com.github.regionalanalysis.generatorset.service;
 
 
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONObject;
 
 
@@ -14,4 +16,6 @@ public interface GeneratorSetService {
 	 * @return
 	 */
 	public String queryData(JSONObject param) ;
+	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
+
 }

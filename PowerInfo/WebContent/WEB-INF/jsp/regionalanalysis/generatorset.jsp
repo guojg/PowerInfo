@@ -25,7 +25,7 @@
 		
 		 cols = [ [
 		          	 {
-		          		field : '200',
+		          		field : 'plant_name',
 		          		title : '所属发电厂',
 		          		width : 100,
 		          		align : 'center'
@@ -42,14 +42,22 @@
 		          	}] ];
 		
 		queryData();
+		$("#tool_query").bind("click", function() {
+			queryData();
+		});
+		$("#tool_export").bind("click", function() {
+			ExportExcel();
+		});
 	});
 
 	//查询方法调用的函数
 	function queryData() {
 	
 		//查询条件暂时放外面
-		var queryParams = {};
-debugger;
+		var elec_name = $('#elec_name').val();
+		var gene_name = $('#gene_name').val();
+
+		var queryParams = {"elec_name":elec_name,"gene_name":gene_name};
 		var url = path+'/generatorSetController/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
@@ -72,14 +80,48 @@ debugger;
 		});
 	}
 	
+	function ExportExcel() {//导出Excel文件
+		//查询条件暂时放外面
+		var elec_name = $('#elec_name').val();
+		var gene_name = $('#gene_name').val();
+
+		//用ajax发动到动态页动态写入xls文件中
+		var f = $('<form action="'+path+'/generatorSetController/exportData" method="post" id="fm1"></form>');  
+	    var i = $('<input type="hidden" id="elec_name" name="elec_name" />');  
+	    var l = $('<input type="hidden" id="gene_name" name="gene_name" />');
+		i.val(elec_name);  
+		i.appendTo(f);  
+		l.val(gene_name);  
+		l.appendTo(f);  
+		f.appendTo(document.body).submit();  
+		document.body.removeChild(f);  
+	}
+	
 </script>
 </head>
 <body>
 	<!-- 引入自定义按钮页面 -->
+		<!-- 引入自定义按钮页面 -->
 	<div id="btn_div">
-		
+		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
+			align='top' border='0' title='查询' />
+		</a>
+		<a id="tool_export"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出' />
+		</a>
 	</div>
-
+	<fieldset id="field">
+		<legend>查询条件</legend>
+		<table id="search_tbl">
+			<tr>
+			<td class="tdlft">电厂名称：</td>
+				<td class="tdrgt"><input id="elec_name" name="elec_name" type="text"/></td>
+				<td class="tdlft">机组名称：</td>
+				<td class="tdrgt"><input id="gene_name" name="gene_name" type="text" /></td>
+			</tr>
+		</table>
+	</fieldset>
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>

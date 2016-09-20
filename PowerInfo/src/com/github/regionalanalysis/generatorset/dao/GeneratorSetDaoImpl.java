@@ -1,6 +1,7 @@
 package com.github.regionalanalysis.generatorset.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,9 @@ public class GeneratorSetDaoImpl implements GeneratorSetDao {
 	public List<Map<String, Object>> queryData(JSONObject param) {
 		String pageSize = param.getString("pageSize");
 		String pageNum = param.getString("pageNum");
-
+		String gene_name = param.getString("gene_name");
+		String elec_name = param.getString("elec_name");
+ 
 			int psize = Integer.parseInt(pageSize);
 			int pNum = Integer.parseInt(pageNum);
 			int  startNum = psize*(pNum-1);
@@ -38,7 +41,7 @@ public class GeneratorSetDaoImpl implements GeneratorSetDao {
 			JSONObject obj = new JSONObject();
 			obj.put("domain_id", "35") ;
 			List<Sysdict>  list =  sysdictDao.queryData(obj);
-			sb.append("SELECT c.jz_id") ;
+			sb.append("select jz.*,dc.plant_name from (SELECT c.jz_id") ;
 			for (Sysdict s : list) {
 				sb.append(",max(CASE c.index_type WHEN ")
 				.append(s.getCode())
@@ -46,16 +49,64 @@ public class GeneratorSetDaoImpl implements GeneratorSetDao {
 				.append(s.getCode())
 				.append("' ");
 			}
-		sb.append( "  FROM constant_cost_arg  c GROUP BY c.jz_id order by c.jz_id desc limit ?,?" );
-		 List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{startNum,endNum});
+		sb.append( "  FROM constant_cost_arg  c  GROUP BY c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data dc ON jz.200=dc.id  " );
+		List<Object> l = new ArrayList<Object>();
+		if(!"".equals(gene_name)){
+			sb.append(" AND jz.100 LIKE ?  ");
+			l.add("%"+gene_name+"%") ;
+
+		}
+		if(!"".equals(elec_name)){
+			sb.append( "  AND dc.plant_name LIKE ?   " );
+			l.add("%"+elec_name+"%") ;
+
+		}
+		l.add(startNum) ;
+		l.add(endNum) ;
+				sb.append(  "  limit ?,?" );
+		 List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sb.toString(),l.toArray());
 		return resultList;
 	}
 
+	
+	@Override
+	public List<Map<String, Object>> queryAllData(JSONObject param) {
 
+		String gene_name = param.getString("gene_name");
+		String elec_name = param.getString("elec_name");
+
+			StringBuffer sb = new StringBuffer();
+			JSONObject obj = new JSONObject();
+			obj.put("domain_id", "35") ;
+			List<Sysdict>  list =  sysdictDao.queryData(obj);
+			sb.append("select jz.*,dc.plant_name from (SELECT c.jz_id") ;
+			for (Sysdict s : list) {
+				sb.append(",max(CASE c.index_type WHEN ")
+				.append(s.getCode())
+				.append( " THEN c.index_value ELSE NULL END ) '")
+				.append(s.getCode())
+				.append("' ");
+			}
+		sb.append( "  FROM constant_cost_arg  c  GROUP BY c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data dc ON jz.200=dc.id  " );
+		List<Object> l = new ArrayList<Object>();
+		if(!"".equals(gene_name)){
+			sb.append(" AND jz.100 LIKE ?  ");
+			l.add("%"+gene_name+"%") ;
+
+		}
+		if(!"".equals(elec_name)){
+			sb.append( "  AND dc.plant_name LIKE ?   " );
+			l.add("%"+elec_name+"%") ;
+
+		}
+
+		 List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sb.toString(),l.toArray());
+		return resultList;
+	}
 
 	@Override
 	public int queryDataCount(JSONObject param) {
-		String sql ="select count(1) FROM constant_cost_arg  c GROUP BY c.jz_id ";
+		String sql ="SELECT COUNT(DISTINCT c.jz_id) FROM constant_cost_arg  c  ";
 		int count =this.jdbcTemplate.queryForInt(sql);
 		return count;
 	}
