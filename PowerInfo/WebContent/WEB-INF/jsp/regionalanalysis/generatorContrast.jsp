@@ -12,7 +12,7 @@
 var frozenCols = [ [  {
 	field : 'jz_id',
 	title : '机组名称',
-	width : 100,
+	width : 150,
 	align : 'center',
 	rowspan:2
 } , {
@@ -33,6 +33,13 @@ var frozenCols = [ [  {
 	var gkarray='';
 	$(function() {
 		 comboBoxInit({
+				id : "index_y",
+				url : path + '/sysdict/getDataByCodeValue?domain_id=36',
+				textkey : "value",
+				valuekey : "code",
+				multiple : true
+			});
+		 comboBoxInit({
 				id : "index_x",
 				url : path + '/sysdict/getDataByCodeValue?domain_id=31',
 				textkey : "value",
@@ -41,24 +48,6 @@ var frozenCols = [ [  {
 			});
 	
 		 gkarray=$("#index_x").combobox("getData");
-
-		 cols = [ [
-		          	 {
-		          		field : 'plant_name',
-		          		title : '所属发电厂',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : '300',
-		          		title : '额定容量',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : '400',
-		          		title : '投运日期',
-		          		width : 400,
-		          		align : 'center'
-		          	}] ];
 		
 		queryData();
 		$("#tool_query").bind("click", function() {
@@ -109,7 +98,10 @@ var frozenCols = [ [  {
 			rownumbers : true,
 			pagination : false,
 			queryParams : queryParams,
-			pagination: true
+			onLoadSuccess: function(data) {
+				$('#datagrid').datagrid('mergeCellsByField','jz_id');
+				
+			}
 		});
 	}
 	//动态生成列
@@ -175,6 +167,8 @@ var frozenCols = [ [  {
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+				<td class="tdlft">指标：</td>
+				<td class="tdrgt"><input id="index_y" class="comboboxComponent" /></td>
 				<td class="tdlft">工况：</td>
 				<td class="tdrgt"><input id="index_x" class="comboboxComponent" /></td>
 			</tr>
