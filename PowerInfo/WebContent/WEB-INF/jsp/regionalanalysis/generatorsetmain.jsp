@@ -18,7 +18,7 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 		//加载选项卡页面
 		var srcs = {
 				'基本信息' : path+'/constantCostArgController/index?id='+id,
-				'燃煤成本' : path+'/coalCost/main?id='+id
+				'燃煤成本' : path+'/coalCost/main?fdj_id='+id
 		};
 		$('#iframe0').attr('src', srcs['基本信息']);
 		$('#tt').tabs({

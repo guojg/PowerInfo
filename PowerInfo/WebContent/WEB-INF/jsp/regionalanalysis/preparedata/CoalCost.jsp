@@ -9,10 +9,8 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
-<%
-	String fdj_id = request.getAttribute("fdj_id") == null ? "" : request.getAttribute("fdj_id").toString();
-%>
 <script type="text/javascript">
+
 var fdj_id='2';
 	var cols;
 	var savEvtTime = 0;
@@ -34,7 +32,7 @@ var fdj_id='2';
 		rowspan:2
 	}],[]];
 	$(function() {
-
+		fdj_id = $("#iframe0", window.parent.$("#tt")).contents().find("#11").val();
 
 		$("#tool_save").bind("click", function() {
 			save();

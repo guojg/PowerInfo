@@ -153,9 +153,19 @@ if(flag){
 			    if(res!=null && res!=""){
 					$.messager.confirm('提示', '保存成功,是否继续填写燃煤成本', function(r) {
 						if (r) {
+							 $("#11").val(res);
 							 window.parent.$('#tt').tabs('select','燃煤成本');
-							 var tab =window.parent.$('#tt').tabs('getSelected');
-							tab.panel('refresh', path+'/coalCost/main?id='+res);
+							// var tab =window.parent.$('#tt').tabs('getSelected');
+							
+							//tab.panel('refresh', path+'/coalCost/main?fdj_id='+res);
+							 /*window.parent.$('#tt').tabs('update', {
+									tab: tab,
+									options: {
+										title: '燃煤成本',
+										href:  path+'/coalCost/main?fdj_id='+res  // 新内容的URL
+									}
+								});*/
+
 						}else{
 							window.parent.parent.queryData();
 							  window.parent.parent.$('#win_div').window('close');
