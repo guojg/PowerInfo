@@ -40,8 +40,7 @@ public class ConstantCostArgController {
 	public  @ResponseBody String saveData(HttpServletRequest request, HttpServletResponse response){
 		Map map= request.getParameterMap();
 
-		constantCostArgService.saveData(map);
-		 return "1";
+		return constantCostArgService.saveData(map);
 	}
 	 
 	 @RequestMapping(value = "/initData",produces="application/json;charset=UTF-8")

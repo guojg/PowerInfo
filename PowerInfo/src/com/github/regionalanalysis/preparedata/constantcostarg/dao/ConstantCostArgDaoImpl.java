@@ -25,7 +25,7 @@ public class ConstantCostArgDaoImpl implements ConstantCostArgDao {
 	
 
 	@Override
-	public void save(final List<ConstantCostArg> list) {
+	public String save(final List<ConstantCostArg> list) {
 		String deleteSql = "delete from constant_cost_arg where jz_id=?" ;
 		this.jdbcTemplate.update(deleteSql, new Object[]{list.get(0).getJz_id()});
 		String sql = "insert into constant_cost_arg(index_type,index_value,jz_id) value (?,?,?)";
@@ -41,6 +41,7 @@ public class ConstantCostArgDaoImpl implements ConstantCostArgDao {
 		          }
 
 		        });
+		return list.get(0).getJz_id();
 		
 	}
 

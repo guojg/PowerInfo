@@ -32,6 +32,10 @@ public class GeneratorSetController {
 	public String index(HttpServletRequest request, HttpServletResponse response){
 		return "regionalanalysis/generatorset";
 	}
+	@RequestMapping(value ="/main")
+	public String main(HttpServletRequest request, HttpServletResponse response){
+		return "regionalanalysis/generatorsetmain";
+	}
 	
 	
 		@RequestMapping(value ="/queryData")

@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page import="com.github.balance.task.entity.BalanceTask"%>
-
+<!DOCTYPE html>
 <html>
 <head>
 <title>燃煤成本数据</title>
@@ -10,6 +10,10 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
+<% 
+String id = request.getParameter("id")==null ?"" : request.getParameter("id"); 
+System.out.println(id);
+%>
 <script type="text/javascript">
 	var cols;
 	var savEvtTime = 0;
@@ -31,7 +35,7 @@
 		rowspan:2
 	}],[]];
 	$(function() {
-
+	debugger;
 		$("#tool_save").bind("click", function() {
 			save();
 		});

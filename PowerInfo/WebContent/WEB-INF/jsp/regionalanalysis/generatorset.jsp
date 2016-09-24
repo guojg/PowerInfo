@@ -48,6 +48,15 @@
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
+		$("#tool_add").bind("click", function() {
+			addRecord();
+		});
+		$("#tool_update").bind("click", function() {
+			updateRecord();
+		});
+		$("#tool_delete").bind("click", function() {
+			deleteRecords();
+		});
 	});
 
 	//查询方法调用的函数
@@ -79,7 +88,14 @@
 			pagination: true
 		});
 	}
-	
+	function addRecord() {
+		commonHelper.toAdd({
+			title : '新增',
+			width : 800,
+			height : 500,
+			url : path + '/generatorSetController/main'
+		});
+	}
 	function ExportExcel() {//导出Excel文件
 		//查询条件暂时放外面
 		var elec_name = $('#elec_name').val();
@@ -106,7 +122,16 @@
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
 		</a>
-		<a id="tool_export"> <img
+	 <a id="tool_add"> <img src='<%=path%>/static/images/new.gif'
+			align='top' border='0' title='新增' />
+		</a> <a id="tool_update"> <img
+			src='<%=path%>/static/images/xiugai.gif' align='top' border='0'
+			title='修改' />
+		</a> <a id="tool_delete"> <img
+			src='<%=path%>/static/images/delete.png' align='top' border='0'
+			title='删除' />
+		</a>
+		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />
 		</a>

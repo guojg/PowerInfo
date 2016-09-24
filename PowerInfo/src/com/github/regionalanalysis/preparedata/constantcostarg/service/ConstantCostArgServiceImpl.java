@@ -30,10 +30,10 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 	private ConstantCostArgDao constantCostArgDao;
 
 	@Override
-	public void saveData(Map m) {
+	public String  saveData(Map m) {
 		// TODO Auto-generated method stub
 		List<ConstantCostArg> list = this.mapToList(m);
-		constantCostArgDao.save(list);
+		return constantCostArgDao.save(list);
 	}
 	
 	private List<ConstantCostArg> mapToList(Map map){

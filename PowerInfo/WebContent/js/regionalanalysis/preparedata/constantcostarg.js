@@ -7,7 +7,7 @@ $(function() {
 	$.ajax({
 		type : 'POST',
 		async : false,
-		data: {"domain_id":35,"condition":"100,200,300,400"},
+		data: {"domain_id":35,"condition":"100,200,300,400,9001,10001,11001,12001,13001,15001,16001,17001"},
 		dataType : 'json',
 		url :  '/PowerInfo/sysdict/getDataByNotCondition',
 		success : function(data) {
@@ -150,8 +150,17 @@ if(flag){
 			data:fmserialObj,
 			dataType:"json",
 			success:function(res){
-			    if(res!=null && res=="1"){
-					$.messager.alert('提示','保存成功!');
+			    if(res!=null && res!=""){
+					$.messager.confirm('提示', '保存成功,是否继续填写燃煤成本', function(r) {
+						if (r) {
+							 window.parent.$('#tt').tabs('select','燃煤成本');
+							 var tab =window.parent.$('#tt').tabs('getSelected');
+							tab.panel('refresh', path+'/coalCost/main?id='+res);
+						}else{
+							window.parent.parent.queryData();
+							  window.parent.parent.$('#win_div').window('close');
+						}
+					});
 					$("#validateMessage").html("");
 				}
 			}

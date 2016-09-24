@@ -18,7 +18,7 @@ public interface ConstantCostArgService {
 	 * 保存
 	 * @param m
 	 */
-	public void saveData(Map m) ;
+	public String saveData(Map m) ;
 	/**
 	 * 初始化
 	 * @param id
