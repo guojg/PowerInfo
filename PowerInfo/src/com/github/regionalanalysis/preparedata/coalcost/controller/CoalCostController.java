@@ -26,8 +26,10 @@ public class CoalCostController {
 			HttpServletResponse response) {
 		response.setCharacterEncoding("UTF-8");
 		String indexs = request.getParameter("index_xs");
+		String fdj_id = request.getParameter("fdj_id");
 		JSONObject obj = new JSONObject();
 		obj.put("index_xs", indexs);
+		obj.put("fdj_id", fdj_id);
 		try {
 			String resultJson = coalCostService.queryData(obj);
 			PrintWriter pw = response.getWriter();
@@ -45,8 +47,10 @@ public class CoalCostController {
 	String saveData(HttpServletRequest request) {
 		try {
 			String editObj = request.getParameter("editObj");
+			String fdj_id = request.getParameter("fdj_id");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("editObj", editObj);
+			jsonobj.put("fdj_id", fdj_id);
 			coalCostService.saveData(jsonobj);
 			return "1";
 		} catch (Exception e) {
@@ -66,9 +70,12 @@ public class CoalCostController {
 			response.setCharacterEncoding("UTF-8");
 			String indexs = request.getParameter("index_xs");
 			String index_text=request.getParameter("index_text");
+			String fdj_id=request.getParameter("fdj_id");
 			JSONObject obj = new JSONObject();
 			obj.put("index_xs", indexs);
 			obj.put("index_text", index_text);
+			obj.put("fdj_id", fdj_id);
+
 			try {
 				coalCostService.ExportExcel(obj, response);
 			}catch (Exception e) {
