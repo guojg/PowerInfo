@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
 	var frozenCols = [ [
-	    {field:'id',align:'center',checkbox:true},
+	    {field:'jz_id',align:'center',checkbox:true},
 	    {
 		field : '100',
 		title : '机组名',
@@ -94,6 +94,16 @@
 			width : 800,
 			height : 500,
 			url : path + '/generatorSetController/main'
+		});
+	}
+	function updateRecord() {
+		var rows = $('#datagrid').datagrid('getChecked');
+
+		commonHelper.toAdd({
+			title : '修改',
+			width : 800,
+			height : 500,
+			url : path + '/generatorSetController/main?id='+rows[0].jz_id
 		});
 	}
 	function ExportExcel() {//导出Excel文件

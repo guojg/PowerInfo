@@ -97,6 +97,7 @@ $(function() {
 		});
 	//$('#900').css("background-color","red");
 	if(id !=""){
+	
 		initData();
 	}else{
 		$("#11").val("");
@@ -107,7 +108,7 @@ function initData(){
 	var taskParam={
 			id:id
 	} ;
-	 $("#11").val(id);
+	
 	var jsonResult={};
 	 $.ajax({
 			type : 'POST',
@@ -130,6 +131,7 @@ function initData(){
 		 }
 		 
 	 }
+	 $("#11").val(id);
 }
 function baoCun(){
 	debugger;

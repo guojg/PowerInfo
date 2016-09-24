@@ -20,7 +20,7 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 <script type="text/javascript">
 //var id='2016091608461600';  //机组id
 	var id='<%=id%>' ;
-
+alert(id);
 
 </script>
 </head>
@@ -45,7 +45,8 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 	
 
 	<div class="div_submit" >
-			<a id="btn_save"   href="javascript:baoCun();" >计算</a>
+			<a id="btn_save"   href="javascript:baoCun();" ><img src='<%=path%>/static/images/save.gif'
+			align='top' border='0' title='保存' /></a>
 	</div> 
 </form> 
 </body>
