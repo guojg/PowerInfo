@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ page import="com.github.balance.task.entity.BalanceTask"%>
 
 <html>
 <head>
@@ -10,7 +9,11 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
+<%
+	String fdj_id = request.getAttribute("fdj_id") == null ? "" : request.getAttribute("fdj_id").toString();
+%>
 <script type="text/javascript">
+var fdj_id='2';
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -32,6 +35,7 @@
 	}],[]];
 	$(function() {
 
+
 		$("#tool_save").bind("click", function() {
 			save();
 		});
@@ -48,9 +52,14 @@
 				valuekey : "code",
 				multiple : true
 			});
-		 debugger;
 		 gkarray=$("#index_x").combobox("getData");
+		 //判断是否填写了基本信息
+		if(fdj_id==null||fdj_id=='null'||fdj_id==''){
+			$.messager.alert("提示", "请填写机组基本信息！");
+			return;
+		}
 		queryData();
+
 	});
 	function ExportExcel() {//导出Excel文件
 		var indexs = $("#index_x").combo("getValues");
@@ -69,17 +78,20 @@
 		//用ajax发动到动态页动态写入xls文件中
 		var f = $('<form action="'+path+'/coalCost/exportData" method="post" id="fm1"></form>');  
         var l = $('<input type="hidden" id="index_xs" name="index_xs" />'); 
-        var i= $('<input type="hidden" id="index_text" name="index_text" />'); 
+        var i= $('<input type="hidden" id="index_text" name="index_text" />');
+       	var h=$('<input type="hidden" id="fdj_id" name="fdj_id" />');
     	l.val(index_s);  
     	l.appendTo(f);  
     	i.val(index_text);  
     	i.appendTo(f);  
+    	h.val(fdj_id);  
+    	h.appendTo(f);  
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
 	}
 	//查询方法调用的函数
 	function queryData() {
-
+		
 		var indexs = $("#index_x").combo("getValues");
 		var index_s;
 		if (indexs != "") {
@@ -97,7 +109,8 @@
 		//查询条件暂时放外面
 		debugger;
 		var queryParams = {
-				index_xs : index_s
+				index_xs : index_s,
+				fdj_id :fdj_id
 		};
 
 		var url = path + '/coalCost/queryData';
@@ -236,7 +249,8 @@
 		}
 		var param = JSONH.stringify(updates);
 		var data = {
-			editObj : param
+			editObj : param,
+			fdj_id: fdj_id
 		};
 		$.ajax({
 			type : 'POST',
@@ -325,9 +339,6 @@
 			align='top' border='0' title='查询' />
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' />
-		</a> 
- 		<a id="tool_total"> <img src='<%=path%>/static/images/huizong.gif'
-			align='top' border='0' title='汇总' />
 		</a> 
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'

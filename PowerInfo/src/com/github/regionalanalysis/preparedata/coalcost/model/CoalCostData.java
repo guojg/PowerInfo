@@ -6,7 +6,14 @@ public class CoalCostData {
 	private String indexY;
 	private String value;
 	private String unit;
+	private String fdjId;
 
+	public String getFdjId() {
+		return fdjId;
+	}
+	public void setFdjId(String fdjId) {
+		this.fdjId = fdjId;
+	}
 	public String getIndexX() {
 		return indexX;
 	}
