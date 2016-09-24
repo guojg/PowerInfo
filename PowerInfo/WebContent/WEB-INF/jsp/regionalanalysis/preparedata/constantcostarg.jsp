@@ -20,7 +20,6 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 <script type="text/javascript">
 //var id='2016091608461600';  //机组id
 	var id='<%=id%>' ;
-alert(id);
 
 </script>
 </head>

@@ -21,15 +21,18 @@ public class GeneratorContrastController {
 	@Autowired
 	private GeneratorContrastService generatorContrastService;
 
-	@RequestMapping(value = "/queryData")
+	@RequestMapping(value = "/queryData",produces= "text/plain;charset=UTF-8")
 	public @ResponseBody String queryData(HttpServletRequest request, HttpServletResponse response){
 
 		response.setCharacterEncoding("UTF-8");
 		String indexs = request.getParameter("index_xs");
+		String indeys = request.getParameter("index_ys");
+
 		String gene_id = request.getParameter("gene_id");
 
 		JSONObject obj = new JSONObject();
 		obj.put("index_xs", indexs);
+		obj.put("index_ys", indeys);
 		obj.put("gene_id", gene_id);
 
 		return generatorContrastService.queryData(obj);
@@ -41,6 +44,19 @@ public class GeneratorContrastController {
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
 		return "regionalanalysis/generatorContrast";
+	}
+	
+	
+	@RequestMapping(value = "/image")
+	public String image(Long pid, HttpServletRequest request,
+			HttpServletResponse re) {
+		return "regionalanalysis/generatorContrastImage";
+	}
+	
+	@RequestMapping(value = "/main")
+	public String main(Long pid, HttpServletRequest request,
+			HttpServletResponse re) {
+		return "regionalanalysis/generatorContrastMain";
 	}
 
 	@RequestMapping("/exportData")
