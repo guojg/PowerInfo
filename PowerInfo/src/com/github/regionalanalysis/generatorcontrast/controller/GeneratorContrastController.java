@@ -65,9 +65,12 @@ public class GeneratorContrastController {
 			response.setCharacterEncoding("UTF-8");
 			String indexs = request.getParameter("index_xs");
 			String index_text=request.getParameter("index_text");
+			String index_ys=request.getParameter("index_ys");
 			JSONObject obj = new JSONObject();
 			obj.put("index_xs", indexs);
 			obj.put("index_text", index_text);
+			obj.put("index_ys", index_ys);
+
 			try {
 				generatorContrastService.ExportExcel(obj, response);
 			}catch (Exception e) {

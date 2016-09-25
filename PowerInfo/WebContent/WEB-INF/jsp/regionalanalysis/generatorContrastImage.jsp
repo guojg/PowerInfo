@@ -50,6 +50,11 @@
 					drawChart();
 				}
 			});
+			$("#index_y").combobox({
+				onSelect:function(){
+					drawChart();
+				}
+			});
 		});
 	</script>
 		</head>

@@ -163,17 +163,45 @@ var frozenCols = [ [  {
 	}
 	function ExportExcel() {//导出Excel文件
 		//查询条件暂时放外面
-		var elec_name = $('#elec_name').val();
-		var gene_name = $('#gene_name').val();
-
+		var indexs = $("#index_x").combo("getValues");
+		var index_s;
+		if (indexs != "") {
+			index_s = indexs + "";
+		} else {
+			index_s = "";
+		}
+		if (index_s == "") {
+			$.messager.alert("提示", "请选择指标！");
+			return;
+		}
+		
+		
+		var indexy = $("#index_y").combo("getValues");
+		var index_y;
+		if (indexy != "") {
+			index_y = indexy + "";
+		} else {
+			index_y = "";
+		}
+		if (index_y == "") {
+			$.messager.alert("提示", "请选择指标！");
+			return;
+		}
+	
+		var index_text=$("#index_x").combobox("getText");
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/generatorSetController/exportData" method="post" id="fm1"></form>');  
-	    var i = $('<input type="hidden" id="elec_name" name="elec_name" />');  
-	    var l = $('<input type="hidden" id="gene_name" name="gene_name" />');
-		i.val(elec_name);  
+		var f = $('<form action="'+path+'/generatorContrastController/exportData" method="post" id="fm1"></form>');  
+	    var i = $('<input type="hidden" id="index_xs" name="index_xs" />'); 
+	    var l = $('<input type="hidden" id="index_ys" name="index_ys" />');
+	    var m = $('<input type="hidden" id="index_text" name="index_text" />');  
+
+		i.val(index_s);  
 		i.appendTo(f);  
-		l.val(gene_name);  
+		l.val(index_y);  
 		l.appendTo(f);  
+		m.val(index_text);  
+		m.appendTo(f);  
+		debugger;
 		f.appendTo(document.body).submit();  
 		document.body.removeChild(f);  
 	}
