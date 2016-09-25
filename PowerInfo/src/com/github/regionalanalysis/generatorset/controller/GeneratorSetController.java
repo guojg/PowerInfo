@@ -84,5 +84,20 @@ public class GeneratorSetController {
 				 
 
 		}
+		
+		@RequestMapping(value = "/deleteData")
+		public @ResponseBody
+		String deleteData(HttpServletRequest request) {
+			try {
+				String deleteids = request.getParameter("ids");
+				JSONObject jsonobj = new JSONObject();
+				jsonobj.put("deleteids",deleteids );
+				generatorSetService.deleteData(jsonobj);
+				return "1";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "0";
+			}
+		}
 
 }

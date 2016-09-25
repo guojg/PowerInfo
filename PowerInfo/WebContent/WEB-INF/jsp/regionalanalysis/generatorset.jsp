@@ -100,9 +100,6 @@
 			remoteSort : false,
 			frozenColumns : frozenCols,
 			columns : cols,
-			checkOnSelect:true,
-			singleSelect:true,
-			rownumbers : true,
 			pagination : false,
 			queryParams : queryParams,
 			pagination: true
@@ -118,13 +115,48 @@
 	}
 	function updateRecord() {
 		var rows = $('#datagrid').datagrid('getChecked');
-
+		if(rows.length!=1){
+			$.messager.alert('提示', '请选择一条需要修改的机组！', 'info');
+			return ;
+		}
 		commonHelper.toAdd({
 			title : '修改',
 			width : 800,
 			height : 500,
 			url : path + '/generatorSetController/main?id='+rows[0].jz_id
 		});
+	}
+	function deleteRecords() {
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length<1){
+			$.messager.alert('提示', '请选需要删除的机组！', 'info');
+			return ;
+		}
+		$.messager.confirm('提示', '确认删除?', function(r) {
+			if (r) {
+				var rows = $('#datagrid').datagrid('getChecked');
+				var ids = "";
+				for (rowindex in rows) {
+					if (parseInt(rowindex) + 1 == rows.length) {
+						ids = ids + rows[rowindex]["jz_id"];
+					} else {
+						ids = ids + rows[rowindex]["jz_id"] + ",";
+					}
+				}
+				$.post(path+'/generatorSetController/deleteData', {
+					"ids" : ids
+				}, function(data) {
+					var data = $.parseJSON(data);
+					if (data== '1') {
+						$.messager.alert('提示', '删除成功！', 'info', function() {
+							queryData();
+
+						});
+					}
+				});
+			}
+		});
+
 	}
 	function ExportExcel() {//导出Excel文件
 		//查询条件暂时放外面

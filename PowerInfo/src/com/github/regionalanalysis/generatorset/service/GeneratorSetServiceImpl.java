@@ -7,10 +7,12 @@ import java.util.Map;
 
 
 
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 
 
@@ -20,6 +22,7 @@ import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
 import com.github.regionalanalysis.generatorset.dao.GeneratorSetDao;
+
 
 
 
@@ -87,6 +90,14 @@ public class GeneratorSetServiceImpl implements GeneratorSetService {
 		// 第二个参数rules为导出规则的list集合，第三个参数为第二个参数所需的参数，一个rule参数为一个int数组
 		ex.exportExcel(response, rules, new int[][] { i });
 
+	}
+
+	@Override
+	public void deleteData(JSONObject obj) {
+		String delectArr[] = obj.get("deleteids") == null ? null : obj
+				.get("deleteids").toString().split(",");
+		 generatorSetDao.deleteData(delectArr);
+		
 	}
 
 }
