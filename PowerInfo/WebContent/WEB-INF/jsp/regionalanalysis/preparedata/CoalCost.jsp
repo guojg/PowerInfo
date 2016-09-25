@@ -11,7 +11,7 @@
 <%@include file="../../common/commonInclude.jsp"%>
 <script type="text/javascript">
 
-var fdj_id='2';
+var fdj_id='';
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -33,7 +33,9 @@ var fdj_id='2';
 	}],[]];
 	$(function() {
 		fdj_id = $("#iframe0", window.parent.$("#tt")).contents().find("#11").val();
-
+		if(fdj_id !=null && fdj_id != ""){
+			$('#11').val(fdj_id+"") ;
+		}
 		$("#tool_save").bind("click", function() {
 			save();
 		});
@@ -346,6 +348,7 @@ var fdj_id='2';
 			<tr>
 				<td class="tdlft">工况：</td>
 				<td class="tdrgt"><input id="index_x" class="comboboxComponent" /></td>
+				<td hidden="true"><input id='11' name='11'></td>
 			</tr>
 		</table>
 	</fieldset>

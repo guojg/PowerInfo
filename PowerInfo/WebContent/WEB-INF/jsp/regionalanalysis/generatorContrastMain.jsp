@@ -18,8 +18,8 @@ debugger;
 
 		//加载选项卡页面
 		var srcs = {
-				'表' : path+'/generatorContrastController/index?id='+id,
-				'图' : path+'/generatorContrastController/image?id='+id
+				'表' : path+'/generatorContrastController/index?id='+id+'&date='+new Date(),
+				'图' : path+'/generatorContrastController/image?id='+id+'&date='+new Date()
 		};
 		$('#iframe0').attr('src', srcs['表']);
 		$('#tt').tabs({

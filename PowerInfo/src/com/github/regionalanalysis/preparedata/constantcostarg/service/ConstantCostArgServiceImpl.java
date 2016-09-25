@@ -81,6 +81,9 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 		 }
 		 for(ConstantCostArg c : list){
 			 c.setJz_id(jz_id);
+			 if("11".equals(c.getIndex_type())){
+				 c.setIndex_value(jz_id);
+			 }
 		 }
 		 return list ;
 	}

@@ -96,7 +96,15 @@ $(function() {
 				defaultVal:"first"
 		});
 	//$('#900').css("background-color","red");
-	if(id !="" || $("#11").val()!=""){
+			var child11 = $("#iframe1", window.parent.$("#tt")).contents().find("#11").val();
+if(id =="" &&  $("#11").val() !=""){
+	id=$("#11").val();
+}else if(id =="" &&  child11 !=""){
+	id=child11;
+}else{
+	
+}
+	if(id !=""){
 	
 		initData();
 	}else{
@@ -156,6 +164,7 @@ if(flag){
 			    if(res!=null && res!=""){
 					$.messager.confirm('提示', '保存成功,是否继续填写燃煤成本', function(r) {
 						if (r) {
+							window.parent.parent.queryData();
 							 $("#11").val(res);
 							 window.parent.$('#tt').tabs('select','燃煤成本');
 							// var tab =window.parent.$('#tt').tabs('getSelected');
