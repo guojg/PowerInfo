@@ -38,6 +38,11 @@ public class GeneratorSetController {
 	}
 	
 	
+	@RequestMapping(value ="/detail")
+	public String detail(HttpServletRequest request, HttpServletResponse response){
+		return "regionalanalysis/generatorsetdetailmain";
+	}
+	
 		@RequestMapping(value ="/queryData")
 		public @ResponseBody String queryData(HttpServletRequest request, HttpServletResponse response){
 			response.setCharacterEncoding("UTF-8");

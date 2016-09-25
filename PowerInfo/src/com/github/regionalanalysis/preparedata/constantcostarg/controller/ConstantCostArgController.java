@@ -35,6 +35,10 @@ public class ConstantCostArgController {
 	public String index(HttpServletRequest request, HttpServletResponse response){
 		 return "regionalanalysis/preparedata/constantcostarg";
 	}
+	@RequestMapping(value ="/detail")
+	public String detail(HttpServletRequest request, HttpServletResponse response){
+		 return "regionalanalysis/preparedata/constantcostargdetail";
+	}
 	
 	@RequestMapping(value ="/saveData")
 	public  @ResponseBody String saveData(HttpServletRequest request, HttpServletResponse response){

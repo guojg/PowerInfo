@@ -15,7 +15,11 @@
 		field : '100',
 		title : '机组名',
 		width : 100,
-		align : 'center'
+		align : 'center',
+		formatter: function(value,row,index){
+
+    		return '<a href="#" onclick="detail('+row.jz_id+')">'+value+'</a> ';
+		}
 	} ] ];
 	
 	var cols ='';
@@ -129,6 +133,16 @@
 			url : path + '/generatorSetController/main?id='+rows[0].jz_id
 		});
 	}
+	
+	function detail(jz_id) {
+		
+		commonHelper.toAdd({
+			title : '修改',
+			width : 800,
+			height : 500,
+			url : path + '/generatorSetController/detail?id='+jz_id
+		});
+	}
 	function duibi() {
 		var rows = $('#datagrid').datagrid('getChecked');
 		if(rows.length<1){
@@ -143,7 +157,6 @@
 				ids = ids + rows[rowindex]["jz_id"] + ",";
 			}
 		}
-		debugger;
 		commonHelper.toAdd({
 			title : '对比',
 			width : 900,

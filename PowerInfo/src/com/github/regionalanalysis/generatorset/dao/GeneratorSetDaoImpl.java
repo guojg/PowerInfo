@@ -126,6 +126,12 @@ public class GeneratorSetDaoImpl implements GeneratorSetDao {
 		buffer1.append(InSql.substring(0, InSql.length() - 1));
 		buffer1.append(")");
 		jdbcTemplate.update(buffer1.toString(),delectArr);
+		
+		StringBuffer  buffer2=new StringBuffer("delete from generator_contrast where jz_id in(");
+		buffer2.append(InSql.substring(0, InSql.length() - 1));
+		buffer2.append(")");
+		jdbcTemplate.update(buffer2.toString(),delectArr);
+
 
 		return "1";
 	}

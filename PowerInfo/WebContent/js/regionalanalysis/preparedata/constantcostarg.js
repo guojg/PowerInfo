@@ -96,7 +96,7 @@ $(function() {
 				defaultVal:"first"
 		});
 	//$('#900').css("background-color","red");
-	if(id !=""){
+	if(id !="" || $("#11").val()!=""){
 	
 		initData();
 	}else{

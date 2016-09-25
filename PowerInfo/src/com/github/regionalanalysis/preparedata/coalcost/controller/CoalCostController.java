@@ -63,6 +63,12 @@ public class CoalCostController {
 			HttpServletResponse re) {
 		return "regionalanalysis/preparedata/CoalCost";
 	}
+	
+	@RequestMapping(value = "/detail")
+	public String detail(Long pid, HttpServletRequest request,
+			HttpServletResponse re) {
+		return "regionalanalysis/preparedata/CoalCostDetail";
+	}
 
 	@RequestMapping("/exportData")
 	public void exportData(HttpServletRequest request,
