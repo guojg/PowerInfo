@@ -112,9 +112,9 @@ var fdj_id='2';
 		};
 
 		var url = path + '/coalCost/queryData';
-		var Height_Page = $("html").height();
+		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
-		var height = Height_Page - datagrid_title_height - 5;
+		var height = Height_Page - datagrid_title_height;
 		$('#datagrid').datagrid({
 			width : 'auto',
 			height : height,
