@@ -28,12 +28,12 @@ public class GeneratorContrastController {
 		String indexs = request.getParameter("index_xs");
 		String indeys = request.getParameter("index_ys");
 
-		String gene_id = request.getParameter("gene_id");
+		String id = request.getParameter("id");
 
 		JSONObject obj = new JSONObject();
 		obj.put("index_xs", indexs);
 		obj.put("index_ys", indeys);
-		obj.put("gene_id", gene_id);
+		obj.put("id", id);
 
 		return generatorContrastService.queryData(obj);
 		
@@ -66,11 +66,13 @@ public class GeneratorContrastController {
 			String indexs = request.getParameter("index_xs");
 			String index_text=request.getParameter("index_text");
 			String index_ys=request.getParameter("index_ys");
+			String id=request.getParameter("id");
+
 			JSONObject obj = new JSONObject();
 			obj.put("index_xs", indexs);
 			obj.put("index_text", index_text);
 			obj.put("index_ys", index_ys);
-
+			obj.put("id", id);
 			try {
 				generatorContrastService.ExportExcel(obj, response);
 			}catch (Exception e) {

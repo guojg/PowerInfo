@@ -114,6 +114,9 @@ var algorithm='<%=algorithm%>';
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
+		$("#tool_exporttu").bind("click", function() {
+			ExportTu();
+		});
 		queryData();
 		
 	});
@@ -278,6 +281,10 @@ var algorithm='<%=algorithm%>';
 			list.push(series);
 		}
 		return list;
+	}
+	function ExportTu() {//导出Excel文件
+		chart.exportChart();
+		
 	}
 	function ExportExcel() {//导出Excel文件
 

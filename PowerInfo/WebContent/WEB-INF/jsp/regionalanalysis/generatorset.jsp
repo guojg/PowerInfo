@@ -77,6 +77,9 @@
 		$("#tool_delete").bind("click", function() {
 			deleteRecords();
 		});
+		$("#tool_db").bind("click", function() {
+			duibi();
+		});
 	});
 
 	//查询方法调用的函数
@@ -124,6 +127,28 @@
 			width : 800,
 			height : 500,
 			url : path + '/generatorSetController/main?id='+rows[0].jz_id
+		});
+	}
+	function duibi() {
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length<1){
+			$.messager.alert('提示', '请选择需要对比的机组！', 'info');
+			return ;
+		}
+		var ids = "";
+		for (rowindex in rows) {
+			if (parseInt(rowindex) + 1 == rows.length) {
+				ids = ids + rows[rowindex]["jz_id"];
+			} else {
+				ids = ids + rows[rowindex]["jz_id"] + ",";
+			}
+		}
+		debugger;
+		commonHelper.toAdd({
+			title : '对比',
+			width : 900,
+			height : 550,
+			url : path + '/generatorContrastController/main?id='+ids
 		});
 	}
 	function deleteRecords() {
@@ -193,6 +218,10 @@
 			src='<%=path%>/static/images/delete.png' align='top' border='0'
 			title='删除' />
 		</a>
+		 <a id="tool_db"> <img
+			src='<%=path%>/static/images/duibi.gif' align='top' border='0'
+			title='对比' />
+			</a>
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />

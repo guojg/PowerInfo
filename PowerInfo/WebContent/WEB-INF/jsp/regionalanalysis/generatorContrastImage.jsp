@@ -7,7 +7,11 @@
 		
 		<!-- 加载CSS -->
 		<%@include file="../common/commonInclude.jsp" %>	
-		
+		<% 
+String id = request.getParameter("id")==null ?"" : request.getParameter("id"); 
+
+%>
+
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/icon.css" />
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/farbtastic/farbtastic.css" />
@@ -15,6 +19,7 @@
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/chart.css" />
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css" />
 		<script type="text/javascript">
+		var id='<%=id%>' ;
 
 		$(function() {
 

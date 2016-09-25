@@ -7,8 +7,13 @@
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../common/commonInclude.jsp"%>
 <%@include file="../common/commonDefineBtn.jsp" %>
-
+<% 
+String id = request.getParameter("id")==null ?"" : request.getParameter("id"); 
+System.out.println("----"+id);
+%>
 <script type="text/javascript">
+var id='<%=id%>' ;
+
 var frozenCols = [ [  {
 	field : 'plant_name',
 	title : '电厂名称',
@@ -105,7 +110,8 @@ var frozenCols = [ [  {
 		debugger;
 		var queryParams = {
 				"index_xs" : index_s,
-				"index_ys" :index_y
+				"index_ys" :index_y,
+				"id":id
 		};
 		var url = path+'/generatorContrastController/queryData';
 		var Height_Page = $(document).height();
@@ -194,13 +200,15 @@ var frozenCols = [ [  {
 	    var i = $('<input type="hidden" id="index_xs" name="index_xs" />'); 
 	    var l = $('<input type="hidden" id="index_ys" name="index_ys" />');
 	    var m = $('<input type="hidden" id="index_text" name="index_text" />');  
-
+	    var n = $('<input type="hidden" id="id" name="id" />');  
 		i.val(index_s);  
 		i.appendTo(f);  
 		l.val(index_y);  
 		l.appendTo(f);  
 		m.val(index_text);  
 		m.appendTo(f);  
+		n.val(id);  
+		n.appendTo(f);  
 		debugger;
 		f.appendTo(document.body).submit();  
 		document.body.removeChild(f);  

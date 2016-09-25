@@ -179,7 +179,8 @@ function loadData( chartType, yIndex, isInit) {
 	var index_y =  $("#index_y").combo("getValue");
 	var queryParams = {
 			"index_xs" : index_s,
-			"index_ys" :index_y
+			"index_ys" :index_y,
+			"id":id
 	};
 	$.ajax({
 		type : "post",

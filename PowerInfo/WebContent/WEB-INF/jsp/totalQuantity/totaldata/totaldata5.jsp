@@ -114,6 +114,9 @@ var algorithm='<%=algorithm%>';
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
+		$("#tool_exporttu").bind("click", function() {
+			ExportTu();
+		});
 		queryData();
 		
 	});
@@ -285,7 +288,7 @@ var algorithm='<%=algorithm%>';
 		}
 		return list;
 	}
-	function ExportExcel() {//导出Excel文件
+	function ExportTu() {//导出Excel文件
 		chart.exportChart();
 		/*var yrs = $('#years').combo('getValues').join(",");
 		var baseyearInt = parseInt(baseyear);
@@ -316,6 +319,29 @@ var algorithm='<%=algorithm%>';
 		+ '&taskid=' + taskid + '&algorithm=5';
 	window.location.href = path+'/totalData/exportData6?' + param;
 	}
+	
+	function ExportExcel(){
+		var yrs = $('#years').combo('getValues').join(",");
+		var baseyearInt = parseInt(baseyear);
+
+		//用ajax发动到动态页动态写入xls文件中
+		var f = $('<form action="'+path+'/totalData/exportData6" method="post" id="fm1"></form>');  
+	    var i = $('<input type="hidden" id="year" name="year" />');  
+	    var l = $('<input type="hidden" id="baseyearInt" name="baseyearInt" />');
+	    var m = $('<input type="hidden" id="taskid" name="taskid" />');  
+	    var n= $('<input type="hidden" id="algorithm" name="algorithm"  />');  
+
+		i.val(yrs);  
+		i.appendTo(f);  
+		l.val(baseyearInt);  
+		l.appendTo(f);  
+		m.val(taskid);  
+		m.appendTo(f); 
+		n.val("5");  
+		n.appendTo(f); 
+		f.appendTo(document.body).submit();  
+		document.body.removeChild(f);  
+	}
 </script>
 </head>
 <body>
@@ -325,7 +351,11 @@ var algorithm='<%=algorithm%>';
 		</a> 
 		<a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
-			title='导出' />
+			title='导出表' />
+		</a>
+		<a id="tool_exporttu"> <img
+			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			title='导出图' />
 		</a>
 	</div>
 	<fieldset id="field">

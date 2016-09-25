@@ -11,6 +11,7 @@
 String id = request.getParameter("id")==null ?"" : request.getParameter("id"); 
 %>
 <script type="text/javascript">
+debugger;
 	var id='<%=id%>' ;
 	$(function() {
 	
@@ -23,7 +24,7 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 		$('#iframe0').attr('src', srcs['表']);
 		$('#tt').tabs({
 			fitColumns : true,
-			height : 450,
+			height : 500,
 			tabHeight:32,
 			onSelect : function(title, index){
 				$('#iframe' + index).attr('src', srcs[title]);
