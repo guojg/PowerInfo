@@ -48,16 +48,24 @@ public class GeneratorSetServiceImpl implements GeneratorSetService {
 		String[] colTitle = null;
 		String[] colName = null;
 
-		colTitle = new String[4];
+		colTitle = new String[8];
 		colTitle[0] = "机组名";
 		colTitle[1] = "所属发电厂";
 		colTitle[2] = "额定容量";
 		colTitle[3] = "投运日期";
-		colName = new String[4];
+		colTitle[4] = "建设投资";
+		colTitle[5] = "行业折现率（%）";
+		colTitle[6] = "运营期";
+		colTitle[7] = "固定资产折旧（年值）";
+		colName = new String[8];
 		colName[0] = "100";
 		colName[1] = "plant_name";
 		colName[2] = "300";
 		colName[3] = "400";
+		colName[4] = "600";
+		colName[5] = "700";
+		colName[6] = "800";
+		colName[7] = "900";
 
 		String fileName = "机组";
 		ExcelParams params = new ExcelParams(fileName, excelTitle, null,

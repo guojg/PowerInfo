@@ -37,7 +37,27 @@
 		          	}, {
 		          		field : '400',
 		          		title : '投运日期',
-		          		width : 400,
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : '600',
+		          		title : '建设投资',
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : '700',
+		          		title : '行业折现率（%）',
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : '800',
+		          		title : '运营期',
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : '900',
+		          		title : '固定资产折旧（年值）',
+		          		width : 120,
 		          		align : 'center'
 		          	}] ];
 		
