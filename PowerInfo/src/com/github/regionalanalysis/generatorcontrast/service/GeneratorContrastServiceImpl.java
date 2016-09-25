@@ -42,17 +42,22 @@ public class GeneratorContrastServiceImpl implements  GeneratorContrastService{
 		String[] colTitle = null;
 		String[] colName = null;
 
-		colTitle = new String[2 + index_xs.length];
-		colTitle[0] = "项目";
-		colTitle[1] = "单位";
-		colName = new String[2 + index_xs.length];
-		colName[0] = "index_y_name";
-		colName[1] = "unit_name";
+		colTitle = new String[4 + index_xs.length];
+		colTitle[0] = "电厂名称";
+		colTitle[1] = "机组名称";
+		
+		colTitle[2] = "指标名称";
+		colTitle[3] = "单位";
+		colName = new String[4 + index_xs.length];
+		colName[0] = "plant_name";
+		colName[1] = "jz_name";
+		colName[2] = "index_y_name";
+		colName[3] = "unit_name";
 		for (int i = 0; i < index_xs.length; i++) {
-			colTitle[2+i] = index_text[i];
-			colName[2+i] = index_xs[i];
+			colTitle[4+i] = index_text[i];
+			colName[4+i] = index_xs[i];
 		}
-		String fileName = "燃煤成本数据";
+		String fileName = "机组成本对比";
 		ExcelParams params = new ExcelParams(fileName, excelTitle, null,
 				colTitle, colName, list);
 
@@ -68,7 +73,7 @@ public class GeneratorContrastServiceImpl implements  GeneratorContrastService{
 		List<MergeRules> rules = new ArrayList<MergeRules>();
 		rules.add(rule);
 
-		int[] i = new int[] {};
+		int[] i = new int[] {0,1,2};
 		// 第二个参数rules为导出规则的list集合，第三个参数为第二个参数所需的参数，一个rule参数为一个int数组
 		ex.exportExcel(response, rules, new int[][] { i });
 

@@ -10,12 +10,25 @@
 
 <script type="text/javascript">
 var frozenCols = [ [  {
+	field : 'plant_name',
+	title : '电厂名称',
+	width : 150,
+	align : 'center',
+	rowspan:2  
+}, {
 	field : 'jz_id',
 	title : '机组名称',
 	width : 150,
 	align : 'center',
-	rowspan:2
+	hidden:true,
+	rowspan:2  
 } , {
+	field : 'jz_name',
+	title : '机组名称',
+	width : 150,
+	align : 'center',
+	rowspan:2  
+}, {
 	field : 'index_y_name',
 	title : '指标名称',
 	width : 100,
@@ -70,7 +83,20 @@ var frozenCols = [ [  {
 			index_s = "";
 		}
 		if (index_s == "") {
-			$.messager.alert("提示", "请选择工况！");
+			$.messager.alert("提示", "请选择指标！");
+			return;
+		}
+		
+		
+		var indexy = $("#index_y").combo("getValues");
+		var index_y;
+		if (indexy != "") {
+			index_y = indexy + "";
+		} else {
+			index_y = "";
+		}
+		if (index_y == "") {
+			$.messager.alert("提示", "请选择指标！");
 			return;
 		}
 		//非冰冻列
@@ -78,7 +104,8 @@ var frozenCols = [ [  {
 		//查询条件暂时放外面
 		debugger;
 		var queryParams = {
-				"index_xs" : index_s
+				"index_xs" : index_s,
+				"index_ys" :index_y
 		};
 		var url = path+'/generatorContrastController/queryData';
 		var Height_Page = $(document).height();
@@ -99,7 +126,9 @@ var frozenCols = [ [  {
 			pagination : false,
 			queryParams : queryParams,
 			onLoadSuccess: function(data) {
-				$('#datagrid').datagrid('mergeCellsByField','jz_id');
+				$('#datagrid').datagrid('mergeCellsByField','plant_name');
+
+				$('#datagrid').datagrid('mergeCellsByField','jz_name');
 				
 			}
 		});
@@ -134,17 +163,45 @@ var frozenCols = [ [  {
 	}
 	function ExportExcel() {//导出Excel文件
 		//查询条件暂时放外面
-		var elec_name = $('#elec_name').val();
-		var gene_name = $('#gene_name').val();
-
+		var indexs = $("#index_x").combo("getValues");
+		var index_s;
+		if (indexs != "") {
+			index_s = indexs + "";
+		} else {
+			index_s = "";
+		}
+		if (index_s == "") {
+			$.messager.alert("提示", "请选择指标！");
+			return;
+		}
+		
+		
+		var indexy = $("#index_y").combo("getValues");
+		var index_y;
+		if (indexy != "") {
+			index_y = indexy + "";
+		} else {
+			index_y = "";
+		}
+		if (index_y == "") {
+			$.messager.alert("提示", "请选择指标！");
+			return;
+		}
+	
+		var index_text=$("#index_x").combobox("getText");
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/generatorSetController/exportData" method="post" id="fm1"></form>');  
-	    var i = $('<input type="hidden" id="elec_name" name="elec_name" />');  
-	    var l = $('<input type="hidden" id="gene_name" name="gene_name" />');
-		i.val(elec_name);  
+		var f = $('<form action="'+path+'/generatorContrastController/exportData" method="post" id="fm1"></form>');  
+	    var i = $('<input type="hidden" id="index_xs" name="index_xs" />'); 
+	    var l = $('<input type="hidden" id="index_ys" name="index_ys" />');
+	    var m = $('<input type="hidden" id="index_text" name="index_text" />');  
+
+		i.val(index_s);  
 		i.appendTo(f);  
-		l.val(gene_name);  
+		l.val(index_y);  
 		l.appendTo(f);  
+		m.val(index_text);  
+		m.appendTo(f);  
+		debugger;
 		f.appendTo(document.body).submit();  
 		document.body.removeChild(f);  
 	}
@@ -169,8 +226,7 @@ var frozenCols = [ [  {
 			<tr>
 				<td class="tdlft">指标：</td>
 				<td class="tdrgt"><input id="index_y" class="comboboxComponent" /></td>
-				<td class="tdlft">工况：</td>
-				<td class="tdrgt"><input id="index_x" class="comboboxComponent" /></td>
+				<td hidden="true"><input id="index_x" class="comboboxComponent" hidden="true"/></td>
 			</tr>
 		</table>
 	</fieldset>

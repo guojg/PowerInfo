@@ -12,7 +12,7 @@ public interface ConstantCostArgDao {
 	 * 保存
 	 * @param list
 	 */
-	public void save(List<ConstantCostArg> list);
+	public String save(List<ConstantCostArg> list);
 	/**
 	 * 通过机组id获得数据
 	 * @param id

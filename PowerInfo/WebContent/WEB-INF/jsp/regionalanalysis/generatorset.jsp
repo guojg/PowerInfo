@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
 	var frozenCols = [ [
-	    {field:'id',align:'center',checkbox:true},
+	    {field:'jz_id',align:'center',checkbox:true},
 	    {
 		field : '100',
 		title : '机组名',
@@ -37,7 +37,27 @@
 		          	}, {
 		          		field : '400',
 		          		title : '投运日期',
-		          		width : 400,
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : '600',
+		          		title : '建设投资',
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : '700',
+		          		title : '行业折现率（%）',
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : '800',
+		          		title : '运营期',
+		          		width : 100,
+		          		align : 'center'
+		          	}, {
+		          		field : '900',
+		          		title : '固定资产折旧（年值）',
+		          		width : 120,
 		          		align : 'center'
 		          	}] ];
 		
@@ -47,6 +67,15 @@
 		});
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
+		});
+		$("#tool_add").bind("click", function() {
+			addRecord();
+		});
+		$("#tool_update").bind("click", function() {
+			updateRecord();
+		});
+		$("#tool_delete").bind("click", function() {
+			deleteRecords();
 		});
 	});
 
@@ -71,15 +100,64 @@
 			remoteSort : false,
 			frozenColumns : frozenCols,
 			columns : cols,
-			checkOnSelect:true,
-			singleSelect:true,
-			rownumbers : true,
 			pagination : false,
 			queryParams : queryParams,
 			pagination: true
 		});
 	}
-	
+	function addRecord() {
+		commonHelper.toAdd({
+			title : '新增',
+			width : 800,
+			height : 500,
+			url : path + '/generatorSetController/main'
+		});
+	}
+	function updateRecord() {
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length!=1){
+			$.messager.alert('提示', '请选择一条需要修改的机组！', 'info');
+			return ;
+		}
+		commonHelper.toAdd({
+			title : '修改',
+			width : 800,
+			height : 500,
+			url : path + '/generatorSetController/main?id='+rows[0].jz_id
+		});
+	}
+	function deleteRecords() {
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length<1){
+			$.messager.alert('提示', '请选需要删除的机组！', 'info');
+			return ;
+		}
+		$.messager.confirm('提示', '确认删除?', function(r) {
+			if (r) {
+				var rows = $('#datagrid').datagrid('getChecked');
+				var ids = "";
+				for (rowindex in rows) {
+					if (parseInt(rowindex) + 1 == rows.length) {
+						ids = ids + rows[rowindex]["jz_id"];
+					} else {
+						ids = ids + rows[rowindex]["jz_id"] + ",";
+					}
+				}
+				$.post(path+'/generatorSetController/deleteData', {
+					"ids" : ids
+				}, function(data) {
+					var data = $.parseJSON(data);
+					if (data== '1') {
+						$.messager.alert('提示', '删除成功！', 'info', function() {
+							queryData();
+
+						});
+					}
+				});
+			}
+		});
+
+	}
 	function ExportExcel() {//导出Excel文件
 		//查询条件暂时放外面
 		var elec_name = $('#elec_name').val();
@@ -106,7 +184,16 @@
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
 		</a>
-		<a id="tool_export"> <img
+	 <a id="tool_add"> <img src='<%=path%>/static/images/new.gif'
+			align='top' border='0' title='新增' />
+		</a> <a id="tool_update"> <img
+			src='<%=path%>/static/images/xiugai.gif' align='top' border='0'
+			title='修改' />
+		</a> <a id="tool_delete"> <img
+			src='<%=path%>/static/images/delete.png' align='top' border='0'
+			title='删除' />
+		</a>
+		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />
 		</a>

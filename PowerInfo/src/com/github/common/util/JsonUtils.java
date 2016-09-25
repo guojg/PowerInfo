@@ -84,7 +84,7 @@ public class JsonUtils {
 
 			while(iter.hasNext()){
 				String k = iter.next() ;
-				row.put(k, list.get(j).get(k));
+				row.put(k, list.get(j).get(k)+"");
 			}
 			jsonArray.add(row);
 			

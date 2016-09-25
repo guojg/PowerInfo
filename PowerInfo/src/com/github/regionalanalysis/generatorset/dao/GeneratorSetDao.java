@@ -16,5 +16,7 @@ public interface GeneratorSetDao {
 	public int queryDataCount(JSONObject param);
 	
 	public List<Map<String, Object>> queryAllData(JSONObject param);
+
+	public Object deleteData(String[] delectArr);
  
 }

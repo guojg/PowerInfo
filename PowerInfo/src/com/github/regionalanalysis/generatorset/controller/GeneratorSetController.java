@@ -32,6 +32,10 @@ public class GeneratorSetController {
 	public String index(HttpServletRequest request, HttpServletResponse response){
 		return "regionalanalysis/generatorset";
 	}
+	@RequestMapping(value ="/main")
+	public String main(HttpServletRequest request, HttpServletResponse response){
+		return "regionalanalysis/generatorsetmain";
+	}
 	
 	
 		@RequestMapping(value ="/queryData")
@@ -79,6 +83,21 @@ public class GeneratorSetController {
 				}
 				 
 
+		}
+		
+		@RequestMapping(value = "/deleteData")
+		public @ResponseBody
+		String deleteData(HttpServletRequest request) {
+			try {
+				String deleteids = request.getParameter("ids");
+				JSONObject jsonobj = new JSONObject();
+				jsonobj.put("deleteids",deleteids );
+				generatorSetService.deleteData(jsonobj);
+				return "1";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "0";
+			}
 		}
 
 }

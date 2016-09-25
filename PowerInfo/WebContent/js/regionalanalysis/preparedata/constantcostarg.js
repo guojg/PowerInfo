@@ -7,7 +7,7 @@ $(function() {
 	$.ajax({
 		type : 'POST',
 		async : false,
-		data: {"domain_id":35,"condition":"100,200,300,400"},
+		data: {"domain_id":35,"condition":"100,200,300,400,9001,10001,11001,12001,13001,15001,16001,17001"},
 		dataType : 'json',
 		url :  '/PowerInfo/sysdict/getDataByNotCondition',
 		success : function(data) {
@@ -97,6 +97,7 @@ $(function() {
 		});
 	//$('#900').css("background-color","red");
 	if(id !=""){
+	
 		initData();
 	}else{
 		$("#11").val("");
@@ -107,7 +108,7 @@ function initData(){
 	var taskParam={
 			id:id
 	} ;
-	 $("#11").val(id);
+	
 	var jsonResult={};
 	 $.ajax({
 			type : 'POST',
@@ -130,8 +131,10 @@ function initData(){
 		 }
 		 
 	 }
+	 $("#11").val(id);
 }
 function baoCun(){
+	jisuan();
 	debugger;
 	//验证消息开始
 	$('.validatebox-text').each(function(i,obj){
@@ -150,8 +153,27 @@ if(flag){
 			data:fmserialObj,
 			dataType:"json",
 			success:function(res){
-			    if(res!=null && res=="1"){
-					$.messager.alert('提示','保存成功!');
+			    if(res!=null && res!=""){
+					$.messager.confirm('提示', '保存成功,是否继续填写燃煤成本', function(r) {
+						if (r) {
+							 $("#11").val(res);
+							 window.parent.$('#tt').tabs('select','燃煤成本');
+							// var tab =window.parent.$('#tt').tabs('getSelected');
+							
+							//tab.panel('refresh', path+'/coalCost/main?fdj_id='+res);
+							 /*window.parent.$('#tt').tabs('update', {
+									tab: tab,
+									options: {
+										title: '燃煤成本',
+										href:  path+'/coalCost/main?fdj_id='+res  // 新内容的URL
+									}
+								});*/
+
+						}else{
+							window.parent.parent.queryData();
+							  window.parent.parent.$('#win_div').window('close');
+						}
+					});
 					$("#validateMessage").html("");
 				}
 			}
@@ -167,4 +189,26 @@ function constantcost(){
 	var m = Math.pow((1+i), t) ;
 	var v =cost*i*m/(m-1);
 	$('#900').val(v.toFixed(2));
+}
+
+function jisuan(){
+
+	var v900 = $('#900').val()==""?"": ($('#900').val()/365.0/48.0).toFixed(2);
+	var v1000 = $('#1000').val()==""?"": ($('#1000').val()/365.0/48.0).toFixed(2);
+	var v1100 = $('#1100').val()==""?"": ($('#1100').val()/365.0/48.0).toFixed(2);
+	var v1200 = $('#1200').val()==""?"":($('#1200').val()/365.0/48.0).toFixed(2);
+	var v1300 = $('#1300').val()==""?"": ($('#1300').val()/365.0/48.0).toFixed(2);
+	var v1500 = $('#1500').val()==""?"": ($('#1500').val()/365.0/48.0).toFixed(2);
+	var v1600 = $('#1600').val()==""?"": ($('#1600').val()/365.0/48.0).toFixed(2);
+	var v1700 = $('#1700').val()==""?"": ($('#1700').val()/365.0/48.0).toFixed(2);
+
+	$('#9001').val(v900);
+	$('#10001').val(v1000);
+	$('#11001').val(v1100);
+	$('#12001').val(v1200);
+	$('#13001').val(v1300);
+	$('#15001').val(v1500);
+	$('#16001').val(v1600);
+	$('#17001').val(v1700);
+
 }

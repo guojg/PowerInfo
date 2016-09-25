@@ -112,4 +112,23 @@ public class GeneratorSetDaoImpl implements GeneratorSetDao {
 	}
 
 
+	@Override
+	public Object deleteData(String[] delectArr) {
+		StringBuffer  buffer=new StringBuffer("delete from coal_cost_data where fdj_id in(");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		StringBuffer  buffer1=new StringBuffer("delete from constant_cost_arg where jz_id in(");
+		buffer1.append(InSql.substring(0, InSql.length() - 1));
+		buffer1.append(")");
+		jdbcTemplate.update(buffer1.toString(),delectArr);
+
+		return "1";
+	}
+
+
 }
