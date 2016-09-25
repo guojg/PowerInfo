@@ -23,5 +23,11 @@ public interface CoalCostDao {
 	 * @return
 	 */
 	public String saveData(JSONObject param) throws Exception;
+	/**
+	 * 总成本分析计算
+	 * @param param
+	 * @throws Exception
+	 */
+	public void totalData(int param) throws Exception;
 	
 }

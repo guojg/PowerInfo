@@ -1,5 +1,7 @@
 package com.github.regionalanalysis.preparedata.coalcost.dao;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,10 +14,12 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.CallableStatementCallback;
+import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import com.github.basicData.model.BasicData;
 import com.github.regionalanalysis.preparedata.coalcost.model.CoalCostData;
 
 @Repository
@@ -82,6 +86,7 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		}
 		executeSQLS(basicdataList);
 		sumData(fdj_id);
+		totalData(Integer.parseInt(fdj_id));
 		return "1";
 	}
 	private CoalCostData createModel(String index_y, String index_x, String value,String unit,String fdj_id)
@@ -153,16 +158,42 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		StringBuffer delbuffer=new StringBuffer("delete from coal_cost_data where index_y in (5,6)");
 		jdbcTemplate.update(delbuffer.toString());
 		StringBuffer buffer=new StringBuffer("INSERT INTO coal_cost_data (index_x,unit,index_y,value,fdj_id)");
-		buffer.append("SELECT t1.index_x,'5','5',FORMAT(t1.value*t2.value*0.0005,4) VALUE,t2.fdj_id FROM ");
+		buffer.append("SELECT t1.index_x,'5','5',t1.value*t2.value*0.0005 VALUE,t2.fdj_id FROM ");
 		buffer.append("(SELECT VALUE,index_x FROM  coal_cost_data WHERE index_y=1 and fdj_id=?) t1  INNER JOIN ");
 		buffer.append("(SELECT VALUE,index_x,fdj_id FROM  coal_cost_data WHERE index_y=4 and fdj_id=?) t2 ON t1.index_x=t2.index_x");
 		buffer.append(" union all");
-		buffer.append(" SELECT a.index_x,'6','6',FORMAT(a.VALUE*index_value,4) VALUE,a.fdj_id FROM");
+		buffer.append(" SELECT a.index_x,'6','6',a.VALUE*index_value VALUE,a.fdj_id FROM");
 		buffer.append(" ( SELECT t1.index_x,t1.value*t2.value*0.0005 VALUE,t2.fdj_id FROM ");
 		buffer.append(" (SELECT VALUE,index_x FROM  coal_cost_data WHERE index_y=1 AND fdj_id=?) t1  INNER JOIN ");
 		buffer.append(" (SELECT VALUE,index_x,fdj_id FROM  coal_cost_data WHERE index_y=4 AND fdj_id=?) t2 ON t1.index_x=t2.index_x ) a ");
-		buffer.append(" INNER JOIN (SELECT index_value,jz_id FROM constant_cost_arg  WHERE index_type='1400') b ON a.fdj_id=b.jz_id");
+		buffer.append(" INNER JOIN (SELECT index_value,jz_id FROM constant_cost_arg  WHERE index_type='1400' and jz_id=?) b ON a.fdj_id=b.jz_id");
 
-		jdbcTemplate.update(buffer.toString(),new Object[]{fdj_id,fdj_id,fdj_id,fdj_id});
+		jdbcTemplate.update(buffer.toString(),new Object[]{fdj_id,fdj_id,fdj_id,fdj_id,fdj_id});
+	}
+
+	@Override
+	public void totalData(int  fdj_id) throws Exception {
+		// TODO Auto-generated method stub
+		final int jsonParam = fdj_id;
+
+		StringBuffer sb = new StringBuffer();
+		 //this.jdbcTemplate.execute("call pro_show_childLst(?)"); 
+		 this.jdbcTemplate.execute(   
+		         new CallableStatementCreator() {   
+		             public CallableStatement createCallableStatement(Connection con) throws SQLException {   
+		                String storedProc = "{call pro_total_cost(?)}";// 调用的sql   
+		                CallableStatement cs = con.prepareCall(storedProc);   
+		                cs.setInt(1, jsonParam);// 设置输入参数的值   
+		                return cs;   
+		             }
+		             }, new CallableStatementCallback() {   
+		                 public Object doInCallableStatement(CallableStatement cs) throws SQLException, DataAccessException {   
+		                     cs.execute();   
+		                     return null;// 获取输出参数的值   
+		               }
+
+  
+		          } 
+		       ); 
 	}
 }
