@@ -86,7 +86,7 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		}
 		executeSQLS(basicdataList);
 		sumData(fdj_id);
-		totalData(Integer.parseInt(fdj_id));
+		totalData(Long.parseLong(fdj_id));
 		return "1";
 	}
 	private CoalCostData createModel(String index_y, String index_x, String value,String unit,String fdj_id)
@@ -172,9 +172,9 @@ public class CoalCostDaoImpl implements CoalCostDao {
 	}
 
 	@Override
-	public void totalData(int  fdj_id) throws Exception {
+	public void totalData(Long  fdj_id) throws Exception {
 		// TODO Auto-generated method stub
-		final int jsonParam = fdj_id;
+		final Long jsonParam = fdj_id;
 
 		StringBuffer sb = new StringBuffer();
 		 //this.jdbcTemplate.execute("call pro_show_childLst(?)"); 
@@ -183,7 +183,7 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		             public CallableStatement createCallableStatement(Connection con) throws SQLException {   
 		                String storedProc = "{call pro_total_cost(?)}";// 调用的sql   
 		                CallableStatement cs = con.prepareCall(storedProc);   
-		                cs.setInt(1, jsonParam);// 设置输入参数的值   
+		                cs.setLong(1, jsonParam);// 设置输入参数的值   
 		                return cs;   
 		             }
 		             }, new CallableStatementCallback() {   

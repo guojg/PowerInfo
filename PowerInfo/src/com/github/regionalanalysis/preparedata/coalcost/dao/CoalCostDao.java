@@ -28,6 +28,6 @@ public interface CoalCostDao {
 	 * @param param
 	 * @throws Exception
 	 */
-	public void totalData(int param) throws Exception;
+	public void totalData(Long param) throws Exception;
 	
 }

@@ -17,6 +17,7 @@ import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
 import com.github.common.util.NewSnUtil;
+import com.github.regionalanalysis.preparedata.coalcost.dao.CoalCostDao;
 import com.github.regionalanalysis.preparedata.constantcostarg.dao.ConstantCostArgDao;
 import com.github.regionalanalysis.preparedata.constantcostarg.entity.ConstantCostArg;
 import com.github.totalquantity.calculatePlan.entity.CalculatePlan;
@@ -28,12 +29,22 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 
 	@Autowired
 	private ConstantCostArgDao constantCostArgDao;
-
+	@Autowired
+	private CoalCostDao coalCostDao;
+	
 	@Override
 	public String  saveData(Map m) {
 		// TODO Auto-generated method stub
 		List<ConstantCostArg> list = this.mapToList(m);
-		return constantCostArgDao.save(list);
+		Long jz_id = Long.parseLong(list.get(0).getJz_id()) ;
+		String result = constantCostArgDao.save(list);
+		try {
+			coalCostDao.totalData(jz_id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	private List<ConstantCostArg> mapToList(Map map){
