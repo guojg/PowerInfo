@@ -39,22 +39,22 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 				<td  class="tdlft">投运日期：</td>
 				<td  class="tdrgt"><input id="400" name="400" class="easyui-datebox" type="text"  /></td>	
 			</tr>	
-			<tr hidden="true">
+			<tr style="display:none">
 				<td><input id="9001" name="9001" type="text"  /></td>
 				<td><input id="10001" name="10001" type="text"  /></td>
 				
 			</tr>
-			<tr hidden="true">
+			<tr style="display:none">
 				<td><input id="11001" name="11001" type="text"  /></td>
 				<td><input id="12001" name="12001" type="text"  /></td>
 				
 			</tr>
-			<tr hidden="true">
+			<tr style="display:none">
 				<td><input id="13001" name="13001" type="text"  /></td>
 				<td><input id="15001" name="15001" type="text"  /></td>
 				
 			</tr>
-			<tr hidden="true">
+			<tr style="display:none">
 				<td><input id="16001" name="16001" type="text"  /></td>
 				<td><input id="17001" name="17001" type="text"  /></td>
 				

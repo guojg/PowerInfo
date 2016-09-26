@@ -350,11 +350,11 @@ var algorithm='<%=algorithm%>';
 			align='top' border='0' title='查询' />
 		</a> 
 		<a id="tool_export"> <img
-			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			src='<%=path%>/static/images/daochubiao.jpg' align='top' border='0'
 			title='导出表' />
 		</a>
 		<a id="tool_exporttu"> <img
-			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
+			src='<%=path%>/static/images/daochutu.jpg' align='top' border='0'
 			title='导出图' />
 		</a>
 	</div>

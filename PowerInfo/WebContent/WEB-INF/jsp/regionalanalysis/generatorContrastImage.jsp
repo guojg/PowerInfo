@@ -80,11 +80,14 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 					<tr>
 						<td class="tdlft">指标：</td>
 				<td class="tdrgt"><input id="index_y" class="comboboxComponent" /></td>
-				<td hidden="true"><input id="index_x" class="comboboxComponent" hidden="true"/></td>
 						<td class="tdlft">图标类型：</td>
 						<td class="tdrgt"><input id="pic_type"
 							class="comboboxComponent" /></td>
 					</tr>
+						<tr style="display:none">
+			<td>	<input id="index_x" class="comboboxComponent" type="hidden"/>
+		   </td>
+			</tr>
 				</table>
 			</fieldset>
 			<div id="container" style="width: 80%; height: 70%">

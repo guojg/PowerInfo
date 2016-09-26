@@ -66,7 +66,7 @@ var frozenCols = [ [  {
 			});
 	
 		 gkarray=$("#index_x").combobox("getData");
-		
+		$('#index_x').hide();
 		queryData();
 		$("#tool_query").bind("click", function() {
 			queryData();
@@ -234,7 +234,10 @@ var frozenCols = [ [  {
 			<tr>
 				<td class="tdlft">指标：</td>
 				<td class="tdrgt"><input id="index_y" class="comboboxComponent" /></td>
-				<td hidden="true"><input id="index_x" class="comboboxComponent" hidden="true"/></td>
+			</tr>
+			<tr style="display:none">
+			<td>	<input id="index_x" class="comboboxComponent" type="hidden"/>
+		   </td>
 			</tr>
 		</table>
 	</fieldset>

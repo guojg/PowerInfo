@@ -116,9 +116,10 @@
 		commonHelper.toAdd({
 			title : '新增',
 			width : 800,
-			height : 500,
+			height : 450,
 			url : path + '/generatorSetController/main'
 		});
+		
 	}
 	function updateRecord() {
 		var rows = $('#datagrid').datagrid('getChecked');
@@ -129,7 +130,7 @@
 		commonHelper.toAdd({
 			title : '修改',
 			width : 800,
-			height : 500,
+			height : 450,
 			url : path + '/generatorSetController/main?id='+rows[0].jz_id
 		});
 	}
@@ -157,12 +158,14 @@
 				ids = ids + rows[rowindex]["jz_id"] + ",";
 			}
 		}
-		commonHelper.toAdd({
+		window.parent.closeSingleExtent('对比');
+		 window.parent.addTab('对比', path+'/generatorContrastController/main?id='+ids, '');
+		/*commonHelper.toAdd({
 			title : '对比',
 			width : 900,
 			height : 550,
 			url : path + '/generatorContrastController/main?id='+ids
-		});
+		});*/
 	}
 	function deleteRecords() {
 		var rows = $('#datagrid').datagrid('getChecked');
@@ -232,7 +235,7 @@
 			title='删除' />
 		</a>
 		 <a id="tool_db"> <img
-			src='<%=path%>/static/images/duibi.gif' align='top' border='0'
+			src='<%=path%>/static/images/duibi.jpg' align='top' border='0'
 			title='对比' />
 			</a>
 		 <a id="tool_export"> <img

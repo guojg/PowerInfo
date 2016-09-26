@@ -11,11 +11,12 @@
 String id = request.getParameter("id")==null ?"" : request.getParameter("id"); 
 %>
 <script type="text/javascript">
-debugger;
 	var id='<%=id%>' ;
 	$(function() {
 	
-
+		var Height_Page = $(document).height();
+		var datagrid_title_height = $("#datagrid_div").position().top;
+		var height = Height_Page - datagrid_title_height-10;
 		//加载选项卡页面
 		var srcs = {
 				'表' : path+'/generatorContrastController/index?id='+id+'&date='+new Date(),
@@ -24,7 +25,7 @@ debugger;
 		$('#iframe0').attr('src', srcs['表']);
 		$('#tt').tabs({
 			fitColumns : true,
-			height : 500,
+			height : height,
 			tabHeight:32,
 			onSelect : function(title, index){
 				$('#iframe' + index).attr('src', srcs[title]);

@@ -254,6 +254,10 @@ function tabClose() {
 		return false;
 	});
 }
+
+function closeSingleExtent(subtitle){
+	$('#tabs').tabs('close', subtitle);
+}
 // 绑定右键菜单事件
 function tabCloseEven() {
 	// 刷新
