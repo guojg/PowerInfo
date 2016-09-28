@@ -348,7 +348,10 @@ var fdj_id='';
 			<tr>
 				<td class="tdlft">工况：</td>
 				<td class="tdrgt"><input id="index_x" class="comboboxComponent" /></td>
-				<td hidden="true"><input id='11' name='11'></td>
+			</tr>
+			<tr style="display:none">
+							<td ><input id='11' name='11'></td>
+			
 			</tr>
 		</table>
 	</fieldset>

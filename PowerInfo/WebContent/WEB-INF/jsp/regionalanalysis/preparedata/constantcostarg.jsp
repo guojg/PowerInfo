@@ -25,7 +25,7 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 </head>
 <body>
 <form id="paramsForm">
-<input id="11" name="11" hidden="true">
+<input id="11" name="11" type="hidden">
 	<table id="detailTable">
 			<tr>
 				<td class="tdlft">机组名称：</td>
