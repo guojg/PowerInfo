@@ -8,6 +8,7 @@
 <%@include file="../../common/commonInclude.jsp" %>
 <script type="text/javascript" src="<%=path%>/static/js/common/plantUtil.js"></script>
 <script type="text/javascript">
+var area_id="1";
 $(function() {
 	 comboBoxInit({
 			id : "index_item",
@@ -49,7 +50,7 @@ function save(){
 	//if(!validate(formData)){
 		//return;
 	//}
-	var param={"editObj":JSONH.stringify(formData)};
+	var param={"editObj":JSONH.stringify(formData),"area_id":area_id};
 	$.ajax({
 		  type: "post",
 		  url: path + '/plantAnalysis/addRecord',
@@ -121,6 +122,20 @@ function save(){
 			<tr>
 				<td class="tdlft" style='width: 100px'>燃料单位成本：</td>
 				<td class="tdrgt" style='width: 120px'><input id="unit_cost"
+					type="text" style='width: 120px' /></td>
+				<td class="tdlft" style='width: 100px'>电厂材料费（元/年）：</td>
+				<td class="tdrgt" style='width: 120px'><input id="materials_cost"
+					type="text" style='width: 120px' /></td>
+				<td class="tdlft" style='width: 100px'>工资、奖金及福利费（元/年）：</td>
+				<td class="tdrgt" style='width: 120px'><input id="salary"
+					type="text" style='width: 120px' /></td>
+			</tr>
+			<tr>
+				<td class="tdlft" style='width: 100px'>修理费（元/年）：</td>
+				<td class="tdrgt" style='width: 120px'><input id="repairs_cost"
+					type="text" style='width: 120px' /></td>
+				<td class="tdlft" style='width: 100px'>其他费用（元/年）：</td>
+				<td class="tdrgt" style='width: 120px'><input id="other_cost"
 					type="text" style='width: 120px' /></td>
 			</tr>	
 		</table>

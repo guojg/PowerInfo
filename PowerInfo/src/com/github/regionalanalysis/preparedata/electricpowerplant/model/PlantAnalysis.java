@@ -16,6 +16,46 @@ public class PlantAnalysis {
     private String operationRate;
     private String operationCost;
     private String unitCost;
+    private String materialsCost;
+	private String areaId;
+	private String salary;
+    private String repairsCost;
+    private String otherCost;
+    
+    
+    
+    public String getSalary() {
+		return salary;
+	}
+	public void setSalary(String salary) {
+		this.salary = salary;
+	}
+	public String getRepairsCost() {
+		return repairsCost;
+	}
+	public void setRepairsCost(String repairsCost) {
+		this.repairsCost = repairsCost;
+	}
+	public String getOtherCost() {
+		return otherCost;
+	}
+	public void setOtherCost(String otherCost) {
+		this.otherCost = otherCost;
+	}
+	public String getAreaId() {
+		return areaId;
+	}
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+    public String getMaterialsCost() {
+		return materialsCost;
+	}
+	public void setMaterialsCost(String materialsCost) {
+		this.materialsCost = materialsCost;
+	}
+
+    
     public String getPlantName() {
 		return plantName;
 	}

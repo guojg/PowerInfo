@@ -59,11 +59,15 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		// TODO Auto-generated method stub
 		JSONArray rows = null;
 		String fdj_id=null;
+		String area_id=null;
 		if (param.get("editObj") != null) {
 			rows = JSONArray.fromObject(param.get("editObj"));
 		}
 		if (param.get("fdj_id") != null) {
 			fdj_id = param.get("fdj_id").toString();
+		}
+		if (param.get("area_id") != null) {
+			area_id = param.get("area_id").toString();
 		}
 		List<CoalCostData> basicdataList = new ArrayList<CoalCostData>();
 		for (int i = 0; i < rows.size(); i++) {
@@ -80,16 +84,15 @@ public class CoalCostDaoImpl implements CoalCostDao {
 					continue;
 
 				CoalCostData basicData = createModel(index_y, it,
-						row.getString(it),unit,fdj_id);
+						row.getString(it),unit,fdj_id,area_id);
 				basicdataList.add(basicData);
 			}
 		}
 		executeSQLS(basicdataList);
 		sumData(fdj_id);
-		totalData(Long.parseLong(fdj_id));
 		return "1";
 	}
-	private CoalCostData createModel(String index_y, String index_x, String value,String unit,String fdj_id)
+	private CoalCostData createModel(String index_y, String index_x, String value,String unit,String fdj_id,String area_id)
 			throws Exception {
 
 		value = "".equals(value) ? null : value;
@@ -99,6 +102,8 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		basicdata.setValue(value);
 		basicdata.setUnit(unit);
 		basicdata.setFdjId(fdj_id);
+		basicdata.setAreaId(area_id);
+		
 
 		return basicdata;
 	}
@@ -117,8 +122,7 @@ public class CoalCostDaoImpl implements CoalCostDao {
 				CoalCostData basicdata = coalcostdata.get(i);
 				ps.setString(1, basicdata.getIndexX());
 				ps.setString(2, basicdata.getIndexY());
-				ps.setString(3, basicdata.getFdjId());
-			}
+				ps.setString(3, basicdata.getFdjId());			}
 
 			@Override
 			public int getBatchSize() {
@@ -129,7 +133,7 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		jdbcTemplate.batchUpdate(deletesql, setdelete);
 
 		String insertsql = "insert  coal_cost_data"
-				+ "(index_x,unit,index_y,value,fdj_id) VALUES(?,?,?,?,?)";
+				+ "(index_x,unit,index_y,value,fdj_id,area_id) VALUES(?,?,?,?,?,?)";
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -142,6 +146,7 @@ public class CoalCostDaoImpl implements CoalCostDao {
 				ps.setString(3, basicdata.getIndexY());
 				ps.setString(4, basicdata.getValue());
 				ps.setString(5, basicdata.getFdjId());
+				ps.setString(6, basicdata.getAreaId());
 			}
 
 			@Override
@@ -157,43 +162,29 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		// TODO Auto-generated method stub
 		StringBuffer delbuffer=new StringBuffer("delete from coal_cost_data where index_y in (5,6)");
 		jdbcTemplate.update(delbuffer.toString());
-		StringBuffer buffer=new StringBuffer("INSERT INTO coal_cost_data (index_x,unit,index_y,value,fdj_id)");
-		buffer.append("SELECT t1.index_x,'5','5',t1.value*t2.value*0.0005 VALUE,t2.fdj_id FROM ");
+		StringBuffer buffer=new StringBuffer("INSERT INTO coal_cost_data (index_x,unit,index_y,value,fdj_id,area_id)");
+		buffer.append("SELECT t1.index_x,'5','5',t1.value*t2.value*0.0005 VALUE,t2.fdj_id,t2.area_id FROM ");
 		buffer.append("(SELECT VALUE,index_x FROM  coal_cost_data WHERE index_y=1 and fdj_id=?) t1  INNER JOIN ");
-		buffer.append("(SELECT VALUE,index_x,fdj_id FROM  coal_cost_data WHERE index_y=4 and fdj_id=?) t2 ON t1.index_x=t2.index_x");
+		buffer.append("(SELECT VALUE,index_x,fdj_id,area_id FROM  coal_cost_data WHERE index_y=4 and fdj_id=?) t2 ON t1.index_x=t2.index_x");
 		buffer.append(" union all");
-		buffer.append(" SELECT a.index_x,'6','6',a.VALUE*index_value VALUE,a.fdj_id FROM");
-		buffer.append(" ( SELECT t1.index_x,t1.value*t2.value*0.0005 VALUE,t2.fdj_id FROM ");
+		buffer.append(" SELECT a.index_x,'6','6',a.VALUE*index_value VALUE,a.fdj_id,a.area_id FROM");
+		buffer.append(" ( SELECT t1.index_x,t1.value*t2.value*0.0005 VALUE,t2.fdj_id,t2.area_id FROM ");
 		buffer.append(" (SELECT VALUE,index_x FROM  coal_cost_data WHERE index_y=1 AND fdj_id=?) t1  INNER JOIN ");
-		buffer.append(" (SELECT VALUE,index_x,fdj_id FROM  coal_cost_data WHERE index_y=4 AND fdj_id=?) t2 ON t1.index_x=t2.index_x ) a ");
+		buffer.append(" (SELECT VALUE,index_x,fdj_id,area_id FROM  coal_cost_data WHERE index_y=4 AND fdj_id=?) t2 ON t1.index_x=t2.index_x ) a ");
 		buffer.append(" INNER JOIN (SELECT index_value,jz_id FROM constant_cost_arg  WHERE index_type='1400' and jz_id=?) b ON a.fdj_id=b.jz_id");
 
 		jdbcTemplate.update(buffer.toString(),new Object[]{fdj_id,fdj_id,fdj_id,fdj_id,fdj_id});
 	}
 
 	@Override
-	public void totalData(Long  fdj_id) throws Exception {
+	public Integer getDcByFdj(String fdj_id) throws Exception {
 		// TODO Auto-generated method stub
-		final Long jsonParam = fdj_id;
-
-		StringBuffer sb = new StringBuffer();
-		 //this.jdbcTemplate.execute("call pro_show_childLst(?)"); 
-		 this.jdbcTemplate.execute(   
-		         new CallableStatementCreator() {   
-		             public CallableStatement createCallableStatement(Connection con) throws SQLException {   
-		                String storedProc = "{call pro_total_cost(?)}";// 调用的sql   
-		                CallableStatement cs = con.prepareCall(storedProc);   
-		                cs.setLong(1, jsonParam);// 设置输入参数的值   
-		                return cs;   
-		             }
-		             }, new CallableStatementCallback() {   
-		                 public Object doInCallableStatement(CallableStatement cs) throws SQLException, DataAccessException {   
-		                     cs.execute();   
-		                     return null;// 获取输出参数的值   
-		               }
-
-  
-		          } 
-		       ); 
+		Integer result=null;
+		String sql="SELECT index_value FROM constant_cost_arg WHERE index_type=200 AND jz_id=?";
+		List<Map<String, Object>> list=jdbcTemplate.queryForList(sql,new Object[]{fdj_id});
+		if(list!=null){
+			result=Integer.parseInt(list.get(0).get("index_value").toString());
+		}
+		return result;
 	}
 }

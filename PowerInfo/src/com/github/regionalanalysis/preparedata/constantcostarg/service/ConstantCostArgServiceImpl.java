@@ -17,6 +17,7 @@ import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
 import com.github.common.util.NewSnUtil;
+import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
 import com.github.regionalanalysis.preparedata.coalcost.dao.CoalCostDao;
 import com.github.regionalanalysis.preparedata.constantcostarg.dao.ConstantCostArgDao;
 import com.github.regionalanalysis.preparedata.constantcostarg.entity.ConstantCostArg;
@@ -30,7 +31,7 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 	@Autowired
 	private ConstantCostArgDao constantCostArgDao;
 	@Autowired
-	private CoalCostDao coalCostDao;
+	private TotalDataAnalysisDao totalDataAnalysisDao;
 	
 	@Override
 	public String  saveData(Map m) {
@@ -38,8 +39,9 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 		List<ConstantCostArg> list = this.mapToList(m);
 		Long jz_id = Long.parseLong(list.get(0).getJz_id()) ;
 		String result = constantCostArgDao.save(list);
+		Integer area_id=Integer.parseInt("1");
 		try {
-			coalCostDao.totalData(jz_id);
+			totalDataAnalysisDao.totalData(jz_id,area_id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

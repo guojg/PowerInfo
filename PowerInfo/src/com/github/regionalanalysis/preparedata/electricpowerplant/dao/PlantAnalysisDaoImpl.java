@@ -40,7 +40,7 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		int  endNum = psize*pNum;
 		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
 		buffer.append("product_year,economical_life,equired_return,financial_cost,generation_coal,");
-		buffer.append("operation_rate,operation_cost,unit_cost");
+		buffer.append("operation_rate,operation_cost,unit_cost,materials_cost,salary,repairs_cost,other_cost");
 		buffer.append(" from shiro.electricpowerplant_analysis_data where 1=1");
 		if(!"".equals(name)){
 			buffer.append(" and plant_name like ?");
@@ -67,8 +67,8 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		insertsql.append("insert  electricpowerplant_analysis_data");
 		insertsql.append("(plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
 		insertsql.append("product_year,economical_life,equired_return,financial_cost,generation_coal,");
-		insertsql.append("operation_rate,operation_cost,unit_cost)");
-		insertsql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		insertsql.append("operation_rate,operation_cost,unit_cost,materials_cost,salary,repairs_cost,other_cost,area_id)");
+		insertsql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		PreparedStatementSetter setinsert = new PreparedStatementSetter() {
 
 			@Override
@@ -87,10 +87,17 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 				ps.setString(11, plantAnalysis.getOperationRate());
 				ps.setString(12, plantAnalysis.getOperationCost());
 				ps.setString(13, plantAnalysis.getUnitCost());
+				ps.setString(14, plantAnalysis.getMaterialsCost());
+				ps.setString(15, plantAnalysis.getSalary());
+				ps.setString(16, plantAnalysis.getRepairsCost());
+				ps.setString(17, plantAnalysis.getOtherCost());
+				ps.setString(18, plantAnalysis.getAreaId());
+				
 			}
 
 		};
 		jdbcTemplate.update(insertsql.toString(), setinsert);
+		
 		return "1";
 	}
 
@@ -101,7 +108,7 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		updateSql.append("update  electricpowerplant_analysis_data");
 		updateSql.append(" set  plant_name=?,plant_capacity=?,generating_capatity=?,plant_loss=?,start_outlay=?");
 		updateSql.append(" ,product_year=?,economical_life=?,equired_return=?,financial_cost=?,generation_coal=?");
-		updateSql.append(" , operation_rate=?,operation_cost=?,unit_cost=?");
+		updateSql.append(" , operation_rate=?,operation_cost=?,unit_cost=?,materials_cost=?,salary=?,repairs_cost=?,other_cost=?,area_id=?");
 		updateSql.append(" where id=?");
 		PreparedStatementSetter setupdate = new PreparedStatementSetter() {
 
@@ -122,7 +129,12 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 					ps.setString(11, plantAnalysis.getOperationRate());
 					ps.setString(12, plantAnalysis.getOperationCost());
 					ps.setString(13, plantAnalysis.getUnitCost());
-					ps.setString(14, plantAnalysis.getId());
+					ps.setString(14, plantAnalysis.getMaterialsCost());
+					ps.setString(15, plantAnalysis.getSalary());
+					ps.setString(16, plantAnalysis.getRepairsCost());
+					ps.setString(17, plantAnalysis.getOtherCost());
+					ps.setString(18, plantAnalysis.getAreaId());
+					ps.setString(19, plantAnalysis.getId());
 				}
 			};
 		jdbcTemplate.update(updateSql.toString(), setupdate);

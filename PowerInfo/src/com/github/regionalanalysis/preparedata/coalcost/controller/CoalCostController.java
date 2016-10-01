@@ -48,9 +48,11 @@ public class CoalCostController {
 		try {
 			String editObj = request.getParameter("editObj");
 			String fdj_id = request.getParameter("fdj_id");
+			String area_id = request.getParameter("area_id");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("editObj", editObj);
 			jsonobj.put("fdj_id", fdj_id);
+			jsonobj.put("area_id", area_id);
 			coalCostService.saveData(jsonobj);
 			return "1";
 		} catch (Exception e) {

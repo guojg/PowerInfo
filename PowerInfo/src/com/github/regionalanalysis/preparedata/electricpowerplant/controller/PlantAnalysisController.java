@@ -53,8 +53,10 @@ public class PlantAnalysisController {
 	String addRecord(HttpServletRequest request) {
 		try {
 			String editObj = request.getParameter("editObj");
+			String area_id =request.getParameter("area_id");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("editObj", editObj);
+			jsonobj.put("area_id", area_id);
 			plantAnalysisService.addRecord(jsonobj);
 			return "1";
 		} catch (Exception e) {
@@ -67,7 +69,11 @@ public class PlantAnalysisController {
 	String updateRecord(HttpServletRequest request) {
 		try {
 			String editObj = request.getParameter("editObj");
+			String area_id =request.getParameter("area_id");
+			
 			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("area_id", area_id);
+
 			jsonobj.put("editObj", editObj);
 			plantAnalysisService.updateRecord(jsonobj);
 			return "1";

@@ -84,6 +84,26 @@
 		title : '燃料单位成本',
 		width : 100,
 		align : 'center'
+	}, {
+		field : 'materials_cost',
+		title : '电厂材料费（元/年）',
+		width : 200,
+		align : 'center'
+	}, {
+		field : 'salary',
+		title : '工资、奖金及福利费（元/年）',
+		width : 200,
+		align : 'center'
+	}, {
+		field : 'repairs_cost',
+		title : '修理费（元/年）',
+		width : 200,
+		align : 'center'
+	}, {
+		field : 'other_cost',
+		title : '其他费用（元/年）',
+		width : 200,
+		align : 'center'
 	}] ];
 	$(function() {
 		$("#tool_add").bind("click", function() {

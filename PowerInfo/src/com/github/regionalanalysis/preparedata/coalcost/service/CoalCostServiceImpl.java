@@ -17,6 +17,7 @@ import com.github.common.export.ExcelUtils;
 import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
+import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
 import com.github.regionalanalysis.preparedata.coalcost.dao.CoalCostDao;
 import com.github.regionalanalysis.preparedata.coalcost.model.CoalCostData;
 
@@ -27,7 +28,8 @@ public class CoalCostServiceImpl implements  CoalCostService{
 
 	@Autowired
 	private CoalCostDao coalCostDao;
-
+	@Autowired
+	private TotalDataAnalysisDao totalDataAnalysisDao;
 	@Override
 	public String queryData(JSONObject param) throws Exception {
 		List<Map<String, Object>> list = coalCostDao.queryData(param);
@@ -38,8 +40,19 @@ public class CoalCostServiceImpl implements  CoalCostService{
 	@Transactional
 	public String saveData(JSONObject param) throws Exception {
 		// TODO Auto-generated method stub
-
-		return coalCostDao.saveData(param);
+		String result =coalCostDao.saveData(param);
+		Long fdj_id=null;
+		Integer area_id=null;
+		if (param.get("fdj_id") != null) {
+			fdj_id = Long.parseLong(param.get("fdj_id").toString());
+		}
+		if (param.get("area_id") != null) {
+			area_id =Integer.parseInt( param.get("area_id").toString());
+		}
+		totalDataAnalysisDao.totalData(fdj_id, area_id);
+		totalDataAnalysisDao.totalDataPlant(coalCostDao.getDcByFdj(fdj_id.toString()), area_id);
+		return result;
+		
 	}
 	public void ExportExcel(JSONObject param, HttpServletResponse response)
 			throws Exception {

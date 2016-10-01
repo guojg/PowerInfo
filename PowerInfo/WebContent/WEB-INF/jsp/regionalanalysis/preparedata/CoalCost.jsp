@@ -11,7 +11,8 @@
 <%@include file="../../common/commonInclude.jsp"%>
 <script type="text/javascript">
 
-var fdj_id='';
+	var fdj_id='';
+	var area_id='1';
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -80,12 +81,15 @@ var fdj_id='';
         var l = $('<input type="hidden" id="index_xs" name="index_xs" />'); 
         var i= $('<input type="hidden" id="index_text" name="index_text" />');
        	var h=$('<input type="hidden" id="fdj_id" name="fdj_id" />');
+       	//var m=$('<input type="hidden" id="area_id" name="area_id" />');
     	l.val(index_s);  
     	l.appendTo(f);  
     	i.val(index_text);  
     	i.appendTo(f);  
     	h.val(fdj_id);  
-    	h.appendTo(f);  
+    	h.appendTo(f); 
+    	//m.val(area_id);  
+    	//m.appendTo(f);  
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
 	}
@@ -107,10 +111,10 @@ var fdj_id='';
 		//非冰冻列
 		cols = createCols(index_s);
 		//查询条件暂时放外面
-		debugger;
 		var queryParams = {
 				index_xs : index_s,
 				fdj_id :fdj_id
+				//area_id:area_id
 		};
 
 		var url = path + '/coalCost/queryData';
@@ -247,7 +251,8 @@ var fdj_id='';
 		var param = JSONH.stringify(updates);
 		var data = {
 			editObj : param,
-			fdj_id: fdj_id
+			fdj_id: fdj_id,
+			area_id:area_id
 		};
 		$.ajax({
 			type : 'POST',

@@ -7,7 +7,14 @@ public class CoalCostData {
 	private String value;
 	private String unit;
 	private String fdjId;
+	private String areaId;
 
+	public String getAreaId() {
+		return areaId;
+	}
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
 	public String getFdjId() {
 		return fdjId;
 	}
