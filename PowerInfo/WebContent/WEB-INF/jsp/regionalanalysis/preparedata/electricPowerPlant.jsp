@@ -23,7 +23,11 @@
 		field : 'plant_name',
 		title : '电厂名称',
 		width : 200,
-		align : 'center'
+		align : 'center',
+		formatter: function(value,row,index){
+
+    		return '<a href="#" onclick="detail('+row.id+')">'+value+'</a> ';
+		}
 	}, {
 		field : 'plant_capacity',
 		title : '装机容量',
@@ -123,6 +127,11 @@
 		});
 		queryData();
 	});
+	
+	function detail(id) {
+		 window.parent.closeSingleExtent('电厂详情');
+		 window.parent.addTab('电厂详情', path+'/plantAnalysis/detail?id='+id, '');
+	}
 	function ExportExcel() {//导出Excel文件
 		var plant_name=$("#plant_name").val();
 		//用ajax发动到动态页动态写入xls文件中

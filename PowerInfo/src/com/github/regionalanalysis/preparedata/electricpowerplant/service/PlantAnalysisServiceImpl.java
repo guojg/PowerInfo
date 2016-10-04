@@ -10,15 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.balance.parparedata.electricpowerplant.model.PowerPlant;
 import com.github.common.export.ExcelParams;
 import com.github.common.export.ExcelUtils;
 import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
+import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
 import com.github.regionalanalysis.preparedata.electricpowerplant.dao.PlantAnalysisDao;
 import com.github.regionalanalysis.preparedata.electricpowerplant.model.PlantAnalysis;
+import com.ibm.db2.jcc.t4.ob;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Service
@@ -26,6 +28,9 @@ public class PlantAnalysisServiceImpl implements  PlantAnalysisService{
 
 	@Autowired
 	private PlantAnalysisDao plantAnalysisDao;
+	
+	@Autowired
+	private TotalDataAnalysisDao totalDataAnalysisDao;
 
 	@Override
 	public String queryData(JSONObject param) throws Exception {
@@ -43,7 +48,21 @@ public class PlantAnalysisServiceImpl implements  PlantAnalysisService{
 	@Override
 	public String updateRecord(JSONObject obj) throws Exception {
 		// TODO Auto-generated method stub
-		return plantAnalysisDao.updateRecord(createModle(obj));
+		String result=plantAnalysisDao.updateRecord(createModle(obj));
+		Integer fdc_id=null;
+		Integer area_id=null;
+		JSONObject data=null;
+		if(obj!=null){
+			 data=JSONObject.fromObject(obj.get("editObj"));
+		}
+		if (data.get("id") != null) {
+			fdc_id = Integer.parseInt(data.get("id").toString());
+		}
+		if (obj.get("area_id") != null) {
+			area_id =Integer.parseInt( obj.get("area_id").toString());
+		}
+		totalDataAnalysisDao.fdcSaveTotal(fdc_id, area_id);
+		return result;
 	}
 
 	@Override
@@ -119,6 +138,26 @@ public class PlantAnalysisServiceImpl implements  PlantAnalysisService{
 		// 第二个参数rules为导出规则的list集合，第三个参数为第二个参数所需的参数，一个rule参数为一个int数组
 		ex.exportExcel(response, rules, new int[][] { i });
 
+	}
+
+	@Override
+	public String getPlantById(String id) throws Exception {
+		// TODO Auto-generated method stub
+		
+		List<Map<String, Object>> list = plantAnalysisDao.getPlantById(id);
+		
+		JSONArray obj=JSONArray.fromObject(list);
+		return obj.toString();
+	}
+
+	@Override
+	public String getFdjByDc(String id) throws Exception {
+		// TODO Auto-generated method stub
+
+		List<Map<String, Object>> list = plantAnalysisDao.getFdjByDc(id);
+		
+		JSONArray obj=JSONArray.fromObject(list);
+		return obj.toString();
 	}
 
 }

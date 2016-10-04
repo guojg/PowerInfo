@@ -171,4 +171,22 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		
 		return jdbcTemplate.queryForInt(Sql);
 	}
+
+
+
+	@Override
+	public List<Map<String, Object>> getPlantById(String id) throws Exception {
+		String sql="select * from shiro.electricpowerplant_analysis_data where id=?";
+		
+		return jdbcTemplate.queryForList(sql,new Object[]{id});
+	}
+
+
+
+	@Override
+	public List<Map<String, Object>> getFdjByDc(String id) throws Exception {
+		// TODO Auto-generated method stub
+		String sql ="SELECT jz_id id FROM shiro.constant_cost_arg WHERE  index_type=200 AND index_value=?";
+		return jdbcTemplate.queryForList(sql,new Object[]{id});
+	}
 }
