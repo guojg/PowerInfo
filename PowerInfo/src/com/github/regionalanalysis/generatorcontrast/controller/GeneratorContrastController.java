@@ -43,7 +43,8 @@ public class GeneratorContrastController {
 	@RequestMapping(value = "/index")
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/generatorContrast";
+		//return "regionalanalysis/generatorContrast";
+		return "regionalanalysis/preparedata/maparea";
 	}
 	
 	
