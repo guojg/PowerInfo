@@ -101,6 +101,42 @@ public class PlantAnalysisController {
 			HttpServletResponse re) {
 		return "regionalanalysis/preparedata/electricPowerPlant";
 	}
+	@RequestMapping(value = "/detailData")
+	public void detailData(HttpServletRequest request,
+			HttpServletResponse response) {
+		String id = request.getParameter("id");
+		try {
+			String resultJson = plantAnalysisService.getPlantById(id);
+			PrintWriter pw = response.getWriter();
+			pw.write(resultJson);
+			pw.flush();
+			pw.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping(value = "/getFdjByDc")
+	public void getFdjByDc(HttpServletRequest request,
+			HttpServletResponse response) {
+		String id = request.getParameter("id");
+		try {
+			String resultJson = plantAnalysisService.getFdjByDc(id);
+			PrintWriter pw = response.getWriter();
+			pw.write(resultJson);
+			pw.flush();
+			pw.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping(value = "/detail")
+	public String detail(Long pid, HttpServletRequest request,
+			HttpServletResponse re) {
+		return "regionalanalysis/preparedata/detailPlant";
+	}
+	
 	@RequestMapping(value = "/openAddRecord")
 	public String openAddRecord(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {

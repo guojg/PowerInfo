@@ -15,7 +15,7 @@ DECLARE fdj_list_record INT; -- 游标子值
 DECLARE other_cost_arg INT; -- 其他
 DECLARE fdj_list_cur CURSOR FOR SELECT jz_id FROM shiro.`constant_cost_arg_db` WHERE  index_type=200 AND index_value=fdc_id_arg AND task_id=task_id_arg;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
-DELETE FROM shiro.constant_cost_arg_db  WHERE index_type IN(10001,11001,12001,13001) AND jz_id IN(SELECT  jz_id FROM constant_cost_arg_db WHERE  index_type=200 AND index_value=fdc_id_arg AND task_id=task_id_arg);
+DELETE FROM shiro.constant_cost_arg_db  WHERE index_type IN(10001,11001,12001,13001) AND jz_id IN(SELECT a.jz_id FROM (SELECT  jz_id FROM constant_cost_arg_db WHERE  index_type=200 AND index_value=fdc_id_arg AND task_id=task_id_arg) a);
 -- 获取机组在电厂下有几个机组
 SELECT COUNT(1)  INTO fdj_count  FROM shiro.constant_cost_arg_db WHERE index_type=200 AND index_value=fdc_id_arg AND task_id=task_id_arg;
 -- 材料费
