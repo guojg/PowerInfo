@@ -21,6 +21,7 @@ public class PlantAnalysis {
 	private String salary;
     private String repairsCost;
     private String otherCost;
+    private String taskId;
     
     
     
@@ -139,6 +140,12 @@ public class PlantAnalysis {
 	}
 	public void setUnitCost(String unitCost) {
 		this.unitCost = unitCost;
+	}
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
 	}
     
 

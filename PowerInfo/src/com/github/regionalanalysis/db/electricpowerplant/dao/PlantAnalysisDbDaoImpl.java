@@ -36,20 +36,20 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 		    pNum = Integer.parseInt(param.getString("pageNum"));
 		}
 		String name=param.getString("name");
-		String area_id=param.getString("area_id");
+		String task_id=param.getString("task_id");
 		int  startNum = psize*(pNum-1);
 		int  endNum = psize*pNum;
 		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
 		buffer.append("product_year,economical_life,equired_return,financial_cost,generation_coal,");
 		buffer.append("operation_rate,operation_cost,unit_cost,materials_cost,salary,repairs_cost,other_cost");
-		buffer.append(" from shiro.electricpowerplant_analysis_data where 1=1");
+		buffer.append(" from shiro.electricpowerplant_analysis_data_db where 1=1");
 		if(!"".equals(name)){
 			buffer.append(" and plant_name like ?");
 			params.add("%"+name+"%");
 		}
 		if(!"".equals(name)){
-			buffer.append(" and area_id=?");
-			params.add(area_id);
+			buffer.append(" and task_id=?");
+			params.add(task_id);
 		}
 		if(psize!=0){
 			buffer.append(" limit ?,?");
@@ -65,56 +65,16 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 	
 	
 
-	@Override
-	public String addRecord(final PlantAnalysis plantAnalysis) throws Exception {
-		// TODO Auto-generated method stub
-		StringBuffer insertsql=new StringBuffer();
-		insertsql.append("insert  electricpowerplant_analysis_data");
-		insertsql.append("(plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
-		insertsql.append("product_year,economical_life,equired_return,financial_cost,generation_coal,");
-		insertsql.append("operation_rate,operation_cost,unit_cost,materials_cost,salary,repairs_cost,other_cost,area_id)");
-		insertsql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		PreparedStatementSetter setinsert = new PreparedStatementSetter() {
-
-			@Override
-			public void setValues(PreparedStatement ps) throws SQLException {
-				// TODO Auto-generated method stub
-				ps.setString(1, plantAnalysis.getPlantName());
-				ps.setString(2, plantAnalysis.getPlantCapacity());
-				ps.setString(3, plantAnalysis.getGeneratingCapatity());
-				ps.setString(4, plantAnalysis.getPlantLoss());
-				ps.setString(5, plantAnalysis.getStartOutlay());
-				ps.setString(6, plantAnalysis.getProductYear());
-				ps.setString(7, plantAnalysis.getEconomicalLife());
-				ps.setString(8, plantAnalysis.getEquiredReturn());
-				ps.setString(9, plantAnalysis.getFinancialCost());
-				ps.setString(10, plantAnalysis.getGenerationCoal());
-				ps.setString(11, plantAnalysis.getOperationRate());
-				ps.setString(12, plantAnalysis.getOperationCost());
-				ps.setString(13, plantAnalysis.getUnitCost());
-				ps.setString(14, plantAnalysis.getMaterialsCost());
-				ps.setString(15, plantAnalysis.getSalary());
-				ps.setString(16, plantAnalysis.getRepairsCost());
-				ps.setString(17, plantAnalysis.getOtherCost());
-				ps.setString(18, plantAnalysis.getAreaId());
-				
-			}
-
-		};
-		jdbcTemplate.update(insertsql.toString(), setinsert);
-		
-		return "1";
-	}
 
 	@Override
 	public String updateRecord(final PlantAnalysis plantAnalysis) throws Exception {
 		// TODO Auto-generated method stub
 		StringBuffer updateSql=new StringBuffer();
-		updateSql.append("update  electricpowerplant_analysis_data");
+		updateSql.append("update  electricpowerplant_analysis_data_db");
 		updateSql.append(" set  plant_name=?,plant_capacity=?,generating_capatity=?,plant_loss=?,start_outlay=?");
 		updateSql.append(" ,product_year=?,economical_life=?,equired_return=?,financial_cost=?,generation_coal=?");
-		updateSql.append(" , operation_rate=?,operation_cost=?,unit_cost=?,materials_cost=?,salary=?,repairs_cost=?,other_cost=?,area_id=?");
-		updateSql.append(" where id=?");
+		updateSql.append(" , operation_rate=?,operation_cost=?,unit_cost=?,materials_cost=?,salary=?,repairs_cost=?,other_cost=?");
+		updateSql.append(" where id=? and task_id=? ");
 		PreparedStatementSetter setupdate = new PreparedStatementSetter() {
 
 			@Override
@@ -138,8 +98,8 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 					ps.setString(15, plantAnalysis.getSalary());
 					ps.setString(16, plantAnalysis.getRepairsCost());
 					ps.setString(17, plantAnalysis.getOtherCost());
-					ps.setString(18, plantAnalysis.getAreaId());
-					ps.setString(19, plantAnalysis.getId());
+					ps.setString(18, plantAnalysis.getId());
+					ps.setString(19, plantAnalysis.getTaskId());
 				}
 			};
 		jdbcTemplate.update(updateSql.toString(), setupdate);
@@ -147,16 +107,19 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 	}
 
 	@Override
-	public String deleteRecord(String[] delectArr) throws Exception {
+	public String deleteRecord(String[] delectArr,String task_id) throws Exception {
 		// TODO Auto-generated method stub
-		StringBuffer  buffer=new StringBuffer("delete from electricpowerplant_analysis_data where id in(");
+		StringBuffer  buffer=new StringBuffer("delete from electricpowerplant_analysis_data_db where id in(");
 		String InSql = "";
+		List l = new ArrayList();
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
+			l.add(delectArr[i]) ;
 		}
 		buffer.append(InSql.substring(0, InSql.length() - 1));
-		buffer.append(")");
-		jdbcTemplate.update(buffer.toString(),delectArr);
+		buffer.append(") and task_id=?");
+		l.add(task_id) ;
+		jdbcTemplate.update(buffer.toString(),l.toArray());
 		return "1";
 	}
 
@@ -169,29 +132,29 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 
 
 	@Override
-	public int getTotalCount() {
+	public int getTotalCount(String task_id) {
 		// TODO Auto-generated method stub
 		
-		String Sql="select count(1) from shiro.electricpowerplant_analysis_data";
+		String Sql="select count(1) from shiro.electricpowerplant_analysis_data_db where task_id=?";
 		
-		return jdbcTemplate.queryForInt(Sql);
+		return jdbcTemplate.queryForInt(Sql,new Object[]{task_id});
 	}
 
 
 
 	@Override
-	public List<Map<String, Object>> getPlantById(String id) throws Exception {
-		String sql="select * from shiro.electricpowerplant_analysis_data where id=?";
+	public List<Map<String, Object>> getPlantById(String id,String task_id) throws Exception {
+		String sql="select * from shiro.electricpowerplant_analysis_data_db where id=? and task_id=?";
 		
-		return jdbcTemplate.queryForList(sql,new Object[]{id});
+		return jdbcTemplate.queryForList(sql,new Object[]{id,task_id});
 	}
 
 
 
 	@Override
-	public List<Map<String, Object>> getFdjByDc(String id) throws Exception {
+	public List<Map<String, Object>> getFdjByDc(String id,String task_id) throws Exception {
 		// TODO Auto-generated method stub
-		String sql ="SELECT jz_id id FROM shiro.constant_cost_arg WHERE  index_type=200 AND index_value=?";
-		return jdbcTemplate.queryForList(sql,new Object[]{id});
+		String sql ="SELECT jz_id id FROM shiro.constant_cost_arg_db WHERE  index_type=200 AND index_value=? and task_id=?";
+		return jdbcTemplate.queryForList(sql,new Object[]{id,task_id});
 	}
 }

@@ -34,22 +34,19 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 	@Override
 	public String queryData(JSONObject param) throws Exception {
 		List<Map<String, Object>> list = plantAnalysisDbDao.queryData(param);
-		int totalcount=plantAnalysisDbDao.getTotalCount();
+		int totalcount=plantAnalysisDbDao.getTotalCount(param.getString("task_id"));
 		return JsonUtils.listTranJsonByPage(list,totalcount);
 	}
 
-	@Override
-	public String addRecord(JSONObject obj) throws Exception {
-		// TODO Auto-generated method stub
-		return plantAnalysisDbDao.addRecord(createModle(obj));
-	}
-
+	
 	@Override
 	public String updateRecord(JSONObject obj) throws Exception {
 		// TODO Auto-generated method stub
 		String result=plantAnalysisDbDao.updateRecord(createModle(obj));
 		Integer fdc_id=null;
 		Integer area_id=null;
+		Long task_id=null;
+
 		JSONObject data=null;
 		if(obj!=null){
 			 data=JSONObject.fromObject(obj.get("editObj"));
@@ -60,7 +57,10 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 		if (obj.get("area_id") != null) {
 			area_id =Integer.parseInt( obj.get("area_id").toString());
 		}
-		totalDataAnalysisDao.fdcSaveTotal(fdc_id, area_id);
+		if (obj.get("area_id") != null) {
+			task_id =Long.parseLong( obj.get("task_id").toString());
+		}
+		totalDataAnalysisDao.fdcSaveTotalDb(fdc_id, area_id,task_id);
 		return result;
 	}
 
@@ -69,7 +69,7 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 		// TODO Auto-generated method stub
 		String delectArr[] = obj.get("deleteids") == null ? null : obj
 				.get("deleteids").toString().split(",");
-		return plantAnalysisDbDao.deleteRecord(delectArr);
+		return plantAnalysisDbDao.deleteRecord(delectArr,obj.getString("task_id"));
 	}
 	
 	private PlantAnalysis createModle(JSONObject obj){
@@ -95,7 +95,7 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 		p.setSalary(getJsonValue(data.get("salary")));
 		p.setRepairsCost(getJsonValue(data.get("repairs_cost")));
 		p.setOtherCost(getJsonValue(data.get("other_cost")));
-		p.setAreaId(obj.getString("area_id"));
+		p.setTaskId(obj.getString("task_id"));
 
 		if(data.get("id")!=null){
 			p.setId(data.getString("id"));
@@ -140,20 +140,20 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 	}
 
 	@Override
-	public String getPlantById(String id) throws Exception {
+	public String getPlantById(String id,String task_id) throws Exception {
 		// TODO Auto-generated method stub
 		
-		List<Map<String, Object>> list = plantAnalysisDbDao.getPlantById(id);
+		List<Map<String, Object>> list = plantAnalysisDbDao.getPlantById(id,task_id);
 		
 		JSONArray obj=JSONArray.fromObject(list);
 		return obj.toString();
 	}
 
 	@Override
-	public String getFdjByDc(String id) throws Exception {
+	public String getFdjByDc(String id,String task_id) throws Exception {
 		// TODO Auto-generated method stub
 
-		List<Map<String, Object>> list = plantAnalysisDbDao.getFdjByDc(id);
+		List<Map<String, Object>> list = plantAnalysisDbDao.getFdjByDc(id,task_id);
 		
 		JSONArray obj=JSONArray.fromObject(list);
 		return obj.toString();

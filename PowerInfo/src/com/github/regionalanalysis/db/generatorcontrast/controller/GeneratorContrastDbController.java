@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.regionalanalysis.db.generatorcontrast.service.GeneratorContrastDbService;
+import com.github.regionalanalysis.db.task.entity.DbTask;
 
 
 @Controller
@@ -28,16 +29,17 @@ public class GeneratorContrastDbController {
 		response.setCharacterEncoding("UTF-8");
 		String indexs = request.getParameter("index_xs");
 		String indeys = request.getParameter("index_ys");
-		Object object=  request.getSession().getAttribute("maparea");
-		String area_id = "";
-		if(object != null) area_id = object.toString();
+		
 		String id = request.getParameter("id");
+		DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+		String task_id = tt.getId();
 
 		JSONObject obj = new JSONObject();
 		obj.put("index_xs", indexs);
 		obj.put("index_ys", indeys);
 		obj.put("id", id);
-		obj.put("area_id", area_id);
+		obj.put("task_id", task_id);
+
 		return generatorContrastDbService.queryData(obj);
 		
 	}
@@ -46,20 +48,20 @@ public class GeneratorContrastDbController {
 	@RequestMapping(value = "/index")
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/generatorContrast";
+		return "regionalanalysis/db/generatorContrast";
 	}
 	
 	
 	@RequestMapping(value = "/image")
 	public String image(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/generatorContrastImage";
+		return "regionalanalysis/db/generatorContrastImage";
 	}
 	
 	@RequestMapping(value = "/main")
 	public String main(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/generatorContrastMain";
+		return "regionalanalysis/db/generatorContrastMain";
 	}
 
 	@RequestMapping("/exportData")
@@ -70,15 +72,14 @@ public class GeneratorContrastDbController {
 			String index_text=request.getParameter("index_text");
 			String index_ys=request.getParameter("index_ys");
 			String id=request.getParameter("id");
-			Object object=  request.getSession().getAttribute("maparea");
-			String area_id = "";
-			if(object != null) area_id = object.toString();
+			DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+			String task_id = tt.getId();
 			JSONObject obj = new JSONObject();
 			obj.put("index_xs", indexs);
 			obj.put("index_text", index_text);
 			obj.put("index_ys", index_ys);
 			obj.put("id", id);
-			obj.put("area_id", area_id);
+			obj.put("task_id", task_id);
 
 			try {
 				generatorContrastDbService.ExportExcel(obj, response);
