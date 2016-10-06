@@ -2,6 +2,10 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<%
+String flag=request.getParameter("page")==null?"":request.getParameter("page").toString();
+System.out.print("hello:"+flag);
+%>
 <html>
  <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -15,6 +19,7 @@
    	<%String path = request.getContextPath(); %>
    	<script type="text/javascript">
    	var path="<%=path%>";
+   	var flag="<%=flag%>";
    	var _menus = "";
    	</script>
 	<%@include file="common/commonDefineBtn.jsp" %>

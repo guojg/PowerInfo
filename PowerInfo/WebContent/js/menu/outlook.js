@@ -15,9 +15,8 @@
 	});
 
 	// 导航菜单绑定初始化
-	
-	var firstMenuName = $('#css3menu a:first').attr('name');
-	$('#css3menu a:first').css("background","#3385FF");
+	var firstMenuName = $('#css3menu a:eq('+flag+')').attr('name');
+	$('#css3menu a:eq('+flag+')').css("background","#3385FF");
 	addNav(keyValue[firstMenuName]);
 	InitLeftMenu();
 	
