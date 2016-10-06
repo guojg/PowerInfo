@@ -1,4 +1,4 @@
-package com.github.regionalanalysis.preparedata.constantcostarg.entity;
+package com.github.regionalanalysis.db.constantcostarg.entity;
 
 public class ConstantCostArg {
 

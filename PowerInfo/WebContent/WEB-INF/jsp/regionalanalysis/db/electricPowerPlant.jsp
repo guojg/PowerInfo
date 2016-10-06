@@ -163,14 +163,7 @@
 			pagination:true
 		});
 	}
-	function addRecord() {
-		commonHelper.toAdd({
-			title : '新增',
-			width : 700,
-			height : 300,
-			url : path + '/plantAnalysis/openAddRecord'
-		});
-	}
+
 	function updateRecord() {
 		commonHelper.toAdd({
 			title : '修改',

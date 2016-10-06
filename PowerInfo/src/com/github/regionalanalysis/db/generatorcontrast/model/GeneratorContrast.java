@@ -1,4 +1,4 @@
-package com.github.regionalanalysis.generatorcontrast.model;
+package com.github.regionalanalysis.db.generatorcontrast.model;
 
 
 public class GeneratorContrast {
