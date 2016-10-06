@@ -9,10 +9,16 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
+<%
+	Object obj=request.getSession().getAttribute("maparea");
+	String organCode="";
+	if(obj!=null){
+		organCode=obj.toString();
+	}
+%>
 <script type="text/javascript">
-
 	var fdj_id='';
-	var area_id='1';
+	var area_id='<%=organCode%>';
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;

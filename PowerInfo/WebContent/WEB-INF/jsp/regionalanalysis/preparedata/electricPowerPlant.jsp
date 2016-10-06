@@ -11,9 +11,14 @@
 <%@include file="../../common/commonInclude.jsp"%>
 <%@include file="../../common/commonDefineBtn.jsp"%>
 <%
-	String pid = request.getAttribute("pid") == null ? "" : request.getAttribute("pid").toString();
+	Object obj=request.getSession().getAttribute("maparea");
+	String organCode="";
+	if(obj!=null){
+		organCode=obj.toString();
+	}
 %>
 <script type="text/javascript">
+	var area_id='<%=organCode%>';
 	var cols = [ [ {
 		field : 'id',
 		width : 20,
@@ -136,18 +141,21 @@
 		var plant_name=$("#plant_name").val();
 		//用ajax发动到动态页动态写入xls文件中
 		var f = $('<form action="'+path+'/plantAnalysis/exportData" method="post" id="fm1"></form>');
-        var l=$('<input type="hidden" id="name" name="name" />');  
-    	l.val(plant_name);  
-    	l.appendTo(f);  
-    	f.appendTo(document.body).submit();  
+        var l=$('<input type="hidden" id="name" name="name" />');
+        var i=$('<input type="hidden" id="area_id" name="area_id" />');
+    	l.val(plant_name);
+    	l.appendTo(f);
+    	i.val(area_id);
+    	i.appendTo(f);
+    	f.appendTo(document.body).submit();
     	document.body.removeChild(f);  
 	}
 	//查询方法调用的函数
 	function queryData() {
 		var plant_name=$("#plant_name").val();
 		var queryParams = {
-			name :plant_name
-			
+			name :plant_name,
+			area_id:area_id
 		};
 		var url = path + '/plantAnalysis/queryData';
 		var Height_Page = $(document).height();

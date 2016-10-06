@@ -28,6 +28,7 @@ public class PlantAnalysisController {
 		String pageNum = request.getParameter("page");
 		String pageSize = request.getParameter("rows");
 		String name=request.getParameter("name");
+		String area_id=request.getParameter("area_id");
 		if (pageNum == null  || "".equals(pageNum))
 			pageNum = "1";
 		if (pageSize == null || "".equals(pageSize))
@@ -36,6 +37,7 @@ public class PlantAnalysisController {
 		obj.put("pageNum", pageNum);
 		obj.put("pageSize", pageSize);
 		obj.put("name", name);
+		obj.put("area_id", area_id);
 		try {
 			String resultJson = plantAnalysisService.queryData(obj);
 			PrintWriter pw = response.getWriter();
