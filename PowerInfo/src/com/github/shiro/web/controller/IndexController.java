@@ -30,7 +30,6 @@ public class IndexController {
 
 	 @RequestMapping("/")
 	    public String index(@CurrentUser User loginUser, Model model) {
-		 
 	        return "index2";
 	    }
     @RequestMapping("/welcome")
