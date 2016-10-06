@@ -20,7 +20,7 @@ String task_name = tt.getTask_name();
 %>
 <script type="text/javascript">
 	var id='<%=id%>' ;
-	var taskid='<%=taskid%>';
+	var task_id='<%=taskid%>';
 	var plant_id='<%=plant_id%>';
 
 	$(function() {

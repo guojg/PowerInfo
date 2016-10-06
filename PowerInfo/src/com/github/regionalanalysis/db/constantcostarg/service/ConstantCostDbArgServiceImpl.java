@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import com.github.common.util.JsonUtils;
 import com.github.common.util.NewSnUtil;
 import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
 import com.github.regionalanalysis.db.constantcostarg.dao.ConstantCostDbArgDao;
-import com.github.regionalanalysis.preparedata.constantcostarg.entity.ConstantCostArg;
+import com.github.regionalanalysis.db.constantcostarg.entity.ConstantCostArg;
 
 import net.sf.json.JSONObject;
 

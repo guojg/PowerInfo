@@ -82,7 +82,7 @@ function initData(){
 			async : false,
 			dataType: 'json',
 			data: taskParam,
-			url :  path+"/constantCostArgController/initData",
+			url :  path+"/constantCostDbArgController/initData",
 			success : function(data) {
 				jsonResult = data;
 			}

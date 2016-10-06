@@ -20,7 +20,7 @@ if(obj != null) {
 }
 %>
 <script type="text/javascript">
-var taskid='<%=taskid%>';
+var task_id='<%=taskid%>';
 var area_id='<%=organCode%>';
 	var frozenCols = [ [
 	    {field:'jz_id',align:'center',checkbox:true},

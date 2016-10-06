@@ -12,15 +12,21 @@
 <%@include file="../../common/commonInclude.jsp"%>
 <% 
 String id = request.getParameter("id")==null ?"" : request.getParameter("id"); 
+String plant_id = request.getParameter("plant_id")==null ?"" : request.getParameter("plant_id"); 
+Object obj=  request.getSession().getAttribute("maparea");
+String organCode="";
+if(obj != null) {
+	organCode = obj.toString() ; }
 %>
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />
 <script type="text/javascript" src="<%=path %>/js/totalquantity/common/my-validatebox-ext.js"></script>
 
-<script type="text/javascript" src="<%=path%>/js/regionalanalysis/preparedata/constantcostargdetail.js"></script>
+<script type="text/javascript" src="<%=path%>/js/regionalanalysis/db/constantcostarg.js"></script>
 <script type="text/javascript">
 //var id='2016091608461600';  //机组id
 	var id='<%=id%>' ;
-
+	var plant_id='<%=plant_id%>';
+	var area_id='<%=organCode%>';
 </script>
 </head>
 <body>
@@ -39,26 +45,18 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 				<td  class="tdlft">投运日期：</td>
 				<td  class="tdrgt"><input id="400" name="400" class="easyui-datebox" type="text" disabled="disabled" /></td>	
 			</tr>	
-			<tr hidden="true">
+			<tr style="display:none">
 				<td><input id="9001" name="9001" type="text"  /></td>
-				<td><input id="10001" name="10001" type="text"  /></td>
 				
-			</tr>
-			<tr hidden="true">
-				<td><input id="11001" name="11001" type="text"  /></td>
-				<td><input id="12001" name="12001" type="text"  /></td>
-				
-			</tr>
-			<tr hidden="true">
-				<td><input id="13001" name="13001" type="text"  /></td>
 				<td><input id="15001" name="15001" type="text"  /></td>
 				
 			</tr>
-			<tr hidden="true">
+			<tr style="display:none">
 				<td><input id="16001" name="16001" type="text"  /></td>
 				<td><input id="17001" name="17001" type="text"  /></td>
 				
 			</tr>	
+				
 				
 			
 	</table>

@@ -115,7 +115,7 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 		String[] excelTitle = new String[] { "" };
 		List<Map<String, Object>> list = plantAnalysisDbDao.queryData(param);
 		String[] colTitle = {"电厂名称","装机容量","发电量","电厂损耗 ","初始投资 ","投产年","经济运行寿命 ","期望收益率 ","年财务成本 ","发电煤耗 ","运行维护费率 ","运行维护成本 ","燃料单位成本 ","电厂材料费（元/年） ","工资、奖金及福利费（元/年） ","修理费（元/年）","其他费用（元/年）"};
-		String[] colName = {"plant_name","plant_capacity","generating_capatity","plant_loss","start_outlay","product_year","economical_life","equired_return","financial_cost","generation_coal","operation_rate","operation_cost","unit_cost","materials_cost","salary","repairs_cost","","other_cost"};
+		String[] colName = {"plant_name","plant_capacity","generating_capatity","plant_loss","start_outlay","product_year","economical_life","equired_return","financial_cost","generation_coal","operation_rate","operation_cost","unit_cost","materials_cost","salary","repairs_cost","other_cost"};
 		
 		String fileName = "区域区域电厂竞争力分析——电厂";
 		ExcelParams params = new ExcelParams(fileName, excelTitle, null,

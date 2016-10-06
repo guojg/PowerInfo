@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.github.regionalanalysis.db.task.entity.DbTask"%>
 
 <html>
 <head>
@@ -9,10 +10,21 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
+<%
+	Object obj=request.getSession().getAttribute("maparea");
+	String organCode="";
+	if(obj!=null){
+		organCode=obj.toString();
+	}
+	DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+	String taskid = tt.getId();
+	String task_name = tt.getTask_name();
+%>
 <script type="text/javascript">
+	var fdj_id='';
+	var area_id='<%=organCode%>';
+	var task_id='<%=taskid%>';
 
-var fdj_id='2';
-var area_id='1';
 	var cols;
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -34,7 +46,9 @@ var area_id='1';
 	}],[]];
 	$(function() {
 		fdj_id = $("#iframe0", window.parent.$("#tt")).contents().find("#11").val();
-
+		if(fdj_id !=null && fdj_id != ""){
+			$('#11').val(fdj_id+"") ;
+		}
 		$("#tool_save").bind("click", function() {
 			save();
 		});
@@ -75,19 +89,19 @@ var area_id='1';
 		}
 		var index_text=$("#index_x").combobox("getText");
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/coalCost/exportData" method="post" id="fm1"></form>');  
+		var f = $('<form action="'+path+'/coalCostdb/exportData" method="post" id="fm1"></form>');  
         var l = $('<input type="hidden" id="index_xs" name="index_xs" />'); 
         var i= $('<input type="hidden" id="index_text" name="index_text" />');
        	var h=$('<input type="hidden" id="fdj_id" name="fdj_id" />');
-       	//var m=$('<input type="hidden" id="area_id" name="area_id" />');
+       	var m=$('<input type="hidden" id="task_id" name="task_id" />');
     	l.val(index_s);  
     	l.appendTo(f);  
     	i.val(index_text);  
     	i.appendTo(f);  
     	h.val(fdj_id);  
-    	h.appendTo(f);  
-    	//m.val(area_id);  
-    	//m.appendTo(f);  
+    	h.appendTo(f); 
+    	m.val(task_id);  
+    	m.appendTo(f);  
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
 	}
@@ -109,14 +123,14 @@ var area_id='1';
 		//非冰冻列
 		cols = createCols(index_s);
 		//查询条件暂时放外面
-		debugger;
 		var queryParams = {
 				index_xs : index_s,
-				fdj_id :fdj_id
+				fdj_id :fdj_id,
+				'task_id':task_id
 				//area_id:area_id
 		};
 
-		var url = path + '/coalCost/queryData';
+		var url = path + '/coalCostdb/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
@@ -156,8 +170,7 @@ var area_id='1';
 				'field' : gkarray[1+i]["code"] + "",
 				'title' : "" + gkarray[1+i]["value"],
 				'align' : 'center',
-				'width' : 120,
-				'editor' : 'text'
+				'width' : 120
 			});
 		}
 		rows.push(row1);
@@ -246,12 +259,13 @@ var area_id='1';
 		var data = {
 			editObj : param,
 			fdj_id: fdj_id,
-			area_id:area_id
+			area_id:area_id,
+			task_id:task_id
 		};
 		$.ajax({
 			type : 'POST',
 			async : false,
-			url : path + '/coalCost/saveData',
+			url : path + '/coalCostdb/saveData',
 			data : data,
 			success : function(data) {
 				if (data == "1") {
@@ -333,11 +347,10 @@ var area_id='1';
 	<div id="btn_div">
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
-		</a>
-		 <a id="tool_export"> <img
-			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
-			title='保存' />
-		</a>
+		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
+			align='top' border='0' title='保存' />
+		</a> 
+		
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>
@@ -345,6 +358,10 @@ var area_id='1';
 			<tr>
 				<td class="tdlft">工况：</td>
 				<td class="tdrgt"><input id="index_x" class="comboboxComponent" /></td>
+			</tr>
+			<tr style="display:none">
+							<td ><input id='11' name='11'></td>
+			
 			</tr>
 		</table>
 	</fieldset>

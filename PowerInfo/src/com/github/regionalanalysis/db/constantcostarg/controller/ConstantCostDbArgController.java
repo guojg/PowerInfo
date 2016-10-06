@@ -48,8 +48,8 @@ public class ConstantCostDbArgController {
 	 @RequestMapping(value = "/initData",produces="application/json;charset=UTF-8")
 		public @ResponseBody String initData(HttpServletRequest request) {
 			String id = request.getParameter("id")!=null?request.getParameter("id"):"";
-			String task_id = request.getParameter("task_id")!=null?request.getParameter("task_id"):"";
-
+			DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+			String task_id = tt.getId();
 		 	return constantCostDbArgService.initData(id,task_id);
 			
 		}

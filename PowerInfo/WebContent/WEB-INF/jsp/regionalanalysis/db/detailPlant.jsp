@@ -20,9 +20,10 @@ if(obj != null) {
 <script type="text/javascript">
 //var area_id="1";
 var id='<%=id%>';
-var taskid='<%=taskid%>';
+var task_id='<%=taskid%>';
 var area_id='<%=organCode%>';
 $(function() {
+	debugger;
 	var data = {
 			id:id,
 			'task_id':task_id

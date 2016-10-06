@@ -17,11 +17,17 @@
 DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
 String taskid = tt.getId();
 String task_name = tt.getTask_name();
+Object obj=request.getSession().getAttribute("maparea");
+String organCode="";
+if(obj!=null){
+	organCode=obj.toString();
+}
 
 %>
 <script type="text/javascript">
-var taskid='<%=taskid%>';
+var task_id='<%=taskid%>';
 var task_name='<%=task_name%>';
+var area_id='<%=organCode%>';
 
 	var cols = [ [ {
 		field : 'id',
@@ -128,6 +134,10 @@ var task_name='<%=task_name%>';
 		/*$("#tool_delete").bind("click", function() {
 			deleteRecords();
 		});*/
+
+		$("#tool_db").bind("click", function() {
+			duibi();
+		});
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
@@ -156,8 +166,8 @@ var task_name='<%=task_name%>';
 		var plant_name=$("#plant_name").val();
 		var queryParams = {
 			name :plant_name,
-			"taskid":taskid,
-			"area_id":organCode
+			"task_id":task_id,
+			"area_id":area_id
 			
 		};
 		var url = path + '/plantAnalysisdb/queryData';
@@ -185,6 +195,24 @@ var task_name='<%=task_name%>';
 			height : 300,
 			url : path + '/plantAnalysisdb/openUploadRecord'
 		});
+	}
+	function duibi() {
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length <1){
+			$.messager.alert('提示', '请选择需要对比的电厂！', 'info');
+			return ;
+		}
+		var ids = "";
+		for (rowindex in rows) {
+			if (parseInt(rowindex) + 1 == rows.length) {
+				ids = ids + rows[rowindex]["id"];
+			} else {
+				ids = ids + rows[rowindex]["id"] + ",";
+			}
+		}
+		window.parent.closeSingleExtent('电厂成本对比');
+		 window.parent.addTab('电厂成本对比', path+'/electricityContrastDbController/main?id='+ids+'&task_id='+task_id, '');
+		
 	}
 	function deleteRecords() {
 		$.messager.confirm('提示', '确认删除?', function(r) {
@@ -225,6 +253,10 @@ var task_name='<%=task_name%>';
 			src='<%=path%>/static/images/xiugai.gif' align='top' border='0'
 			title='修改' />
 		</a> 
+		 <a id="tool_db"> <img
+			src='<%=path%>/static/images/duibi.jpg' align='top' border='0'
+			title='对比' />
+			</a>
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />

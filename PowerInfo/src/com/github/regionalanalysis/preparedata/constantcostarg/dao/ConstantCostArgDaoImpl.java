@@ -26,7 +26,7 @@ public class ConstantCostArgDaoImpl implements ConstantCostArgDao {
 
 	@Override
 	public String save(final List<ConstantCostArg> list) {
-		String deleteSql = "delete from constant_cost_arg where jz_id=?" ;
+		String deleteSql = "delete from constant_cost_arg where jz_id=? and index_type not IN(10001,11001,12001,13001)" ;
 		this.jdbcTemplate.update(deleteSql, new Object[]{list.get(0).getJz_id()});
 		String sql = "insert into constant_cost_arg(index_type,index_value,jz_id,area_id) value (?,?,?,?)";
 		this.jdbcTemplate.batchUpdate(sql,
@@ -76,5 +76,14 @@ public class ConstantCostArgDaoImpl implements ConstantCostArgDao {
 		return list;
 	}
 
+	public Integer getPlantByJz(String jz_id){
+		Integer result=null;
+		String sql="SELECT index_value FROM constant_cost_arg WHERE index_type=200 AND jz_id=? ";
+		List<Map<String, Object>> list=jdbcTemplate.queryForList(sql,new Object[]{jz_id});
+		if(list!=null){
+			result=Integer.parseInt(list.get(0).get("index_value").toString());
+		}
+		return result;
+	}
 
 }
