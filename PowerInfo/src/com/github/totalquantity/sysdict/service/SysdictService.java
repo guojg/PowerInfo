@@ -10,4 +10,5 @@ public interface SysdictService {
 	public String getDataByCodeValue(JSONObject obj );
 	public String getBalanceYears(JSONObject obj);
 	public String queryDataNotCondition(JSONObject obj );
+	public String queryCompany(JSONObject obj);
 }

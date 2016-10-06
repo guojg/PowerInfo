@@ -1,0 +1,44 @@
+half_fdj_assigned.sql   -- 计算四个值均分 基础数据  参数（电厂，区域）
+
+half_fdj_assigned_db.sql   --计算四个值均分 对比   参数（电厂，区域，任务）
+
+
+half_fdj_assigned_fx.sql   --计算四个值均分 分析   参数（电厂，区域，任务）
+
+
+pro_fdc_total_save.sql    --全部重新计算（四个值均分，包括所有机组和单个电厂）  基础数据  参数（电厂，区域）
+
+pro_fdc_total_save_db.sql    --全部重新计算（四个值均分，包括所有机组和单个电厂）  对比  参数（电厂，区域，任务）
+
+pro_fdc_total_save_fx.sql    --全部重新计算（四个值均分，包括所有机组和单个电厂）  分析  参数（电厂，区域，任务）
+
+
+pro_total_cost.sql   --单个机组的计算  基础数据 参数（机组，区域）
+
+pro_total_cost_db.sql  --单个机组的计算 对比  参数（机组，区域，任务）
+
+
+pro_total_cost_fx.sql  --单个机组的计算  分析  参数（机组，区域，任务）
+
+
+pro_total_cost_fdc.sql  --单个电厂的计算   基础数据 参数（电厂，区域）
+
+pro_total_cost_fdc_db.sql  --单个电厂的计算 对比 参数（电厂，区域，任务）
+
+
+pro_total_cost_fdc_fx.sql  --单个电厂的计算  分析 参数（电厂，区域，任务）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

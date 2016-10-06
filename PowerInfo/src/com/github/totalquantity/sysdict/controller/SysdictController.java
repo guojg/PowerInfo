@@ -71,4 +71,24 @@ public class SysdictController {
 		return a;
 		
 	}
+	
+	/**
+	 * 电网企业
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/getCompany", produces="application/json;charset=UTF-8")
+	public  @ResponseBody String getCompany(HttpServletRequest request,
+			HttpServletResponse response) {
+		JSONObject obj = new JSONObject();
+        String area_id = request.getParameter("area_id")!=null?request.getParameter("area_id"):"";
+        obj.put("area_id", area_id);
+       
+		String a= sysdictService.queryCompany(obj) ;
+		return a;
+	
+	
+	}
+	
 }

@@ -51,7 +51,6 @@
 <script type="text/javascript">
 
 $(function(){
-	debugger;
 	$('#map').SVGMap({
 		mapName: 'china',
 		mapWidth: 700,

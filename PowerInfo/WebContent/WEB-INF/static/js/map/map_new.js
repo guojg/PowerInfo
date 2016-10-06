@@ -534,7 +534,8 @@
 								break; 
 						}
 						alert(orgCode);
-						
+						window.location.href = path+'/mapController/setSession?organCode=' + orgCode;
+
 					}
 			   })
 				   

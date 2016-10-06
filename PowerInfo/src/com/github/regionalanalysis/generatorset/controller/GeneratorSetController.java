@@ -51,7 +51,9 @@ public class GeneratorSetController {
 			String gene_name = request.getParameter("gene_name")==null?"":request.getParameter("gene_name");
 
 			String elec_name = request.getParameter("elec_name")==null?"":request.getParameter("elec_name");
-
+			Object object=  request.getSession().getAttribute("maparea");
+			String area_id = "";
+			if(object != null) area_id = object.toString();
 			
 			if (pageNum == null || "null".equals(pageNum) || "".equals(pageNum))
 				pageNum = "1";
@@ -63,6 +65,7 @@ public class GeneratorSetController {
 			obj.put("pageSize", pageSize);
 			obj.put("gene_name", gene_name);
 			obj.put("elec_name", elec_name);
+			obj.put("area_id", area_id);
 			return generatorSetService.queryData(obj);
 			
 		}
@@ -75,11 +78,15 @@ public class GeneratorSetController {
 				String gene_name = request.getParameter("gene_name")==null?"":request.getParameter("gene_name");
 
 				String elec_name = request.getParameter("elec_name")==null?"":request.getParameter("elec_name");
-
+				Object object=  request.getSession().getAttribute("maparea");
+				String area_id = "";
+				if(object != null) area_id = object.toString();
 				
 				JSONObject obj = new JSONObject();
 				obj.put("gene_name", gene_name);
 				obj.put("elec_name", elec_name);
+				obj.put("area_id", area_id);
+
 				try {
 					generatorSetService.ExportExcel(obj, response);
 				} catch (Exception e) {

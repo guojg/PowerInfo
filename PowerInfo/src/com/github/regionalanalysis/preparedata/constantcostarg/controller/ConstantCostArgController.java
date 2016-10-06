@@ -43,8 +43,10 @@ public class ConstantCostArgController {
 	@RequestMapping(value ="/saveData")
 	public  @ResponseBody String saveData(HttpServletRequest request, HttpServletResponse response){
 		Map map= request.getParameterMap();
-
-		return constantCostArgService.saveData(map);
+		Object obj=  request.getSession().getAttribute("maparea");
+		String area_id = "";
+		if(obj != null) area_id = obj.toString();
+		return constantCostArgService.saveData(map,area_id);
 	}
 	 
 	 @RequestMapping(value = "/initData",produces="application/json;charset=UTF-8")
@@ -58,8 +60,10 @@ public class ConstantCostArgController {
 		@RequestMapping(value = "/getPlant", produces="application/json;charset=UTF-8")
 		public  @ResponseBody String getPlant(HttpServletRequest request,
 				HttpServletResponse response) {
-	       
-			String a= constantCostArgService.getPlant() ;
+			Object obj=  request.getSession().getAttribute("maparea");
+			String area_id = "";
+			if(obj != null) area_id = obj.toString();
+			String a= constantCostArgService.getPlant(area_id) ;
 			return a;
 			
 		}

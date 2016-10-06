@@ -21,7 +21,8 @@ public interface ConstantCostArgDao {
 	public List<ConstantCostArg> getDataById(String id);
 	/**
 	 * 获得所有的电厂
+	 * @param area_id 
 	 * @return
 	 */
-	public List<Map<String, Object>> queryPlant();
+	public List<Map<String, Object>> queryPlant(String area_id);
 }

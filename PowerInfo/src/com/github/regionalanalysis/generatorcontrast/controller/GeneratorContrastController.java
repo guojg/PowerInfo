@@ -27,14 +27,16 @@ public class GeneratorContrastController {
 		response.setCharacterEncoding("UTF-8");
 		String indexs = request.getParameter("index_xs");
 		String indeys = request.getParameter("index_ys");
-
+		Object object=  request.getSession().getAttribute("maparea");
+		String area_id = "";
+		if(object != null) area_id = object.toString();
 		String id = request.getParameter("id");
 
 		JSONObject obj = new JSONObject();
 		obj.put("index_xs", indexs);
 		obj.put("index_ys", indeys);
 		obj.put("id", id);
-
+		obj.put("area_id", area_id);
 		return generatorContrastService.queryData(obj);
 		
 	}
@@ -43,8 +45,7 @@ public class GeneratorContrastController {
 	@RequestMapping(value = "/index")
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		//return "regionalanalysis/generatorContrast";
-		return "regionalanalysis/preparedata/maparea";
+		return "regionalanalysis/generatorContrast";
 	}
 	
 	
@@ -68,12 +69,16 @@ public class GeneratorContrastController {
 			String index_text=request.getParameter("index_text");
 			String index_ys=request.getParameter("index_ys");
 			String id=request.getParameter("id");
-
+			Object object=  request.getSession().getAttribute("maparea");
+			String area_id = "";
+			if(object != null) area_id = object.toString();
 			JSONObject obj = new JSONObject();
 			obj.put("index_xs", indexs);
 			obj.put("index_text", index_text);
 			obj.put("index_ys", index_ys);
 			obj.put("id", id);
+			obj.put("area_id", area_id);
+
 			try {
 				generatorContrastService.ExportExcel(obj, response);
 			}catch (Exception e) {

@@ -34,12 +34,12 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 	private TotalDataAnalysisDao totalDataAnalysisDao;
 	
 	@Override
-	public String  saveData(Map m) {
+	public String  saveData(Map m,String organ) {
 		// TODO Auto-generated method stub
-		List<ConstantCostArg> list = this.mapToList(m);
+		List<ConstantCostArg> list = this.mapToList(m,organ);
 		Long jz_id = Long.parseLong(list.get(0).getJz_id()) ;
 		String result = constantCostArgDao.save(list);
-		Integer area_id=Integer.parseInt("1");
+		Integer area_id=Integer.parseInt(organ);
 		try {
 			totalDataAnalysisDao.totalData(jz_id,area_id);
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 		return result;
 	}
 	
-	private List<ConstantCostArg> mapToList(Map map){
+	private List<ConstantCostArg> mapToList(Map map,String organ){
 		List<ConstantCostArg> list = new ArrayList<ConstantCostArg>();
 		JSONObject obj = new JSONObject();
 		 Iterator entries = map.entrySet().iterator();
@@ -86,6 +86,7 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 			 if("11".equals(c.getIndex_type())){
 				 c.setIndex_value(jz_id);
 			 }
+			 c.setArea_id(organ);
 		 }
 		 return list ;
 	}
@@ -101,8 +102,8 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 	}
 
 	@Override
-	public String getPlant() {
-		List<Map<String, Object>>   list =  constantCostArgDao.queryPlant();
+	public String getPlant(String area_id) {
+		List<Map<String, Object>>   list =  constantCostArgDao.queryPlant(area_id);
 		return JsonUtils.transformListToJson(list);
 	}		
 	
