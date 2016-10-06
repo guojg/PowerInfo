@@ -10,7 +10,6 @@
 <script type="text/javascript">
 var area_id="1";
 var id='<%=id%>';
-debugger;
 $(function() {
 	var data = {
 			id:id
@@ -44,7 +43,6 @@ function initAccordion(data){
 			
 		}
 	});
-	debugger;
 	var Height_Page = $(document).height();
 	var title_height = $("#fdjlist").position().top;
 	var height = Height_Page - title_height;

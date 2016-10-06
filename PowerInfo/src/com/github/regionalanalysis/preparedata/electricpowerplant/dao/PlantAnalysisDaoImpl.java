@@ -36,6 +36,7 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		    pNum = Integer.parseInt(param.getString("pageNum"));
 		}
 		String name=param.getString("name");
+		String area_id=param.getString("area_id");
 		int  startNum = psize*(pNum-1);
 		int  endNum = psize*pNum;
 		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
@@ -45,6 +46,10 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		if(!"".equals(name)){
 			buffer.append(" and plant_name like ?");
 			params.add("%"+name+"%");
+		}
+		if(!"".equals(name)){
+			buffer.append(" and area_id=?");
+			params.add(area_id);
 		}
 		if(psize!=0){
 			buffer.append(" limit ?,?");
