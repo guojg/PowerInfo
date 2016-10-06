@@ -41,7 +41,10 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 		String result = constantCostArgDao.save(list);
 		Integer area_id=Integer.parseInt(organ);
 		try {
-			totalDataAnalysisDao.totalData(jz_id,area_id);
+			//totalDataAnalysisDao.totalData(jz_id,area_id);
+			//totalDataAnalysisDao.totalDataPlant(constantCostArgDao.getPlantByJz(jz_id.toString()),area_id);
+			totalDataAnalysisDao.fdcSaveTotal(constantCostArgDao.getPlantByJz(jz_id.toString()), area_id);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

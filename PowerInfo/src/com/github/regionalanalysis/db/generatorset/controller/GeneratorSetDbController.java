@@ -25,17 +25,17 @@ public class GeneratorSetDbController {
 	 
 	@RequestMapping(value ="/index")
 	public String index(HttpServletRequest request, HttpServletResponse response){
-		return "regionalanalysis/generatorset";
+		return "regionalanalysis/db/generatorset";
 	}
 	@RequestMapping(value ="/main")
 	public String main(HttpServletRequest request, HttpServletResponse response){
-		return "regionalanalysis/generatorsetmain";
+		return "regionalanalysis/db/generatorsetmain";
 	}
 	
 	
 	@RequestMapping(value ="/detail")
 	public String detail(HttpServletRequest request, HttpServletResponse response){
-		return "regionalanalysis/generatorsetdetailmain";
+		return "regionalanalysis/db/generatorsetdetailmain";
 	}
 	
 		@RequestMapping(value ="/queryData")
@@ -46,10 +46,8 @@ public class GeneratorSetDbController {
 			String gene_name = request.getParameter("gene_name")==null?"":request.getParameter("gene_name");
 
 			String elec_name = request.getParameter("elec_name")==null?"":request.getParameter("elec_name");
-			Object object=  request.getSession().getAttribute("maparea");
-			String area_id = "";
-			if(object != null) area_id = object.toString();
-			
+			String task_id = request.getParameter("task_id")==null?"":request.getParameter("task_id");
+
 			if (pageNum == null || "null".equals(pageNum) || "".equals(pageNum))
 				pageNum = "1";
 			if (pageSize == null || "null".equals(pageSize)
@@ -60,7 +58,7 @@ public class GeneratorSetDbController {
 			obj.put("pageSize", pageSize);
 			obj.put("gene_name", gene_name);
 			obj.put("elec_name", elec_name);
-			obj.put("area_id", area_id);
+			obj.put("task_id", task_id);
 			return generatorSetDbService.queryData(obj);
 			
 		}
@@ -73,14 +71,13 @@ public class GeneratorSetDbController {
 				String gene_name = request.getParameter("gene_name")==null?"":request.getParameter("gene_name");
 
 				String elec_name = request.getParameter("elec_name")==null?"":request.getParameter("elec_name");
-				Object object=  request.getSession().getAttribute("maparea");
-				String area_id = "";
-				if(object != null) area_id = object.toString();
+				String task_id = request.getParameter("task_id")==null?"":request.getParameter("task_id");
+
 				
 				JSONObject obj = new JSONObject();
 				obj.put("gene_name", gene_name);
 				obj.put("elec_name", elec_name);
-				obj.put("area_id", area_id);
+				obj.put("task_id", task_id);
 
 				try {
 					generatorSetDbService.ExportExcel(obj, response);

@@ -1,27 +1,13 @@
-package com.github.regionalanalysis.db.coalcost.model;
+package com.github.regionalanalysis.db.electricitycontrast.model;
 
-public class CoalCostData {
+
+public class ElectricityContrast {
 	
 	private String indexX;
 	private String indexY;
 	private String value;
 	private String unit;
-	private String fdjId;
-	private String areaId;
-	private String taskId;
 
-	public String getAreaId() {
-		return areaId;
-	}
-	public void setAreaId(String areaId) {
-		this.areaId = areaId;
-	}
-	public String getFdjId() {
-		return fdjId;
-	}
-	public void setFdjId(String fdjId) {
-		this.fdjId = fdjId;
-	}
 	public String getIndexX() {
 		return indexX;
 	}
@@ -45,12 +31,6 @@ public class CoalCostData {
 	}
 	public void setValue(String value) {
 		this.value = value;
-	}
-	public String getTaskId() {
-		return taskId;
-	}
-	public void setTaskId(String taskId) {
-		this.taskId = taskId;
 	}
 	
 

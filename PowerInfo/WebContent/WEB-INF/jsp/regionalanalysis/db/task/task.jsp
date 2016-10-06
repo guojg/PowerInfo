@@ -103,7 +103,7 @@ var organCode='<%=organCode%>';
 	}
 	function detail(task_name,id){
 		var param={
-				"taskid":id,
+				"id":id,
 				"task_name":task_name
 		};
 		$.ajax({

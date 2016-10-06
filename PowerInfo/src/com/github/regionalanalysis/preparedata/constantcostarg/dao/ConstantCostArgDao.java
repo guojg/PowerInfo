@@ -25,4 +25,5 @@ public interface ConstantCostArgDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> queryPlant(String area_id);
+	public Integer getPlantByJz(String jz_id);
 }

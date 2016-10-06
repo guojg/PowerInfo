@@ -38,7 +38,12 @@ public class SysdictDaoImpl implements SysdictDao {
 	@Override
 	public List<Map<String, Object>> queryDataByMap(JSONObject obj) {
 		String domain_id = obj.getString("domain_id");
-		String sql ="select code ,value from sys_dict_table where domain_id=? ORDER BY ORD";
+		String condition = obj.getString("condition");
+		String sql ="select code ,value from sys_dict_table where domain_id=?" ;
+				if(!"".equals(condition)){
+					sql +=" and  code not in ("+condition+") ";
+				}
+				sql += " ORDER BY ORD";
 		List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql, new Object[]{domain_id});
 		return list;
 	}

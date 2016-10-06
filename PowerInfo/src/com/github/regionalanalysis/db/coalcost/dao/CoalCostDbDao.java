@@ -3,10 +3,7 @@ package com.github.regionalanalysis.db.coalcost.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.github.basicData.model.BasicIndex;
-import com.github.basicData.model.BasicYear;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 
@@ -24,6 +21,6 @@ public interface CoalCostDbDao {
 	 */
 	public String saveData(JSONObject param) throws Exception;
 	
-	public Integer getDcByFdj(String fdj_id) throws Exception;
+	public Integer getDcByFdj(String fdj_id,String task_id) throws Exception;
 	
 }

@@ -1,4 +1,4 @@
-package com.github.regionalanalysis.db.generatorcontrast.controller;
+package com.github.regionalanalysis.db.electricitycontrast.controller;
 
 
 import java.io.PrintWriter;
@@ -13,15 +13,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.regionalanalysis.db.electricitycontrast.service.ElectricityContrastDbService;
 import com.github.regionalanalysis.db.generatorcontrast.service.GeneratorContrastDbService;
 import com.github.regionalanalysis.db.task.entity.DbTask;
 
 
 @Controller
-@RequestMapping(value = "/generatorContrastDbController")
-public class GeneratorContrastDbController {
+@RequestMapping(value = "/electricityContrastDbController")
+public class ElectricityContrastDbController {
 	@Autowired
-	private GeneratorContrastDbService generatorContrastDbService;
+	private ElectricityContrastDbService electricityContrastDbService;
 
 	@RequestMapping(value = "/queryData",produces= "text/plain;charset=UTF-8")
 	public @ResponseBody String queryData(HttpServletRequest request, HttpServletResponse response){
@@ -40,7 +41,7 @@ public class GeneratorContrastDbController {
 		obj.put("id", id);
 		obj.put("task_id", task_id);
 
-		return generatorContrastDbService.queryData(obj);
+		return electricityContrastDbService.queryData(obj);
 		
 	}
 
@@ -48,20 +49,20 @@ public class GeneratorContrastDbController {
 	@RequestMapping(value = "/index")
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/db/generatorContrast";
+		return "regionalanalysis/db/electricityContrast";
 	}
 	
 	
 	@RequestMapping(value = "/image")
 	public String image(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/db/generatorContrastImage";
+		return "regionalanalysis/db/electricityContrastImage";
 	}
 	
 	@RequestMapping(value = "/main")
 	public String main(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/db/generatorContrastMain";
+		return "regionalanalysis/db/electricityContrastMain";
 	}
 
 	@RequestMapping("/exportData")
@@ -82,7 +83,7 @@ public class GeneratorContrastDbController {
 			obj.put("task_id", task_id);
 
 			try {
-				generatorContrastDbService.ExportExcel(obj, response);
+				electricityContrastDbService.ExportExcel(obj, response);
 			}catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

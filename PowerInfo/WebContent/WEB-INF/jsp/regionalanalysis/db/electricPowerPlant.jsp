@@ -1,8 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.github.regionalanalysis.db.task.entity.DbTask"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>电厂</title>
+<title>单一电厂</title>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -12,8 +14,21 @@
 <%@include file="../../common/commonDefineBtn.jsp"%>
 <%
 	String pid = request.getAttribute("pid") == null ? "" : request.getAttribute("pid").toString();
+DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+String taskid = tt.getId();
+String task_name = tt.getTask_name();
+Object obj=request.getSession().getAttribute("maparea");
+String organCode="";
+if(obj!=null){
+	organCode=obj.toString();
+}
+
 %>
 <script type="text/javascript">
+var task_id='<%=taskid%>';
+var task_name='<%=task_name%>';
+var area_id='<%=organCode%>';
+
 	var cols = [ [ {
 		field : 'id',
 		width : 20,
@@ -116,8 +131,12 @@
 		$("#tool_update").bind("click", function() {
 			updateRecord();
 		});
-		$("#tool_delete").bind("click", function() {
+		/*$("#tool_delete").bind("click", function() {
 			deleteRecords();
+		});*/
+
+		$("#tool_db").bind("click", function() {
+			duibi();
 		});
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
@@ -127,15 +146,18 @@
 	
 	function detail(id) {
 		 window.parent.closeSingleExtent('电厂详情');
-		 window.parent.addTab('电厂详情', path+'/plantAnalysis/detail?id='+id, '');
+		 window.parent.addTab('电厂详情', path+'/plantAnalysisdb/detail?id='+id+"&task_id="+task_id, '');
 	}
 	function ExportExcel() {//导出Excel文件
 		var plant_name=$("#plant_name").val();
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/plantAnalysis/exportData" method="post" id="fm1"></form>');
+		var f = $('<form action="'+path+'/plantAnalysisdb/exportData" method="post" id="fm1"></form>');
         var l=$('<input type="hidden" id="name" name="name" />');  
+        var m=$('<input type="hidden" id="task_id" name="task_id" />');  
     	l.val(plant_name);  
     	l.appendTo(f);  
+    	m.val(task_id);  
+    	m.appendTo(f);  
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
 	}
@@ -143,10 +165,12 @@
 	function queryData() {
 		var plant_name=$("#plant_name").val();
 		var queryParams = {
-			name :plant_name
+			name :plant_name,
+			"task_id":task_id,
+			"area_id":area_id
 			
 		};
-		var url = path + '/plantAnalysis/queryData';
+		var url = path + '/plantAnalysisdb/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
@@ -165,12 +189,31 @@
 	}
 
 	function updateRecord() {
-		commonHelper.toAdd({
-			title : '修改',
-			width : 700,
-			height : 300,
-			url : path + '/plantAnalysis/openUploadRecord'
-		});
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length !=1){
+			$.messager.alert('提示', '请选择一个电厂！', 'info');
+			return ;
+		}
+		 window.parent.closeSingleExtent('电厂修改');
+		 window.parent.addTab('电厂修改', path+'/plantAnalysisdb/openUploadRecord?id='+rows[0]["id"], '');
+	}
+	function duibi() {
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length <1){
+			$.messager.alert('提示', '请选择需要对比的电厂！', 'info');
+			return ;
+		}
+		var ids = "";
+		for (rowindex in rows) {
+			if (parseInt(rowindex) + 1 == rows.length) {
+				ids = ids + rows[rowindex]["id"];
+			} else {
+				ids = ids + rows[rowindex]["id"] + ",";
+			}
+		}
+		window.parent.closeSingleExtent('电厂成本对比');
+		 window.parent.addTab('电厂成本对比', path+'/electricityContrastDbController/main?id='+ids+'&task_id='+task_id, '');
+		
 	}
 	function deleteRecords() {
 		$.messager.confirm('提示', '确认删除?', function(r) {
@@ -185,7 +228,8 @@
 					}
 				}
 				$.post('deleteRecord', {
-					"ids" : ids
+					"ids" : ids,
+					"task_id" :task_id
 				}, function(data) {
 					var data = $.parseJSON(data);
 					if (data== '1') {
@@ -209,10 +253,11 @@
 		</a><a id="tool_update"> <img
 			src='<%=path%>/static/images/xiugai.gif' align='top' border='0'
 			title='修改' />
-		</a> <a id="tool_delete"> <img
-			src='<%=path%>/static/images/delete.png' align='top' border='0'
-			title='删除' />
-		</a>
+		</a> 
+		 <a id="tool_db"> <img
+			src='<%=path%>/static/images/duibi.jpg' align='top' border='0'
+			title='对比' />
+			</a>
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />

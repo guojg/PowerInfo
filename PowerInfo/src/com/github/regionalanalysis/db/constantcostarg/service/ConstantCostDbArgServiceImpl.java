@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import com.github.common.util.JsonUtils;
 import com.github.common.util.NewSnUtil;
 import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
 import com.github.regionalanalysis.db.constantcostarg.dao.ConstantCostDbArgDao;
-import com.github.regionalanalysis.preparedata.constantcostarg.entity.ConstantCostArg;
+import com.github.regionalanalysis.db.constantcostarg.entity.ConstantCostArg;
 
 import net.sf.json.JSONObject;
 
@@ -26,14 +27,18 @@ public class ConstantCostDbArgServiceImpl implements ConstantCostDbArgService {
 	private TotalDataAnalysisDao totalDataAnalysisDao;
 	
 	@Override
-	public String  saveData(Map m,String organ) {
+	public String  saveData(Map m,String organ,String taskid) {
 		// TODO Auto-generated method stub
-		List<ConstantCostArg> list = this.mapToList(m,organ);
+		List<ConstantCostArg> list = this.mapToList(m,organ,taskid);
 		Long jz_id = Long.parseLong(list.get(0).getJz_id()) ;
 		String result = constantCostDbArgDao.save(list);
 		Integer area_id=Integer.parseInt(organ);
+		Long task_id=Long.parseLong(taskid);
+
 		try {
-			totalDataAnalysisDao.totalData(jz_id,area_id);
+			totalDataAnalysisDao.totalDatadCompare(jz_id,area_id,task_id);
+			totalDataAnalysisDao.totalDataPlantCompare(constantCostDbArgDao.getPlantByJz(jz_id.toString(),task_id.toString()),area_id,task_id);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,7 +46,7 @@ public class ConstantCostDbArgServiceImpl implements ConstantCostDbArgService {
 		return result;
 	}
 	
-	private List<ConstantCostArg> mapToList(Map map,String organ){
+	private List<ConstantCostArg> mapToList(Map map,String organ,String taskid){
 		List<ConstantCostArg> list = new ArrayList<ConstantCostArg>();
 		JSONObject obj = new JSONObject();
 		 Iterator entries = map.entrySet().iterator();
@@ -79,13 +84,14 @@ public class ConstantCostDbArgServiceImpl implements ConstantCostDbArgService {
 				 c.setIndex_value(jz_id);
 			 }
 			 c.setArea_id(organ);
+			 c.setTask_id(taskid);
 		 }
 		 return list ;
 	}
 
 	@Override
-	public String initData(String id) {
-		List<ConstantCostArg> list = constantCostDbArgDao.getDataById(id);
+	public String initData(String id,String task_id) {
+		List<ConstantCostArg> list = constantCostDbArgDao.getDataById(id,task_id);
 		JSONObject obj = new JSONObject();
 		for (ConstantCostArg cp : list){
 			obj.put(cp.getIndex_type(), cp.getIndex_value()) ;
@@ -94,10 +100,12 @@ public class ConstantCostDbArgServiceImpl implements ConstantCostDbArgService {
 	}
 
 	@Override
-	public String getPlant(String area_id) {
-		List<Map<String, Object>>   list =  constantCostDbArgDao.queryPlant(area_id);
+	public String getPlant(String area_id,String task_id) {
+		List<Map<String, Object>>   list =  constantCostDbArgDao.queryPlant(area_id,task_id);
 		return JsonUtils.transformListToJson(list);
-	}		
+	}
 	
+	
+
 
 }

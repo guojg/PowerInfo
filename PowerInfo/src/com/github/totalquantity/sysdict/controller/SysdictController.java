@@ -54,7 +54,8 @@ public class SysdictController {
 		JSONObject obj = new JSONObject();
         String domain_id = request.getParameter("domain_id")!=null?request.getParameter("domain_id"):"";
         obj.put("domain_id", domain_id);
-       
+        String condition = request.getParameter("condition")!=null?request.getParameter("condition"):"";
+        obj.put("condition", condition);
 		String a= sysdictService.getDataByCodeValue(obj) ;
 		return a;
 		

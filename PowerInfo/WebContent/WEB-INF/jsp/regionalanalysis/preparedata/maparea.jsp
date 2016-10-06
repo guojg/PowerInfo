@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>机组</title>
+<title>区域</title>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>

@@ -41,14 +41,19 @@ public class CoalCostDbServiceImpl implements  CoalCostDbService{
 		String result =coalCostDbDao.saveData(param);
 		Long fdj_id=null;
 		Integer area_id=null;
+		Long task_id=null;
+
 		if (param.get("fdj_id") != null) {
 			fdj_id = Long.parseLong(param.get("fdj_id").toString());
 		}
 		if (param.get("area_id") != null) {
 			area_id =Integer.parseInt( param.get("area_id").toString());
 		}
+		if (param.get("task_id") != null) {
+			task_id = Long.parseLong(param.get("task_id").toString());
+		}
 		totalDataAnalysisDao.totalData(fdj_id, area_id);
-		totalDataAnalysisDao.totalDataPlant(coalCostDbDao.getDcByFdj(fdj_id.toString()), area_id);
+		totalDataAnalysisDao.totalDataPlant(coalCostDbDao.getDcByFdj(fdj_id.toString(),task_id.toString()), area_id);
 		return result;
 		
 	}

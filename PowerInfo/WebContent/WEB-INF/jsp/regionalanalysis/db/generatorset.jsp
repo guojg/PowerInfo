@@ -1,14 +1,27 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.github.regionalanalysis.db.task.entity.DbTask"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>机组</title>
+<title>单一机组</title>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
 <%@include file="../../common/commonDefineBtn.jsp" %>
-
+<%
+DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+String taskid = tt.getId();
+String task_name = tt.getTask_name();
+Object obj=  request.getSession().getAttribute("maparea");
+String organCode="";
+if(obj != null) {
+	organCode = obj.toString() ; 
+}
+%>
 <script type="text/javascript">
+var task_id='<%=taskid%>';
+var area_id='<%=organCode%>';
 	var frozenCols = [ [
 	    {field:'jz_id',align:'center',checkbox:true},
 	    {
@@ -27,7 +40,13 @@
 	
 	
 		
-		 cols = [ [
+		 cols = [ [ {
+       		field : 'plant_id',
+      		title : '所属发电厂',
+      		width : 100,
+      		align : 'center',
+      		hidden:true
+      	},
 		          	 {
 		          		field : 'plant_name',
 		          		title : '所属发电厂',
@@ -72,15 +91,11 @@
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
-		$("#tool_add").bind("click", function() {
-			addRecord();
-		});
+		
 		$("#tool_update").bind("click", function() {
 			updateRecord();
 		});
-		$("#tool_delete").bind("click", function() {
-			deleteRecords();
-		});
+		
 		$("#tool_db").bind("click", function() {
 			duibi();
 		});
@@ -93,8 +108,8 @@
 		var elec_name = $('#elec_name').val();
 		var gene_name = $('#gene_name').val();
 
-		var queryParams = {"elec_name":elec_name,"gene_name":gene_name};
-		var url = path+'/generatorSetController/queryData';
+		var queryParams = {"elec_name":elec_name,"gene_name":gene_name,"task_id":task_id};
+		var url = path+'/generatorSetDbController/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
@@ -112,15 +127,7 @@
 			pagination: true
 		});
 	}
-	function addRecord() {
-		commonHelper.toAdd({
-			title : '新增',
-			width : 800,
-			height : 450,
-			url : path + '/generatorSetController/main'
-		});
-		
-	}
+	
 	function updateRecord() {
 		var rows = $('#datagrid').datagrid('getChecked');
 		if(rows.length!=1){
@@ -131,22 +138,22 @@
 			title : '修改',
 			width : 800,
 			height : 450,
-			url : path + '/generatorSetController/main?id='+rows[0].jz_id
+			url : path + '/generatorSetDbController/main?id='+rows[0].jz_id+"&plant_id="+rows[0].plant_id+'&task_id='+task_id
 		});
 	}
 	
 	function detail(jz_id) {
 		
 		commonHelper.toAdd({
-			title : '修改',
+			title : '详情',
 			width : 800,
 			height : 500,
-			url : path + '/generatorSetController/detail?id='+jz_id
+			url : path + '/generatorSetDbController/detail?id='+jz_id+'&task_id='+task_id
 		});
 	}
 	function duibi() {
 		var rows = $('#datagrid').datagrid('getChecked');
-		if(rows.length<1){
+		if(rows.length <1){
 			$.messager.alert('提示', '请选择需要对比的机组！', 'info');
 			return ;
 		}
@@ -158,14 +165,9 @@
 				ids = ids + rows[rowindex]["jz_id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('对比');
-		 window.parent.addTab('对比', path+'/generatorContrastController/main?id='+ids, '');
-		/*commonHelper.toAdd({
-			title : '对比',
-			width : 900,
-			height : 550,
-			url : path + '/generatorContrastController/main?id='+ids
-		});*/
+		window.parent.closeSingleExtent('成本对比');
+		 window.parent.addTab('成本对比', path+'/generatorContrastDbController/main?id='+ids+'&task_id='+task_id, '');
+		
 	}
 	function deleteRecords() {
 		var rows = $('#datagrid').datagrid('getChecked');
@@ -184,7 +186,7 @@
 						ids = ids + rows[rowindex]["jz_id"] + ",";
 					}
 				}
-				$.post(path+'/generatorSetController/deleteData', {
+				$.post(path+'/generatorSetDbController/deleteData', {
 					"ids" : ids
 				}, function(data) {
 					var data = $.parseJSON(data);
@@ -205,13 +207,16 @@
 		var gene_name = $('#gene_name').val();
 
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/generatorSetController/exportData" method="post" id="fm1"></form>');  
+		var f = $('<form action="'+path+'/generatorSetDbController/exportData" method="post" id="fm1"></form>');  
 	    var i = $('<input type="hidden" id="elec_name" name="elec_name" />');  
 	    var l = $('<input type="hidden" id="gene_name" name="gene_name" />');
+	    var m = $('<input type="hidden" id="task_id" name="task_id" />');
 		i.val(elec_name);  
 		i.appendTo(f);  
 		l.val(gene_name);  
 		l.appendTo(f);  
+		m.val(task_id);  
+		m.appendTo(f); 
 		f.appendTo(document.body).submit();  
 		document.body.removeChild(f);  
 	}
@@ -225,15 +230,10 @@
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
 		</a>
-	 <a id="tool_add"> <img src='<%=path%>/static/images/new.gif'
-			align='top' border='0' title='新增' />
-		</a> <a id="tool_update"> <img
+		 <a id="tool_update"> <img
 			src='<%=path%>/static/images/xiugai.gif' align='top' border='0'
 			title='修改' />
-		</a> <a id="tool_delete"> <img
-			src='<%=path%>/static/images/delete.png' align='top' border='0'
-			title='删除' />
-		</a>
+		</a> 
 		 <a id="tool_db"> <img
 			src='<%=path%>/static/images/duibi.jpg' align='top' border='0'
 			title='对比' />
