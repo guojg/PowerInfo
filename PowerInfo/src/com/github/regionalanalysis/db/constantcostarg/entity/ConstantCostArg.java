@@ -9,6 +9,7 @@ public class ConstantCostArg {
 	private String jz_id ;
 	
 	private String area_id ;
+	private String task_id;
 
 	
 	public String getIndex_type() {
@@ -41,6 +42,14 @@ public class ConstantCostArg {
 
 	public void setArea_id(String area_id) {
 		this.area_id = area_id;
+	}
+
+	public String getTask_id() {
+		return task_id;
+	}
+
+	public void setTask_id(String task_id) {
+		this.task_id = task_id;
 	}
 	
 	

@@ -40,7 +40,13 @@ var area_id='<%=organCode%>';
 	
 	
 		
-		 cols = [ [
+		 cols = [ [ {
+       		field : 'plant_id',
+      		title : '所属发电厂',
+      		width : 100,
+      		align : 'center',
+      		hidden:true
+      	},
 		          	 {
 		          		field : 'plant_name',
 		          		title : '所属发电厂',
@@ -89,9 +95,7 @@ var area_id='<%=organCode%>';
 		$("#tool_update").bind("click", function() {
 			updateRecord();
 		});
-		$("#tool_delete").bind("click", function() {
-			deleteRecords();
-		});
+		
 		$("#tool_db").bind("click", function() {
 			duibi();
 		});
@@ -104,7 +108,7 @@ var area_id='<%=organCode%>';
 		var elec_name = $('#elec_name').val();
 		var gene_name = $('#gene_name').val();
 
-		var queryParams = {"elec_name":elec_name,"gene_name":gene_name};
+		var queryParams = {"elec_name":elec_name,"gene_name":gene_name,"task_id":task_id};
 		var url = path+'/generatorSetDbController/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
@@ -134,7 +138,7 @@ var area_id='<%=organCode%>';
 			title : '修改',
 			width : 800,
 			height : 450,
-			url : path + '/generatorSetDbController/main?id='+rows[0].jz_id
+			url : path + '/generatorSetDbController/main?id='+rows[0].jz_id+"&plant_id="+rows[0].plant_id+'&task_id='+task_id
 		});
 	}
 	
@@ -144,7 +148,7 @@ var area_id='<%=organCode%>';
 			title : '详情',
 			width : 800,
 			height : 500,
-			url : path + '/generatorSetDbController/detail?id='+jz_id
+			url : path + '/generatorSetDbController/detail?id='+jz_id+'&task_id='+task_id
 		});
 	}
 	function duibi() {
@@ -206,10 +210,13 @@ var area_id='<%=organCode%>';
 		var f = $('<form action="'+path+'/generatorSetDbController/exportData" method="post" id="fm1"></form>');  
 	    var i = $('<input type="hidden" id="elec_name" name="elec_name" />');  
 	    var l = $('<input type="hidden" id="gene_name" name="gene_name" />');
+	    var m = $('<input type="hidden" id="task_id" name="task_id" />');
 		i.val(elec_name);  
 		i.appendTo(f);  
 		l.val(gene_name);  
 		l.appendTo(f);  
+		m.val(task_id);  
+		m.appendTo(f); 
 		f.appendTo(document.body).submit();  
 		document.body.removeChild(f);  
 	}
@@ -226,10 +233,7 @@ var area_id='<%=organCode%>';
 		 <a id="tool_update"> <img
 			src='<%=path%>/static/images/xiugai.gif' align='top' border='0'
 			title='修改' />
-		</a> <a id="tool_delete"> <img
-			src='<%=path%>/static/images/delete.png' align='top' border='0'
-			title='删除' />
-		</a>
+		</a> 
 		 <a id="tool_db"> <img
 			src='<%=path%>/static/images/duibi.jpg' align='top' border='0'
 			title='对比' />

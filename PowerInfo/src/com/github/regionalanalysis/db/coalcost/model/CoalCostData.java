@@ -8,6 +8,7 @@ public class CoalCostData {
 	private String unit;
 	private String fdjId;
 	private String areaId;
+	private String taskId;
 
 	public String getAreaId() {
 		return areaId;
@@ -44,6 +45,12 @@ public class CoalCostData {
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
 	}
 	
 

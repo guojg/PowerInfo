@@ -125,9 +125,9 @@ var task_name='<%=task_name%>';
 		$("#tool_update").bind("click", function() {
 			updateRecord();
 		});
-		$("#tool_delete").bind("click", function() {
+		/*$("#tool_delete").bind("click", function() {
 			deleteRecords();
-		});
+		});*/
 		$("#tool_export").bind("click", function() {
 			ExportExcel();
 		});
@@ -224,10 +224,7 @@ var task_name='<%=task_name%>';
 		</a><a id="tool_update"> <img
 			src='<%=path%>/static/images/xiugai.gif' align='top' border='0'
 			title='修改' />
-		</a> <a id="tool_delete"> <img
-			src='<%=path%>/static/images/delete.png' align='top' border='0'
-			title='删除' />
-		</a>
+		</a> 
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />

@@ -32,7 +32,7 @@ public class GeneratorSetDbDaoImpl implements GeneratorSetDbDao {
 		String pageNum = param.getString("pageNum");
 		String gene_name = param.getString("gene_name");
 		String elec_name = param.getString("elec_name");
-		String area_id = param.getString("area_id");
+		String task_id = param.getString("task_id");
 
 			int psize = Integer.parseInt(pageSize);
 			int pNum = Integer.parseInt(pageNum);
@@ -42,7 +42,7 @@ public class GeneratorSetDbDaoImpl implements GeneratorSetDbDao {
 			JSONObject obj = new JSONObject();
 			obj.put("domain_id", "35") ;
 			List<Sysdict>  list =  sysdictDao.queryData(obj);
-			sb.append("select jz.*,dc.plant_name from (SELECT c.area_id,c.jz_id") ;
+			sb.append("select jz.*,dc.plant_name,dc.id plant_id from (SELECT c.task_id,c.jz_id") ;
 			for (Sysdict s : list) {
 				sb.append(",max(CASE c.index_type WHEN ")
 				.append(s.getCode())
@@ -50,9 +50,9 @@ public class GeneratorSetDbDaoImpl implements GeneratorSetDbDao {
 				.append(s.getCode())
 				.append("' ");
 			}
-		sb.append( "  FROM constant_cost_arg  c where c.area_id=? GROUP BY c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data dc ON jz.200=dc.id  and dc.area_id=jz.area_id " );
+		sb.append( "  FROM constant_cost_arg  c where c.task_id=? GROUP BY c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data dc ON jz.200=dc.id  and dc.task_id=jz.task_id " );
 		List<Object> l = new ArrayList<Object>();
-		l.add(area_id);
+		l.add(task_id);
 		if(!"".equals(gene_name)){
 			sb.append(" AND jz.100 LIKE ?  ");
 			l.add("%"+gene_name+"%") ;
@@ -76,12 +76,12 @@ public class GeneratorSetDbDaoImpl implements GeneratorSetDbDao {
 
 		String gene_name = param.getString("gene_name");
 		String elec_name = param.getString("elec_name");
-		String area_id = param.getString("area_id");
+		String task_id = param.getString("task_id");
 			StringBuffer sb = new StringBuffer();
 			JSONObject obj = new JSONObject();
 			obj.put("domain_id", "35") ;
 			List<Sysdict>  list =  sysdictDao.queryData(obj);
-			sb.append("select jz.*,dc.plant_name from (SELECT c.area_id,c.jz_id") ;
+			sb.append("select jz.*,dc.plant_name from (SELECT c.task_id,c.jz_id") ;
 			for (Sysdict s : list) {
 				sb.append(",max(CASE c.index_type WHEN ")
 				.append(s.getCode())
@@ -89,9 +89,9 @@ public class GeneratorSetDbDaoImpl implements GeneratorSetDbDao {
 				.append(s.getCode())
 				.append("' ");
 			}
-		sb.append( "  FROM constant_cost_arg  c  where c.area_id=? GROUP BY c.area_id,c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data dc ON jz.200=dc.id  and dc.area_id =jz.area_id " );
+		sb.append( "  FROM constant_cost_arg  c  where c.task_id=? GROUP BY c.task_id,c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data dc ON jz.200=dc.id  and dc.task_id =jz.task_id " );
 		List<Object> l = new ArrayList<Object>();
-		l.add(area_id);
+		l.add(task_id);
 		if(!"".equals(gene_name)){
 			sb.append(" AND jz.100 LIKE ?  ");
 			l.add("%"+gene_name+"%") ;
@@ -109,8 +109,8 @@ public class GeneratorSetDbDaoImpl implements GeneratorSetDbDao {
 
 	@Override
 	public int queryDataCount(JSONObject param) {
-		String sql ="SELECT COUNT(DISTINCT c.jz_id) FROM constant_cost_arg  c  where area_id=?";
-		int count =this.jdbcTemplate.queryForInt(sql,new Object[]{param.getString("area_id")});
+		String sql ="SELECT COUNT(DISTINCT c.jz_id) FROM constant_cost_arg  c  where task_id=?";
+		int count =this.jdbcTemplate.queryForInt(sql,new Object[]{param.getString("task_id")});
 		return count;
 	}
 
