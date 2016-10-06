@@ -189,12 +189,13 @@ var area_id='<%=organCode%>';
 	}
 
 	function updateRecord() {
-		commonHelper.toAdd({
-			title : '修改',
-			width : 700,
-			height : 300,
-			url : path + '/plantAnalysisdb/openUploadRecord'
-		});
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length !=1){
+			$.messager.alert('提示', '请选择一个电厂！', 'info');
+			return ;
+		}
+		 window.parent.closeSingleExtent('电厂修改');
+		 window.parent.addTab('电厂修改', path+'/plantAnalysisdb/openUploadRecord?id='+rows[0]["id"], '');
 	}
 	function duibi() {
 		var rows = $('#datagrid').datagrid('getChecked');

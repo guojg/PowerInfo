@@ -28,8 +28,8 @@ String task_name = tt.getTask_name();
 
 		//加载选项卡页面
 		var srcs = {
-				'基本信息' : path+'/constantCostArgController/detail?id='+id+'&task_id='+task_id+'&plant_id='+plant_id,
-				'燃煤成本' : path+'/coalCost/detail?fdj_id='+id+'&task_id='+task_id+'&plant_id='+plant_id
+				'基本信息' : path+'/constantCostDbArgController/detail?id='+id+'&task_id='+task_id+'&plant_id='+plant_id,
+				'燃煤成本' : path+'/coalCostdb/detail?fdj_id='+id+'&task_id='+task_id+'&plant_id='+plant_id
 		};
 		$('#iframe0').attr('src', srcs['基本信息']);
 		$('#tt').tabs({

@@ -118,7 +118,7 @@ public class CoalCostDbDaoImpl implements CoalCostDbDao {
 			throws Exception {
 
 		String deletesql = "delete from  coal_cost_data_db"
-				+ " where index_x=? and index_y=? and fdj_id=? and task_id";
+				+ " where index_x=? and index_y=? and fdj_id=? and task_id=?";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
 			@Override

@@ -21,7 +21,7 @@ if(obj != null) {
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />
 <script type="text/javascript" src="<%=path %>/js/totalquantity/common/my-validatebox-ext.js"></script>
 
-<script type="text/javascript" src="<%=path%>/js/regionalanalysis/db/constantcostarg.js"></script>
+<script type="text/javascript" src="<%=path%>/js/regionalanalysis/db/constantcostargdetail.js"></script>
 <script type="text/javascript">
 //var id='2016091608461600';  //机组id
 	var id='<%=id%>' ;

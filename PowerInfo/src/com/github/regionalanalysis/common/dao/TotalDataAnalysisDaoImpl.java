@@ -296,7 +296,7 @@ public class TotalDataAnalysisDaoImpl implements TotalDataAnalysisDao {
 		 this.jdbcTemplate.execute(   
 		         new CallableStatementCreator() {   
 		             public CallableStatement createCallableStatement(Connection con) throws SQLException {   
-		                String storedProc = "{call pro_fdc_total_save_fx_db(?,?,?)}";// 调用的sql   
+		                String storedProc = "{call pro_fdc_total_save_db(?,?,?)}";// 调用的sql   
 		                CallableStatement cs = con.prepareCall(storedProc);   
 		                cs.setInt(1, fdc_id);// 设置输入参数的值   
 		                cs.setInt(2, area_id);

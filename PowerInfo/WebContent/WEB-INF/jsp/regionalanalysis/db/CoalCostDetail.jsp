@@ -347,10 +347,7 @@
 	<div id="btn_div">
 		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
 			align='top' border='0' title='查询' />
-		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
-			align='top' border='0' title='保存' />
 		</a> 
-		
 	</div>
 	<fieldset id="field">
 		<legend>查询条件</legend>

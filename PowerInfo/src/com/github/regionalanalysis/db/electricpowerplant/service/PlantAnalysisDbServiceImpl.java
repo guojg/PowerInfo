@@ -57,7 +57,7 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 		if (obj.get("area_id") != null) {
 			area_id =Integer.parseInt( obj.get("area_id").toString());
 		}
-		if (obj.get("area_id") != null) {
+		if (obj.get("task_id") != null) {
 			task_id =Long.parseLong( obj.get("task_id").toString());
 		}
 		totalDataAnalysisDao.fdcSaveTotalDb(fdc_id, area_id,task_id);
