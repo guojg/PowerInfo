@@ -81,9 +81,9 @@
 		$("#tool_delete").bind("click", function() {
 			deleteRecords();
 		});
-		$("#tool_db").bind("click", function() {
+		/*$("#tool_db").bind("click", function() {
 			duibi();
-		});
+		});*/
 	});
 
 	//查询方法调用的函数
@@ -234,10 +234,7 @@
 			src='<%=path%>/static/images/delete.png' align='top' border='0'
 			title='删除' />
 		</a>
-		 <a id="tool_db"> <img
-			src='<%=path%>/static/images/duibi.jpg' align='top' border='0'
-			title='对比' />
-			</a>
+		
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />

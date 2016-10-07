@@ -80,7 +80,7 @@ public class ConstantCostArgDaoImpl implements ConstantCostArgDao {
 		Integer result=null;
 		String sql="SELECT index_value FROM constant_cost_arg WHERE index_type=200 AND jz_id=? ";
 		List<Map<String, Object>> list=jdbcTemplate.queryForList(sql,new Object[]{jz_id});
-		if(list!=null){
+		if(list.size()>0){
 			result=Integer.parseInt(list.get(0).get("index_value").toString());
 		}
 		return result;
