@@ -71,7 +71,6 @@ String commonPath = path;
 <script src="<%=path%>/static/js/menu/main.js"></script> <!-- Resource jQuery -->
 <script type="text/javascript">
   function modelchange(page){
-	  alert(page);
 	  window.location.href="<%=path%>?page="+page;
   }
 </script>
