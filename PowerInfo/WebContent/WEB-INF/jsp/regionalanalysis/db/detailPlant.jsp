@@ -67,7 +67,7 @@ function initAccordion(data){
 		appenddiv+='<div title="发电机-'+count+'"  id="p'+count+'">';
 		appenddiv+='<iframe id="iframe'+i+'" scrolling="auto" frameborder="0"  style="width:100%;height:98%"></iframe>';
 		appenddiv+='</div>';
-		src[i]=path+'/generatorSetController/detail?id='+ids[i]["id"];
+		src[i]=path+'/generatorSetDbController/detail?id='+ids[i]["id"];
 	}
 	$('#fdjlist').html(appenddiv).addClass("easyui-accordion");
 	$('#fdjlist').accordion({

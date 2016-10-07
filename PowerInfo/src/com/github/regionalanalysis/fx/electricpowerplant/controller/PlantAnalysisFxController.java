@@ -132,13 +132,13 @@ public class PlantAnalysisFxController {
 	@RequestMapping(value = "/detail")
 	public String detail(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/db/detailPlant";
+		return "regionalanalysis/fx/detailPlant";
 	}
 
 	@RequestMapping(value = "/openUploadRecord")
 	public String openUploadRecord(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "regionalanalysis/db/updatePlant";
+		return "regionalanalysis/fx/updatePlant";
 	}
 	@RequestMapping("/exportData")
 	public void exportData(HttpServletRequest request,
