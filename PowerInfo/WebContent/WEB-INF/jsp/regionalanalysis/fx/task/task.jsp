@@ -63,7 +63,7 @@ var organCode='<%=organCode%>';
 		//查询条件暂时放外面
 		var queryParams = {"area_id":organCode};
 
-		var url = path + '/taskdb/queryData';
+		var url = path + '/taskfx/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
@@ -88,7 +88,7 @@ var organCode='<%=organCode%>';
 			title : '新建任务',
 			width : 500,
 			height : 320,
-			url : path + "/taskdb/taskAdd"
+			url : path + "/taskfx/taskAdd"
 		});
 	}
 	
@@ -98,7 +98,7 @@ var organCode='<%=organCode%>';
 			title : '修改任务',
 			width : 500,
 			height : 320,
-			url : path + "/taskdb/taskAdd?id="+rows[0].id
+			url : path + "/taskfx/taskAdd?id="+rows[0].id
 		});
 	}
 	function detail(task_name,id){
@@ -108,7 +108,7 @@ var organCode='<%=organCode%>';
 		};
 		$.ajax({
 			 type : 'POST',
-			 url : path+'/taskdb/taskDetail',
+			 url : path+'/taskfx/taskDetail',
 			 dataType: 'text',
 			 data: param,
 			 async:false,
@@ -136,7 +136,7 @@ var organCode='<%=organCode%>';
 						ids = ids + rows[rowindex]["id"] + ",";
 					}
 				}
-				$.post(path+'/taskdb/deleteRecord', {
+				$.post(path+'/taskfx/deleteRecord', {
 					"ids" : ids
 				}, function(data) {
 					var data = $.parseJSON(data);

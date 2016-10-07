@@ -1,4 +1,4 @@
-package com.github.regionalanalysis.db.task.dao;
+package com.github.regionalanalysis.fx.task.dao;
 
 
 import java.util.List;
@@ -18,14 +18,14 @@ import com.github.totalquantity.task.entity.TotalYear;
 
 
 @Repository
-public class TaskDbDaoImpl implements TaskDbDao{
+public class TaskFxDaoImpl implements TaskFxDao{
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
 	public void saveData(DbTask task) {
 		try{
-		String sql ="insert into db_task(task_name,area_id) value(?,?)";
+		String sql ="insert into fx_task(task_name,area_id) value(?,?)";
 		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getArea_id()});
 		DbTask db = this.getDataByName(task);
 		String area_id = db.getArea_id() ;
@@ -41,7 +41,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	}
 
 	public DbTask getDataByName(DbTask task){
-		String sql = "select * from db_task where task_name=? and area_id=?" ;
+		String sql = "select * from fx_task where task_name=? and area_id=?" ;
 		List<Map<String, Object>> l = this.jdbcTemplate.queryForList(sql, new Object[]{task.getTask_name(),task.getArea_id()}) ;
 	    if(l.size()>0){
 	    	String id = l.get(0).get("ID").toString();
@@ -59,7 +59,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 			int pNum = Integer.parseInt(pageNum);
 			int  startNum = psize*(pNum-1);
 			int  endNum = psize*pNum;
-		String sql = "select id,task_name,bn.value area_name,area_id from db_task db join bn_code_company bn on db.area_id=bn.code and db.area_id=? order by id desc"
+		String sql = "select id,task_name,bn.value area_name,area_id from fx_task db join bn_code_company bn on db.area_id=bn.code and db.area_id=? order by id desc"
 				+ " limit ?,?";
 		 List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql,new Object[]{area_id,startNum,endNum});
 		return list;
@@ -67,7 +67,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 
 	@Override
 	public void updateData(DbTask task) {
-		String sql = "update db_task set task_name=? where  id=?";
+		String sql = "update fx_task set task_name=? where  id=?";
 		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getId()});
 		
 	}
@@ -76,7 +76,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	public int queryDataCount(JSONObject param) {
 		String area_id = param.getString("area_id");
 
-		String sql ="select count(1) from db_task where area_id = ?";
+		String sql ="select count(1) from fx_task where area_id = ?";
 		int count =this.jdbcTemplate.queryForInt(sql,new Object[]{area_id});
 		return count;
 	}
@@ -84,14 +84,14 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	
 	@Override
 	public List<Map<String, Object>> initData(String id) {
-		String sql ="select id,task_name,area_id from db_task where id=?";
+		String sql ="select id,task_name,area_id from fx_task where id=?";
 		return  this.jdbcTemplate.queryForList(sql,new Object[]{id});
 	}
 	
 	@Override
 	public String deleteRecord(String[] delectArr) throws Exception {
 		// TODO Auto-generated method stub
-		StringBuffer  buffer=new StringBuffer("delete from db_task where id in(");
+		StringBuffer  buffer=new StringBuffer("delete from fx_task where id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
@@ -111,7 +111,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void deleteElec(String[] delectArr){
-		StringBuffer  buffer=new StringBuffer("delete from electricpowerplant_analysis_data_db where task_id in(");
+		StringBuffer  buffer=new StringBuffer("delete from electricpowerplant_analysis_data_fx where task_id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
@@ -126,7 +126,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void deleteElecCon(String[] delectArr){
-		StringBuffer  buffer=new StringBuffer("delete from electricity_contrast_db where task_id in(");
+		StringBuffer  buffer=new StringBuffer("delete from electricity_contrast_fx where task_id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
@@ -142,7 +142,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void deleteCoalCost(String[] delectArr){
-		StringBuffer  buffer=new StringBuffer("delete from coal_cost_data_db where task_id in(");
+		StringBuffer  buffer=new StringBuffer("delete from coal_cost_data_fx where task_id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
@@ -157,7 +157,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void deleteCon(String[] delectArr){
-		StringBuffer  buffer=new StringBuffer("delete from constant_cost_arg_db where task_id in(");
+		StringBuffer  buffer=new StringBuffer("delete from constant_cost_arg_fx where task_id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
@@ -172,7 +172,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void deleteGeneCon(String[] delectArr){
-		StringBuffer  buffer=new StringBuffer("delete from generator_contrast_db where task_id in(");
+		StringBuffer  buffer=new StringBuffer("delete from generator_contrast_fx where task_id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
@@ -188,9 +188,9 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void insertElec(String id,String area_id){
-		StringBuffer  buffer=new StringBuffer("INSERT INTO   electricpowerplant_analysis_data_db (plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year, "
+		StringBuffer  buffer=new StringBuffer("INSERT INTO   electricpowerplant_analysis_data_fx (id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year, "
 				+ "economical_life,  equired_return,financial_cost, generation_coal, operation_rate, operation_cost,unit_cost,area_id, task_id,materials_cost,salary,repairs_cost,other_cost)"
-				+ " select plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year,economical_life,  equired_return,"
+				+ " select id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year,economical_life,  equired_return,"
 				+ "financial_cost, generation_coal, operation_rate, operation_cost,unit_cost,area_id, " );
 		buffer.append(id + " 'task_id'") ;
 		buffer.append( ",materials_cost,salary,repairs_cost,other_cost FROM electricpowerplant_analysis_data where area_id=? ");
@@ -202,7 +202,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void insertElecCon(String id,String area_id){
-		StringBuffer  buffer=new StringBuffer("INSERT INTO electricity_contrast_db(index_x,unit,index_y,VALUE,dc_id,area_id,task_id)"
+		StringBuffer  buffer=new StringBuffer("INSERT INTO electricity_contrast_fx(index_x,unit,index_y,VALUE,dc_id,area_id,task_id)"
 				+ " SELECT index_x,unit,index_y,VALUE,dc_id,area_id, " );
 		buffer.append(id + " 'task_id'") ;
 		buffer.append( "FROM electricity_contrast where area_id=? ");
@@ -216,7 +216,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 */
 	public void insertCoalCost(String id,String area_id){
 		
-		StringBuffer  buffer=new StringBuffer("INSERT INTO coal_cost_data_db(index_x,unit,index_y,value,fdj_id,area_id,task_id)"
+		StringBuffer  buffer=new StringBuffer("INSERT INTO coal_cost_data_fx(index_x,unit,index_y,value,fdj_id,area_id,task_id)"
 				+ " SELECT index_x,unit,index_y,value,fdj_id,area_id, " );
 		buffer.append(id + " 'task_id'") ;
 		buffer.append( "FROM coal_cost_data where area_id=? ");
@@ -228,7 +228,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void insertCon(String id,String area_id){
-		StringBuffer  buffer=new StringBuffer("INSERT INTO constant_cost_arg_db(index_type,index_value,jz_id,area_id,task_id)"
+		StringBuffer  buffer=new StringBuffer("INSERT INTO constant_cost_arg_fx(index_type,index_value,jz_id,area_id,task_id)"
 				+ " SELECT index_type,index_value,jz_id,area_id, " );
 		buffer.append(id + " 'task_id'") ;
 		buffer.append( "FROM constant_cost_arg where area_id=? ");
@@ -240,7 +240,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void insertGeneCon(String id,String area_id){
-		StringBuffer  buffer=new StringBuffer("INSERT INTO generator_contrast_db(index_x,unit,index_y,VALUE,jz_id,area_id,task_id)"
+		StringBuffer  buffer=new StringBuffer("INSERT INTO generator_contrast_fx(index_x,unit,index_y,VALUE,jz_id,area_id,task_id)"
 				+ " SELECT index_x,unit,index_y,VALUE,jz_id,area_id, " );
 		buffer.append(id + " 'task_id'") ;
 		buffer.append( "FROM generator_contrast where area_id=? ");

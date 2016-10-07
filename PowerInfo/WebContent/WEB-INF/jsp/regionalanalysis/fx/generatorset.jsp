@@ -10,7 +10,7 @@
 <%@include file="../../common/commonInclude.jsp"%>
 <%@include file="../../common/commonDefineBtn.jsp" %>
 <%
-DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+DbTask tt=  (DbTask)request.getSession().getAttribute("fxtask");
 String taskid = "" ;
 String task_name = "";
 if(tt != null){
@@ -42,11 +42,11 @@ var area_id='<%=organCode%>';
 	var cols ='';
 	$(function() {
 	
+	
 		if(task_id==""){
 			alert("请先选择任务");
 			return ;
 		}
-		
 		 cols = [ [ {
        		field : 'plant_id',
       		title : '所属发电厂',
@@ -116,7 +116,7 @@ var area_id='<%=organCode%>';
 		var gene_name = $('#gene_name').val();
 
 		var queryParams = {"elec_name":elec_name,"gene_name":gene_name,"task_id":task_id};
-		var url = path+'/generatorSetDbController/queryData';
+		var url = path+'/generatorSetFxController/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
@@ -145,7 +145,7 @@ var area_id='<%=organCode%>';
 			title : '修改',
 			width : 800,
 			height : 450,
-			url : path + '/generatorSetDbController/main?id='+rows[0].jz_id+"&plant_id="+rows[0].plant_id+'&task_id='+task_id
+			url : path + '/generatorSetFxController/main?id='+rows[0].jz_id+"&plant_id="+rows[0].plant_id+'&task_id='+task_id
 		});
 	}
 	
@@ -155,7 +155,7 @@ var area_id='<%=organCode%>';
 			title : '详情',
 			width : 800,
 			height : 500,
-			url : path + '/generatorSetDbController/detail?id='+jz_id+'&task_id='+task_id
+			url : path + '/generatorSetFxController/detail?id='+jz_id+'&task_id='+task_id
 		});
 	}
 	function duibi() {
@@ -173,7 +173,7 @@ var area_id='<%=organCode%>';
 			}
 		}
 		window.parent.closeSingleExtent('成本对比');
-		 window.parent.addTab('成本对比', path+'/generatorContrastDbController/main?id='+ids+'&task_id='+task_id, '');
+		 window.parent.addTab('成本对比', path+'/generatorContrastFxController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {
@@ -193,7 +193,7 @@ var area_id='<%=organCode%>';
 						ids = ids + rows[rowindex]["jz_id"] + ",";
 					}
 				}
-				$.post(path+'/generatorSetDbController/deleteData', {
+				$.post(path+'/generatorSetFxController/deleteData', {
 					"ids" : ids
 				}, function(data) {
 					var data = $.parseJSON(data);
@@ -214,7 +214,7 @@ var area_id='<%=organCode%>';
 		var gene_name = $('#gene_name').val();
 
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/generatorSetDbController/exportData" method="post" id="fm1"></form>');  
+		var f = $('<form action="'+path+'/generatorSetFxController/exportData" method="post" id="fm1"></form>');  
 	    var i = $('<input type="hidden" id="elec_name" name="elec_name" />');  
 	    var l = $('<input type="hidden" id="gene_name" name="gene_name" />');
 	    var m = $('<input type="hidden" id="task_id" name="task_id" />');

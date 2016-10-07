@@ -4,12 +4,12 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /> 
-<title>电厂详情</title>
+<title>电厂修改</title>
 </head>
 <%@include file="../../common/commonInclude.jsp" %>	
 <%
 String id=request.getParameter("id");
-DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+DbTask tt=  (DbTask)request.getSession().getAttribute("fxtask");
 String taskid = tt.getId();
 String task_name = tt.getTask_name();
 Object obj=  request.getSession().getAttribute("maparea");
@@ -23,7 +23,6 @@ var id='<%=id%>';
 var task_id='<%=taskid%>';
 var area_id='<%=organCode%>';
 $(function() {
-	debugger;
 	var data = {
 			id:id,
 			'task_id':task_id
@@ -31,7 +30,7 @@ $(function() {
 		$.ajax({
 			type : 'POST',
 			async : false,
-			url : path + '/plantAnalysisdb/detailData',
+			url : path + '/plantAnalysisfx/detailData',
 			data : data,
 			success : function(data) {
 				var row=$.parseJSON(data);
@@ -50,7 +49,7 @@ function initAccordion(data){
 	$.ajax({
 		type : 'POST',
 		async : false,
-		url : path + '/plantAnalysisdb/getFdjByDc',
+		url : path + '/plantAnalysisfx/getFdjByDc',
 		data : data,
 		success : function(data) {
 			 ids=$.parseJSON(data);
@@ -67,7 +66,7 @@ function initAccordion(data){
 		appenddiv+='<div title="发电机-'+count+'"  id="p'+count+'">';
 		appenddiv+='<iframe id="iframe'+i+'" scrolling="auto" frameborder="0"  style="width:100%;height:98%"></iframe>';
 		appenddiv+='</div>';
-		src[i]=path+'/generatorSetDbController/detail?id='+ids[i]["id"];
+		src[i]=path+'/generatorSetFxController/main?id='+ids[i]["id"]+"&task_id="+task_id;
 	}
 	$('#fdjlist').html(appenddiv).addClass("easyui-accordion");
 	$('#fdjlist').accordion({
@@ -95,19 +94,67 @@ function fzData(item){
   		}else{
   			$(this).val(item[upperCaseAttrName]);//普通文本
   		}
-  		$(this).attr("disabled",true);
+  		//$(this).attr("disabled",true);
       }
 	});
 }
 //取消
 function cancel(){
 	//关闭窗口
-	window.parent.closeSingleExtent('电厂详情');
+	window.parent.closeSingleExtent('电厂修改');
+}
+function save(){
+	var formData = new Object();
+	//取值
+	$("#detailTable1 input").each(function(){
+		var attrName = $(this).attr('id');//id
+  	if(attrName!=null && attrName!=""){
+  		var upperCaseAttrName = attrName;
+  		var clas= $(this).attr('class');//用于区分是否是combo
+  		if(clas!=null && clas!=""){
+  			if(clas.indexOf("comboboxComponent")>=0){//combobox
+          		_value=$(this).combobox('getValue');
+  				formData[attrName]=_value;
+          	}else if(clas.indexOf("easyui-datebox")>=0){
+          		_value=$(this).datebox('getValue');
+          		formData[attrName]=_value;
+          	}
+  		}else{
+  			_value=$(this).val();//普通文本
+  			formData[attrName]=_value;
+  		}
+      }
+	});
+	//if(!validate(operationdata)){
+	//	return;
+	//}
+	var param={"editObj":JSONH.stringify(formData),"area_id":area_id,"task_id":task_id};
+	debugger;
+	$.ajax({
+		  type: "post",
+		  url: path + '/plantAnalysisfx/updateRecord',
+		  data:param,
+		  success:function(obj){
+			  if(obj=='1'){
+				  window.parent.$.messager.alert('提示','修改成功！','info',function(){
+						//关闭窗口
+						window.parent.queryData();
+						});
+				  window.parent.$('#win_div').window('close');
+			  }else{
+					$.messager.alert('提示','修改失败！','info');
+					//关闭窗口
+					window.parent.$('#win_div').window('close');
+			   }
+			}
+		});
 }
 </script>
 <body>
 	<!-- 引入自定义按钮页面 -->
 <div id="btn_div">
+		<a id="btn_save"   href="javascript:save();" ><img src="/PowerInfo/static/images/save.gif" border="0" ></a>
+
 <a id="btn_cancel" href="javascript:cancel();" ><img src="/PowerInfo/static/images/quxiao.gif" border="0"></a>
 </div>
 <form id="paramsForm">
@@ -174,7 +221,8 @@ function cancel(){
 				<td class="tdlft" style='width: 180px' align="right">其他费用（元/年）：</td>
 				<td class="tdrgt" style='width: 150px'><input id="other_cost"
 					type="text" style='width: 150px' /></td>
-			</tr>	
+			</tr>
+				<input type="hidden" id="id"/>	
  		</table>
  	<div id="fdjlist">  
 

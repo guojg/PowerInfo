@@ -1,4 +1,4 @@
-package com.github.regionalanalysis.db.coalcost.service;
+package com.github.regionalanalysis.fx.coalcost.service;
 
 
 import java.util.ArrayList;
@@ -18,19 +18,20 @@ import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
 import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
 import com.github.regionalanalysis.db.coalcost.dao.CoalCostDbDao;
+import com.github.regionalanalysis.fx.coalcost.dao.CoalCostFxDao;
 
 import net.sf.json.JSONObject;
 
 @Service
-public class CoalCostDbServiceImpl implements  CoalCostDbService{
+public class CoalCostFxServiceImpl implements  CoalCostFxService{
 
 	@Autowired
-	private CoalCostDbDao coalCostDbDao;
+	private CoalCostFxDao coalCostFxDao;
 	@Autowired
 	private TotalDataAnalysisDao totalDataAnalysisDao;
 	@Override
 	public String queryData(JSONObject param) throws Exception {
-		List<Map<String, Object>> list = coalCostDbDao.queryData(param);
+		List<Map<String, Object>> list = coalCostFxDao.queryData(param);
 		return JsonUtils.listTranJsonByQuery(list);
 	}
 
@@ -38,7 +39,7 @@ public class CoalCostDbServiceImpl implements  CoalCostDbService{
 	@Transactional
 	public String saveData(JSONObject param) throws Exception {
 		// TODO Auto-generated method stub
-		String result =coalCostDbDao.saveData(param);
+		String result =coalCostFxDao.saveData(param);
 		Long fdj_id=null;
 		Integer area_id=null;
 		Long task_id=null;
@@ -52,10 +53,8 @@ public class CoalCostDbServiceImpl implements  CoalCostDbService{
 		if (param.get("task_id") != null) {
 			task_id = Long.parseLong(param.get("task_id").toString());
 		}
-	///	totalDataAnalysisDao.totalData(fdj_id, area_id);
-	//	totalDataAnalysisDao.totalDataPlant(coalCostDbDao.getDcByFdj(fdj_id.toString(),task_id.toString()), area_id);
-		totalDataAnalysisDao.totalDatadCompare(fdj_id, area_id,task_id);
-		totalDataAnalysisDao.totalDataPlantCompare(coalCostDbDao.getDcByFdj(fdj_id.toString(),task_id.toString()), area_id,task_id);
+		totalDataAnalysisDao.totalDataAnalysis(fdj_id, area_id,task_id);
+		totalDataAnalysisDao.totalDataPlantAnalysis(coalCostFxDao.getDcByFdj(fdj_id.toString(),task_id.toString()), area_id,task_id);
 		return result;
 		
 	}
@@ -65,7 +64,7 @@ public class CoalCostDbServiceImpl implements  CoalCostDbService{
 		String[] excelTitle = new String[] { "" };
 		String index_xs[]=param.getString("index_xs").split(",");
 		String index_text[]=param.getString("index_text").split(",");
-		List<Map<String, Object>> list = coalCostDbDao.queryData(param);
+		List<Map<String, Object>> list = coalCostFxDao.queryData(param);
 		String[] colTitle = null;
 		String[] colName = null;
 

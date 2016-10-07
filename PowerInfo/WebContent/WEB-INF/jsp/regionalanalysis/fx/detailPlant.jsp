@@ -9,7 +9,7 @@
 <%@include file="../../common/commonInclude.jsp" %>	
 <%
 String id=request.getParameter("id");
-DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+DbTask tt=  (DbTask)request.getSession().getAttribute("fxtask");
 String taskid = tt.getId();
 String task_name = tt.getTask_name();
 Object obj=  request.getSession().getAttribute("maparea");
@@ -31,7 +31,7 @@ $(function() {
 		$.ajax({
 			type : 'POST',
 			async : false,
-			url : path + '/plantAnalysisdb/detailData',
+			url : path + '/plantAnalysisfx/detailData',
 			data : data,
 			success : function(data) {
 				var row=$.parseJSON(data);
@@ -50,7 +50,7 @@ function initAccordion(data){
 	$.ajax({
 		type : 'POST',
 		async : false,
-		url : path + '/plantAnalysisdb/getFdjByDc',
+		url : path + '/plantAnalysisfx/getFdjByDc',
 		data : data,
 		success : function(data) {
 			 ids=$.parseJSON(data);
@@ -67,7 +67,7 @@ function initAccordion(data){
 		appenddiv+='<div title="发电机-'+count+'"  id="p'+count+'">';
 		appenddiv+='<iframe id="iframe'+i+'" scrolling="auto" frameborder="0"  style="width:100%;height:98%"></iframe>';
 		appenddiv+='</div>';
-		src[i]=path+'/generatorSetDbController/detail?id='+ids[i]["id"];
+		src[i]=path+'/generatorSetFxController/detail?id='+ids[i]["id"];
 	}
 	$('#fdjlist').html(appenddiv).addClass("easyui-accordion");
 	$('#fdjlist').accordion({

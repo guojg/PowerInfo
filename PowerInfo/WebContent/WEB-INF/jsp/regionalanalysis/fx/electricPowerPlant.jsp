@@ -14,7 +14,7 @@
 <%@include file="../../common/commonDefineBtn.jsp"%>
 <%
 	String pid = request.getAttribute("pid") == null ? "" : request.getAttribute("pid").toString();
-DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
+DbTask tt=  (DbTask)request.getSession().getAttribute("fxtask");
 String taskid = "" ;
 String task_name = "";
 if(tt != null){
@@ -154,12 +154,12 @@ var area_id='<%=organCode%>';
 	
 	function detail(id) {
 		 window.parent.closeSingleExtent('电厂详情');
-		 window.parent.addTab('电厂详情', path+'/plantAnalysisdb/detail?id='+id+"&task_id="+task_id, '');
+		 window.parent.addTab('电厂详情', path+'/plantAnalysisfx/detail?id='+id+"&task_id="+task_id, '');
 	}
 	function ExportExcel() {//导出Excel文件
 		var plant_name=$("#plant_name").val();
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/plantAnalysisdb/exportData" method="post" id="fm1"></form>');
+		var f = $('<form action="'+path+'/plantAnalysisfx/exportData" method="post" id="fm1"></form>');
         var l=$('<input type="hidden" id="name" name="name" />');  
         var m=$('<input type="hidden" id="task_id" name="task_id" />');  
     	l.val(plant_name);  
@@ -178,7 +178,7 @@ var area_id='<%=organCode%>';
 			"area_id":area_id
 			
 		};
-		var url = path + '/plantAnalysisdb/queryData';
+		var url = path + '/plantAnalysisfx/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
@@ -203,7 +203,7 @@ var area_id='<%=organCode%>';
 			return ;
 		}
 		 window.parent.closeSingleExtent('电厂修改');
-		 window.parent.addTab('电厂修改', path+'/plantAnalysisdb/openUploadRecord?id='+rows[0]["id"], '');
+		 window.parent.addTab('电厂修改', path+'/plantAnalysisfx/openUploadRecord?id='+rows[0]["id"], '');
 	}
 	function duibi() {
 		var rows = $('#datagrid').datagrid('getChecked');
@@ -220,7 +220,7 @@ var area_id='<%=organCode%>';
 			}
 		}
 		window.parent.closeSingleExtent('电厂成本对比');
-		 window.parent.addTab('电厂成本对比', path+'/electricityContrastDbController/main?id='+ids+'&task_id='+task_id, '');
+		 window.parent.addTab('电厂成本对比', path+'/electricityContrastFxController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {

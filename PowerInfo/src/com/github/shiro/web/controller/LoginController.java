@@ -66,6 +66,10 @@ public class LoginController {
         }  
         return "login";
     }
+    @RequestMapping(value = "/loginIndex")
+    public String loginIndex(HttpServletRequest req, Model model) {
 
+        return "login";
+    }
 
 }
