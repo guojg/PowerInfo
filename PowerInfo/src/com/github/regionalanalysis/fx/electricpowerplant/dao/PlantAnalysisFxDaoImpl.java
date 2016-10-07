@@ -42,7 +42,7 @@ public class PlantAnalysisFxDaoImpl implements PlantAnalysisFxDao {
 		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
 		buffer.append("product_year,economical_life,equired_return,financial_cost,generation_coal,");
 		buffer.append("operation_rate,operation_cost,unit_cost,materials_cost,salary,repairs_cost,other_cost");
-		buffer.append(" from shiro.electricpowerplant_analysis_data_db where 1=1");
+		buffer.append(" from shiro.electricpowerplant_analysis_data_fx where 1=1");
 		if(!"".equals(name)){
 			buffer.append(" and plant_name like ?");
 			params.add("%"+name+"%");
@@ -70,7 +70,7 @@ public class PlantAnalysisFxDaoImpl implements PlantAnalysisFxDao {
 	public String updateRecord(final PlantAnalysis plantAnalysis) throws Exception {
 		// TODO Auto-generated method stub
 		StringBuffer updateSql=new StringBuffer();
-		updateSql.append("update  electricpowerplant_analysis_data_db");
+		updateSql.append("update  electricpowerplant_analysis_data_fx");
 		updateSql.append(" set  plant_name=?,plant_capacity=?,generating_capatity=?,plant_loss=?,start_outlay=?");
 		updateSql.append(" ,product_year=?,economical_life=?,equired_return=?,financial_cost=?,generation_coal=?");
 		updateSql.append(" , operation_rate=?,operation_cost=?,unit_cost=?,materials_cost=?,salary=?,repairs_cost=?,other_cost=?");
@@ -109,7 +109,7 @@ public class PlantAnalysisFxDaoImpl implements PlantAnalysisFxDao {
 	@Override
 	public String deleteRecord(String[] delectArr,String task_id) throws Exception {
 		// TODO Auto-generated method stub
-		StringBuffer  buffer=new StringBuffer("delete from electricpowerplant_analysis_data_db where id in(");
+		StringBuffer  buffer=new StringBuffer("delete from electricpowerplant_analysis_data_fx where id in(");
 		String InSql = "";
 		List l = new ArrayList();
 		for (int i = 0; i < delectArr.length; i++) {
@@ -135,7 +135,7 @@ public class PlantAnalysisFxDaoImpl implements PlantAnalysisFxDao {
 	public int getTotalCount(String task_id) {
 		// TODO Auto-generated method stub
 		
-		String Sql="select count(1) from shiro.electricpowerplant_analysis_data_db where task_id=?";
+		String Sql="select count(1) from shiro.electricpowerplant_analysis_data_fx where task_id=?";
 		
 		return jdbcTemplate.queryForInt(Sql,new Object[]{task_id});
 	}
@@ -144,7 +144,7 @@ public class PlantAnalysisFxDaoImpl implements PlantAnalysisFxDao {
 
 	@Override
 	public List<Map<String, Object>> getPlantById(String id,String task_id) throws Exception {
-		String sql="select * from shiro.electricpowerplant_analysis_data_db where id=? and task_id=?";
+		String sql="select * from shiro.electricpowerplant_analysis_data_fx where id=? and task_id=?";
 		
 		return jdbcTemplate.queryForList(sql,new Object[]{id,task_id});
 	}
@@ -154,7 +154,7 @@ public class PlantAnalysisFxDaoImpl implements PlantAnalysisFxDao {
 	@Override
 	public List<Map<String, Object>> getFdjByDc(String id,String task_id) throws Exception {
 		// TODO Auto-generated method stub
-		String sql ="SELECT jz_id id FROM shiro.constant_cost_arg_db WHERE  index_type=200 AND index_value=? and task_id=?";
+		String sql ="SELECT jz_id id FROM shiro.constant_cost_arg_fx WHERE  index_type=200 AND index_value=? and task_id=?";
 		return jdbcTemplate.queryForList(sql,new Object[]{id,task_id});
 	}
 }

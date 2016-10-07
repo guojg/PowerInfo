@@ -37,14 +37,14 @@ public class GeneratorContrastFxDaoImpl implements GeneratorContrastFxDao {
 			sb.append(index_x);
 			sb.append("'");
 		}
-		sb.append("   FROM  generator_contrast_db a")
+		sb.append("   FROM  generator_contrast_fx a")
 		.append("  RIGHT JOIN  (")
 		.append("	  SELECT x.*,y.* FROM (")
 
 		.append("  		SELECT dc.id plant_id,jz.jz_id mjz_id,dc.plant_name,jz.jz_name,jz.task_id ")
 		.append("		  FROM (SELECT  task_id,jz_id, MAX(CASE j.index_type WHEN 100 THEN j.index_value END) 'jz_name',")
-		.append("			MAX(CASE j.index_type WHEN 200 THEN j.index_value END) 'dc_id' FROM constant_cost_arg_db j  WHERE j.index_type IN(100,200) and j.task_id=? GROUP BY task_id,jz_id")
-		.append(" 				) jz JOIN electricpowerplant_analysis_data_db dc  	 ON jz.dc_id =dc.id  and jz.task_id=dc.task_id ") ;
+		.append("			MAX(CASE j.index_type WHEN 200 THEN j.index_value END) 'dc_id' FROM constant_cost_arg_fx j  WHERE j.index_type IN(100,200) and j.task_id=? GROUP BY task_id,jz_id")
+		.append(" 				) jz JOIN electricpowerplant_analysis_data_fx dc  	 ON jz.dc_id =dc.id  and jz.task_id=dc.task_id ") ;
 		String InSql = "";
 		StringBuffer  buffer=new StringBuffer("AND jz.jz_id in (");
 		l.add(task_id) ;

@@ -50,7 +50,7 @@ public class GeneratorSetFxDaoImpl implements GeneratorSetFxDao {
 				.append(s.getCode())
 				.append("' ");
 			}
-		sb.append( "  FROM constant_cost_arg_db  c where c.task_id=? GROUP BY c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data_db dc ON jz.200=dc.id  and dc.task_id=jz.task_id " );
+		sb.append( "  FROM constant_cost_arg_fx  c where c.task_id=? GROUP BY c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data_fx dc ON jz.200=dc.id  and dc.task_id=jz.task_id " );
 		List<Object> l = new ArrayList<Object>();
 		l.add(task_id);
 		if(!"".equals(gene_name)){
@@ -89,7 +89,7 @@ public class GeneratorSetFxDaoImpl implements GeneratorSetFxDao {
 				.append(s.getCode())
 				.append("' ");
 			}
-		sb.append( "  FROM constant_cost_arg_db  c  where c.task_id=? GROUP BY c.task_id,c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data_db dc ON jz.200=dc.id  and dc.task_id =jz.task_id " );
+		sb.append( "  FROM constant_cost_arg_fx  c  where c.task_id=? GROUP BY c.task_id,c.jz_id order by c.jz_id desc) jz   JOIN  electricpowerplant_analysis_data_fx dc ON jz.200=dc.id  and dc.task_id =jz.task_id " );
 		List<Object> l = new ArrayList<Object>();
 		l.add(task_id);
 		if(!"".equals(gene_name)){
@@ -109,7 +109,7 @@ public class GeneratorSetFxDaoImpl implements GeneratorSetFxDao {
 
 	@Override
 	public int queryDataCount(JSONObject param) {
-		String sql ="SELECT COUNT(DISTINCT c.jz_id) FROM constant_cost_arg_db  c  where task_id=?";
+		String sql ="SELECT COUNT(DISTINCT c.jz_id) FROM constant_cost_arg_fx  c  where task_id=?";
 		int count =this.jdbcTemplate.queryForInt(sql,new Object[]{param.getString("task_id")});
 		return count;
 	}
@@ -117,7 +117,7 @@ public class GeneratorSetFxDaoImpl implements GeneratorSetFxDao {
 
 	@Override
 	public Object deleteData(String[] delectArr) {
-		StringBuffer  buffer=new StringBuffer("delete from coal_cost_data_db where fdj_id in(");
+		StringBuffer  buffer=new StringBuffer("delete from coal_cost_data_fx where fdj_id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";

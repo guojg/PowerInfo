@@ -25,9 +25,9 @@ public class ConstantCostFxArgDaoImpl implements ConstantCostFxArgDao {
 
 	@Override
 	public String save(final List<ConstantCostArg> list) {
-		String deleteSql = "delete from constant_cost_arg_db where jz_id=? and task_id=?" ;
+		String deleteSql = "delete from constant_cost_arg_fx where jz_id=? and task_id=?" ;
 		this.jdbcTemplate.update(deleteSql, new Object[]{list.get(0).getJz_id(),list.get(0).getTask_id()});
-		String sql = "insert into constant_cost_arg_db(index_type,index_value,jz_id,area_id,task_id) value (?,?,?,?,?)";
+		String sql = "insert into constant_cost_arg_fx(index_type,index_value,jz_id,area_id,task_id) value (?,?,?,?,?)";
 		this.jdbcTemplate.batchUpdate(sql,
 		      new BatchPreparedStatementSetter() {
 		        public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -49,7 +49,7 @@ public class ConstantCostFxArgDaoImpl implements ConstantCostFxArgDao {
 
 	@Override
 	public List<ConstantCostArg> getDataById(String id,String task_id) {
-		String sql = "SELECT index_type,index_value,area_id FROM constant_cost_arg_db c WHERE jz_id=? and task_id=?" ;
+		String sql = "SELECT index_type,index_value,area_id FROM constant_cost_arg_fx c WHERE jz_id=? and task_id=?" ;
 		//List<CalculatePlan> list = this.jdbcTemplate.queryForList(sql, CalculatePlan.class, new Object[]{taskid});
 		List<ConstantCostArg> list = this.jdbcTemplate.query(sql, new Object[]{id,task_id}, new ParameterizedRowMapper<ConstantCostArg>() {
                     @Override
@@ -71,14 +71,14 @@ public class ConstantCostFxArgDaoImpl implements ConstantCostFxArgDao {
 
 	@Override
 	public List<Map<String, Object>> queryPlant(String area_id,String task_id) {
-		String sql ="select id code ,plant_name value from electricpowerplant_analysis_data_db where area_id=? and task_id=? order by id desc";
+		String sql ="select id code ,plant_name value from electricpowerplant_analysis_data_fx where area_id=? and task_id=? order by id desc";
 		List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql,new Object[]{area_id,task_id});
 		return list;
 	}
 
 	public Integer getPlantByJz(String jz_id, String task_id){
 		Integer result=null;
-		String sql="SELECT index_value FROM constant_cost_arg_db WHERE index_type=200 AND jz_id=? and task_id=?";
+		String sql="SELECT index_value FROM constant_cost_arg_fx WHERE index_type=200 AND jz_id=? and task_id=?";
 		List<Map<String, Object>> list=jdbcTemplate.queryForList(sql,new Object[]{jz_id,task_id});
 		if(list!=null){
 			result=Integer.parseInt(list.get(0).get("index_value").toString());

@@ -37,9 +37,9 @@ public class ElectricityContrastFxDaoImpl implements ElectricityContrastFxDao {
 			sb.append(index_x);
 			sb.append("'");
 		}
-		sb.append("   FROM  electricity_contrast_db a")
+		sb.append("   FROM  electricity_contrast_fx a")
 		.append("  RIGHT JOIN  (")
-		.append("	  SELECT x.*,y.* FROM (  	SELECT * FROM electricpowerplant_analysis_data_db WHERE id IN (");
+		.append("	  SELECT x.*,y.* FROM (  	SELECT * FROM electricpowerplant_analysis_data_fx WHERE id IN (");
 		StringBuffer  buffer=new StringBuffer("");
 
 		String InSql = "";
