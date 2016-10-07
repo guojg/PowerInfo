@@ -15,12 +15,16 @@
 <%
 	String pid = request.getAttribute("pid") == null ? "" : request.getAttribute("pid").toString();
 DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
-String taskid = tt.getId();
-String task_name = tt.getTask_name();
-Object obj=request.getSession().getAttribute("maparea");
+String taskid = "" ;
+String task_name = "";
+if(tt != null){
+	 taskid = tt.getId();
+	 task_name = tt.getTask_name();
+}
+Object obj=  request.getSession().getAttribute("maparea");
 String organCode="";
-if(obj!=null){
-	organCode=obj.toString();
+if(obj != null) {
+	organCode = obj.toString() ; 
 }
 
 %>
@@ -125,6 +129,10 @@ var area_id='<%=organCode%>';
 		align : 'center'
 	}] ];
 	$(function() {	
+		if(task_id==""){
+			alert("请先选择任务");
+			return ;
+		}
 		$("#tool_query").bind("click", function() {
 			queryData();
 		});

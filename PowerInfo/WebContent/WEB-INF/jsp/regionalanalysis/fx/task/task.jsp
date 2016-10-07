@@ -114,7 +114,7 @@ var organCode='<%=organCode%>';
 			 async:false,
 			 success:function(msg){
 					//页面跳转
-					window.parent.addNav(169);
+					//window.parent.addNav(169);
 		 	 }
 		});
 	

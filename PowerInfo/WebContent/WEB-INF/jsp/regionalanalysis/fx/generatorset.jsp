@@ -11,8 +11,12 @@
 <%@include file="../../common/commonDefineBtn.jsp" %>
 <%
 DbTask tt=  (DbTask)request.getSession().getAttribute("fxtask");
-String taskid = tt.getId();
-String task_name = tt.getTask_name();
+String taskid = "" ;
+String task_name = "";
+if(tt != null){
+	 taskid = tt.getId();
+	 task_name = tt.getTask_name();
+}
 Object obj=  request.getSession().getAttribute("maparea");
 String organCode="";
 if(obj != null) {
@@ -39,7 +43,10 @@ var area_id='<%=organCode%>';
 	$(function() {
 	
 	
-		
+		if(task_id==""){
+			alert("请先选择任务");
+			return ;
+		}
 		 cols = [ [ {
        		field : 'plant_id',
       		title : '所属发电厂',
