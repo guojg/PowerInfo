@@ -7,6 +7,7 @@
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
 <%@include file="../../common/commonDefineBtn.jsp" %>
+
 <script type="text/javascript" src="<%=path%>/static/js/map/lib/jquery.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/map/lib/raphael.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/map/svg_data/chinaMapConfig.js"></script>
@@ -49,7 +50,6 @@
 
 </style>
 <script type="text/javascript">
-
 $(function(){
 	$('#map').SVGMap({
 		mapName: 'china',
@@ -58,6 +58,16 @@ $(function(){
 	});
 	/*var R = Raphael('map',600,500);
 	printMap(R);*/
+	/*if(organCode !=""){
+		$.ajax({
+			type : 'POST',
+			async : false,
+			url : path +'/mapController/setSession?organCode=' + organCode,
+			success : function(data) {
+				
+			}
+		});
+	}*/
 	
 });
 	
