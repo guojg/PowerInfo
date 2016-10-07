@@ -172,8 +172,8 @@ var area_id='<%=organCode%>';
 				ids = ids + rows[rowindex]["jz_id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('成本对比');
-		 window.parent.addTab('成本对比', path+'/generatorContrastDbController/main?id='+ids+'&task_id='+task_id, '');
+		window.parent.closeSingleExtent('机组成本对比');
+		 window.parent.addTab('机组成本对比', path+'/generatorContrastDbController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {

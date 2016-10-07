@@ -160,8 +160,8 @@ var area_id='<%=organCode%>';
 	}
 	function duibi() {
 		var rows = $('#datagrid').datagrid('getChecked');
-		if(rows.length <1){
-			$.messager.alert('提示', '请选择需要对比的机组！', 'info');
+		if(rows.length!=1){
+			$.messager.alert('提示', '请选择一个需要分析的机组！', 'info');
 			return ;
 		}
 		var ids = "";
@@ -172,8 +172,8 @@ var area_id='<%=organCode%>';
 				ids = ids + rows[rowindex]["jz_id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('成本对比');
-		 window.parent.addTab('成本对比', path+'/generatorContrastFxController/main?id='+ids+'&task_id='+task_id, '');
+		window.parent.closeSingleExtent('机组成本分析');
+		 window.parent.addTab('机组成本分析', path+'/generatorContrastFxController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {
