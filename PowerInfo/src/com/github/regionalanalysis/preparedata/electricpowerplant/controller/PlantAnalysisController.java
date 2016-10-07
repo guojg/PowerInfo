@@ -153,11 +153,12 @@ public class PlantAnalysisController {
 	public void exportData(HttpServletRequest request,
 			HttpServletResponse response) {
 			response.setCharacterEncoding("UTF-8");
-			String indexs=request.getParameter("indexs");
 			String name=request.getParameter("name");
+			String area_id=request.getParameter("area_id");
+
 			JSONObject obj = new JSONObject();
-			obj.put("indexs", indexs);
 			obj.put("name", name);
+			obj.put("area_id",area_id);
 			try {
 				plantAnalysisService.ExportExcel(obj, response);
 			}catch (Exception e) {
