@@ -3,20 +3,22 @@
 	tabCloseEven();
 	var keyValue={"basic":1,"totalQuantity":4,"balance":157,"station":168};
 	//$('#css3menu').css("margin-left", $('#logo1').width());
+	
+	
 	$('#css3menu a').click(function() {
 		$('#mm-tabcloseall').click();
 		$('#css3menu a').removeClass('active');
 		$(this).addClass('active');
-		$("#css3menu a").css("background","#EDF1FA");
+		$("#css3menu a").css("color","black");
 		var d = $(this).attr('name') ;
-		$(this).css("background","#3385FF");
+		$(this).css("color","red");
 		addNav(keyValue[d]);
 		InitLeftMenu();
 	});
 
 	// 导航菜单绑定初始化
 	var firstMenuName = $('#css3menu a:eq('+flag+')').attr('name');
-	$('#css3menu a:eq('+flag+')').css("background","#3385FF");
+	$('#css3menu a:eq('+flag+')').css("color","red");//.css("background","#3385FF");
 	addNav(keyValue[firstMenuName]);
 	InitLeftMenu();
 	

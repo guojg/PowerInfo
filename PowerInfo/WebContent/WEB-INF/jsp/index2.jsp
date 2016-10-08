@@ -47,12 +47,15 @@ height:78px;
 float:left;
 margin:0;
 padding:0;
-width:90px;
+width:120px;
 box-sizing:border-box;
 }
 a{
 display:inline-block;
 text-decoration:none;
+}
+a:link{
+color:black;
 }
 </style>
 </head>
@@ -68,26 +71,22 @@ text-decoration:none;
 			<ul id="css3menu">
 					<li >
 						<a name="basic" href="#">
-						<span class="lll"><img src="static/images/4.jpg" ></span>
-						<span style="display: block;margin-top: 0px"> 基 础 数 据 </span>
+						<span style="display: block;margin-top: 20px;font-size: medium;"> 基 础 数 据 </span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="totalQuantity" href="#">
-							<span  class="lll"><img src="static/images/2.jpg"></img></span>
-							<span style="display: block;margin-top: 0px">电力需求预测</span>
+							<span style="display: block;margin-top: 20px;font-size: medium;">电力需求预测</span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="balance" href="#">
-							<span  class="lll"><img src="static/images/3.jpg"></img></span>
-							<span style="display: block;margin-top: 0px">电力电量平衡</span>
+							<span style="display: block;margin-top: 20px;font-size: medium;">电力电量平衡</span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="station" href="#">
-							<span  class="lll"><img src="static/images/1.gif"></img></span>
-							<span style="display: block;margin-top: 0px">区域电厂竞争力</span>
+							<span style="display: block;margin-top: 20px;font-size: medium;">区域电厂竞争力</span>
 						</a>
 					</li>
 			</ul>
