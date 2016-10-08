@@ -102,9 +102,12 @@ public class GeneratorSetController {
 		String deleteData(HttpServletRequest request) {
 			try {
 				String deleteids = request.getParameter("ids");
+				Object obj=  request.getSession().getAttribute("maparea");
+				String area_id = "";
+				if(obj != null) area_id = obj.toString();
 				JSONObject jsonobj = new JSONObject();
 				jsonobj.put("deleteids",deleteids );
-				generatorSetService.deleteData(jsonobj);
+				generatorSetService.deleteData(jsonobj,area_id);
 				return "1";
 			} catch (Exception e) {
 				e.printStackTrace();

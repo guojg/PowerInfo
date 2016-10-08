@@ -8,10 +8,14 @@ import java.util.Map;
 
 
 
+
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 
 
 
@@ -21,10 +25,13 @@ import com.github.common.export.ExcelUtils;
 import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
+import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
 import com.github.regionalanalysis.generatorset.dao.GeneratorSetDao;
 
 
 
+
+import com.github.regionalanalysis.preparedata.constantcostarg.dao.ConstantCostArgDao;
 
 import net.sf.json.JSONObject;
 
@@ -33,6 +40,10 @@ public class GeneratorSetServiceImpl implements GeneratorSetService {
 
 	@Autowired
 	private GeneratorSetDao generatorSetDao;
+	@Autowired
+	private ConstantCostArgDao constantCostArgDao;
+	@Autowired
+	private TotalDataAnalysisDao totalDataAnalysisDao;
 
 	
 	@Override
@@ -93,10 +104,20 @@ public class GeneratorSetServiceImpl implements GeneratorSetService {
 	}
 
 	@Override
-	public void deleteData(JSONObject obj) {
+	public void deleteData(JSONObject obj,String area_id) {
 		String delectArr[] = obj.get("deleteids") == null ? null : obj
 				.get("deleteids").toString().split(",");
 		 generatorSetDao.deleteData(delectArr);
+		 Integer area = Integer.parseInt(area_id);
+		 for(String str : delectArr){
+				try {
+					totalDataAnalysisDao.fdcSaveTotal(constantCostArgDao.getPlantByJz(str), area);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+		 }
 		
 	}
 

@@ -38,7 +38,7 @@ public class LoginController {
         try {  
             subject.login(token);  
             if (subject.isAuthenticated()) {  
-                return "redirect:/";  
+                return "redirect:/mondelSel/sel";  
             } else {  
                 return "login";  
             } 

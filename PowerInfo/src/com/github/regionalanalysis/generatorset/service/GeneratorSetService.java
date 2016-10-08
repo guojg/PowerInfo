@@ -17,6 +17,6 @@ public interface GeneratorSetService {
 	 */
 	public String queryData(JSONObject param) ;
 	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
-	public void deleteData(JSONObject jsonobj);
+	public void deleteData(JSONObject jsonobj,String area_id);
 
 }

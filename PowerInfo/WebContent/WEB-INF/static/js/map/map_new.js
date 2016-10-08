@@ -241,13 +241,13 @@
 				oldPointText = new Array(5);
 			
 			// 热点数据颜色集合
-			var colorPoint = {
+			/*var colorPoint = {
 								"fuyu":["#E9FFBE","较富裕"],
 								"fullfuyu":["#BEFFE7","一定富裕"],
 								"pingheng":["#43FFBA","基本平衡"],
 								"quekou":["#FCA87C","一定缺口"],
 								"bigquekou":["#FD5305","较大缺口"]
-							};			
+							};	*/		
 
 			var textAttr = {
 				"fill": "#000",
@@ -255,14 +255,14 @@
 				"cursor": "pointer"
 			};
 
-			// 绘制对比参数表,生成图例层
-			var $tiplayer = $("#tiplayer");
+			/*	// 绘制对比参数表,生成图例层
+		var $tiplayer = $("#tiplayer");
 			var $tipTable = $("<table/>").attr("width","120px");
 			var $tipTr = $("<tr/>").append($("<td/>").append("<font size=2>图例</font>"));
 			
 			$tipTable.append($tipTr);
 
-			for(var color in colorPoint){
+				for(var color in colorPoint){
 				
 				var $tipTr1 = $("<tr/>").append($("<td>&nbsp</td>").attr("width","50px").attr("bgcolor",colorPoint[color][0]))
 										.append("<td>&nbsp;&nbsp;"+colorPoint[color][1]+"</td>");
@@ -271,7 +271,7 @@
 			}
 			$tiplayer.append($tipTable);
 		
-
+*/
             // 绘制省份名称及事件
             for (var state in mapConfig.shapes) {
             	
@@ -347,7 +347,6 @@
 					}
 					
 					 //写入地名,并加点击事件,部分区域太小，增加对文字的点击事件
-					debugger;
 					st.text = r.text(xx, yy, mapConfig['names'][state]).attr(textAttr).click(function(){
 						clickMap();
 					});	
@@ -371,11 +370,11 @@
 		            };*/
 					
 					(function (){
-						var xxTemp = xx ;
-						var yyTemp = yy ;
-						$(st[0]).click(function(e){	
+						//var xxTemp = xx ;
+						//var yyTemp = yy ;
+						/*$(st[0]).click(function(e){	
 							clickMap();
-						});	
+						});	*/
 						/*$(st[0]).onmouseover=function () {//鼠标滑向
 							abc();
 			               
@@ -396,7 +395,6 @@
 			                r.safari();
 					}
 					function clickMap(){
-						debugger;
 						if ( oldState == st)
 							return ;             
 						
@@ -413,7 +411,7 @@
 						oldState = st;    //将当前值赋给变量
 						 st.animate({fill: "blue", stroke: "#eee"}, 500);
 						var orgCode = "";
-						debugger;
+						
 						switch(st['name']){
 							case '黑龙江':
 								orgCode = "12321";
@@ -514,27 +512,21 @@
 							case '澳门':
 								orgCode = "";
 								break;
-							case '东北电网':
-								orgCode = "1200002";
-								break; 
-							case '华北电网':
-								orgCode = "1100003";
-								break; 
-							case '华东电网':
-								orgCode = "1300002";
-								break; 
-							case '华中电网':
-								orgCode = "1400002";
-								break; 
-							case '南网':
-								orgCode = "";
-								break;  
-							case '西北电网':
-								orgCode = "1500002";
-								break; 
+							
 						}
-						alert(orgCode);
-						window.location.href = path+'/mapController/setSession?organCode=' + orgCode;
+						//alert(orgCode);
+						debugger;
+						$.ajax({
+							type : 'POST',
+							async : false,
+							url : path +'/mapController/setSession?organCode=' + orgCode,
+							success : function(data) {
+								
+							}
+						});
+						
+					
+						//window.location.href = path+'/mapController/setSession?organCode=' + orgCode;
 
 					}
 			   })
@@ -545,7 +537,7 @@
 				
 
 			   // 绘制完地图后， 计算图例层显示的 x ，y 坐标
-			   $tiplayer.css("position","absolute").css("left",(document.body.offsetWidth-$("#map").width())/2+$("#map").width()).css("top",document.body.offsetHeight-$tiplayer.height()-30);
+			   //$tiplayer.css("position","absolute").css("left",(document.body.offsetWidth-$("#map").width())/2+$("#map").width()).css("top",document.body.offsetHeight-$tiplayer.height()-30);
             }     
 			
         }

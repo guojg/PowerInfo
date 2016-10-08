@@ -207,8 +207,8 @@ var area_id='<%=organCode%>';
 	}
 	function duibi() {
 		var rows = $('#datagrid').datagrid('getChecked');
-		if(rows.length <1){
-			$.messager.alert('提示', '请选择需要对比的电厂！', 'info');
+		if(rows.length !=1){
+			$.messager.alert('提示', '请选择一个需要分析的电厂！', 'info');
 			return ;
 		}
 		var ids = "";
@@ -219,8 +219,8 @@ var area_id='<%=organCode%>';
 				ids = ids + rows[rowindex]["id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('电厂成本对比');
-		 window.parent.addTab('电厂成本对比', path+'/electricityContrastFxController/main?id='+ids+'&task_id='+task_id, '');
+		window.parent.closeSingleExtent('电厂成本分析');
+		 window.parent.addTab('电厂成本分析', path+'/electricityContrastFxController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {
