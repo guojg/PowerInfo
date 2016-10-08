@@ -6,9 +6,16 @@
 <title>增加电厂</title>
 </head>
 <%@include file="../../common/commonInclude.jsp" %>
+<%
+	Object obj=request.getSession().getAttribute("maparea");
+	String organCode="";
+	if(obj!=null){
+		organCode=obj.toString();
+	}
+%>
 <script type="text/javascript" src="<%=path%>/static/js/common/plantUtil.js"></script>
 <script type="text/javascript">
-var area_id="1";
+var area_id="<%=organCode%>";
 $(function() {
 	 comboBoxInit({
 			id : "index_item",

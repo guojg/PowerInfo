@@ -6,9 +6,16 @@
 <title>电厂详情</title>
 </head>
 <%@include file="../../common/commonInclude.jsp" %>	
-<%String id=request.getParameter("id"); %>
+<%
+String id=request.getParameter("id"); 
+Object obj=request.getSession().getAttribute("maparea");
+String organCode="";
+if(obj!=null){
+	organCode=obj.toString();
+}
+%>
 <script type="text/javascript">
-var area_id="1";
+var area_id="<%=organCode%>";
 var id='<%=id%>';
 $(function() {
 	var data = {
