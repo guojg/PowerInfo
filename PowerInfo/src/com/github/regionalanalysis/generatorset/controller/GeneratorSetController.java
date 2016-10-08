@@ -42,6 +42,10 @@ public class GeneratorSetController {
 	public String detail(HttpServletRequest request, HttpServletResponse response){
 		return "regionalanalysis/generatorsetdetailmain";
 	}
+	@RequestMapping(value ="/miaoshu")
+	public String miaoshu(HttpServletRequest request, HttpServletResponse response){
+		return "regionalanalysis/dcmiaoshu";
+	}
 	
 		@RequestMapping(value ="/queryData")
 		public @ResponseBody String queryData(HttpServletRequest request, HttpServletResponse response){
