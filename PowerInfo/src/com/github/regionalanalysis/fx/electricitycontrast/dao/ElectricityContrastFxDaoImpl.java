@@ -54,13 +54,13 @@ public class ElectricityContrastFxDaoImpl implements ElectricityContrastFxDao {
 		buffer.append(") ");
 		sb.append(buffer.toString());
 
-		sb.append("  	) X JOIN ( ")
+		sb.append("  	AND task_id = ? ) X JOIN ( ")
 		.append("		    SELECT s1.code,s1.value index_y_name,s2.value unit_name,s1.ord FROM sys_dict_table  s1     ")
 		.append("			JOIN sys_dict_table s2 ON s1.domain_id = 36  AND s2.domain_id=37  AND s1.code=s2.code     AND INSTR(?,s1.code)>0 ORDER BY  s1.ord)Y");
 		
 		sb.append(" 				)b ON a.dc_id=b.id AND a.task_id=b.task_id AND a.index_y=b.code and a.task_id=? ") 
 		.append(" 			GROUP BY  b.task_id,b.id,b.code		 ORDER BY plant_id DESC,b.code ASC ") ;
-		
+		l.add(task_id) ;
 		l.add(index_ys);
 		l.add(task_id) ;
 		return jdbcTemplate.queryForList(sb.toString(),l.toArray());
