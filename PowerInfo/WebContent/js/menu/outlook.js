@@ -368,7 +368,7 @@ function openPwd() {
         modal: true,
         shadow: true,
         closed: true,
-        height: 160,
+        height: 170,
         resizable:false
     });
 }
@@ -376,3 +376,25 @@ function openPwd() {
 function closePwd() {
     $('#w').window('close');
 }
+function serverLogin(){
+	var txtNewPass = $('#txtNewPass').val();
+	var txtRePass = $('#txtRePass').val();
+	if(txtNewPass==txtRePass){
+	$.ajax({
+		type : 'POST',
+		async : false,
+		url : '/PowerInfo/register/modifyPass?password='+txtNewPass,
+		success : function(data) {
+			if(data=="1"){
+			 $.messager.alert("提示","修改成功");
+			 }else{
+				  $.messager.alert("提示","两次密码不一致");
+ 
+			 }
+		}
+	});
+	}else{
+		  $.messager.alert("提示","两次密码不一致");
+	}
+}
+

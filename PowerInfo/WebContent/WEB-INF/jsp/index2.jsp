@@ -113,6 +113,30 @@ color:black;
 			</div>
 		</div>
     </div>
+    <!--修改密码窗口-->
+    <div id="w" class="easyui-window" title="修改密码" collapsible="false" minimizable="false"
+        maximizable="false" icon="icon-save"  style="width: 300px; height: 150px; padding: 5px;
+        background: #fafafa;">
+        <div class="easyui-layout" fit="true">
+            <div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc;">
+                <table cellpadding=3>
+                    <tr>
+                        <td>新密码：</td>
+                        <td><input id="txtNewPass" type="Password"  required="required"  class="txt01" /></td>
+                    </tr>
+                    <tr>
+                        <td>确认密码：</td>
+                        <td><input id="txtRePass" type="Password"  required="required"   class="txt01" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div region="south" border="false" style="text-align: right; height: 35px; line-height: 35px;">
+                <a id="btnEp" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" >
+                    确定</a> <a id="btnCancel" class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)">取消</a>
+            </div>
+        </div>
+    </div>
+    
     <div id="mm" class="easyui-menu" style="width:180px;">
 		<div id="mm-tabupdate">刷新</div>
 		<div class="menu-sep"></div>
