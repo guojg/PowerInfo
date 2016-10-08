@@ -30,6 +30,10 @@ if(obj != null) {
 </script>
 </head>
 <body>
+<div id="btn_div">
+			<a id="btn_save"   href="javascript:baoCun();" ><img src='<%=path%>/static/images/save.gif'
+		 border='0' title='保存' /></a>
+	</div> 
 <form id="paramsForm">
 <input id="11" name="11" type="hidden">
 	<table id="detailTable">
@@ -61,10 +65,7 @@ if(obj != null) {
 	</table>
 	
 
-	<div class="div_submit" >
-			<a id="btn_save"   href="javascript:baoCun();" ><img src='<%=path%>/static/images/save.gif'
-			align='top' border='0' title='保存' /></a>
-	</div> 
+	
 </form> 
 </body>
 </html>
