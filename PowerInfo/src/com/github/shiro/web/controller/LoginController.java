@@ -11,9 +11,13 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.github.shiro.entity.User;
+import com.github.shiro.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +28,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class LoginController {
-
+	@Autowired
+	private UserService  userService ;
+	
     @RequestMapping(value = "/login")
     public String showLoginForm(HttpServletRequest req, Model model) {
 //        String exceptionClassName = (String)req.getAttribute("shiroLoginFailure");
@@ -37,31 +43,35 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();  
         try {  
             subject.login(token);  
-            if (subject.isAuthenticated()) {  
+            if (subject.isAuthenticated()) {
+            	User user =userService.findByUsername(userName);
+            	
+            	req.getSession().removeAttribute("user");			
+    			req.getSession().setAttribute("user", user);
                 return "redirect:/mondelSel/sel";  
             } else {  
                 return "login";  
             } 
         }catch (IncorrectCredentialsException e) {  
-            msg = "登录密码错误. Password for account " + token.getPrincipal() + " was incorrect.";  
+            msg = "登录密码错误. ";  
             model.addAttribute("message", msg);  
         } catch (ExcessiveAttemptsException e) {  
             msg = "登录失败次数过多";  
             model.addAttribute("message", msg);  
         } catch (LockedAccountException e) {  
-            msg = "帐号已被锁定. The account for username " + token.getPrincipal() + " was locked.";  
+            msg = "帐号已被锁定.";  
             model.addAttribute("message", msg);  
         } catch (DisabledAccountException e) {  
-            msg = "帐号已被禁用. The account for username " + token.getPrincipal() + " was disabled.";  
+            msg = "帐号已被禁用. ";  
             model.addAttribute("message", msg);  
         } catch (ExpiredCredentialsException e) {  
-            msg = "帐号已过期. the account for username " + token.getPrincipal() + "  was expired.";  
+            msg = "帐号已过期. ";  
             model.addAttribute("message", msg);  
         } catch (UnknownAccountException e) {  
-            msg = "帐号不存在. There is no user with username of " + token.getPrincipal();  
+            msg = "帐号不存在.";  
             model.addAttribute("message", msg);  
         } catch (UnauthorizedException e) {  
-            msg = "您没有得到相应的授权！" + e.getMessage();  
+            msg = "您没有得到相应的授权！" ;  
             model.addAttribute("message", msg);  
         }  
         return "login";
