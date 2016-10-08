@@ -71,7 +71,16 @@ String commonPath = path;
 <script src="<%=path%>/static/js/menu/main.js"></script> <!-- Resource jQuery -->
 <script type="text/javascript">
   function modelchange(page){
-	  window.location.href="<%=path%>?page="+page;
+	  
+	 window.location.href="<%=path%>?page="+page;
+	 /** var target="<%=path%>?page="+page;
+		  newwindow=window.open("","","fullscreen = 1")
+		  if (document.all){
+		  newwindow.moveTo(0,0)
+		 // fullscreen
+		  newwindow.resizeTo(screen.width,screen.height)
+		  }
+		  newwindow.location=target**/
   }
 </script>
 </body>
