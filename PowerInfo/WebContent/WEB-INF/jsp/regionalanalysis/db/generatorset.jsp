@@ -144,7 +144,7 @@ var area_id='<%=organCode%>';
 		commonHelper.toAdd({
 			title : '修改',
 			width : 800,
-			height : 450,
+			height : 480,
 			url : path + '/generatorSetDbController/main?id='+rows[0].jz_id+"&plant_id="+rows[0].plant_id+'&task_id='+task_id
 		});
 	}

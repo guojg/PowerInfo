@@ -34,7 +34,7 @@ String task_name = tt.getTask_name();
 		$('#iframe0').attr('src', srcs['基本信息']);
 		$('#tt').tabs({
 			fitColumns : true,
-			height : 450,
+			height : 420,
 			tabHeight:32,
 			onSelect : function(title, index){
 				$('#iframe' + index).attr('src', srcs[title]);
