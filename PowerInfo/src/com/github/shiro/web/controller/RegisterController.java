@@ -61,6 +61,30 @@ public class RegisterController {
     	 
     	
     }
+    
+    @RequestMapping(value = "/modifyPass")
+    public @ResponseBody String modifyPass(HttpServletRequest req, Model model) {
+//        String exceptionClassName = (String)req.getAttribute("shiroLoginFailure");
+//        String error = null;
+    	 try {
+         String password = req.getParameter("password"); 
+       User session = (User) req.getSession().getAttribute("user");	
+        if(session != null){
+	     
+         userService.changePassword(session.getId(),password);
+	         return "1" ;
+     	}else{
+     		return "0";
+     	}
+
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		return "0";
+
+ 		}
+    	 
+    	
+    }
    
     
 
