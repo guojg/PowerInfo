@@ -263,8 +263,8 @@ var area_id='<%=organCode%>';
 			title='修改' />
 		</a> 
 		 <a id="tool_db"> <img
-			src='<%=path%>/static/images/duibi.jpg' align='top' border='0'
-			title='对比' />
+			src='<%=path%>/static/images/cbfx.jpg' align='top' border='0'
+			title='成本分析' />
 			</a>
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
