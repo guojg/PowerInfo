@@ -35,7 +35,7 @@ public class PlantAnalysisServiceImpl implements  PlantAnalysisService{
 	@Override
 	public String queryData(JSONObject param) throws Exception {
 		List<Map<String, Object>> list = plantAnalysisDao.queryData(param);
-		int totalcount=plantAnalysisDao.getTotalCount();
+		int totalcount=plantAnalysisDao.getTotalCount(param);
 		return JsonUtils.listTranJsonByPage(list,totalcount);
 	}
 

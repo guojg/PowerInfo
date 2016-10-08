@@ -47,7 +47,7 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 			buffer.append(" and plant_name like ?");
 			params.add("%"+name+"%");
 		}
-		if(!"".equals(name)){
+		if(!"".equals(area_id)){
 			buffer.append(" and area_id=?");
 			params.add(area_id);
 		}
@@ -169,12 +169,18 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 
 
 	@Override
-	public int getTotalCount() {
+	public int getTotalCount(JSONObject param) {
 		// TODO Auto-generated method stub
-		
+		String area_id=param.getString("area_id");
+		List<Object> params = new ArrayList<Object>();
+
 		String Sql="select count(1) from shiro.electricpowerplant_analysis_data";
+		if(!"".equals(area_id)){
+			Sql +=" where area_id=?";
+			params.add(area_id);
+		}
 		
-		return jdbcTemplate.queryForInt(Sql);
+		return jdbcTemplate.queryForInt(Sql,params.toArray());
 	}
 
 

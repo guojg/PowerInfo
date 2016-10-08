@@ -47,7 +47,7 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 			buffer.append(" and plant_name like ?");
 			params.add("%"+name+"%");
 		}
-		if(!"".equals(name)){
+		if(!"".equals(task_id)){
 			buffer.append(" and task_id=?");
 			params.add(task_id);
 		}

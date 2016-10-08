@@ -22,6 +22,6 @@ public interface PlantAnalysisDao {
 	
 	public List<Map<String, Object>> getFdjByDc(String id) throws Exception;
 
-	public int getTotalCount();
+	public int getTotalCount(JSONObject param);
 	
 }

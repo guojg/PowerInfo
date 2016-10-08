@@ -188,9 +188,9 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 * @param delectArr
 	 */
 	public void insertElec(String id,String area_id){
-		StringBuffer  buffer=new StringBuffer("INSERT INTO   electricpowerplant_analysis_data_db (plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year, "
+		StringBuffer  buffer=new StringBuffer("INSERT INTO   electricpowerplant_analysis_data_db (id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year, "
 				+ "economical_life,  equired_return,financial_cost, generation_coal, operation_rate, operation_cost,unit_cost,area_id, task_id,materials_cost,salary,repairs_cost,other_cost)"
-				+ " select plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year,economical_life,  equired_return,"
+				+ " select id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year,economical_life,  equired_return,"
 				+ "financial_cost, generation_coal, operation_rate, operation_cost,unit_cost,area_id, " );
 		buffer.append(id + " 'task_id'") ;
 		buffer.append( ",materials_cost,salary,repairs_cost,other_cost FROM electricpowerplant_analysis_data where area_id=? ");
