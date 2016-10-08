@@ -117,7 +117,7 @@ function InitTreeData(data) {
 	$('#tt').tree(
 			{
 				url : 'menu/queryMenu?pid='+data,
-				onClick : function(node) {
+				onSelect : function(node) {
 					if (node.attributes.url != "") {
 						addTab(node.text, path + node.attributes.url + "?pid="
 								+ node.id, "static/images/top_03.png");
@@ -140,13 +140,20 @@ function InitTreeData(data) {
 						top : e.pageY
 					});
 				},onLoadSuccess:function(){
+					debugger;
 					var rooNode = $("#tt").tree('getRoot');
 					$("#tt").tree("expand",rooNode.target);  
+			           $("#tt li:eq(1)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+			           var n = $("#tt").tree("getSelected");   
+			           if(n!=null){   
+			                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+			           }   
 				}
 				
 
 			});
 }
+//function 
 function update() {
 
 	commonHelper.toAdd({
