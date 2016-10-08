@@ -25,7 +25,7 @@ public class ConstantCostDbArgDaoImpl implements ConstantCostDbArgDao {
 
 	@Override
 	public String save(final List<ConstantCostArg> list) {
-		String deleteSql = "delete from constant_cost_arg_db where jz_id=? and task_id=?" ;
+		String deleteSql = "delete from constant_cost_arg_db where jz_id=? and task_id=? and index_type not IN(10001,11001,12001,13001)" ;
 		this.jdbcTemplate.update(deleteSql, new Object[]{list.get(0).getJz_id(),list.get(0).getTask_id()});
 		String sql = "insert into constant_cost_arg_db(index_type,index_value,jz_id,area_id,task_id) value (?,?,?,?,?)";
 		this.jdbcTemplate.batchUpdate(sql,

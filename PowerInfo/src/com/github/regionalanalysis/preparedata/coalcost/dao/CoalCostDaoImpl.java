@@ -160,8 +160,8 @@ public class CoalCostDaoImpl implements CoalCostDao {
 
 	private void sumData(String fdj_id) throws Exception {
 		// TODO Auto-generated method stub
-		StringBuffer delbuffer=new StringBuffer("delete from coal_cost_data where index_y in (5,6)");
-		jdbcTemplate.update(delbuffer.toString());
+		StringBuffer delbuffer=new StringBuffer("delete from coal_cost_data where index_y in (5,6) and fdj_id=?");
+		jdbcTemplate.update(delbuffer.toString(),new Object[]{fdj_id});
 		StringBuffer buffer=new StringBuffer("INSERT INTO coal_cost_data (index_x,unit,index_y,value,fdj_id,area_id)");
 		buffer.append("SELECT t1.index_x,'5','5',t1.value*t2.value*0.0005 VALUE,t2.fdj_id,t2.area_id FROM ");
 		buffer.append("(SELECT VALUE,index_x FROM  coal_cost_data WHERE index_y=1 and fdj_id=?) t1  INNER JOIN ");
