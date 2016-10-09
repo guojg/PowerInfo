@@ -103,7 +103,7 @@ var algorithm='<%=algorithm%>';
 
 		comboBoxInit({
 			id : "years",
-			url : path + '/totalData/getyears',
+			url : path + '/totalData/getyears?baseyear'+baseyear+'&planyear='+planyear,
 			textkey : "yearName",
 			valuekey : "year",
 			multiple : true

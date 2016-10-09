@@ -36,10 +36,12 @@ $( function() {
 	var datagrid_height = $("#datagrid_div").position().top;
 	var height= Height_Page-datagrid_height;
 	$('#iframe0').attr('src', path+'/totalData/showData');
-
+	var flag=false;
 	var algorithmstr=algorithm;
-	if(algorithmRadio!=null && algorithmRadio !=""){
+	if(algorithmRadio!=null && algorithmRadio !=""  && algorithmRadio !="null"){
 		algorithmstr=algorithm+","+algorithmRadio;
+	}else{
+		flag=true;
 	}
 	
 	var algorithmArray = algorithmstr.split(",");
@@ -47,6 +49,10 @@ $( function() {
 		if(algorithmArray[i]!="5" && algorithmArray[i]!="6"){
 		//addTab(algorithmJson[algorithmArray[i]], path+'/totalData/showData'+algorithmArray[i],i+1);
 		//srcs[algorithmJson[algorithmArray[i]]]=path+'/totalData/showData'+algorithmArray[i];
+			if(flag){
+				addTab('建议值', path+'/totalData/showData'+algorithmArray[i],1);
+				srcs['建议值']=path+'/totalData/showData'+algorithmArray[i];
+			}
 		}else{
 			addTab('建议值', path+'/totalData/showData'+algorithmArray[i],1);
 			srcs['建议值']=path+'/totalData/showData'+algorithmArray[i];

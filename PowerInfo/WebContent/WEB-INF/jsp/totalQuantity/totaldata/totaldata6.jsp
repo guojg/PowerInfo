@@ -103,7 +103,7 @@ var algorithm='<%=algorithm%>';
 
 		comboBoxInit({
 			id : "years",
-			url : path + '/totalData/getyears',
+			url : path + '/totalData/getyears?baseyear'+baseyear+'&planyear='+planyear,
 			textkey : "yearName",
 			valuekey : "year",
 			multiple : true
@@ -259,7 +259,7 @@ var algorithm='<%=algorithm%>';
 		for (var i = 0,len = selections.length; i < len; i++) {
 			var series = {};
 			var data = [];
-			series.name = selections[i][ylastField];
+			series.name ="用电量";
 			series.type = type;
 			
 			if (!isInit) {
