@@ -146,7 +146,7 @@ function InitTreeData(data) {
 				},onLoadSuccess:function(){
 					debugger;
 					var rooNode = $("#tt").tree('getRoot');
-					if(data==190){
+					if(data==190 || data==169){
 						$("#tt").tree("expand",rooNode.target);  
 						 $("#tt li:eq(2)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
 				           var n = $("#tt").tree("getSelected");   
