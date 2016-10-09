@@ -26,14 +26,14 @@ String commonPath = path;
 </head>
 <body>
 
-		<ul class="cd-nav" style="margin-top:10%;margin-left:25%;margin-right:25%">
+		<ul class="cd-nav" style="margin-top:2%;margin-left:25%;margin-right:25%;">
 			<li>
 				<a href="#" onclick="modelchange(0)">
 					<span>
 					<img src="<%=path%>/static/images/4.jpg" >
 					</span>
 
-					<em>基 础 数 据</em>
+					<em>市场信息数据</em>
 				</a>
 			</li>
 
@@ -62,8 +62,15 @@ String commonPath = path;
 					<span>
 					<img src="<%=path%>/static/images/1.gif"></img>
 					</span>
-
-					<em>区域电厂竞争力</em>
+					<em>电厂竞争力分析</em>
+				</a>
+			</li>
+						<li>
+				<a href="#" onclick="modelchange(4)">
+					<span>
+					<img src="<%=path%>/static/images/1.gif"></img>
+					</span>
+					<em>电厂竞价预测</em>
 				</a>
 			</li>
 		</ul>
