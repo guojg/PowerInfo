@@ -35,7 +35,6 @@ public class ElectricityBalanceController {
 		obj.put("year", year);
 		obj.put("task_id",taskid);
 		String resultJson = electricityBalanceService.queryData(obj);
-	System.out.println(resultJson);
 		return resultJson;
 	}
 	@RequestMapping(value = "/extractData" ,produces="text/plain;charset=UTF-8")

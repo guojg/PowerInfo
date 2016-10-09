@@ -12,7 +12,6 @@ TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
 String algorithm = tt.getAlgorithm() ;
 String taskid = tt.getId();
 String task_name = tt.getTask_name();
-System.out.println(task_name);
 String algorithmRadio = tt.getAlgorithmRadio();
 %>
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />

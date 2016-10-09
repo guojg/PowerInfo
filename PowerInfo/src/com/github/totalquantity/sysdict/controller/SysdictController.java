@@ -42,7 +42,6 @@ public class SysdictController {
         String condition = request.getParameter("condition")!=null?request.getParameter("condition"):"20000";
         obj.put("condition", condition);
 		String a= sysdictService.queryDataNotCondition(obj) ;
-		System.out.println(a);
 		return a;
 	
 	

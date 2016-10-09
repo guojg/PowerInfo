@@ -70,7 +70,6 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		}*/
 		//double result = d* Math.pow(1+i, planyear-baseyear) ;
 		double result =MyMath.round(MyMath.mul(d, Math.pow(1+i, planyear-baseyear)),Containts.PRECISION);
-		System.out.println(result);
 		return result ;
 	}
 	
@@ -357,7 +356,6 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 					if(index_type.equals("weight"+key) && index_value!=null && !"".equals(index_value)){
 						//result += m.get(key).doubleValue()*index_value;
 						result = MyMath.add(result,MyMath.mul(m.get(key).doubleValue(), index_value));
-						System.out.println("weight"+key+"---->"+m.get(key).doubleValue());
 					}
 				}
 			}

@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <%
 String flag=request.getParameter("page")==null?"":request.getParameter("page").toString();
-System.out.print("hello:"+flag);
 %>
 <html>
  <head>

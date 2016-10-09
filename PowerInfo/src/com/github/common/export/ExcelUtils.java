@@ -695,12 +695,6 @@ private WritableWorkbook createExcel1(OutputStream os, List<MergeRules> rules, i
         return null;
     }
 	
-	public static void main(String[] args) {
-    
-	    int i = 1;
-	    Integer j = 2;
-	    System.out.println(i + j);
 	
-    }
 	
 }

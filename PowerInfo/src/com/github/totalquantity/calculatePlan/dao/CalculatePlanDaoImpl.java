@@ -80,7 +80,6 @@ public class CalculatePlanDaoImpl implements CalculatePlanDao{
 		if(list.size()>0){
 			Object obj =list.get(0).get("VALUE") ;
 			result = Double.parseDouble(obj==null?"0":obj.toString());
-			System.out.println("----"+obj.toString());
 
 		}
 		return result;
