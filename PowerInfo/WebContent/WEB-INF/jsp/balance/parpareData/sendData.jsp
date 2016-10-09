@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page import="com.github.balance.task.entity.BalanceTask"%>
+ <!DOCTYPE html>
 <html>
 <head>
 <title>外购外送</title>
@@ -151,9 +152,9 @@
 		};
 
 		var url = path + '/sendData/queryData';
-		var Height_Page = $("html").height();
+		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
-		var height = Height_Page - datagrid_title_height - 5;
+		var height = Height_Page - datagrid_title_height;
 		$('#datagrid').datagrid({
 			width : 'auto',
 			height : height,
@@ -224,16 +225,13 @@
 
 	//点击事件
 	function clickEvent(rowIndex, field, value) {
-		var type = window.event.type;
-		switch (type) {
-		case "click":
+		
 			var d = new Date();
 			savEvtTime = d.getTime();
 			savTO = setTimeout(function() {
 				clickonetime(rowIndex, field, value);
 			}, dcTime);
-			break;
-		}
+		
 	}
 
 	/**

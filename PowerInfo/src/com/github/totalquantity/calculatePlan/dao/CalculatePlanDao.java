@@ -22,5 +22,12 @@ public interface CalculatePlanDao {
 	 * @return 算法参数对象的数据集
 	 */
 	public List<CalculatePlan> getDataBytask(String taskid);
+	
+	
+	/**
+	 * 获得基本年的用电量
+	 */
+	
+	public double getDataByBaseyear(int baseyear);
 
 }

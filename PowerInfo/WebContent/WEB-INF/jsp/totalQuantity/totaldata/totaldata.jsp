@@ -16,6 +16,8 @@ String algorithm = tt.getAlgorithm() ;
 String taskid = tt.getId();
 String baseyear = tt.getBaseyear();
 String planyear = tt.getPlanyear();
+String task_name = tt.getTask_name();
+
 String algorithmRadio = tt.getAlgorithmRadio();
 %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
@@ -30,6 +32,8 @@ var baseyear='<%=baseyear%>';//规划年
 var planyear='<%=planyear%>';//规划年
 var algorithmRadio='<%=algorithmRadio%>';
 var algorithm='<%=algorithm%>';
+var task_name='<%=task_name%>';
+
 
 //id,taskid,algorithm,year,value from totaldata
 	var cols;
@@ -101,7 +105,8 @@ var algorithm='<%=algorithm%>';
 	};
 	var categories = [];
 	$(function() {
-	
+		$('#task_name').html('<b>'+task_name+'</b>');
+
 		queryData();
 		
 	});
@@ -276,7 +281,16 @@ var algorithm='<%=algorithm%>';
 </script>
 </head>
 <body>
-
+<fieldset id="field">
+		<legend></legend>
+		<table id="search_tbl">
+			<tr>
+			<td class="tdlft">任务：</td>
+				<td class="tdrgt"><span id="task_name"></span></td>
+				
+			</tr>
+		</table>
+	</fieldset>
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>

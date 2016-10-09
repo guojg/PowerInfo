@@ -1,7 +1,7 @@
 var algorithms=algorithmStr.split(",");
 	var algorithmJson=getSysDict();
 $(function() {
-	
+		$('#task_name').html('<b>'+task_name+'</b>');
 	/*
 	 * 给算法复选框赋值
 	 */
@@ -74,7 +74,7 @@ function addWeight(){
 	var trHtml="<table id='6' class='bs2'>";
 	for (var i=0 ; i<algorithms.length;++i){
 		$("input:checkbox[value="+algorithms[i]+"]").attr('checked','true');		
-		trHtml +="<tr> <td class='tdlft'> "+algorithmJson[algorithms[i]]+"权重：</td> " +
+		trHtml +="<tr> <td class='tdlft'> "+algorithmJson[algorithms[i]]+"权重(%)：</td> " +
 		"<td class='tdrgt'>" +
 		"<input type='text' name='weight"+algorithms[i]+"' id='weight"+algorithms[i]+"' >" +
 		"</td></tr>";
@@ -91,17 +91,28 @@ function save(){
 	var algorithmRadioValue=$('input:radio:checked').val();
 	
 	var algorithmAndRadio = (algorithmStr+","+algorithmRadioValue).split(",");
+	var flag=true;
+	var wflag=false;
 	for (var i=0 ; i<algorithmAndRadio.length;++i){
 		/*
 		 * 每个算法的需要的文本值
 		 */
 		var b={};
+		var wv=0;
 		var algorithmsId="algorithms"+algorithmAndRadio[i];
 		b[algorithmsId]=algorithmAndRadio[i];
 		  b["taskid"]=taskid;
 		  $("#"+algorithmAndRadio[i]+" input[type=text]").each(function(){		  
 			  var id = $(this).attr("id");
-			   b[id]=$(this).val();
+			  var thisval = $(this).val();
+			  if(algorithmAndRadio[i]==6){
+				  wflag=true;
+				  wv +=parseFloat(thisval);
+			  }
+			   b[id]=thisval;
+			   if(thisval==""){
+				   flag=false; 
+			   }
 			  });
 		  
 		  m.push(b);
@@ -114,6 +125,24 @@ function save(){
 	if(!validate(m)){
 		return ;
 	}
+	if(wflag && wv!=100){
+		$.messager.alert('提示','权重之和为100！','info');
+		return ;
+	}
+	if(!flag){
+		$.messager.confirm('提示', '存在未填写的数据，是否保存?', function(r) {
+			if (r) {
+				saveajax(param);
+				}
+			});
+	}else{
+		saveajax(param);
+	}
+	
+ 
+ }
+
+function saveajax(param){
 	 $.ajax({
 			type : 'POST',
 			async : false,
@@ -130,8 +159,7 @@ function save(){
 			
 			}
 		});
- 
- }
+}
 
 function init(){
 	var taskParam={

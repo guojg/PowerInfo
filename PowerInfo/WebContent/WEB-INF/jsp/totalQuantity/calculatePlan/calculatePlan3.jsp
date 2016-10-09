@@ -11,6 +11,8 @@
 TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
 String algorithm = tt.getAlgorithm() ;
 String taskid = tt.getId();
+String task_name = tt.getTask_name();
+System.out.println(task_name);
 String algorithmRadio = tt.getAlgorithmRadio();
 %>
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />
@@ -20,13 +22,26 @@ String algorithmRadio = tt.getAlgorithmRadio();
 var algorithmStr='<%=algorithm%>';  //算法代号
 var taskid='<%=taskid%>';  //算法代号
 var algorithmRadio='<%=algorithmRadio%>';//综合算法
+var task_name='<%=task_name%>';
 </script>
 <script type="text/javascript" src="<%=path %>/js/totalquantity/calculatePlan/calculatePlan.js"></script>
 
 </head>
 <body>
+<div id="btn_div">
 		<a id="tool_save" href="javascript:save();" style="margin:5px;"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' /></a>
+			</div>
+				<fieldset id="field">
+		<legend></legend>
+		<table id="search_tbl">
+			<tr>
+			<td class="tdlft">任务：</td>
+				<td class="tdrgt"><span id="task_name"></span></td>
+			
+			</tr>
+		</table>
+	</fieldset>
 	<table id="calculateTable">
 		
 			<tr>
@@ -37,28 +52,28 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 			</tr>
 			<tr>
 				<td class="bs3">
-					<table id="1"  class="bs2" style="width:250px">
-						   <tr> <td class="tdlft">最大值：</td> <td class="tdrgt"><input  type="text" name="maxRate" id="maxRate"></td></tr>
-						    <tr> <td  class="tdlft">最小值：</td> <td class="tdrgt"><input  type="text" name="minRate" id="minRate"></td></tr>
-						 <tr> <td class="tdlft">最可能值：</td> <td class="tdrgt"><input  type="text" name="possibleRate" id="possibleRate"></td></tr>
+					<table id="1"  class="bs2" style="width:270px">
+						   <tr> <td class="tdlft">最大值(%)：</td> <td class="tdrgt"><input  type="text" name="maxRate" id="maxRate"></td></tr>
+						    <tr> <td  class="tdlft">最小值(%)：</td> <td class="tdrgt"><input  type="text" name="minRate" id="minRate"></td></tr>
+						 <tr> <td class="tdlft">最可能值(%)：</td> <td class="tdrgt"><input  type="text" name="possibleRate" id="possibleRate"></td></tr>
 					</table> 
 				</td>
 				<td class="bs3">
 					<table id="2" class="bs2" style="width:300px">
 						     <tr> 
-						     	<td class="tdlft"> 一产单耗增长率：</td> 
+						     	<td class="tdlft"> 一产单耗增长率(%)：</td> 
 						     	<td class="tdrgt"><input  type="text" name="oneProductionRate" id="oneProductionRate"></td>
 						     </tr>
 						     <tr> 
-						       <td class="tdlft">二产单耗增长率：</td>
+						       <td class="tdlft">二产单耗增长率(%)：</td>
 						       <td class="tdrgt"><input  type="text" name="twoProductionRate" id="twoProductionRate"></td>
 						     </tr>
 						    <tr> 
-						       <td class="tdlft">三产单耗增长率：</td> 
+						       <td class="tdlft">三产单耗增长率(%)：</td> 
 						       <td class="tdrgt"><input  type="text" name="threeProductionRate" id="threeProductionRate"></td>
 						   </tr>
 						  <tr> 
-						  	   <td class="tdlft">  人均居民生活用电量增长率：</td> 
+						  	   <td class="tdlft">  人均居民生活用电量增长率(%)：</td> 
 						  	   <td class="tdrgt"><input  type="text" name="avgElectricityRate" id="avgElectricityRate"></td>
 						  </tr>
 					</table> 
@@ -77,16 +92,16 @@ var algorithmRadio='<%=algorithmRadio%>';//综合算法
 						       <td class="tdrgt"><input  type="text" name="coefficient" id="coefficient"></td>
 						   </tr>
 						  <tr> 
-						  	   <td class="tdlft">  国内生产总值平均年增长速度：</td> 
+						  	   <td class="tdlft">  国内生产总值平均年增长速度(%)：</td> 
 						       <td class="tdrgt"><input  type="text" name="incrementSpeed" id="incrementSpeed"></td>
 						   </tr>
 					</table> 
 				</td>
 				<td class="bs3">
-					<table id="4"  class="bs2" style="width:250px">
-						   <tr> <td class="tdlft">最大值：</td> <td class="tdrgt"><input  type="text" name="avgMaxRate" id="avgMaxRate"></td></tr>
-						    <tr> <td  class="tdlft">最小值：</td> <td class="tdrgt"><input  type="text" name="avgMinRate" id="avgMinRate"></td></tr>
-						 <tr> <td class="tdlft">最可能值：</td> <td class="tdrgt"><input  type="text" name="avgPossibleRate" id="avgPossibleRate"></td></tr>
+					<table id="4"  class="bs2" style="width:270px">
+						   <tr> <td class="tdlft">最大值(%)：</td> <td class="tdrgt"><input  type="text" name="avgMaxRate" id="avgMaxRate"></td></tr>
+						    <tr> <td  class="tdlft">最小值(%)：</td> <td class="tdrgt"><input  type="text" name="avgMinRate" id="avgMinRate"></td></tr>
+						 <tr> <td class="tdlft">最可能值(%)：</td> <td class="tdrgt"><input  type="text" name="avgPossibleRate" id="avgPossibleRate"></td></tr>
 					</table> 
 				</td>
 			</tr>

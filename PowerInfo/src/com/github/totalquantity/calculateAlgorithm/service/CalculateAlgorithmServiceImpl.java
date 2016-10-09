@@ -70,6 +70,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		}*/
 		//double result = d* Math.pow(1+i, planyear-baseyear) ;
 		double result =MyMath.round(MyMath.mul(d, Math.pow(1+i, planyear-baseyear)),Containts.PRECISION);
+		System.out.println(result);
 		return result ;
 	}
 	
@@ -93,13 +94,13 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 					}
 					switch(key){
 					case "maxRate": //最大值
-						a = value;
+						a = value/100.0;
 						break;
 					case "minRate"://最小值
-						b = value ;
+						b = value/100.0 ;
 						break;
 					case "possibleRate"://最可能值
-						m = value ;
+						m = value/100.0 ;
 						break;
 					}	
 				}
@@ -128,13 +129,13 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 					}
 					switch(key){
 					case "avgMaxRate": //最大值
-						a = value ;
+						a = value/100.0 ;
 						break;
 					case "avgMinRate"://最小值
-						b = value ;
+						b = value/100.0 ;
 						break;
 					case "avgPossibleRate"://最可能值
-						m = value ;
+						m = value/100.0 ;
 						break;
 					}	
 				}
@@ -178,7 +179,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 				coefficient = value ;
 				break;
 			case "incrementSpeed"://国内生产总值平均年增长速度
-				incrementSpeed = value ;
+				incrementSpeed = value/100.0 ;
 				break;
 			}
 		}
@@ -283,22 +284,22 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			}
 			switch(key){
 			case "oneProductionRate": //一产单耗增长率
-				onePerUnitRate =value;
+				onePerUnitRate =value/100.0;
 				break;
 			case "twoProductionRate": //二产单耗增长率
-				twoPerUnitRate = value ;
+				twoPerUnitRate = value/100.0 ;
 				break;
 			case "threeProductionRate": //三产单耗增长率
-				threePerUnitRate = value ;
+				threePerUnitRate = value/100.0 ;
 				break;
 			case "avgElectricityRate": //人均居民生活用电量增长率
-				avgElectricityRate =value;
+				avgElectricityRate =value/100.0;
 				break;
 			}
 		}
-		result = oneGDP*onePerUnit*onePerUnitRate+twoGDP*twoPerUnit*twoPerUnitRate
-				+threeGDP*threePerUnit*threePerUnitRate+
-				avgElectricityConsumption*avgElectricityRate*planPeople;
+		result = oneGDP*onePerUnit*(1+onePerUnitRate)+twoGDP*twoPerUnit*(1+twoPerUnitRate)
+				+threeGDP*threePerUnit*(1+threePerUnitRate)+
+				avgElectricityConsumption*(1+avgElectricityRate)*planPeople;
 		result = MyMath.round(result, Containts.PRECISION);
 		return result;
 	}
@@ -321,7 +322,9 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			}
 		}
 		//result = result/count;
-		result=MyMath.div(result, count, Containts.PRECISION);
+		if(count !=0){
+			result=MyMath.div(result, count, Containts.PRECISION);
+		}
 
 		return result;
 	}
@@ -348,12 +351,13 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		}*/
 		for(CalculatePlan cp : weightlist){
 			String index_type = cp.getIndex_type() ;
-			Double index_value = cp.getIndex_value() ;
+			Double index_value = cp.getIndex_value()/100.0 ;
 			for(Map<String,Double> m : list){
 				for (String key : m.keySet()) {
 					if(index_type.equals("weight"+key) && index_value!=null && !"".equals(index_value)){
 						//result += m.get(key).doubleValue()*index_value;
 						result = MyMath.add(result,MyMath.mul(m.get(key).doubleValue(), index_value));
+						System.out.println("weight"+key+"---->"+m.get(key).doubleValue());
 					}
 				}
 			}

@@ -1,15 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
+ <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@include file="../../common/commonInclude.jsp" %>	
 <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/calculatePlanStyle.css" />
+<% 
+TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
+String task_name = tt.getTask_name();
 
+%>
 <script type="text/javascript">
-
+var task_name='<%=task_name%>';
+$(function() {
+	$('#task_name').html('<b>'+task_name+'</b>');
+});
 function startCalculate(){
 	 $.ajax({
 			type : 'POST',
@@ -26,6 +34,17 @@ function startCalculate(){
 </script>
 </head>
 <body>
+	<fieldset>
+
+		<legend></legend>
+		<table id="search_tbl">
+			<tr>
+			<td class="tdlft">任务：</td>
+				<td class="tdrgt"><span id="task_name"></span></td>
+				
+			</tr>
+		</table>
+	</fieldset>
 	<p class="p1">
 	预测流程:
 	</p>
@@ -87,7 +106,7 @@ function startCalculate(){
  
 	<div class="div_submit" >
 		<a id="tool_start" href="javascript:startCalculate();" > <img src='<%=path%>/static/images/js.gif'
-			align='top' border='0' title='保存' /></a>
+			align='top' border='0' title='计算' /></a>
 	</div> 
 
 </body>

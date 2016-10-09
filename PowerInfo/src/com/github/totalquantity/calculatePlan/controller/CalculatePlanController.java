@@ -30,6 +30,9 @@ public class CalculatePlanController {
 			String algorithmRadio = request.getParameter("algorithmRadio")!=null?request.getParameter("algorithmRadio"):"";
 			TotalTask tt=  (TotalTask)request.getSession().getAttribute("totaltask");
 			tt.setAlgorithmRadio(algorithmRadio);
+			request.getSession().removeAttribute("totaltask");
+			request.getSession().setAttribute("totaltask", tt);
+
 			
 			JSONArray  array=JSONArray.fromObject(param);
 			String	resultJson ="";

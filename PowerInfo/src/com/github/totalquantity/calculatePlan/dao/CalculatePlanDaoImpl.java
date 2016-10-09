@@ -72,6 +72,19 @@ public class CalculatePlanDaoImpl implements CalculatePlanDao{
                 });
 		return list;
 	}
+	@Override
+	public double getDataByBaseyear(int baseyear) {
+		String sql ="SELECT value FROM electricalsource_data tb WHERE  index_item=107 and yr=? ";
+		List<Map<String,Object>> list= this.jdbcTemplate.queryForList(sql, baseyear);
+		double result=0;
+		if(list.size()>0){
+			Object obj =list.get(0).get("VALUE") ;
+			result = Double.parseDouble(obj==null?"0":obj.toString());
+			System.out.println("----"+obj.toString());
+
+		}
+		return result;
+	}
 
 
 }
