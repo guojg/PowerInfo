@@ -524,6 +524,7 @@
 								
 							}
 						});
+						window.parent.addNav(190);
 						
 					
 						//window.location.href = path+'/mapController/setSession?organCode=' + orgCode;

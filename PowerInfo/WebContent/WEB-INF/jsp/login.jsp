@@ -16,7 +16,6 @@
         <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
         <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
         <meta name="author" content="Codrops" />
-        <link rel="shortcut icon" href="../favicon.ico"> 
         <link rel="stylesheet" type="text/css" href="/PowerInfo/static/css/demo.css" />
         <link rel="stylesheet" type="text/css" href="/PowerInfo/static/css/style.css" />
 		<link rel="stylesheet" type="text/css" href="/PowerInfo/static/css/animate-custom.css" />
@@ -27,7 +26,6 @@
 		<%	String flag = request.getAttribute("flag")==null ? null : request.getAttribute("flag")+""; 
 			String message = request.getAttribute("message")==null ? "" : request.getAttribute("message")+""; 
 
-		System.out.println("---"+flag);
 		%>
 		
 		<script type="text/javascript">

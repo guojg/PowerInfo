@@ -97,7 +97,7 @@
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="/loginIndex"/>
     </bean>
 
     <bean id="sysUserFilter" class="com.github.shiro.web.shiro.filter.SysUserFilter"/>
@@ -105,7 +105,7 @@
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="/loginIndex"/>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
@@ -114,10 +114,12 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-                /login = authc
+               /static/**=anon
+                /login = anon
+                /register/* = anon
+            	/**=authc
                 /logout = logout
                 /authenticated = authc
-                /static/**=anon
             </value>
         </property>
     </bean>

@@ -142,12 +142,26 @@ function InitTreeData(data) {
 				},onLoadSuccess:function(){
 					debugger;
 					var rooNode = $("#tt").tree('getRoot');
-					$("#tt").tree("expand",rooNode.target);  
-			           $("#tt li:eq(1)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
-			           var n = $("#tt").tree("getSelected");   
-			           if(n!=null){   
-			                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
-			           }   
+					if(data==190){
+						$("#tt").tree("expand",rooNode.target);  
+						 $("#tt li:eq(2)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+				           var n = $("#tt").tree("getSelected");   
+				           if(n!=null){   
+				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+				           }   
+				           $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);
+						
+					}else{
+						$("#tt").tree("expand",rooNode.target);  
+
+						 $("#tt li:eq(1)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+				           var n = $("#tt").tree("getSelected");   
+				           if(n!=null){   
+				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+				           }   
+					}
+					
+			          
 				}
 				
 
