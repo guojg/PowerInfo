@@ -27,7 +27,7 @@ String commonPath = path;
 <body>
 
 		<ul class="cd-nav" style="margin-top:10%;margin-left:25%;margin-right:25%">
-			<li class="cd-selected">
+			<li>
 				<a href="#" onclick="modelchange(0)">
 					<span>
 					<img src="<%=path%>/static/images/4.jpg" >

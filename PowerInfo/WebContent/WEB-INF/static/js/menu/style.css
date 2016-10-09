@@ -17,7 +17,7 @@ body {
   font-size: 1.6rem;
   font-family: "Open Sans", sans-serif;
   color: #9e87ce;
-  background-color: #403438;
+  background-color: #e4e9f2;
 }
 
 svg {
@@ -47,7 +47,7 @@ xnavigation
   width: 10%;
   height: 30%;
   overflow-y: auto;
-  background-color: #ffffff;
+  background-color: #f7f7f7;
   /* Force Hardware Acceleration in WebKit */
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
@@ -121,45 +121,9 @@ xnavigation
   -moz-animation: cd-shock 0.3s;
   animation: cd-shock 0.3s;
 }
-.no-touch .cd-nav li a:hover span *,
-.cd-nav li.cd-selected a span * {
-  /* on hover or if selected - change text and icon color*/
-  stroke: #ffffff;
-}
-.no-touch .cd-nav li a:hover em,
-.cd-nav li.cd-selected a em {
-  /* on hover or if selected - change text and icon color*/
-  color: #ffffff;
-}
-.no-touch .cd-nav li:first-of-type a:hover,
-.cd-nav li.cd-selected:first-of-type a {
+.cd-nav li a:hover {
   /* on hover or if selected - change background color*/
-  background-color: #9e87ce;
-}
-.no-touch .cd-nav li:nth-of-type(2) a:hover,
-.cd-nav li.cd-selected:nth-of-type(2) a {
-  /* on hover or if selected - change background color*/
-  background-color: #5c4b51;
-}
-.no-touch .cd-nav li:nth-of-type(3) a:hover,
-.cd-nav li.cd-selected:nth-of-type(3) a {
-  /* on hover or if selected - change background color*/
-  background-color: #e0cf75;
-}
-.no-touch .cd-nav li:nth-of-type(4) a:hover,
-.cd-nav li.cd-selected:nth-of-type(4) a {
-  /* on hover or if selected - change background color*/
-  background-color: #f5b65a;
-}
-.no-touch .cd-nav li:nth-of-type(5) a:hover,
-.cd-nav li.cd-selected:nth-of-type(5) a {
-  /* on hover or if selected - change background color*/
-  background-color: #f25f5c;
-}
-.no-touch .cd-nav li:nth-of-type(6) a:hover,
-.cd-nav li.cd-selected:nth-of-type(6) a {
-  /* on hover or if selected - change background color*/
-  background-color: #8abeb2;
+  background-color: #38cabf;
 }
 .cd-nav span, .cd-nav em {
   position: absolute;
@@ -190,6 +154,7 @@ xnavigation
   transition: color 0.2s;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  font-family: fantasy;
 }
 /* -------------------------------- 
 
