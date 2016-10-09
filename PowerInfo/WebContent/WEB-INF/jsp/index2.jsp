@@ -63,7 +63,7 @@ color:black;
 }
 </style>
 </head>
-<body class="easyui-layout" style="overflow-y: hidden">
+<body class="easyui-layout" style="overflow-y: hidden" id="contentboby">
 
     <div id="io" region="north" border="false" style="overflow: hidden; height: 45px;
        font-family: Verdana, 微软雅黑,黑体">
@@ -74,7 +74,7 @@ color:black;
 			<ul id="css3menu">
 					<li >
 						<a name="basic" href="#">
-						<span style="display: block;margin-top: 7px;font-size: medium;"> 基 础 数 据 </span>
+						<span style="display: block;margin-top: 7px;font-size: medium;">市场信息数据 </span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
@@ -89,11 +89,17 @@ color:black;
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="station" href="#">
-							<span style="display: block;margin-top: 7px;font-size: medium;">区域电厂竞争力</span>
+							<span style="display: block;margin-top: 7px;font-size: medium;">电厂竞争力分析</span>
+						</a>
+					</li>
+					<li style="float:left;margin:0;padding:0;">
+						<a name="yc" href="#">
+							<span style="display: block;margin-top: 7px;font-size: medium;">电厂竞价预测</span>
 						</a>
 					</li>
 			</ul>
 		</div>
+		<input type="hidden" id="fullscreenbtn">
 		<div  style="float:right;width:21%;min-width:225px;height:100%;text-align: right;margin-top: 3px">
 			<a href="#" id="editpass">修改密码</a> 
 			<a href="#" id="loginOut">安全退出</a>
