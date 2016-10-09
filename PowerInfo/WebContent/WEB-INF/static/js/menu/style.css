@@ -122,8 +122,8 @@ xnavigation
   animation: cd-shock 0.3s;
 }
 .cd-nav li a:hover {
-  /* on hover or if selected - change background color*/
-  background-color: #38cabf;
+  /* on hover or if selected - change background color 38cabf*/
+  background-color: #BAE5F6;
 }
 .cd-nav span, .cd-nav em {
   position: absolute;
