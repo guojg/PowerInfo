@@ -26,6 +26,8 @@ if(obj != null) {
 <script type="text/javascript">
 var task_id='<%=taskid%>';
 var area_id='<%=organCode%>';
+var task_name='<%=task_name%>';
+
 	var frozenCols = [ [
 	    {field:'jz_id',align:'center',checkbox:true},
 	    {
@@ -46,7 +48,8 @@ var area_id='<%=organCode%>';
 			alert("请先选择任务");
 			return ;
 		}
-		
+		$('#task_name').val(task_name);
+
 		 cols = [ [ {
        		field : 'plant_id',
       		title : '所属发电厂',
@@ -144,7 +147,7 @@ var area_id='<%=organCode%>';
 		commonHelper.toAdd({
 			title : '修改',
 			width : 800,
-			height : 450,
+			height : 480,
 			url : path + '/generatorSetDbController/main?id='+rows[0].jz_id+"&plant_id="+rows[0].plant_id+'&task_id='+task_id
 		});
 	}
@@ -254,6 +257,8 @@ var area_id='<%=organCode%>';
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+			<td class="tdlft">任务：</td>
+				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
 			<td class="tdlft">电厂名称：</td>
 				<td class="tdrgt"><input id="elec_name" name="elec_name" type="text"/></td>
 				<td class="tdlft">机组名称：</td>

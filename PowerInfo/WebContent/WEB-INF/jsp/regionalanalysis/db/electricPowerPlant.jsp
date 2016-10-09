@@ -133,6 +133,8 @@ var area_id='<%=organCode%>';
 			alert("请先选择任务");
 			return ;
 		}
+		$('#task_name').val(task_name);
+
 		$("#tool_query").bind("click", function() {
 			queryData();
 		});
@@ -275,6 +277,8 @@ var area_id='<%=organCode%>';
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+			<td class="tdlft">任务：</td>
+				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
 				<td class="tdlft">电厂名称：</td>
 				<td class="tdrgt"><input id="plant_name"  name="plant_name"/></td>
 			</tr>
