@@ -39,6 +39,10 @@ margin:0;
 padding:0; 
 box-sizing:border-box;
 
+}
+
+#io{
+background:url(/PowerInfo/static/images/main-bg.png) repeat;
 
 }
 
@@ -61,37 +65,36 @@ color:black;
 </head>
 <body class="easyui-layout" style="overflow-y: hidden">
 
-    <div region="north" border="false" style="overflow: hidden; height: 78px;
-        background: #EDF1FA; font-family: Verdana, 微软雅黑,黑体">
-	     <div  style="float:left;width:24%;min-width:250px;height:100%; text-align:center;">
-	     	<!-- <h1 style="color:#7cbcd6;width:100%">区域电力市场预测分析平台</h1> -->
-	     	<img alt="" src="static/images/555.jpg">
+    <div id="io" region="north" border="false" style="overflow: hidden; height: 45px;
+       font-family: Verdana, 微软雅黑,黑体">
+	     <div  style="float:left;width:24%; ">
+	     	 <h2 style="color:#7cbcd6;width:100%;margin-top:5px">区域电力市场预测分析平台</h2> 
 		</div>
 		<div  style="float:left;width:54%;height:100%;text-align:center;">
 			<ul id="css3menu">
 					<li >
 						<a name="basic" href="#">
-						<span style="display: block;margin-top: 20px;font-size: medium;"> 基 础 数 据 </span>
+						<span style="display: block;margin-top: 7px;font-size: medium;"> 基 础 数 据 </span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="totalQuantity" href="#">
-							<span style="display: block;margin-top: 20px;font-size: medium;">电力需求预测</span>
+							<span style="display: block;margin-top: 7px;font-size: medium;">电力需求预测</span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="balance" href="#">
-							<span style="display: block;margin-top: 20px;font-size: medium;">电力电量平衡</span>
+							<span style="display: block;margin-top: 7px;font-size: medium;">电力电量平衡</span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="station" href="#">
-							<span style="display: block;margin-top: 20px;font-size: medium;">区域电厂竞争力</span>
+							<span style="display: block;margin-top: 7px;font-size: medium;">区域电厂竞争力</span>
 						</a>
 					</li>
 			</ul>
 		</div>
-		<div  style="float:right;width:21%;min-width:225px;height:100%;">
+		<div  style="float:right;width:21%;min-width:225px;height:100%;text-align: right;margin-top: 3px">
 			<a href="#" id="editpass">修改密码</a> 
 			<a href="#" id="loginOut">安全退出</a>
 		</div>
