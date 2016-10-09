@@ -36,7 +36,9 @@
 		align : 'center'
 	} ] ];
 	$(function() {
-		$('#task_name').val(task_name);
+
+		$('#task_name').html('<b>'+task_name+'</b>');
+
 
 		$("#tool_save").bind("click", function() {
 			save();
@@ -387,7 +389,7 @@
 		<table id="search_tbl">
 			<tr>
 			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
+				<td class="tdrgt"><span id="task_name"></span></td>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 				<td class="tdlft">指标：</td>

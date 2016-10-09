@@ -48,7 +48,7 @@ var task_name='<%=task_name%>';
 			alert("请先选择任务");
 			return ;
 		}
-		$('#task_name').val(task_name);
+		$('#task_name').html('<b>'+task_name+'</b>');
 
 		 cols = [ [ {
        		field : 'plant_id',
@@ -258,7 +258,7 @@ var task_name='<%=task_name%>';
 		<table id="search_tbl">
 			<tr>
 			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
+				<td class="tdrgt"><span id="task_name"></span></td>
 			<td class="tdlft">电厂名称：</td>
 				<td class="tdrgt"><input id="elec_name" name="elec_name" type="text"/></td>
 				<td class="tdlft">机组名称：</td>

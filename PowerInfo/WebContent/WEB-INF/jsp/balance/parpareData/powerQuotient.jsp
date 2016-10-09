@@ -29,7 +29,7 @@ var dcAt = 0;
 var dcTime = 250;
 var savTO = null;
 $(function() {
-	$('#task_name').val(task_name);
+	$('#task_name').html('<b>'+task_name+'</b>');
 	 comboBoxInit({
 			id : "dylxs",
 			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
@@ -262,7 +262,7 @@ function save() {
 		<table id="search_tbl">
 			<tr>
 			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><input id="task_name" name="task_name" type="text" disabled="disabled"/></td>
+				<td class="tdrgt"><span id="task_name"></span></td>
 				<td class="tdlft">电源类型：</td>
 				<td class="tdrgt"><input id="dylxs" class="comboboxComponent" /></td>
 				<td class="tdlft">年份：</td>
