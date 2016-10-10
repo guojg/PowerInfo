@@ -160,9 +160,9 @@ text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #
 	</div>
 
 	<div id="treemm" class="easyui-menu" style="width:140px;">
-		<div onclick="append()"  iconcls="icon-add">添加节点</div>
-		<div onclick="update()" iconcls="icon-edit">修改节点</div>
-		<div onclick="removenode()"iconcls="icon-remove">删除节点</div>
+		<div onclick="append()"  iconcls="icon-add">添加指标</div>
+		<div onclick="update()" iconcls="icon-edit">修改指标</div>
+		<div onclick="removenode()"iconcls="icon-remove">删除指标</div>
 		<div id="addyear" onclick="addyear()"iconcls="icon-add">添加年份</div>
 	</div>
 

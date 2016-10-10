@@ -32,5 +32,7 @@ public interface PrepareDataDao {
 	 */
 	public List<Map<String, Object>> queryData(JSONObject param);
 	public void saveData(JSONArray rows, String object);
+	public String deleteRecord(String delectArr[]) ;
+
 
 }

@@ -82,14 +82,14 @@ function save(){
 		<table id="detailTable">
 
 			<tr>
-				<td class="tdlft" style='width: 50px'>指标：</td>
+				<td class="tdlft" style='width: 100px'>指标：</td>
 				<td class="tdrgt" style='width: 290px'><input id="name"
 					type="text" style='width: 280px' /></td>
 			</tr>
 			<tr>
-				<td class="tdlft" style='width: 50px'>指标单位：</td>
-				<td class="tdrgt" style='width: 120px'><input id="unit_code"
-					type="text" style='width: 120px' /></td>
+				<td class="tdlft" style='width: 100px'>指标单位：</td>
+				<td class="tdrgt" style='width: 200px'><input id="unit_code"
+					type="text" style='width: 200px' /></td>
 			</tr>
 		</table>
 	</form>

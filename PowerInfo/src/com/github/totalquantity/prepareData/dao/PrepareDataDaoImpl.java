@@ -183,4 +183,16 @@ public class PrepareDataDaoImpl implements PrepareDataDao {
 		};
 		jdbcTemplate.batchUpdate(insertsql, setinsert);
 	}
+	@Override
+	public String deleteRecord(String[] delectArr) {
+		StringBuffer  buffer=new StringBuffer("delete from prepare_data where task_id in(");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		return "1";
+	}
 }

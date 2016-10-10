@@ -68,8 +68,16 @@ public class SysdictDaoImpl implements SysdictDao {
 
 	@Override
 	public List<Map<String, Object>> queryCompany(JSONObject obj) {
-		String sql ="select code ,value from bn_code_company ORDER BY ORD";
+		String sql ="select code ,value from bn_code_company  ORDER BY ORD";
 		List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql);
+
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> queryCompanyByCode(String organCode) {
+		String sql ="select code ,value from bn_code_company where code=?  ORDER BY ORD";
+		List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql,new Object[]{organCode});
 
 		return list;
 	}

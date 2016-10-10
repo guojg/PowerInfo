@@ -84,6 +84,18 @@ public class CalculatePlanDaoImpl implements CalculatePlanDao{
 		}
 		return result;
 	}
+	@Override
+	public String deleteRecord(String[] delectArr) {
+		StringBuffer  buffer=new StringBuffer("delete from calculate_plan where taskid in(");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		return "1";
+	}
 
 
 }

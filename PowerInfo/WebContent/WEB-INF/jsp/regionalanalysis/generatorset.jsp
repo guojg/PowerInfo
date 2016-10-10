@@ -7,8 +7,16 @@
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../common/commonInclude.jsp"%>
 <%@include file="../common/commonDefineBtn.jsp" %>
-
+<%
+Object objName=  request.getSession().getAttribute("organName");
+String organName="";
+if(objName != null) {
+	organName = objName.toString() ; 
+}
+%>
 <script type="text/javascript">
+var organ_name='<%=organName%>';
+
 	var frozenCols = [ [
 	    {field:'jz_id',align:'center',checkbox:true},
 	    {
@@ -26,7 +34,8 @@
 	$(function() {
 	
 	
-		
+		$('#organ_name').html('<b>'+organ_name+'</b>');
+
 		 cols = [ [
 		          	 {
 		          		field : 'plant_name',
@@ -244,6 +253,8 @@
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+					<td class="tdlft">区域：</td>
+				<td ><span id="organ_name"></span></td>
 			<td class="tdlft">电厂名称：</td>
 				<td class="tdrgt"><input id="elec_name" name="elec_name" type="text"/></td>
 				<td class="tdlft">机组名称：</td>

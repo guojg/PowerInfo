@@ -29,5 +29,8 @@ public interface CalculatePlanDao {
 	 */
 	
 	public double getDataByBaseyear(int baseyear);
+	
+	public String deleteRecord(String delectArr[]);
+
 
 }

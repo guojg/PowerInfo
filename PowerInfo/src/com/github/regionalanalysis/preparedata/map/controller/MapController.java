@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.regionalanalysis.generatorcontrast.service.GeneratorContrastService;
+import com.github.regionalanalysis.preparedata.electricpowerplant.service.PlantAnalysisService;
+import com.github.regionalanalysis.preparedata.map.service.MapService;
 
 @Controller
 @RequestMapping(value = "/mapController")
 public class MapController {
-	
+	@Autowired
+	private MapService mapService;
 
 	
 	@RequestMapping(value = "/index")
@@ -33,9 +36,11 @@ public class MapController {
 			HttpServletResponse re) {
 		//return "regionalanalysis/generatorContrast";
 		request.getSession().removeAttribute("maparea");
+		request.getSession().removeAttribute("organName");
 		  String organCode = request.getParameter("organCode")!=null?request.getParameter("organCode"):"";
-
+		  String organName = mapService.queryCompanyByCode(organCode);
 		request.getSession().setAttribute("maparea", organCode);
+		request.getSession().setAttribute("organName", organName);
 		return "regionalanalysis/preparedata/maparea";
 	}
 	

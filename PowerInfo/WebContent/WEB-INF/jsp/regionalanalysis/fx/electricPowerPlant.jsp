@@ -27,11 +27,18 @@ if(obj != null) {
 	organCode = obj.toString() ; 
 }
 
+Object objName=  request.getSession().getAttribute("organName");
+String organName="";
+if(objName != null) {
+	organName = objName.toString() ; 
+}
 %>
 <script type="text/javascript">
 var task_id='<%=taskid%>';
 var task_name='<%=task_name%>';
 var area_id='<%=organCode%>';
+var organ_name='<%=organName%>';
+
 
 	var cols = [ [ {
 		field : 'id',
@@ -133,6 +140,8 @@ var area_id='<%=organCode%>';
 			alert("请先选择任务");
 			return ;
 		}
+		$('#organ_name').html('<b>'+organ_name+'</b>');
+
 		$('#task_name').html('<b>'+task_name+'</b>');
 		$("#tool_query").bind("click", function() {
 			queryData();
@@ -276,8 +285,10 @@ var area_id='<%=organCode%>';
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+				<td class="tdlft">区域：</td>
+				<td ><span id="organ_name"></span></td>
 			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><span id="task_name"></span></td>
+				<td ><span id="task_name"></span></td>
 				<td class="tdlft">电厂名称：</td>
 				<td class="tdrgt"><input id="plant_name"  name="plant_name"/></td>
 			</tr>

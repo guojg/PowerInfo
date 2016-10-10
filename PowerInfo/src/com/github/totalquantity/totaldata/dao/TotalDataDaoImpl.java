@@ -157,6 +157,19 @@ public class TotalDataDaoImpl implements TotalDataDao {
 		List<Map<String, Object>>  resultList = this.jdbcTemplate.queryForList(sb.toString(),list.toArray());
 		return resultList;
 	}
+
+	@Override
+	public String deleteRecord(String[] delectArr) {
+		StringBuffer  buffer=new StringBuffer("delete from total_data where task_id in(");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		return "1";
+	}
 	
 
 }
