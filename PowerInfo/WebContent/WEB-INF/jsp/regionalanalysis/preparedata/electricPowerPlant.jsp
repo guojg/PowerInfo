@@ -16,9 +16,16 @@
 	if(obj!=null){
 		organCode=obj.toString();
 	}
+	Object objName=  request.getSession().getAttribute("organName");
+	String organName="";
+	if(objName != null) {
+		organName = objName.toString() ; 
+	}
 %>
 <script type="text/javascript">
 	var area_id='<%=organCode%>';
+	var organ_name='<%=organName%>';
+
 	var cols = [ [ {
 		field : 'id',
 		width : 20,
@@ -115,6 +122,8 @@
 		align : 'center'
 	}] ];
 	$(function() {
+		$('#organ_name').html('<b>'+organ_name+'</b>');
+
 		$("#tool_add").bind("click", function() {
 			addRecord();
 		});
@@ -242,8 +251,10 @@
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
+					<td class="tdlft">区域：</td>
+				<td ><span id="organ_name"></span></td>
 				<td class="tdlft">电厂名称：</td>
-				<td class="tdrgt"><input id="plant_name"  name="plant_name"/></td>
+				<td class="tdrgt"><input id="plant_name"  name="plant_name" type="text" /></td>
 			</tr>
 		</table>
 	</fieldset>

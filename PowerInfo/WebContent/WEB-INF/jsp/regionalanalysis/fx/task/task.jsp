@@ -14,9 +14,16 @@ if(obj != null) {
 	organCode = obj.toString() ; 
 }
 
+Object objName=  request.getSession().getAttribute("organName");
+String organName="";
+if(objName != null) {
+	organName = objName.toString() ; 
+}
+
 %>
 <script type="text/javascript">
 var organCode='<%=organCode%>';
+var organ_name='<%=organName%>';
 
 	var cols = [ [
 	    {field:'id',align:'center',checkbox:true},
@@ -44,7 +51,8 @@ var organCode='<%=organCode%>';
 			alert("请选择从地图中区域");
 			return ;
 		}
-		
+		$('#organ_name').html('<b>'+organ_name+'</b>');
+
 		$("#tool_xjrw").bind("click", function() {
 			xjrw();
 		});
@@ -166,7 +174,16 @@ var organCode='<%=organCode%>';
 			title='删除' />
 		</a>
 	</div>
-
+<fieldset id="field">
+		<legend></legend>
+		<table id="search_tbl">
+			<tr>
+			<td class="tdlft">区域：</td>
+				<td class="tdrgt"><span id="organ_name"></span></td>
+		
+			</tr>
+		</table>
+	</fieldset>
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>
