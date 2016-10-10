@@ -191,4 +191,101 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 		jdbcTemplate.update(buffer.toString(),delectArr);
 		return "1";
 	}
+
+	@Override
+	public String deleteOtherData(String[] delectArr) {
+		this.deleteHinderedIdleCapacity(delectArr);
+		this.deleteLoadelectricquantity(delectArr);
+		this.deletePowerHour(delectArr);
+		this.deletePowerQuotient(delectArr);
+		this.deleteSenddata(delectArr);
+		this.deleteElectricpowerplant(delectArr);
+		this.deletePower(delectArr);
+		return "1";
+	}
+	
+	
+	private void deletePowerQuotient(String[] delectArr){
+		StringBuffer  buffer=new StringBuffer("delete from quotient_data where task_id in (");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+	}
+	private void deletePowerHour(String[] delectArr){
+		StringBuffer  buffer=new StringBuffer("delete from power_hour where task_id in (");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+	}
+	
+	
+	private void deleteSenddata(String[] delectArr){
+		StringBuffer  buffer1=new StringBuffer("delete from senddata_data where index_item in (select id from senddata_itemname where task_id in (");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer1.append(InSql.substring(0, InSql.length() - 1));
+		buffer1.append("))");
+		jdbcTemplate.update(buffer1.toString(),delectArr);
+		
+		StringBuffer  buffer=new StringBuffer("delete from senddata_itemname where task_id in (");
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		
+	}
+	
+	private void  deleteLoadelectricquantity(String[] delectArr){
+		StringBuffer  buffer=new StringBuffer("delete from  loadelectricquantity_data where task_id in (");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+	}
+	
+	private void  deleteHinderedIdleCapacity(String[] delectArr){
+		StringBuffer  buffer=new StringBuffer("delete from  hinderedIdleCapacity_data where task_id in (");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+	}
+	
+	private void  deleteElectricpowerplant(String[] delectArr){
+		StringBuffer  buffer=new StringBuffer("delete from  electricity_data where task_id in (");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+	}
+	private void  deletePower(String[] delectArr){
+		StringBuffer  buffer=new StringBuffer("delete from  power_data where task_id in (");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+	}
+	
+	
 }

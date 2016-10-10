@@ -40,7 +40,7 @@
 			}
 			}
 		function Fkey() {
-			var docElm = document.documentElement;
+			/*var docElm = document.documentElement;
 			 
 			//W3C 
 			 
@@ -72,7 +72,7 @@
 			 
 			 docElm.msRequestFullscreen();
 			 
-			}
+			}*/
 			document.getElementById('myform').submit();
 		}
 		$(function() {

@@ -36,7 +36,7 @@ var organ_name='<%=organName%>';
 	    {
 		field : 'task_name',
 		title : '任务名',
-		width : 100,
+		width : 250,
 		align : 'center',
 		formatter: function(value,row,index){
 

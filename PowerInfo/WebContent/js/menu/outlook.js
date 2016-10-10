@@ -1,7 +1,7 @@
 ﻿$(function() {
 	tabClose();
 	tabCloseEven();
-	var keyValue={"basic":1,"totalQuantity":4,"balance":157,"station":168};
+	var keyValue={"basic":1,"totalQuantity":4,"balance":157,"station":168,"elecplant":215};
 	//$('#css3menu').css("margin-left", $('#logo1').width());
 	
 	
@@ -144,7 +144,7 @@ function InitTreeData(data) {
 				},onLoadSuccess:function(){
 					debugger;
 					var rooNode = $("#tt").tree('getRoot');
-					if(data==190 || data==169){
+					if(data==190 || data==169 || data==4|| data==5){
 						$("#tt").tree("expand",rooNode.target);  
 						 $("#tt li:eq(2)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
 				           var n = $("#tt").tree("getSelected");   

@@ -47,9 +47,13 @@ function queryData(){
 
 	//非冰冻列
 	cols = createCols(yrs);
+	var Height_Page = $(document).height();
+	var datagrid_title_height = $("#datagrid_div").position().top;
+	var height = Height_Page - datagrid_title_height;
 $('#datagrid').treegrid({    
    url:path+'/powerbalance/queryData',   
    //url:path+'/js/basicData/treegrid_data3.json',
+   height : height,
     idField:'id',    
     treeField:'code_name',  
 	queryParams : {"year":yrs,"taskid":taskid},

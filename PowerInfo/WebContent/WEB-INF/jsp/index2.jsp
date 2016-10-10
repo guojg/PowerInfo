@@ -41,7 +41,7 @@ box-sizing:border-box;
 }
 
 #io{
-background:url(/PowerInfo/static/images/main-bg.png) repeat;
+background:url(/PowerInfo/static/images/main-bg.png);
 
 }
 
@@ -93,7 +93,7 @@ text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
-						<a name="yc" href="#">
+						<a name="elecplant" href="#">
 							<span style="display: block;margin-top: 7px;font-size: medium;"><b>电厂竞价预测</b></span>
 						</a>
 					</li>
@@ -115,12 +115,12 @@ text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #
     </div>
     <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
         <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
-			<div title="欢迎使用" style="padding:20px;overflow:hidden;background:#EDF1FA;text-align: center;" id="home">
+		 <!--	<div title="欢迎使用" style="padding:20px;overflow:hidden;background:#EDF1FA;text-align: center;" id="home">
 				
 			<h1 style="color:#7cbcd6;width:100%;color: #fafafa;letter-spacing: 0;margin-top:240px;
 			text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135">区域电力市场预测分析平台!</h1>
 
-			</div>
+			</div>-->
 		</div>
     </div>
     <!--修改密码窗口-->

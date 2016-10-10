@@ -26,4 +26,5 @@ public interface PowerQuotientDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> queryData(JSONObject param);
+	
 }

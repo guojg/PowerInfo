@@ -104,11 +104,11 @@ function initData(){
 	<table id="detailTable">
 			<tr>
 				<td class="tdlft">任务名称：</td>
-				<td ><input id="task_name" name="task_name" type="text"  /></td>	
+				<td  class="tdrgt" style="width:250px"><input id="task_name" name="task_name" type="text" style="width:220px" /></td>	
 			</tr>
 			<tr>
 				<td  class="tdlft">水平年：</td>
-				<td ><input id="year" name="year" type="text" class="comboComponentarr"  /></td>	
+				<td class="tdrgt" ><input id="year" name="year" type="text" class="comboComponentarr"  /></td>	
 			</tr>
 			<tr>
 			<td colspan="2"><span>提示信息：</span><span style="color:red;" id="validateMessage"></span></td>
