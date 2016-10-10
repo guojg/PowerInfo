@@ -14,7 +14,9 @@ $(function() {
 			textkey : "value",
 			valuekey : "code"		});
 	var node = window.parent.$('#tt').tree('getSelected');
+	debugger;
 	$('#name').val(node.text);
+	
 	$('#unit_code').combobox("setValue",node.attributes.unit_code);
 	
 }
@@ -46,10 +48,10 @@ function save(){
 	operationdata["id"]=node.id;
 	var name =$('#name').val();
 	var unit_code=$('#unit_code').combobox("getValue");
-	if(node.text!=name&&!isOnly(name)){
-		window.parent.$.messager.alert('提示','该指标已存在！','info');
-		return ;
-	}
+	//if(node.text!=name&&!isOnly(name)){
+		//window.parent.$.messager.alert('提示','该指标已存在！','info');
+		//return ;
+	//}
 	operationdata["name"]=name;//节点名称
 	operationdata["unit_code"]=unit_code;//指标名称
 	node.text=name;

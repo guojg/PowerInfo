@@ -46,11 +46,14 @@ function save(){
 	operationdata["name"]=name;//节点名称
 	var unit_code=$('#unit_code').combobox("getValue");
 	operationdata["unit_code"]=unit_code;//节点名称
-
-	if(!isOnly(name)){
-		window.parent.$.messager.alert('提示','该指标已存在！','info');
-		return ;
-	}
+    if(name==""){
+    	window.parent.$.messager.alert('提示','指标不能为空！','info');
+    	return ;
+    }
+	//if(!isOnly(name)){
+		//window.parent.$.messager.alert('提示','该指标已存在！','info');
+		//return ;
+	//}
 	var param={"data":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",

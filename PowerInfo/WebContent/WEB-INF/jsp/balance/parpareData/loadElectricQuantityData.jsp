@@ -395,6 +395,8 @@
 			</tr>
 		</table>
 	</fieldset>
+	<div id="title" style="padding-right: 5px;text-align: right"><b>单位：万千瓦、亿千瓦时、%</b></div>
+	
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>

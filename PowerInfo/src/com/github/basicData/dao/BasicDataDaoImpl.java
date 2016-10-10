@@ -193,6 +193,9 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		String tablename = row.getString("tablename");
 		String name = row.getString("name");
 		String unit_code=row.getString("unit_code");
+		if("".equals(unit_code)){
+			unit_code=null;
+		}
 		if ("1".equals(pid)) {
 			tablename = CreateTable();
 		}
