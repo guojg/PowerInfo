@@ -38,4 +38,7 @@ public interface TotalDataDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> queryData6(JSONObject param);
+	
+	public String deleteRecord(String delectArr[]) ;
+
 }

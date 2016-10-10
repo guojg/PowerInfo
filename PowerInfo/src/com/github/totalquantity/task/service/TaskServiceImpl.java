@@ -22,16 +22,27 @@ import org.springframework.stereotype.Service;
 
 
 
+
 import com.github.common.util.JsonUtils;
+import com.github.totalquantity.calculatePlan.dao.CalculatePlanDao;
+import com.github.totalquantity.prepareData.dao.PrepareDataDao;
 import com.github.totalquantity.task.dao.TaskDao;
 import com.github.totalquantity.task.entity.TotalTask;
 import com.github.totalquantity.task.entity.TotalYear;
+import com.github.totalquantity.totaldata.dao.TotalDataDao;
 
 @Service
 public class TaskServiceImpl implements TaskService{
 
 	@Autowired
 	private TaskDao taskDao;
+
+	@Autowired
+	private TotalDataDao totalDataDao ;
+	@Autowired
+	private PrepareDataDao prepareDataDao;
+	@Autowired
+	private CalculatePlanDao calculatePlanDao;
 
 	@Override
 	public void saveData(TotalTask task) {
@@ -75,7 +86,11 @@ public class TaskServiceImpl implements TaskService{
 		// TODO Auto-generated method stub
 		String delectArr[] = obj.get("deleteids") == null ? null : obj
 				.get("deleteids").toString().split(",");
-		return taskDao.deleteRecord(delectArr);
+		 taskDao.deleteRecord(delectArr);
+		 totalDataDao.deleteRecord(delectArr);
+		 calculatePlanDao.deleteRecord(delectArr);
+		 prepareDataDao.deleteRecord(delectArr);
+		 return "1";
 	}
 	
 

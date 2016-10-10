@@ -17,6 +17,8 @@ import com.github.common.export.ExcelUtils;
 import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
+import com.github.totalquantity.calculatePlan.dao.CalculatePlanDao;
+import com.github.totalquantity.prepareData.dao.PrepareDataDao;
 import com.github.totalquantity.totaldata.dao.TotalDataDao;
 import com.github.totalquantity.totaldata.entity.TotalData;
 
@@ -25,6 +27,7 @@ public class TotalDataServiceImpl implements TotalDataService {
 
 	@Autowired
 	private TotalDataDao totalDataDao ;
+
 	@Override
 	public String queryData(JSONObject param) {
 		List<Map<String, Object>> list = totalDataDao.queryData(param);
