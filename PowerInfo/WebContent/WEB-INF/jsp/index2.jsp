@@ -66,42 +66,43 @@ color:black;
 
     <div id="io" region="north" border="false" style="overflow: hidden; height: 45px;
        font-family: Verdana, 微软雅黑,黑体">
-	     <div  style="float:left;width:24%; ">
-	     	 <h2 style="color:#7cbcd6;width:100%;margin-top:5px">区域电力市场预测分析平台</h2> 
-		</div>
+<div  style="float:left;width:24%;height:100%; vertical-align: middle;">
+	     	 <h2 style="color:#7cbcd6;width:100%;color: #fafafa;letter-spacing: 0; margin-top:5px;
+text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135" >区域电力市场预测分析平台</h2>
+	     </div>
 		<div  style="float:left;width:54%;height:100%;text-align:center;">
 			<ul id="css3menu">
 					<li >
 						<a name="basic" href="#">
-						<span style="display: block;margin-top: 7px;font-size: medium;">市场信息数据 </span>
+						<span style="display: block;margin-top: 7px;font-size: medium;"><b>市场信息数据</b> </span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="totalQuantity" href="#">
-							<span style="display: block;margin-top: 7px;font-size: medium;">电力需求预测</span>
+							<span style="display: block;margin-top: 7px;font-size: medium;"><b>电力需求预测</b></span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="balance" href="#">
-							<span style="display: block;margin-top: 7px;font-size: medium;">电力电量平衡</span>
+							<span style="display: block;margin-top: 7px;font-size: medium;"><b>电力电量平衡</b></span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="station" href="#">
-							<span style="display: block;margin-top: 7px;font-size: medium;">电厂竞争力分析</span>
+							<span style="display: block;margin-top: 7px;font-size: medium;"><b>电厂竞争力分析</b></span>
 						</a>
 					</li>
 					<li style="float:left;margin:0;padding:0;">
 						<a name="yc" href="#">
-							<span style="display: block;margin-top: 7px;font-size: medium;">电厂竞价预测</span>
+							<span style="display: block;margin-top: 7px;font-size: medium;"><b>电厂竞价预测</b></span>
 						</a>
 					</li>
 			</ul>
 		</div>
 		<input type="hidden" id="fullscreenbtn">
-		<div  style="float:right;width:21%;min-width:225px;height:100%;text-align: right;margin-top: 3px">
-			<a href="#" id="editpass">修改密码</a> 
-			<a href="#" id="loginOut">安全退出</a>
+		<div  style="float:right;width:21%;min-width:225px;height:100%;text-align: right;margin-top: 12px">
+			<a href="#" id="editpass"><b>修改密码</b></a> 
+			<a href="#" id="loginOut"><b>安全退出</b></a>
 		</div>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
@@ -114,9 +115,10 @@ color:black;
     </div>
     <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
         <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
-			<div title="欢迎使用" style="padding:20px;overflow:hidden;background:#EDF1FA" id="home">
+			<div title="欢迎使用" style="padding:20px;overflow:hidden;background:#EDF1FA;text-align: center;" id="home">
 				
-			<h1 style="margin:0 auto; text-align:center;">区域电力市场预测分析平台!</h1>
+			<h1 style="color:#7cbcd6;width:100%;color: #fafafa;letter-spacing: 0;margin-top:240px;
+			text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135">区域电力市场预测分析平台!</h1>
 
 			</div>
 		</div>
