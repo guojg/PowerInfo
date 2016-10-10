@@ -109,7 +109,7 @@ function cancel(){
 				<td class="tdlft" style='width: 180px' align="right">电厂名称：</td>
 				<td class="tdrgt" style='width: 150px'><input id="plant_name"
 					type="text" style='width: 150px' /></td>
-				<td class="tdlft" style='width: 180px' align="right">装机容量：</td>
+				<td class="tdlft" style='width: 180px' align="right">装机容量(万千瓦)：</td>
 				<td class="tdrgt" style='width: 150px'><input id="plant_capacity"
 					type="text" style='width: 150px' /></td>
 				<td class="tdlft" style='width: 180px' align="right">发电量：</td>
@@ -120,7 +120,7 @@ function cancel(){
 				<td class="tdlft" style='width: 180px' align="right">电厂损耗：</td>
 				<td class="tdrgt" style='width: 150px'><input id="plant_loss"
 					type="text" style='width: 150px' /></td>
-				<td class="tdlft" style='width: 180px' align="right">初始投资：</td>
+				<td class="tdlft" style='width: 180px' align="right">初始投资(元)：</td>
 				<td class="tdrgt" style='width: 150px'><input id="start_outlay"
 					type="text" style='width: 150px' /></td>
 				<td class="tdlft" style='width: 180px' align="right">投产年：</td>
@@ -128,29 +128,29 @@ function cancel(){
 					type="text" style='width: 150px' /></td>
 			</tr>	
 			<tr>
-				<td class="tdlft" style='width: 180px' align="right">经济运行寿命：</td>
+				<td class="tdlft" style='width: 180px' align="right">经济运行寿命(年)：</td>
 				<td class="tdrgt" style='width: 150px'><input id="economical_life"
 					type="text" style='width: 150px' /></td>
-				<td class="tdlft" style='width: 180px' align="right">期望收益率：</td>
+				<td class="tdlft" style='width: 180px' align="right">期望收益率(%)：</td>
 				<td class="tdrgt" style='width: 150px'><input id="equired_return"
 					type="text" style='width: 150px' /></td>
-				<td class="tdlft" style='width: 180px' align="right">年财务成本：</td>
+				<td class="tdlft" style='width: 180px' align="right">年财务成本(元)：</td>
 				<td class="tdrgt" style='width: 150px'><input id="financial_cost"
 					type="text" style='width: 150px' /></td>
 			</tr>	
 			<tr>
-				<td class="tdlft" style='width: 180px' align="right">发电煤耗：</td>
+				<td class="tdlft" style='width: 180px' align="right">发电煤耗(吨)：</td>
 				<td class="tdrgt" style='width: 150px'><input id="generation_coal"
 					type="text" style='width: 150px' /></td>
 				<td class="tdlft" style='width: 180px' align="right">运行维护费率：</td>
 				<td class="tdrgt" style='width: 150px'><input id="operation_rate"
 					type="text" style='width: 150px' /></td>
-				<td class="tdlft" style='width: 180px' align="right">运行维护成本：</td>
+				<td class="tdlft" style='width: 180px' align="right">运行维护成本(元)：</td>
 				<td class="tdrgt" style='width: 150px'><input id="operation_cost"
 					type="text" style='width: 150px' /></td>
 			</tr>	
 			<tr>
-				<td class="tdlft" style='width: 180px' align="right">燃料单位成本：</td>
+				<td class="tdlft" style='width: 180px' align="right">燃料单位成本(元)：</td>
 				<td class="tdrgt" style='width: 150px'><input id="unit_cost"
 					type="text" style='width: 150px' /></td>
 				<td class="tdlft" style='width: 180px' align="right">电厂材料费（元/年）：</td>
@@ -167,7 +167,7 @@ function cancel(){
 				<td class="tdlft" style='width: 180px' align="right">其他费用（元/年）：</td>
 				<td class="tdrgt" style='width: 150px'><input id="other_cost"
 					type="text" style='width: 150px' /></td>
-			</tr>	
+			</tr>
  		</table>
  	<div id="fdjlist">  
 
