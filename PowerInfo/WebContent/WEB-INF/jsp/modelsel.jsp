@@ -19,29 +19,32 @@ String commonPath = path;
 	<title></title>
 </head>
 <body>
-<div style="text-align:center;clear:both">
+<div id="web_bg" style="position:absolute; width:100%; height:100%; z-index:-1">
+<img style="position:fixed;" src="/PowerInfo/static/js/menunew/bg.jpg" height="100%" width="100%" /> 
+<div style="text-align:center;clear:both" >
 </div>
-  <div class="radmenu"><a href="#" id="mainmenu" class="show" >开始</a>
+  <div class="radmenu"><a href="#" id="mainmenu" class="show" ><b>开始</b></a>
   <ul>
     <li>
-      <a href="<%=path%>/index2?page=0"  class="">市场信息数据</a>
+      <a href="<%=path%>/index2?page=0"  class=""><b>市场信息数据</b></a>
     </li>
     <li>
-      <a href="<%=path%>/index2?page=1" >电力需求预测</a>
+      <a href="<%=path%>/index2?page=1" ><b>电力需求预测</b></a>
     </li>
     <li>
-      <a href="<%=path%>/index2?page=2">电力电量平衡</a>
+      <a href="<%=path%>/index2?page=2"><b>电力电量平衡</b></a>
     </li>
     <li>
-      <a href="<%=path%>/index2?page=3" >电厂竞争力分析</a>
+      <a href="<%=path%>/index2?page=3" ><b>电厂竞争力分析</b></a>
     </li>
     <li>
-      <a href="<%=path%>/index2?page=4" >电厂竞价预测</a>
+      <a href="<%=path%>/index2?page=4" ><b>电厂竞价预测</b></a>
     </li>
   </ul>
 </div>
-
+</div>
   <script src="<%=path%>/static/js/menunew/index.js"></script>
+  
 </body>
 
 </html>
