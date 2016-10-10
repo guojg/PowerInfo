@@ -236,6 +236,9 @@ public class BasicDataDaoImpl implements BasicDataDao {
 		String id = row.getString("id");
 		String name = row.getString("name");
 		String unit_code = row.getString("unit_code");
+		if("".equals(unit_code)){
+			unit_code=null;
+		}
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append("update shiro.sys_menu");
