@@ -30,7 +30,7 @@ public class IndexController {
 
 	 @RequestMapping("/")
 	    public String index(@CurrentUser User loginUser, Model model) {
-	        return "index2";
+	        return "redirect:/mondelSel/sel";
 	    }
     @RequestMapping("/welcome")
     public String welcome() {
@@ -44,4 +44,9 @@ public class IndexController {
     	}
     	return "login";
     }
+	 
+	 @RequestMapping("/index2")
+	    public String index2(@CurrentUser User loginUser, Model model) {
+	        return "index2";
+	    }
 }

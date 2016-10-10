@@ -1,6 +1,6 @@
-var buttons = document.querySelectorAll(".radmenu a");
+//var buttons = document.querySelectorAll(".radmenu a");
 
-  var button = buttons[0];
+  var button = document.getElementById("mainmenu");
   button.onclick = setSelected;
 
 

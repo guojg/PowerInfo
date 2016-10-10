@@ -374,8 +374,8 @@
 		</a> <a id="tool_save"> <img src='<%=path%>/static/images/save.gif'
 			align='top' border='0' title='保存' />
 		</a> 
- 		<a id="tool_total"> <img src='<%=path%>/static/images/huizong.gif'
-			align='top' border='0' title='汇总' />
+ 		<a id="tool_total"> <img src='<%=path%>/static/images/cqsj.gif'
+			align='top' border='0' title='抽取数据' />
 		</a> 
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
