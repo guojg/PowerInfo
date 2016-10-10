@@ -39,6 +39,42 @@
 			else e.preventDefault();//火狐,event.preventDefault阻止元素默认行为
 			}
 			}
+		function Fkey() {
+			var docElm = document.documentElement;
+			 
+			//W3C 
+			 
+			if (docElm.requestFullscreen) { 
+			 
+			  docElm.requestFullscreen(); 
+			 
+			}
+			 
+			//FireFox 
+			 
+			else if (docElm.mozRequestFullScreen) { 
+			 
+			  docElm.mozRequestFullScreen(); 
+			 
+			}
+			 
+			//Chrome等 
+			 
+			else if (docElm.webkitRequestFullScreen) { 
+			 
+			  docElm.webkitRequestFullScreen(); 
+			 
+			}
+			 
+			//IE11
+			 
+			else if (docElm.msRequestFullscreen) {
+			 
+			 docElm.msRequestFullscreen();
+			 
+			}
+			document.getElementById('myform').submit();
+		}
 		$(function() {
 			if(flag=="1"){
 				window.location.href = '/PowerInfo/loginIndex';
@@ -84,7 +120,7 @@
                     <a class="hiddenanchor" id="tologin"></a>
                     <div id="wrapper">
                         <div id="login" class="animate form">
-                            <form  action="login" autocomplete="on" method="post"> 
+                            <form  action="login"  id="myform"autocomplete="on" method="post"> 
                                 <h1>登录</h1> 
                                 <p> 
                                     <label for="username" class="uname" data-icon="u" > 用户名 </label>
@@ -101,7 +137,7 @@
 								</p>
 								-->
                                 <p class="login button"> 
-                                    <input type="submit" value="登录" /> 
+                                   <input type="button" onclick="Fkey()" value="登录"/>
 								</p>
  						 <p class="change_link">
 									还没有账户吗 ?
