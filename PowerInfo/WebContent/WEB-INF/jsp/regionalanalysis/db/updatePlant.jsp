@@ -23,6 +23,7 @@ var id='<%=id%>';
 var task_id='<%=taskid%>';
 var area_id='<%=organCode%>';
 $(function() {
+	
 	var data = {
 			id:id,
 			'task_id':task_id
