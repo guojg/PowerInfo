@@ -130,19 +130,21 @@ function InitTreeData(data) {
 				},
 				onContextMenu : function(e, node) {
 					//增加年份是基础数据库才可以添加
-					if(node.id==1){
-						$("#addyear").show();
-					}else{
-						$("#addyear").hide();
+					if(data==1){
+						if(node.id==1){
+							$("#addyear").show();
+						}else{
+							$("#addyear").hide();
+						}
+						e.preventDefault();
+						// 选择节点
+						$('#tt').tree('select', node.target);
+						// 显示上下文菜单
+						$('#treemm').menu("show", {
+							left : e.pageX,
+							top : e.pageY
+						});
 					}
-					e.preventDefault();
-					// 选择节点
-					$('#tt').tree('select', node.target);
-					// 显示上下文菜单
-					$('#treemm').menu("show", {
-						left : e.pageX,
-						top : e.pageY
-					});
 				},onLoadSuccess:function(){
 					debugger;
 					var rooNode = $("#tt").tree('getRoot');
