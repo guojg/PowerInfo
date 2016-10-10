@@ -74,7 +74,9 @@ public class BalanceTaskServiceImpl implements BalanceTaskService{
 		// TODO Auto-generated method stub
 		String delectArr[] = obj.get("deleteids") == null ? null : obj
 				.get("deleteids").toString().split(",");
-		return balanceTaskDao.deleteRecord(delectArr);
+		 balanceTaskDao.deleteRecord(delectArr);
+		 balanceTaskDao.deleteOtherData(delectArr);
+		 return "1";
 	}
 	
 

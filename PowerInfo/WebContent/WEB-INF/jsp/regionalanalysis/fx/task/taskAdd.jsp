@@ -125,12 +125,12 @@ function initData(){
 <form id="paramsForm">
 	<table id="detailTable">
 			<tr>
-				<td class="tdlft">电网企业：</td>
+				<td class="tdlft">区域：</td>
 				<td  class="tdrgt"><input id="area_id" class="comboboxComponent"   disabled="disabled"/></td>	
 			</tr>
 			<tr>
 				<td class="tdlft">任务名称：</td>
-				<td  class="tdrgt"><input id="task_name" name="task_name" type="text"  /></td>	
+				<td  class="tdrgt" style="width:250px"><input id="task_name" name="task_name" type="text" style="width:220px" /></td>	
 			</tr>
 			
 			<tr>

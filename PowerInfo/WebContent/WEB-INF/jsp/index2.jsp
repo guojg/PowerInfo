@@ -41,7 +41,7 @@ box-sizing:border-box;
 }
 
 #io{
-background:url(/PowerInfo/static/images/main-bg.png) repeat;
+background:url(/PowerInfo/static/images/main-bg.png);
 
 }
 
