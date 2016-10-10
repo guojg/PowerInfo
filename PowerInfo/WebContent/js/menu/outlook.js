@@ -153,7 +153,26 @@ function InitTreeData(data) {
 				           }   
 				           $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);
 						
-					}else{
+					}else if(data==191){
+						$("#tt").tree("expand",rooNode.target);  
+						 $("#tt li:eq(6)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+				           var n = $("#tt").tree("getSelected");   
+				           if(n!=null){   
+				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+				           }   
+				           $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);	
+				           $('#mm-tabcloseother').click();
+					}else if(data==203){
+						$("#tt").tree("expand",rooNode.target);  
+						 $("#tt li:eq(10)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+				           var n = $("#tt").tree("getSelected");   
+				           if(n!=null){   
+				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+				           }   
+				           $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);	
+				           $('#mm-tabcloseother').click();
+					}
+					else{
 						$("#tt").tree("expand",rooNode.target);  
 
 						 $("#tt li:eq(1)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
@@ -317,7 +336,6 @@ function tabCloseEven() {
 		var nextall = $('.tabs-selected').nextAll();
 		if (nextall.length == 0) {
 			// msgShow('系统提示','后边没有啦~~','error');
-			alert('后边没有啦~~');
 			return false;
 		}
 		nextall.each(function(i, n) {
@@ -330,7 +348,6 @@ function tabCloseEven() {
 	$('#mm-tabcloseleft').click(function() {
 		var prevall = $('.tabs-selected').prevAll();
 		if (prevall.length == 0) {
-			alert('到头了，前边没有啦~~');
 			return false;
 		}
 		prevall.each(function(i, n) {
