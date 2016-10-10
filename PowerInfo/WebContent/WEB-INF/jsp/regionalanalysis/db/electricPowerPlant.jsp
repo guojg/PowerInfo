@@ -114,22 +114,22 @@ var organ_name='<%=organName%>';
 		align : 'center'
 	}, {
 		field : 'materials_cost',
-		title : '电厂材料费（元/年）',
+		title : '电厂材料费',
 		width : 200,
 		align : 'center'
 	}, {
 		field : 'salary',
-		title : '工资、奖金及福利费（元/年）',
+		title : '工资、奖金及福利费',
 		width : 200,
 		align : 'center'
 	}, {
 		field : 'repairs_cost',
-		title : '修理费（元/年）',
+		title : '修理费',
 		width : 200,
 		align : 'center'
 	}, {
 		field : 'other_cost',
-		title : '其他费用（元/年）',
+		title : '其他费用',
 		width : 200,
 		align : 'center'
 	}] ];
@@ -293,6 +293,8 @@ var organ_name='<%=organName%>';
 			</tr>
 		</table>
 	</fieldset>
+			<div id="title" style="padding-right: 5px;text-align: right"><b>单位：万千瓦，吨，年，%，元，元/年</b></div>
+	
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>

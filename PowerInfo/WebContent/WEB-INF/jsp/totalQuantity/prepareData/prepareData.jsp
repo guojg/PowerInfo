@@ -42,7 +42,11 @@ var index_type='<%=index_type%>';
 	} ] ];
 	$(function() {
 		$('#task_name').html('<b>'+task_name+'</b>');
-
+	if(index_type=="2"){
+		$('#title').html("<b>单位：万人</b>");
+	}else{
+		$('#title').html("<b>单位：亿元</b>");
+	}
 		var itemJson =[{    
 		    "ID":planyear,    
 		    "TEXT":planyear+"年"   
@@ -266,6 +270,8 @@ var index_type='<%=index_type%>';
 			</tr>
 		</table>
 	</fieldset>
+	<div id="title" style="padding-right: 5px;text-align: right"></div>
+	
 	<div id="datagrid_div">
 		<table id="datagrid" ></table>
 	</div>

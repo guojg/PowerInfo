@@ -87,7 +87,7 @@ var organ_name='<%=organName%>';
 		          		align : 'center'
 		          	}, {
 		          		field : '700',
-		          		title : '行业折现率（%）',
+		          		title : '行业折现率',
 		          		width : 100,
 		          		align : 'center'
 		          	}, {
@@ -276,6 +276,8 @@ var organ_name='<%=organName%>';
 			</tr>
 		</table>
 	</fieldset>
+		<div id="title" style="padding-right: 5px;text-align: right"><b>单位：万千瓦，%，年，元</b></div>
+	
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>
