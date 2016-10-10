@@ -1,10 +1,6 @@
 ﻿$(function() {
 	tabClose();
 	tabCloseEven();
-	$('#fullscreenbtn').click(function(){
-		requestFullScreen();
-	});
-	$('#fullscreenbtn').trigger("click");
 	var keyValue={"basic":1,"totalQuantity":4,"balance":157,"station":168};
 	//$('#css3menu').css("margin-left", $('#logo1').width());
 	
@@ -402,41 +398,6 @@ function openPwd() {
 //关闭登录窗口
 function closePwd() {
     $('#w').window('close');
-}
-function requestFullScreen() {
-	var docElm = document.documentElement;
-	 
-	//W3C 
-	 
-	if (docElm.requestFullscreen) { 
-	 
-	  docElm.requestFullscreen(); 
-	 
-	}
-	 
-	//FireFox 
-	 
-	else if (docElm.mozRequestFullScreen) { 
-	 
-	  docElm.mozRequestFullScreen(); 
-	 
-	}
-	 
-	//Chrome等 
-	 
-	else if (docElm.webkitRequestFullScreen) { 
-	 
-	  docElm.webkitRequestFullScreen(); 
-	 
-	}
-	 
-	//IE11
-	 
-	else if (docElm.msRequestFullscreen) {
-	 
-	 docElm.msRequestFullscreen();
-	 
-	}
 }
 function serverLogin(){
 	var txtNewPass = $('#txtNewPass').val();
