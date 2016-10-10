@@ -84,7 +84,7 @@ function addNav(data) {
 /**
  * 基础数据删除节点
  */
-function remove() {
+function removenode() {
 	$.messager.confirm('提示', '确认删除该节点?', function(r) {
 		if (r) {
 			var node = $('#tt').tree('getSelected');
