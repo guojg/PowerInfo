@@ -53,7 +53,7 @@ var organ_name='<%=organName%>';
 	
 	
 		if(task_id==""){
-			alert("请先选择任务");
+			$.messager.alert('提示', '请先选择任务！', 'info');
 			return ;
 		}
 		$('#organ_name').html('<b>'+organ_name+'</b>');
