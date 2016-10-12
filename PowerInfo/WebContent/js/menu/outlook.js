@@ -257,17 +257,15 @@ function getIcon(menuid) {
 }
 
 function addTab(subtitle, url, icon) {
-	if (!$('#tabs').tabs('exists', subtitle)) {
-		$('#tabs').tabs('add', {
-			title : subtitle,
-			content : createFrame(url),
-			closable : true,
-			icon : icon
-		});
-	} else {
-		$('#tabs').tabs('select', subtitle);
-		$('#mm-tabupdate').click();
+	if ($('#tabs').tabs('exists', subtitle)) {
+		$('#tabs').tabs('close', subtitle);
 	}
+	$('#tabs').tabs('add', {
+		title : subtitle,
+		content : createFrame(url),
+		closable : true,
+		icon : icon
+	});
 	tabClose();
 }
 
