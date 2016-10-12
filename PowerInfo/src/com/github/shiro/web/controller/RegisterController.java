@@ -38,6 +38,7 @@ public class RegisterController {
 //        String exceptionClassName = (String)req.getAttribute("shiroLoginFailure");
 //        String error = null;
     	 try {
+    		 req.setCharacterEncoding("UTF-8");
 		String username = req.getParameter("usernamesignup");  
          String password = req.getParameter("passwordsignup"); 
          User user = new User();

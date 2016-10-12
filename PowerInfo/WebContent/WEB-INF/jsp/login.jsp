@@ -34,7 +34,7 @@
 		function checkform_success(e){
 			e=e||window.event;
 			if(document.register.passwordsignup.value!=document.register.passwordsignup_confirm.value){
-			alert("两次密码不一致，请重新输入！");
+			$.messager.alert("提示", "两次密码不一致，请重新输入!");
 			if(document.all) e.returnValue=false;//ie,window.event.returnValue=false阻止元素默认行为
 			else e.preventDefault();//火狐,event.preventDefault阻止元素默认行为
 			}
@@ -77,16 +77,17 @@
 		}
 		$(function() {
 			if(flag=="1"){
-				window.location.href = '/PowerInfo/loginIndex';
-				alert("注册成功");
+				window.location.href = '/PowerInfo/loginIndex';				
+				alert("提示", "注册成功!");
+
 			}else if(flag=="0"){
 				window.location.href = '/PowerInfo/loginIndex';
-				alert("注册失败");
+				$.messager.alert("提示", "注册失败!");
 			}else{
 				
 			}
 			if(message !=""){
-				alert(message);
+				$.messager.alert("提示", message);
 			}else{
 				
 			}
@@ -147,7 +148,7 @@
                         </div>
   
                         <div id="register" class="animate form">
-                            <form  action="register/index" autocomplete="on" name="register"> 
+                            <form  action="register/index" autocomplete="on" name="register" method="post"> 
                                 <h1> 注册 </h1> 
                                 <p> 
                                     <label for="usernamesignup" class="uname" data-icon="u">用户名</label>

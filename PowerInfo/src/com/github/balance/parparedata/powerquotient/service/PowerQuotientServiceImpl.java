@@ -53,12 +53,13 @@ public class PowerQuotientServiceImpl implements PowerQuotientService {
 		colTitle[0] = "电源类型";
 		colName = new String[2 + years.length];
 		colName[0] = "displayvalue";
+		colName[1]="hour_num";
+		colTitle[1]="机组利用小时数";
 		for (int i = 0; i < years.length; i++) {
-			colTitle[1+i] = years[i] + "年";
-			colName[1+i] = years[i];
+			colTitle[2+i] = years[i] + "年";
+			colName[2+i] = years[i];
 		}
-		colName[1+years.length]="hour_num";
-		colTitle[1+years.length]="机组利用小时数";
+		
 		String fileName = "当年新增装机利用系数";
 		ExcelParams params = new ExcelParams(fileName, excelTitle, null,
 				colTitle, colName, list);

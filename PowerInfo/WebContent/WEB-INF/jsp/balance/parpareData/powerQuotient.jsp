@@ -114,19 +114,6 @@ function ExportExcel() {//导出Excel文件
 function createCols(years) {
 	var cols = [];
 	var tmp = [];
-
-	tmp = years.split(",");
-	for (var i = 0; i < tmp.length; i++) {
-		cols.push({
-			'field' : tmp[i] + "",
-			'title' : "" + tmp[i] + "年",
-			'align' : 'center',
-			'width' : 120,
-			'editor' : 'text'
-
-		});
-		
-	}
 	cols.push({
 		'field' : "hour_num",
 		'title' : "机组利用小时数",
@@ -142,6 +129,19 @@ function createCols(years) {
 			}
 
 	});
+	tmp = years.split(",");
+	for (var i = 0; i < tmp.length; i++) {
+		cols.push({
+			'field' : tmp[i] + "",
+			'title' : "" + tmp[i] + "年",
+			'align' : 'center',
+			'width' : 120,
+			'editor' : 'text'
+
+		});
+		
+	}
+
 	return new Array(cols);
 }
 //点击事件
