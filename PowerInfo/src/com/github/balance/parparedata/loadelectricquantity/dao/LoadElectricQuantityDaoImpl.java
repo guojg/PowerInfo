@@ -161,7 +161,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 		buffer.append(taskid);
 		buffer.append(" FROM electricalsource_data WHERE index_item=108");
 		buffer.append(" union all");
-		buffer.append(" SELECT yr,202 index_item,value,");
+		buffer.append(" SELECT yr,202 index_item,value/10000,");
 		buffer.append(taskid);
 		buffer.append(" FROM electricalsource_data WHERE index_item=107");
 		jdbcTemplate.update(buffer.toString());
