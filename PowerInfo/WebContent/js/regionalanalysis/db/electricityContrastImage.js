@@ -196,7 +196,7 @@ function loadData( chartType, yIndex, isInit) {
 	var selections = data;
 	var type = chartType;// 图表类型
 	var xLastLevel = createXLastLevel($("#index_x").combobox("getValues"));
-	var ylastField = 'dc_jz_name';
+	var ylastField = 'plant_name';
 	var xlastField = null;
 	var list = [];
 	debugger;

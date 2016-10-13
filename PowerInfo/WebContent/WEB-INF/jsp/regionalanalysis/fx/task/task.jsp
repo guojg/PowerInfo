@@ -48,7 +48,7 @@ var organ_name='<%=organName%>';
 	$(function() {
 	
 		if(organCode==""){
-			alert("请选择从地图中区域");
+			$.messager.alert('提示', '请选择从地图中区域！', 'info');
 			return ;
 		}
 		$('#organ_name').html('<b>'+organ_name+'</b>');

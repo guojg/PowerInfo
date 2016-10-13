@@ -23,7 +23,7 @@ var id='<%=id%>';
 var organCode='<%=organCode%>';
 $(function() {
 		if(organCode==""){
-			alert("请选择从地图中区域");
+			$.messager.alert('提示', '请选择从地图中区域！', 'info');
 			return ;
 		}
 	  $("#task_name").validatebox({

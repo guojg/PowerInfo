@@ -43,7 +43,7 @@ $(function() {
 function addTr(trHtml){
     var $tr=$("#calculateTable tr:last");
     if($tr.size()==0){
-       alert("指定的table id或行数不存在！");
+    	 $.messager.alert("提示","指定的table id或行数不存在");
        return;
     }
     $tr.after(trHtml);
@@ -54,7 +54,7 @@ function addTr(trHtml){
 function removeTr(id){
     var $tr=$("#"+id+"");
     if($tr.size()==0){
-       alert("指定的table id或行数不存在！");
+   	 $.messager.alert("提示","指定的table id或行数不存在");
        return;
     }
     //$tr.css('display','none');
