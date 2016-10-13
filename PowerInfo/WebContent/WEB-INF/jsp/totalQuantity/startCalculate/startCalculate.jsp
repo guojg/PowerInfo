@@ -40,7 +40,7 @@ function startCalculate(){
 		<table id="search_tbl">
 			<tr>
 			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><span id="task_name"></span></td>
+				<td class="tdrgt" style="width:300px"><span id="task_name"></span></td>
 				
 			</tr>
 		</table>

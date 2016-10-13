@@ -263,7 +263,7 @@ var index_type='<%=index_type%>';
 		<table id="search_tbl">
 			<tr>
 			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><span id="task_name"></span></td>
+				<td class="tdrgt" ><span id="task_name"></span></td>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 			</tr>
