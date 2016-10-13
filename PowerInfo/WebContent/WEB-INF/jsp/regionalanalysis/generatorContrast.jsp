@@ -9,7 +9,6 @@
 <%@include file="../common/commonDefineBtn.jsp" %>
 <% 
 String id = request.getParameter("id")==null ?"" : request.getParameter("id"); 
-System.out.println("----"+id);
 %>
 <script type="text/javascript">
 var id='<%=id%>' ;

@@ -626,16 +626,6 @@ private WritableWorkbook createExcel1(OutputStream os, List<MergeRules> rules, i
                     Collections.sort(list);    //从小到大
                     if((list.size() > 0 && list.get(0) != 0) || columnIndex != 1){
                         if(this.isCellMerged(sheet, coltitleIndex + i, j  - columnIndex + 1) == null ){
-//                            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-//                            System.out.print(j  - columnIndex + 1);
-//                            System.out.print(" : ");
-//                            System.out.print(coltitleIndex + i);
-//                            System.out.print(", ");
-//                            System.out.print(j);
-//                            System.out.print(" : ");
-//                            System.out.print(coltitleIndex + i + list.get(0));
-//                            System.out.println();
-//                            System.out.println("-----------------------------");
                             sheet.mergeCells(j  - columnIndex + 1, coltitleIndex + i, j, coltitleIndex + i + list.get(0));
                         }
                     }
