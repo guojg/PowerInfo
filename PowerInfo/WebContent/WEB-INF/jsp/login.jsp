@@ -39,6 +39,11 @@
 			else e.preventDefault();//火狐,event.preventDefault阻止元素默认行为
 			}
 			}
+		 function loadTopWindow(){ 
+			 if (window.top!=null && window.top.document.URL!=document.URL){ 
+				 window.top.location= document.URL; //这样就可以让登陆窗口显示在整个窗口了
+				 } 
+			 } 
 		function Fkey() {
 			/*var docElm = document.documentElement;
 			 
@@ -96,7 +101,7 @@
 		
 		</script>
     </head>
-<body>
+<body onload="loadTopWindow()">
  <div class="container">
             <!-- Codrops top bar -->
             <!--<div class="codrops-top">
