@@ -134,7 +134,6 @@ function save(){
  }
 
 function init(){
-	debugger;
 	var taskParam={
 			taskid:taskid
 	} ;

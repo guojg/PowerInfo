@@ -42,7 +42,6 @@ window.onload = function () {
            
     for (var state in china) {
 		china[state]['path'].color = Raphael.getColor(0.9);
-				debugger;
         (function (st, state) {
 			
 			//获取当前图形的中心坐标
@@ -119,7 +118,6 @@ window.onload = function () {
 }
 	function clickMap(selectName){
 								var orgCode = "";
-								debugger;
 								switch(selectName){
 									case '黑龙江':
 										orgCode = "12321";

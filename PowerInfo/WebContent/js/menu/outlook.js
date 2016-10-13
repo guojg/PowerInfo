@@ -142,7 +142,6 @@ function InitTreeData(data) {
 						});
 					}
 				},onLoadSuccess:function(){
-					debugger;
 					var rooNode = $("#tt").tree('getRoot');
 					if(data==190 || data==169 || data==4|| data==5){
 						$("#tt").tree("expand",rooNode.target);  
@@ -200,7 +199,6 @@ function update() {
 
 }
 function append() {
-	debugger;
 	commonHelper.toAdd({
 		title : '增加指标',
 		width : 400,

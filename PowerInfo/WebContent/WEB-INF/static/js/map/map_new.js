@@ -515,7 +515,6 @@
 							
 						}
 						//alert(orgCode);
-						debugger;
 						$.ajax({
 							type : 'POST',
 							async : false,

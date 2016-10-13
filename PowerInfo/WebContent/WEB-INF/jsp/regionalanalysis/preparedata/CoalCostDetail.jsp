@@ -109,7 +109,6 @@ var area_id='1';
 		//非冰冻列
 		cols = createCols(index_s);
 		//查询条件暂时放外面
-		debugger;
 		var queryParams = {
 				index_xs : index_s,
 				fdj_id :fdj_id

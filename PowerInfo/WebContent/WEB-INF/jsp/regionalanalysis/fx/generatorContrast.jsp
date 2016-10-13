@@ -106,7 +106,6 @@ var frozenCols = [ [  {
 		//非冰冻列
 		cols = createCols(index_s);
 		//查询条件暂时放外面
-		debugger;
 		var queryParams = {
 				"index_xs" : index_s,
 				"index_ys" :index_y,
@@ -208,7 +207,6 @@ var frozenCols = [ [  {
 		m.appendTo(f);  
 		n.val(id);  
 		n.appendTo(f);  
-		debugger;
 		f.appendTo(document.body).submit();  
 		document.body.removeChild(f);  
 	}

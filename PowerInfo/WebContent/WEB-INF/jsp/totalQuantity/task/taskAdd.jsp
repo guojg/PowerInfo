@@ -48,7 +48,6 @@ function initData(){
 			url:url,
 			dataType:"json",
 			success:function(item){
-				debugger;
 				//赋值开始
 				$('#task_name').val(item['TASK_NAME']);
 		 		$('#baseyear').combobox('setValue',item['BASEYEAR']);

@@ -30,7 +30,6 @@ function cancel(){
 	window.parent.$('#win_div').window('close');
 }
 function save(){
-	debugger;
 	var row = window.parent.$('#datagrid').datagrid('getChecked');
 	var operationdata = new Object();
 	operationdata["id"]=row[0].id;

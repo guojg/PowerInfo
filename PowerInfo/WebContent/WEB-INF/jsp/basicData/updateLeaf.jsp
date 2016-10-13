@@ -14,7 +14,6 @@ $(function() {
 			textkey : "value",
 			valuekey : "code"		});
 	var node = window.parent.$('#tt').tree('getSelected');
-	debugger;
 	$('#name').val(node.text);
 	
 	$('#unit_code').combobox("setValue",node.attributes.unit_code);

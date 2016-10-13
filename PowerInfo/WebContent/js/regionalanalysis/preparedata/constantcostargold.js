@@ -143,7 +143,6 @@ function initData(){
 }
 function baoCun(){
 	jisuan();
-	debugger;
 	//验证消息开始
 	$('.validatebox-text').each(function(i,obj){
 		$(this).validatebox('enableValidation').validatebox('validateTip');

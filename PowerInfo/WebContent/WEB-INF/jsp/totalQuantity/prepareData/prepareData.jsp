@@ -84,7 +84,6 @@ var index_type='<%=index_type%>';
 		var Height_Page = $(document).height();
 		 $(window).height();
 		 $('body').height();
-		 debugger;
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
 		$('#datagrid').datagrid({

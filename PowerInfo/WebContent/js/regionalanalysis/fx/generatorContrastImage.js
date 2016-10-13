@@ -199,7 +199,6 @@ function loadData( chartType, yIndex, isInit) {
 	var ylastField = 'dc_jz_name';
 	var xlastField = null;
 	var list = [];
-	debugger;
 
 	for (var i = 0, len = selections.length; i < len; i++) {
 		var series = {};

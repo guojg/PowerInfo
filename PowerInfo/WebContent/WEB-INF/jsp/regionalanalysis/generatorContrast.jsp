@@ -208,7 +208,6 @@ var frozenCols = [ [  {
 		m.appendTo(f);  
 		n.val(id);  
 		n.appendTo(f);  
-		debugger;
 		f.appendTo(document.body).submit();  
 		document.body.removeChild(f);  
 	}

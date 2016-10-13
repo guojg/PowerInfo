@@ -129,7 +129,6 @@ function save(){
 	//	return;
 	//}
 	var param={"editObj":JSONH.stringify(formData),"area_id":area_id,"task_id":task_id};
-	debugger;
 	$.ajax({
 		  type: "post",
 		  url: path + '/plantAnalysisfx/updateRecord',
