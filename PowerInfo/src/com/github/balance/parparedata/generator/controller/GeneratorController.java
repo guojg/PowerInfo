@@ -98,17 +98,17 @@ public class GeneratorController {
 	@RequestMapping(value = "/main")
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "balance/parpareData/electricPowerPlant";
+		return "balance/parpareData/generator";
 	}
 	@RequestMapping(value = "/openAddRecord")
 	public String openAddRecord(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "balance/parpareData/addPlant";
+		return "balance/parpareData/addGenerator";
 	}
 	@RequestMapping(value = "/openUploadRecord")
 	public String openUploadRecord(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
-		return "balance/parpareData/updatePlant";
+		return "balance/parpareData/updateGenerator";
 	}
 	@RequestMapping("/exportData")
 	public void exportData(HttpServletRequest request,
@@ -131,6 +131,14 @@ public class GeneratorController {
 			}
 			 
 
+	}
+	
+	@RequestMapping(value = "/getPlant", produces="application/json;charset=UTF-8")
+	public  @ResponseBody String getPlant(HttpServletRequest request,
+			HttpServletResponse response) {
+		String a= generatorService.getPlant() ;
+		return a;
+		
 	}
 
 }

@@ -132,20 +132,20 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 	 */
 	private String getExistingCapacitySQL(String year,String task_id){
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SELECT yr,null,1000,SUM(plant_capacity),");
+		sb.append(" SELECT yr,null,1000,SUM(gene_capacity),");
 		sb.append(task_id)
-		.append	( " FROM electricpowerplant_data JOIN  ")
+		.append	( " FROM generator_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)<t.yr ")
-		.append( " AND (SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)>t.yr OR end_date IS NULL)")
+		.append( " AND (SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)>=t.yr OR end_date IS NULL)")
 		.append("  GROUP BY yr") 
 		.append(" union all ")
-		.append(" SELECT yr,1000,index_item,SUM(plant_capacity),")
+		.append(" SELECT yr,1000,index_item,SUM(gene_capacity),")
 		.append(task_id)
-		.append( " FROM electricpowerplant_data JOIN  ")
+		.append( " FROM generator_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)<t.yr ")
-		.append( " AND (SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)>t.yr OR end_date IS NULL)")
+		.append( " AND (SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)>=t.yr OR end_date IS NULL)")
 		.append("  GROUP BY index_item,yr") ;
 		return sb.toString();
 	}
@@ -156,16 +156,16 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 	 */
 	private String getRetireCapacitySQL(String year,String task_id){
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SELECT yr,null,400,SUM(plant_capacity),");
+		sb.append(" SELECT yr,null,400,SUM(gene_capacity),");
 		sb.append(task_id)
-		.append	( " FROM electricpowerplant_data JOIN  ")
+		.append	( " FROM generator_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)=t.yr ")
 		.append("  GROUP BY yr") 
 		.append(" union all ")
-		.append(" SELECT yr,400,index_item,SUM(plant_capacity),")
+		.append(" SELECT yr,400,index_item,SUM(gene_capacity),")
 		.append(task_id)		
-		.append( " FROM electricpowerplant_data JOIN  ")
+		.append( " FROM generator_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(end_date,'%Y-%c-%d'),1,4)=t.yr ")
 		.append("  GROUP BY index_item,yr") ;
@@ -179,10 +179,10 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 	 */
 	private String getOperationalCapacitySQL(String year,String task_id){
 		StringBuffer sb = new StringBuffer();
-		sb.append("  SELECT yr, p,m.index_item,plant_capacity *VALUE/100,")
+		sb.append("  SELECT yr, p,m.index_item,gene_capacity *VALUE/100,")
 		.append(task_id)
 		.append(" FROM (  ")
-		.append(" SELECT yr,300 p,index_item,SUM(plant_capacity) plant_capacity FROM electricpowerplant_data JOIN  ")
+		.append(" SELECT yr,300 p,index_item,SUM(gene_capacity) gene_capacity FROM generator_data JOIN  ")
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)=t.yr ")
 		.append("  GROUP BY index_item,yr")

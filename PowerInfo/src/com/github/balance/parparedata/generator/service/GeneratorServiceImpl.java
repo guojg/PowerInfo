@@ -103,4 +103,10 @@ public class GeneratorServiceImpl implements  GeneratorService{
 
 	}
 
+	@Override
+	public String getPlant() {
+		List<Map<String, Object>>   list =  generatorDao.queryPlant();
+		return JsonUtils.transformListToJson(list);
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.balance.parparedata.generator.model.Generator;
+
 import net.sf.json.JSONObject;
 
 
@@ -17,5 +18,6 @@ public interface GeneratorDao {
 	public String importRecord(List<Generator> list) throws Exception;
 	
 	public int getTotalCount();
+	public List<Map<String, Object>> queryPlant();
 	
 }

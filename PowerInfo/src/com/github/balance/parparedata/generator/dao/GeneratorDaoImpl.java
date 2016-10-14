@@ -43,18 +43,18 @@ public class GeneratorDaoImpl implements GeneratorDao {
 		String gene_name=param.getString("gene_name");
 		int  startNum = psize*(pNum-1);
 		int  endNum = psize*pNum;
-		StringBuffer buffer=new StringBuffer("SELECT id,(select plant_name from electricpowerplant_data where id=plant_id) plant_name,gene_name,gene_capacity,(select value from sys_dict_table where domain_id=12 and code=index_item) index_itemname,index_item,date_format(start_date,'%Y-%m-%d') start_date,");
-		buffer.append(" date_format(end_date,'%Y-%m-%d') end_date from shiro.generator_data where 1=1");
+		StringBuffer buffer=new StringBuffer("SELECT g.id, e.plant_name,g.plant_id,g.gene_name,g.gene_capacity,(select value from sys_dict_table where domain_id=12 and code=g.index_item) index_itemname,g.index_item,date_format(g.start_date,'%Y-%m-%d') start_date,");
+		buffer.append(" date_format(g.end_date,'%Y-%m-%d') end_date from shiro.generator_data g join electricpowerplant_data e on e.id=g.plant_id");
 		if(!"".equals(name)){
-			buffer.append(" and plant_name like ?");
+			buffer.append(" and e.plant_name like ?");
 			params.add("%"+name+"%");
 		}
 		if(!"".equals(gene_name)){
-			buffer.append(" and gene_name like ?");
+			buffer.append(" and g.gene_name like ?");
 			params.add("%"+gene_name+"%");
 		}
 		if(indexs.length>0){
-			buffer.append(" and index_item in (");
+			buffer.append(" and g.index_item in (");
 			String InSql = "";
 			for (int i = 0; i < indexs.length; i++) {
 				InSql = InSql + "?,";
@@ -81,7 +81,7 @@ public class GeneratorDaoImpl implements GeneratorDao {
 	public String addRecord(final Generator generator) throws Exception {
 		// TODO Auto-generated method stub
 		String insertsql = "insert  generator_data" 
-				+ "(plant_name,plant_capacity,start_date,end_date,index_item,plant_id) VALUES(?,?,?,?,?,?)";
+				+ "(gene_name,gene_capacity,start_date,end_date,index_item,plant_id) VALUES(?,?,?,?,?,?)";
 		PreparedStatementSetter setinsert = new PreparedStatementSetter() {
 
 			@Override
@@ -151,8 +151,17 @@ public class GeneratorDaoImpl implements GeneratorDao {
 	public int getTotalCount() {
 		// TODO Auto-generated method stub
 		
-		String Sql="select count(1) from shiro.electricpowerplant_data";
+		String Sql="select count(1) from shiro.generator_data";
 		
 		return jdbcTemplate.queryForInt(Sql);
+	}
+
+
+
+	@Override
+	public List<Map<String, Object>> queryPlant() {
+		String sql ="select id code ,plant_name value from electricpowerplant_data  order by id desc";
+		List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql);
+		return list;
 	}
 }

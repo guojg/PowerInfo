@@ -3,10 +3,10 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /> 
-<title>增加电厂</title>
+<title>增加机组</title>
 </head>
 <%@include file="../../common/commonInclude.jsp" %>
-<script type="text/javascript" src="<%=path%>/static/js/common/plantUtil.js"></script>
+<script type="text/javascript" src="<%=path%>/static/js/common/generatorUtil.js"></script>
 <script type="text/javascript">
 $(function() {
 	 comboBoxInit({
@@ -15,7 +15,14 @@ $(function() {
 			textkey : "value",
 			valuekey : "code"
 			});
-
+	 comboBoxInit({
+			id : "plant_id",
+			url :  path+"/generator/getPlant",
+			textkey : "value",
+			valuekey : "code",
+			multiple:false,
+			defaultVal:"first"
+	});
 }
 );
 //取消
@@ -26,19 +33,20 @@ function cancel(){
 
 function save(){
 	var operationdata = new Object();
-	operationdata["plant_name"]=$('#plant_name').val();
-	operationdata["plant_capacity"]=$('#plant_capacity').val();
+	operationdata["gene_name"]=$('#gene_name').val();
+	operationdata["gene_capacity"]=$('#gene_capacity').val();
 	operationdata["start_date"]=$('#start_date').datebox('getValue');
 	operationdata["end_date"]=$('#end_date').datebox('getValue');
 	operationdata["index_item"]=$('#index_item').combo('getValue');
-	
+	operationdata["plant_id"]=$('#plant_id').combo('getValue');
+
 	if(!validate(operationdata)){
 		return;
 	}
 	var param={"editObj":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
-		  url: path + '/electricPowerPlant/addRecord',
+		  url: path + '/generator/addRecord',
 		  data:param,
 		  success:function(obj){
 			  if(obj=='1'){
@@ -61,23 +69,27 @@ function save(){
 	<form id="paramsForm">
 		<table id="detailTable">
 			<tr>
-				<td class="tdlft" style='width: 100px'>电厂名称：</td>
-				<td class="tdrgt" style='width: 120px'><input id="plant_name"
+				<td class="tdlft" style='width: 100px'>机组名称：</td>
+				<td class="tdrgt" style='width: 120px'><input id="gene_name"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>装机容量：</td>
-				<td class="tdrgt" style='width: 120px'><input id="plant_capacity"
-					type="text" style='width: 120px' /></td>
+				<td class="tdlft" style='width: 100px'>所属电厂：</td>
+				<td class="tdrgt" style='width: 120px'><input id="plant_id"
+					type="text" style='width: 120px'/></td>
 			</tr>
 			<tr>
+			<td class="tdlft" style='width: 100px'>装机容量：</td>
+				<td class="tdrgt" style='width: 120px'><input id="gene_capacity"
+					type="text" style='width: 120px' /></td>
 				<td class="tdlft" style='width: 100px'>电源类型：</td>
 				<td class="tdrgt" style='width: 120px'><input id="index_item"
 					type="text" style='width: 120px'/></td>
-				<td class="tdlft" style='width: 100px'>投产日期：</td>
-				<td class="tdrgt" style='width: 120px'><input id="start_date"
-					type="text" style='width: 120px' class="easyui-datebox"/></td>
+				
 
 			</tr>	
 			<tr>
+			<td class="tdlft" style='width: 100px'>投产日期：</td>
+				<td class="tdrgt" style='width: 120px'><input id="start_date"
+					type="text" style='width: 120px' class="easyui-datebox"/></td>
 				<td class="tdlft" style='width: 100px'>退役日期：</td>
 				<td class="tdrgt" style='width: 120px'><input id="end_date"
 					type="text" style='width: 120px' class="easyui-datebox"/></td>

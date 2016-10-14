@@ -6,7 +6,7 @@
 <title>修改电厂</title>
 </head>
 <%@include file="../../common/commonInclude.jsp" %>	
-<script type="text/javascript" src="<%=path%>/static/js/common/plantUtil.js"></script>
+<script type="text/javascript" src="<%=path%>/static/js/common/generatorUtil.js"></script>
 <script type="text/javascript">
 $(function() {
 	 comboBoxInit({
@@ -15,13 +15,23 @@ $(function() {
 			textkey : "value",
 			valuekey : "code"
 			});
+	 comboBoxInit({
+			id : "plant_id",
+			url :  path+"/generator/getPlant",
+			textkey : "value",
+			valuekey : "code",
+			multiple:false,
+			defaultVal:"first"
+	});
 	var rows = window.parent.$('#datagrid').datagrid('getChecked');
 	var row=rows[0];
-	$('#plant_name').val(row.plant_name);
-	$('#plant_capacity').val(row.plant_capacity);
+	$('#gene_name').val(row.gene_name);
+	$('#gene_capacity').val(row.gene_capacity);
 	$('#start_date').datebox("setValue",row.start_date);
 	$('#end_date').datebox("setValue",row.end_date);
 	$('#index_item').combobox("setValue",row.index_item);
+	$('#plant_id').combobox("setValue",row.plant_id);
+
 }
 );
 //取消
@@ -33,18 +43,19 @@ function save(){
 	var row = window.parent.$('#datagrid').datagrid('getChecked');
 	var operationdata = new Object();
 	operationdata["id"]=row[0].id;
-	operationdata["plant_name"]=$('#plant_name').val();
-	operationdata["plant_capacity"]=$('#plant_capacity').val();
+	operationdata["gene_name"]=$('#gene_name').val();
+	operationdata["gene_capacity"]=$('#gene_capacity').val();
 	operationdata["start_date"]=$('#start_date').datebox('getValue');
 	operationdata["end_date"]=$('#end_date').datebox('getValue');
-	operationdata["index_item"]=$('#index_item').datebox('getValue');
+	operationdata["index_item"]=$('#index_item').combo('getValue');
+	operationdata["plant_id"]=$('#plant_id').combo('getValue');
 	if(!validate(operationdata)){
 		return;
 	}
 	var param={"editObj":JSONH.stringify(operationdata)};
 	$.ajax({
 		  type: "post",
-		  url: path + '/electricPowerPlant/updateRecord',
+		  url: path + '/generator/updateRecord',
 		  data:param,
 		  success:function(obj){
 			  if(obj=='1'){
@@ -66,26 +77,31 @@ function save(){
 	<form id="paramsForm">
 		<table id="detailTable">
 
-			<tr>
-				<td class="tdlft" style='width: 100px'>电厂名称：</td>
-				<td class="tdrgt" style='width: 120px'><input id="plant_name"
+						<tr>
+				<td class="tdlft" style='width: 100px'>机组名称：</td>
+				<td class="tdrgt" style='width: 120px'><input id="gene_name"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>装机容量：</td>
-				<td class="tdrgt" style='width: 120px'><input id="plant_capacity"
-					type="text" style='width: 120px' /></td>
+				<td class="tdlft" style='width: 100px'>所属电厂：</td>
+				<td class="tdrgt" style='width: 120px'><input id="plant_id"
+					type="text" style='width: 120px'/></td>
 			</tr>
 			<tr>
+			<td class="tdlft" style='width: 100px'>装机容量：</td>
+				<td class="tdrgt" style='width: 120px'><input id="gene_capacity"
+					type="text" style='width: 120px' /></td>
 				<td class="tdlft" style='width: 100px'>电源类型：</td>
 				<td class="tdrgt" style='width: 120px'><input id="index_item"
 					type="text" style='width: 120px'/></td>
-				<td class="tdlft" style='width: 100px'>投产日期：</td>
-				<td class="tdrgt" style='width: 120px'><input id="start_date" class="easyui-datebox"
-					type="text" style='width: 120px' /></td>
-			</tr>		
+				
+
+			</tr>	
 			<tr>
+			<td class="tdlft" style='width: 100px'>投产日期：</td>
+				<td class="tdrgt" style='width: 120px'><input id="start_date"
+					type="text" style='width: 120px' class="easyui-datebox"/></td>
 				<td class="tdlft" style='width: 100px'>退役日期：</td>
 				<td class="tdrgt" style='width: 120px'><input id="end_date"
-					type="text" style='width: 120px' data-options="editable:false"  class="easyui-datebox"/></td>
+					type="text" style='width: 120px' class="easyui-datebox"/></td>
 			</tr>	
 		</table>
 	</form>
