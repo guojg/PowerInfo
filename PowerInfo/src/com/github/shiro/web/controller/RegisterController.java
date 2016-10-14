@@ -41,12 +41,13 @@ public class RegisterController {
     		 req.setCharacterEncoding("UTF-8");
 		String username = req.getParameter("usernamesignup");  
          String password = req.getParameter("passwordsignup"); 
+         String rolename = req.getParameter("rolename"); 
          User user = new User();
          user.setUsername(username);
          user.setPassword(password);
          user.setLocked(false);
          user.setOrganizationId(1L);
-         user.setRoleIdsStr("1");
+         user.setRoleIdsStr(rolename);
          userService.createUser(user);
      	//return "1";
          req.setAttribute("flag", "1");

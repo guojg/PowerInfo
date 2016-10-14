@@ -168,6 +168,11 @@
                                     <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">确认密码 </label>
                                     <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
                                 </p>
+                                 <p> 
+                                    <label for="rolename" data-icon="u">角色</label>
+                                    <select id="rolename" name="rolename"><option value ="2" selected="selected">普通员工</option></select>
+                                </p>
+                                
                                 <p class="signin button"> 
 									<input type="submit" value="注册" onClick="checkform_success(event)"/> 
 								</p>
