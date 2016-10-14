@@ -88,7 +88,7 @@ public class GeneratorDaoImpl implements GeneratorDao {
 			public void setValues(PreparedStatement ps) throws SQLException {
 				// TODO Auto-generated method stub
 				ps.setString(1, generator.getGeneName());
-				ps.setString(2, generator.getGeneCapacity());
+				ps.setDouble(2, generator.getGeneCapacity());
 				ps.setString(3, generator.getStartDate());
 				ps.setString(4, generator.getEndDate());
 				ps.setString(5, generator.getIndexItem());
@@ -112,7 +112,7 @@ public class GeneratorDaoImpl implements GeneratorDao {
 			public void setValues(PreparedStatement ps) throws SQLException {
 				// TODO Auto-generated method stub
 				ps.setString(1, generator.getGeneName());
-				ps.setString(2, generator.getGeneCapacity());
+				ps.setDouble(2, generator.getGeneCapacity());
 				ps.setString(3, generator.getStartDate());
 				ps.setString(4, generator.getEndDate());
 				ps.setString(5, generator.getIndexItem());

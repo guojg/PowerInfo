@@ -22,7 +22,7 @@ public class Generator {
 		this.id = id;
 	}
 	private String geneName;
-	private String geneCapacity;
+	private Double geneCapacity;
 	private String startDate;
 	private String endDate;
 	private String id;
@@ -47,10 +47,10 @@ public class Generator {
 	public void setGeneName(String geneName) {
 		this.geneName = geneName;
 	}
-	public String getGeneCapacity() {
+	public Double getGeneCapacity() {
 		return geneCapacity;
 	}
-	public void setGeneCapacity(String geneCapacity) {
+	public void setGeneCapacity(Double geneCapacity) {
 		this.geneCapacity = geneCapacity;
 	}
 	

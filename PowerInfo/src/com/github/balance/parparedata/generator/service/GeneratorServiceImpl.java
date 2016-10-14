@@ -64,7 +64,7 @@ public class GeneratorServiceImpl implements  GeneratorService{
 		}else{
 			p.setEndDate(null);
 		}
-		p.setGeneCapacity(data.getString("gene_capacity"));
+		p.setGeneCapacity(data.getString("gene_capacity")==null?null:Double.parseDouble(data.getString("gene_capacity")));
 		p.setGeneName(data.getString("gene_name"));
 		p.setStartDate(data.getString("start_date"));
 		p.setIndexItem(data.getString("index_item"));
@@ -78,10 +78,10 @@ public class GeneratorServiceImpl implements  GeneratorService{
 			throws Exception {
 		String[] excelTitle = new String[] { "" };
 		List<Map<String, Object>> list = generatorDao.queryData(param);
-		String[] colTitle = {"电厂名称","装机容量","电源类型","投产日期","退役日期"};
-		String[] colName = {"plant_name","plant_capacity","index_itemname","start_date","end_date"};
+		String[] colTitle = {"机组名称","所属电厂名称","装机容量","电源类型","投产日期","退役日期"};
+		String[] colName = {"gene_name","plant_name","gene_capacity","index_itemname","start_date","end_date"};
 		
-		String fileName = "电厂";
+		String fileName = "发电机";
 		ExcelParams params = new ExcelParams(fileName, excelTitle, null,
 				colTitle, colName, list);
 

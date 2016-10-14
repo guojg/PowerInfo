@@ -100,7 +100,7 @@
     	i.appendTo(f);  
     	l.val(plant_name);  
     	l.appendTo(f);  
-    	m.val(gene_name);  
+    	m.val($("#gene_name").val());  
     	m.appendTo(f);  
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
