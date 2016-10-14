@@ -25,9 +25,9 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		String task_id=param.getString("task_id");
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT y.*,x.hour_num FROM power_hour X RIGHT JOIN ( ") ;
-		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 id,p.value_2 code_name,d.*,  ").append(task_id).append( " task_id ") ;
+		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 id,p.value_2 code_name,p.ORD,p.ord_2,d.*,  ").append(task_id).append( " task_id ") ;
 		sb.append(" FROM (");
-		sb.append(" SELECT pcode,VALUE,code_2,value_2 FROM electricity4  ORDER BY ORD,ord_2 )p");
+		sb.append(" SELECT pcode,VALUE,code_2,value_2,ORD,ord_2 FROM electricity4  ORDER BY ORD,ord_2 )p");
 		sb.append(" LEFT JOIN  (SELECT p_index_item,index_item ");
 		//for (String yearStr : param.get("year").toString().split(",")) {
 		for (String yearStr :year.split(",")) {
@@ -38,8 +38,8 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 			sb.append("'");
 		}
 		sb.append("  FROM electricity_data where task_id= ? GROUP BY task_id,p_index_item,index_item) ") ;
-		sb.append(" d ON  (p.pcode = d.p_index_item OR (p.pcode IS NULL AND d.p_index_item IS NULL) ) AND p.code_2=d.index_item");
-		sb.append(" ) Y ON y.id=x.index_item and x.task_id=y.task_id") ;
+		sb.append(" d ON  (p.pcode = d.p_index_item OR (p.pcode IS NULL AND d.p_index_item IS NULL) ) AND p.code_2=d.index_item ");
+		sb.append(" ) Y ON y.id=x.index_item and x.task_id=y.task_id  ORDER BY ORD,ord_2") ;
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{task_id});
 		return list;
 	}

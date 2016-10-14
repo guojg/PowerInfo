@@ -31,9 +31,9 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		String year = param.getString("year");
 		String task_id=param.getString("task_id");
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 id,p.value_2 code_name,d.*  ") ;
+		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 id,p.value_2 code_name,p.ORD,p.ord_2,d.*  ") ;
 		sb.append(" FROM (");
-		sb.append(" SELECT pcode,VALUE,code_2,value_2 FROM power4  ORDER BY ORD,ord_2 )p");
+		sb.append(" SELECT pcode,VALUE,code_2,value_2,ORD,ord_2 FROM power4  ORDER BY ORD,ord_2 )p");
 		sb.append(" LEFT JOIN  (SELECT p_index_item,index_item ");
 		//for (String yearStr : param.get("year").toString().split(",")) {
 		for (String yearStr : year.split(",")) {
@@ -44,7 +44,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 			sb.append("'");
 		}
 		sb.append(" FROM power_data where task_id= ? GROUP BY p_index_item,index_item) ") ;
-		sb.append(" d ON  (p.pcode = d.p_index_item OR (p.pcode IS NULL AND d.p_index_item IS NULL) ) AND p.code_2=d.index_item");
+		sb.append(" d ON  (p.pcode = d.p_index_item OR (p.pcode IS NULL AND d.p_index_item IS NULL) ) AND p.code_2=d.index_item ORDER BY ORD,ord_2");
 
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{task_id});
 		return list;
