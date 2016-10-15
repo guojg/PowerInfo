@@ -112,12 +112,15 @@
 			}*/
 			document.getElementById('myform').submit();
 		}
+		function timeoutHref(){
+			window.location.href = '/PowerInfo/loginIndex';
+		}
 		$(function() {
 			//document.register.usernamesignup.focus();
-			if(flag=="1"){
-				window.location.href = '/PowerInfo/loginIndex';				
-				alert("提示", "注册成功!");
-
+			if(flag=="1"){			
+			
+				$.messager.alert("提示", "注册成功!");
+				setTimeout("timeoutHref()", 3000 );
 			}else if(flag=="0"){
 				window.location.href = '/PowerInfo/loginIndex';
 				$.messager.alert("提示", "注册失败!");
@@ -180,7 +183,7 @@
 								</p>
  						 <p class="change_link">
 									还没有账户吗 ?
-									<a href="#toregister" class="to_register">注册</a>
+									<a href="#toregister"  class="to_register">注册</a>
 								</p>
                             </form>
                         </div>
