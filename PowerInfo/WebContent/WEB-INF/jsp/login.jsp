@@ -32,18 +32,50 @@
 		var flag='<%=flag%>';
 		var message='<%=message%>';
 		function checkform_success(e){
+			var vflag =validateOnly();
 			e=e||window.event;
-			if(document.register.passwordsignup.value!=document.register.passwordsignup_confirm.value){
-			$.messager.alert("提示", "两次密码不一致，请重新输入!");
-			if(document.all) e.returnValue=false;//ie,window.event.returnValue=false阻止元素默认行为
-			else e.preventDefault();//火狐,event.preventDefault阻止元素默认行为
+			if(!vflag){
+				debugger;
+				if(document.all) e.returnValue=false;//ie,window.event.returnValue=false阻止元素默认行为
+				else e.preventDefault();//火狐,event.preventDefault阻止元素默认行为
+
+			}else if(document.register.passwordsignup.value!=document.register.passwordsignup_confirm.value){
+				$.messager.alert("提示", "两次密码不一致，请重新输入!");
+				if(document.all) e.returnValue=false;//ie,window.event.returnValue=false阻止元素默认行为
+				else e.preventDefault();//火狐,event.preventDefault阻止元素默认行为
+			} else{
+				
 			}
-			}
+		}
 		 function loadTopWindow(){ 
 			 if (window.top!=null && window.top.document.URL!=document.URL){ 
 				 window.top.location= document.URL; //这样就可以让登陆窗口显示在整个窗口了
 				 } 
 			 } 
+		 
+		function validateOnly(){
+			var validateflag=false;
+			var username = document.register.usernamesignup.value;
+			var param={"username":username,"date":new Date()};
+			$.ajax({
+				  type: "post",
+				  url: '/PowerInfo/register/validateOnly',
+				  data:param,
+				  dataType:'text',	
+				  async:false,
+				  success:function(obj){
+					  debugger;
+					  if(obj=='1'){
+						  validateflag=false;
+						$.messager.alert('提示','用户名已存在！');
+					  }else{
+						  validateflag=true;
+					  }
+					}
+				});
+
+			return validateflag;
+		}
 		function Fkey() {
 			/*var docElm = document.documentElement;
 			 
@@ -81,6 +113,7 @@
 			document.getElementById('myform').submit();
 		}
 		$(function() {
+			//document.register.usernamesignup.focus();
 			if(flag=="1"){
 				window.location.href = '/PowerInfo/loginIndex';				
 				alert("提示", "注册成功!");
@@ -178,7 +211,7 @@
 								</p>
                                 <p class="change_link">  
 									已经有账户吗 ?
-									<a href="#tologin" class="to_register"> 登录 </a>
+									<a href="/PowerInfo/loginIndex" class="to_register"> 登录 </a>
 								</p>
                             </form>
                         </div>

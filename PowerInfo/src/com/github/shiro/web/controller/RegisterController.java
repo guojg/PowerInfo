@@ -84,11 +84,25 @@ public class RegisterController {
  		return "0";
 
  		}
-    	 
-    	
+ 
     }
    
-    
+    @RequestMapping(value = "/validateOnly")
+    public @ResponseBody String validateOnly(HttpServletRequest req, Model model) {
+
+    	 try {
+         String username = req.getParameter("username"); 
+      
+         User user = userService.findByUsername(username);
+         if(user ==null)
+	         return "2" ;
+     	
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+
+ 		}	
+    	 return "1" ;
+   }
 
 
 }
