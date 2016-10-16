@@ -88,7 +88,6 @@
 			frozenColumns : frozenCols,
 			columns : cols,
 			checkOnSelect:true,
-			singleSelect:true,
 			rownumbers : true,
 			pagination : false,
 			queryParams : queryParams,

@@ -62,7 +62,7 @@ public class TaskDaoImpl implements TaskDao{
 
 	@Override
 	public List<TotalYear> getBaseYears() throws Exception {
-		String sql = "select year,year_name from total_year where flag=0";
+		String sql = "select year,year_name from base_year ";
 		List<TotalYear> list = jdbcTemplate.query(sql,
 				new BeanPropertyRowMapper(TotalYear.class));
 		return list;
