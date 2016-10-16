@@ -27,7 +27,16 @@
 		align : 'center'
 	} ] ];
 	$(function() {
-
+		$.ajax({
+			type : 'POST',
+			async : false,
+			dataType : 'json',
+			url : path + '/basicData/getUnits?pid='+pid,
+			success : function(data) {
+				debugger;
+				$("#title").html("<b>"+data.unitstr+"</b>");
+			}
+		});
 		$("#tool_save").bind("click", function() {
 			save();
 		});
@@ -350,6 +359,7 @@
 			</tr>
 		</table>
 	</fieldset>
+	<div id="title" style="padding-right: 5px;text-align: right"></div>
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>

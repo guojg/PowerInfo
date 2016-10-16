@@ -15,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.shiro.entity.User;
 import com.github.shiro.service.UserService;
+
+import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -81,5 +84,20 @@ public class LoginController {
 
         return "login";
     }
+	@RequestMapping(value = "/getRoleByUserName",produces="application/json;charset=UTF-8")
+	public @ResponseBody String getRoleByUserName(HttpServletRequest request) {
+		try {
+			Subject currentUser = SecurityUtils.getSubject();
+			String username=currentUser.getPrincipal().toString();
+			//String username = request.getParameter("username");
+			JSONObject returnobj=new JSONObject();
+			long role=userService.findByUsername(username).getRoleIds().get(0);
+			returnobj.put("role", role);
+			return returnobj.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
 
 }

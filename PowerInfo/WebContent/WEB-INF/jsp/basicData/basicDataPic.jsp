@@ -17,7 +17,17 @@ String pid=request.getAttribute("pid")==null?"":request.getAttribute("pid").toSt
 <link rel="stylesheet" href="<%=path%>/static/css/index.css" />
 <script type="text/javascript">
 var pid='<%=pid%>';
+
 	$(function() {
+		$.ajax({
+			type : 'POST',
+			async : false,
+			dataType : 'json',
+			url : path + '/basicData/getUnits?pid='+pid,
+			success : function(data) {
+				$("#title").html("<b>"+data.unitstr+"</b>");
+			}
+		});
 		$("#tool_query").bind("click", function() {
 			var years = $("#years").combo("getValues");
 			//水平年份
@@ -96,6 +106,7 @@ var pid='<%=pid%>';
 			</tr>
 		</table>
 	</fieldset>
+	<div id="title" style="padding-right: 5px;text-align: right"></div>
 	<div id="container" style="width: 80%; height: 70%"></div>
 
 

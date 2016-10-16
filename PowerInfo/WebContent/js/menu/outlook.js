@@ -3,7 +3,15 @@
 	tabCloseEven();
 	var keyValue={"basic":1,"totalQuantity":4,"balance":157,"station":168,"elecplant":215};
 	//$('#css3menu').css("margin-left", $('#logo1').width());
-	
+	$.ajax({
+		type : 'POST',
+		async : false,
+		dataType : 'json',
+		url : '/PowerInfo/getRoleByUserName',
+		success : function(data) {
+			role=data.role;
+		}
+	});
 	
 	$('#css3menu a').click(function() {
 		$('#mm-tabcloseall').click();
@@ -112,6 +120,21 @@ function addyear() {
 
 }
 
+/**
+ * 单位维护
+ */
+function operationunit() {
+	commonHelper.toAdd({
+		title : '单位维护',
+		width : 500,
+		height : 600,
+		url : "basicData/operationUnit"
+	});
+
+}
+
+
+
 /** 初始化树结构* */
 function InitTreeData(data) {
 	$('#tt').tree(
@@ -125,12 +148,15 @@ function InitTreeData(data) {
 
 				},
 				onContextMenu : function(e, node) {
+					
 					//增加年份是基础数据库才可以添加
-					if(data==1){
+					if(data==1&&role==1){
 						if(node.id==1){
 							$("#addyear").show();
+							$("#opertionunit").show();
 						}else{
 							$("#addyear").hide();
+							$("#opertionunit").hide();
 						}
 						e.preventDefault();
 						// 选择节点
