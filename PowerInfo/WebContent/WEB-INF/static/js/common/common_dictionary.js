@@ -210,3 +210,33 @@ function sortMaoPao_common_dictionary(hasCheckeds) {
 	}
 	return hasCheckeds;
 }
+
+function initComboBoxByData(obj){
+	var data = obj.data;
+	var textkey = obj.textkey;
+	var valuekey = obj.valuekey;
+
+	var dataTemp = new Array();
+	for(var i=0;i<data.length;i++){
+		dataTemp.push(data[i]);
+	}
+	if(obj.multiple){//多选加上清空,全选
+		var option = {};
+		option[valuekey] = "";
+		option[textkey] = "<input type='checkbox' id='"
+				+ obj.id
+				+ "_qxf_checkbox' style='width:12px;' checked='checked'>全选";
+			var comboboxObj = makeCombobox_common_dictionary(obj,dataTemp);
+			//如果是全选的默认把值都选上。
+			var defaultValArr = new Array();
+			for(var i=0;i<dataTemp.length;i++){
+				if(dataTemp[i][valuekey] .ID!=""){
+					defaultValArr.push(dataTemp[i][valuekey] +'');
+				}
+			}
+			comboboxObj.combobox("setValues",defaultValArr);
+		
+		
+	}
+	return $("#"+obj.id);
+}

@@ -2,9 +2,11 @@ package com.github.balance.task.dao;
 
 
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.github.balance.parparedata.senddata.model.SendItemName;
@@ -31,13 +36,27 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public void saveData(BalanceTask task) {
+	public void saveData(final BalanceTask task) {
 		try{
-		String sql ="insert into shiro.balance_task(task_name,year) value(?,?)";
-		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getYear()});
-		this.execSendData(task.getTask_name()) ;
-		execPowerQuotient(task);
-		execHourNum(task);
+		final String sql ="insert into shiro.balance_task(task_name,year,start_year,stop_year) value(?,?,?,?)";
+		//this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getYear(),task.getStartyear(),task.getStopyear()});
+	    KeyHolder keyHolder = new GeneratedKeyHolder();
+	    this.jdbcTemplate.update(
+	            new PreparedStatementCreator() {
+
+					public PreparedStatement createPreparedStatement(Connection con) throws SQLException
+	                {
+	                    PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+	                    ps.setString(1, task.getTask_name());
+	                    ps.setString(2, task.getYear());
+	                    ps.setString(3, task.getStartyear());
+	                    ps.setString(4, task.getStopyear());
+	                    return ps;
+	                }
+	            }, keyHolder);
+		this.execSendData(keyHolder.getKey().intValue()+"") ;
+		execPowerQuotient(task,keyHolder.getKey().intValue());
+		execHourNum(task,keyHolder.getKey().intValue());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -47,7 +66,7 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 	 * @param task_name
 	 */
 	private void execSendData(String task_name){
-		String querySql = " SELECT b.id,s.code FROM sys_dict_table s  JOIN balance_task  b ON s.domain_id=18 AND b.task_name=?";
+		String querySql = " SELECT b.id,s.code FROM sys_dict_table s  JOIN balance_task  b ON s.domain_id=18 AND b.id=?";
 		final List<SendItemName> list= this.jdbcTemplate.query(querySql, new Object[]{task_name} , new ParameterizedRowMapper<SendItemName>() {
             @Override
             public SendItemName mapRow(ResultSet rs, int index)
@@ -80,41 +99,38 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 	}
 	/**
 	 * 电源装机默认系数
+	 * @param i 
 	 * @param task_name
 	 */
-	private void execPowerQuotient(BalanceTask task){
-		String querySql="select id from balance_task where task_name=?" ;
-		Map<String ,Object> m = this.jdbcTemplate.queryForMap(querySql, new Object[]{task.getTask_name()});
-		if(m != null){
-			if(m.get("id") != null){
+	private void execPowerQuotient(BalanceTask task, int i){
+
 				StringBuffer sb = new StringBuffer();
 				sb.append(" INSERT INTO quotient_data(index_item,VALUE,YEAR,task_id) ")
 				.append(" SELECT q.index_item,q.value,t.yr, " )
-				.append(m.get("id").toString())
+				.append(i+"")
 				.append( " FROM quotient_init q JOIN ")
 				.append(getYearDual(task.getYear()));
 				this.jdbcTemplate.update(sb.toString());
-			}
-		}
+
+
 		
 	}
 	/**
 	 * 电源装机默认小时数
+	 * @param i 
 	 * @param task_name
 	 */
-	private void execHourNum(BalanceTask task){
-		String querySql="select id from balance_task where task_name=?" ;
-		Map<String ,Object> m = this.jdbcTemplate.queryForMap(querySql, new Object[]{task.getTask_name()});
-		if(m != null){
-			if(m.get("id") != null){
+	private void execHourNum(BalanceTask task, int i){
+	//	String querySql="select id from balance_task where task_name=?" ;
+		//Map<String ,Object> m = this.jdbcTemplate.queryForMap(querySql, new Object[]{task.getTask_name()});
+
 				StringBuffer sb = new StringBuffer();
 				sb.append(" INSERT INTO power_hour (index_item,hour_num,task_id) ")
 				.append(" SELECT q.index_item,q.hour_num, " )
-				.append(m.get("id").toString())
+				.append(i+"")
 				.append( " FROM quotient_init q ");
 				this.jdbcTemplate.update(sb.toString());
-			}
-		}
+
 		
 	}
 	@Override
@@ -134,8 +150,8 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 
 	@Override
 	public void updateData(BalanceTask task) {
-		String sql = "update shiro.balance_task set task_name=?,year=? where  id=?";
-		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getYear(),task.getId()});
+		String sql = "update shiro.balance_task set task_name=?,year=?,start_year=?,stop_year=? where  id=?";
+		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getYear(),task.getStartyear(),task.getStopyear(),task.getId()});
 		
 	}
 
@@ -156,7 +172,7 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 
 	@Override
 	public List<Map<String, Object>> initData(String id) {
-		String sql ="select  id,task_name,year from shiro.balance_task where id=?";
+		String sql ="select  id,task_name,year,start_year startyear,stop_year stopyear from shiro.balance_task where id=?";
 		return  this.jdbcTemplate.queryForList(sql,new Object[]{id});
 	}
 	

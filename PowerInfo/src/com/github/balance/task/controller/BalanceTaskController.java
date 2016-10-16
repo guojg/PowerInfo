@@ -45,11 +45,15 @@ public class BalanceTaskController {
         String task_name = request.getParameter("task_name")!=null?request.getParameter("task_name"):"";
         String year = request.getParameter("year")!=null?request.getParameter("year"):"";
         String id = request.getParameter("id")!=null?request.getParameter("id"):"";
+        String startyear = request.getParameter("startyear")!=null?request.getParameter("startyear"):"";
+        String stopyear = request.getParameter("stopyear")!=null?request.getParameter("stopyear"):"";
 
     	BalanceTask bt = new BalanceTask();
 		bt.setYear(year);
 		bt.setTask_name(task_name);
 		bt.setId(id);
+		bt.setStartyear(startyear);
+		bt.setStopyear(stopyear);
 		balanceTaskService.saveData(bt);
 
 	}

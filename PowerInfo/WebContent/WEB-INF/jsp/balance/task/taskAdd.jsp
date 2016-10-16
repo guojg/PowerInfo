@@ -13,6 +13,7 @@ String id=request.getParameter("id")==null?"":request.getParameter("id");
 <script type="text/javascript"> 
 var id='<%=id%>';
 $(function() {
+	 var nowYear =new Date().getFullYear();
 	  $("#task_name").validatebox({
            required: true,
            novalidate: true,
@@ -25,13 +26,81 @@ $(function() {
           novalidate: true,
           missingMessage: '水平年不能为空。'
       });
-	  comboBoxInit({
+		//$('#startyear').numberspinner('setValue', nowYear-1); 
+		//$('#stopyear').numberspinner('setValue', nowYear+4); 
+var yearJsons=[];
+		$('#startyear').numberspinner({
+			value:nowYear-1,
+			onChange:function(){
+				var startChange=$('#startyear').numberspinner('getValue');
+				  $('#stopyear').numberspinner({min:parseInt(startChange)+1});
+				//alert(startChange+1);
+				var stopChange = $('#stopyear').numberspinner('getValue');
+				yearJsons=[];
+
+				for(var i=parseInt(startChange);i<=parseInt(stopChange);++i){
+					yearJsons.push({
+						'year':i+"",
+						'yearName':i+"年"
+					});
+				}
+				initComboBoxByData({
+					id:"year",
+					valuekey:'year',    
+					textkey:'yearName',
+					data:yearJsons,
+					multiple:true
+				});
+				
+				
+			}
+		});
+		$('#stopyear').numberspinner({
+			value:nowYear+4,
+			onChange:function(){
+	
+				var startChange1=$('#startyear').numberspinner('getValue');
+				//alert(startChange+1);
+				var stopChange1 = $('#stopyear').numberspinner('getValue');
+				yearJsons=[];
+
+				for(var i=parseInt(startChange1);i<=parseInt(stopChange1);++i){
+					yearJsons.push({
+						'year':i+"",
+						'yearName':i+"年"
+					});
+				}
+				initComboBoxByData({
+					id:"year",
+					valuekey:'year',    
+					textkey:'yearName',
+					data:yearJsons,
+					multiple:true
+				});
+			}
+		});
+		
+		for(var i=nowYear-1;i<=nowYear+4;++i){
+			yearJsons.push({
+				'year':i+"",
+				'yearName':i+"年"
+			});
+		}
+		
+		initComboBoxByData({
+			id:"year",
+			valuekey:'year',    
+			textkey:'yearName',
+			data:yearJsons,
+			multiple:true
+		});
+	  /*comboBoxInit({
 			id : "year",
 			url : path + '/balancetask/getyears',
 			textkey : "yearName",
 			valuekey : "year",
 			multiple : true
-		});
+		});*/
 	  if(id!=""){
 		  initData();
 	  }
@@ -43,10 +112,14 @@ function initData(){
  function save(){
 	 var task_name = $('#task_name').val();
 	 var year =$('#year').combobox('getValues').join(",");
+	 var startYear = $('#startyear').numberspinner('getValue');
+	 var stopYear = $('#stopyear').numberspinner('getValue');
 	 var param = {
 		'task_name':task_name,
 		'year':year,
-		'id':id
+		'id':id,
+		'stopyear':stopYear,
+		'startyear':startYear
 	 };
 	 if(!validate(param)){
 		 return ;
@@ -105,6 +178,14 @@ function initData(){
 			<tr>
 				<td class="tdlft">任务名称：</td>
 				<td  class="tdrgt" style="width:250px"><input id="task_name" name="task_name" type="text" style="width:220px" /></td>	
+			</tr>
+			<tr>
+				<td class="tdlft">起始年：</td>
+				<td  class="tdrgt"><input id="startyear" name="startyear" class="easyui-numberspinner" min="2000" max="5000" data-options="required:true,suffix:'年'" type="text"  /></td>	
+			</tr>
+			<tr>
+				<td class="tdlft">终止年：</td>
+				<td  class="tdrgt"><input id="stopyear" name="stopyear" class="easyui-numberspinner" min="2000" max="5000" data-options="required:true,suffix:'年'" type="text"  /></td>	
 			</tr>
 			<tr>
 				<td  class="tdlft">水平年：</td>
