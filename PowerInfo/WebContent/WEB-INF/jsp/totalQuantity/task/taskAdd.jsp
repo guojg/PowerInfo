@@ -13,6 +13,7 @@ String id=request.getParameter("id")==null?"":request.getParameter("id");
 <script type="text/javascript"> 
 var id='<%=id%>';
 $(function() {
+	 var nowYear =new Date().getFullYear();
 	  $("#task_name").validatebox({
            required: true,
            novalidate: true,
@@ -28,14 +29,24 @@ $(function() {
 			multiple : false,
 			defaultVal:"last"
 		});
-	  comboBoxInit({
+		$('#planyear').numberspinner('setValue', nowYear+4); 
+	  $('#baseyear').combobox({
+		  'onSelect': function(record){
+			  $('#planyear').numberspinner({min:parseInt(record.year),value:parseInt(record.year)+4});
+				//$('#planyear').numberspinner('setValue', record.year+4); 
+			}
+
+	  })
+	 /* comboBoxInit({
 			id : "planyear",
 			url : path + '/task/getPlanYears',
 			textkey : "yearName",
 			valuekey : "year",
 			multiple:false,
 			defaultVal:"first"
-		});
+		});*/
+	      
+	
 	  if(id!=""){
 		  initData();
 	  }
@@ -51,7 +62,7 @@ function initData(){
 				//赋值开始
 				$('#task_name').val(item['TASK_NAME']);
 		 		$('#baseyear').combobox('setValue',item['BASEYEAR']);
-				$('#planyear').combobox('setValue',item['PLANYEAR']);
+				$('#planyear').numberspinner('setValue',item['PLANYEAR']);
 		 		var alstrs = item['ALGORITHM'].split(",");
 				for (var i=0 ; i<alstrs.length;++i){
 					$("input:checkbox[value="+alstrs[i]+"]").attr('checked','true');		
@@ -62,7 +73,7 @@ function initData(){
  function save(){
 	 var task_name = $('#task_name').val();
 	 var baseyear =$('#baseyear').combobox('getValue');
-	 var planyear =$('#planyear').combobox('getValue');
+	 var planyear =$('#planyear').numberspinner('getValue');
 	 var algorithm='';
 	 $("input[type=checkbox]").each(function(){
 		    if(this.checked){
@@ -181,7 +192,7 @@ function initData(){
 			</tr>
 			<tr>
 				<td class="tdlft">预测年：</td>
-				<td  class="tdrgt"><input id="planyear" name="planyear" class="comboboxComponent"  type="text"  /></td>	
+				<td  class="tdrgt"><input id="planyear" name="planyear" class="easyui-numberspinner" min="2000" max="5000" data-options="required:true,suffix:'年'" type="text"  /></td>	
 			</tr>
 			<tr>
 			<td rowspan="4" class="tdlft">算法：</td>
