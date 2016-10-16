@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 public interface BasicDataService {
 
 	public String queryData(JSONObject param) throws Exception;
+	public String queryUnits() throws Exception;
 
 	public String saveData(JSONObject param) throws Exception;
 
@@ -31,4 +32,9 @@ public interface BasicDataService {
 	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
 	
 	public String isOnly(String name) throws Exception;
+	public String getUnits(String pid) throws Exception;
+	public String updatUnit(JSONObject param) throws Exception;
+	
+	public String addUnit(JSONObject param) throws Exception;
+	
 }

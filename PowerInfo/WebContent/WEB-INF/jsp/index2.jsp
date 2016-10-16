@@ -19,6 +19,7 @@ String flag=request.getParameter("page")==null?"":request.getParameter("page").t
    	<script type="text/javascript">
    	var path="<%=path%>";
    	var flag="<%=flag%>";
+   	var role="";
    	var _menus = "";
    	</script>
 	<%@include file="common/commonDefineBtn.jsp" %>
@@ -164,6 +165,7 @@ text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #
 		<div onclick="update()" iconcls="icon-edit">修改指标</div>
 		<div onclick="removenode()"iconcls="icon-remove">删除指标</div>
 		<div id="addyear" onclick="addyear()"iconcls="icon-add">添加年份</div>
+		<div id="operationunit" onclick="operationunit()"iconcls="icon-add">单位维护</div>
 	</div>
 
 

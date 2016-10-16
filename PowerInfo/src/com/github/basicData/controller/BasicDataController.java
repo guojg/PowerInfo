@@ -9,7 +9,6 @@ import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +38,22 @@ public class BasicDataController {
 		obj.put("indexs", indexs);
 		try {
 			String resultJson = basicDataService.queryData(obj);
+			PrintWriter pw = response.getWriter();
+			pw.write(resultJson);
+			pw.flush();
+			pw.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/queryUnits")
+	public void queryUnits(HttpServletRequest request,
+			HttpServletResponse response) {
+		response.setCharacterEncoding("UTF-8");
+		try {
+			String resultJson = basicDataService.queryUnits();
 			PrintWriter pw = response.getWriter();
 			pw.write(resultJson);
 			pw.flush();
@@ -127,6 +142,49 @@ public class BasicDataController {
 			return null;
 		}
 	}
+	@RequestMapping(value = "/updateUnit",produces="application/json;charset=UTF-8")
+	public @ResponseBody String updateUnit(HttpServletRequest request) {
+		try {
+			String data = request.getParameter("data");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("data", data);
+			JSONObject returnobj=new JSONObject();
+			String returnFlag=basicDataService.updatUnit(jsonobj) ;
+			returnobj.put("flag", returnFlag);
+			return returnobj.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
+	@RequestMapping(value = "/addUnit",produces="application/json;charset=UTF-8")
+	public @ResponseBody String addUnit(HttpServletRequest request) {
+		try {
+			String data = request.getParameter("data");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("data", data);
+			JSONObject returnobj=new JSONObject();
+			String returnFlag=basicDataService.addUnit(jsonobj) ;
+			returnobj.put("flag", returnFlag);
+			return returnobj.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
+	@RequestMapping(value = "/getUnits",produces="application/json;charset=UTF-8")
+	public @ResponseBody String getUnits(HttpServletRequest request) {
+		try {
+			String pid = request.getParameter("pid");
+			JSONObject returnobj=new JSONObject();
+			String units=basicDataService.getUnits(pid) ;
+			returnobj.put("unitstr", units);
+			return returnobj.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
 	@RequestMapping(value = "/updateleaf",produces="application/json;charset=UTF-8")
 	public @ResponseBody String updateLeaf(HttpServletRequest request) {
 		try {
@@ -209,5 +267,17 @@ public class BasicDataController {
 		request.setAttribute("pid", pid);
 		return "basicData/basicDataPic";
 	}
-
+	@RequestMapping(value = "/operationUnit")
+	public String operationUnit(Long pid,HttpServletRequest request, HttpServletResponse response) {
+		return "basicData/operationUnit";
+	}
+	@RequestMapping(value = "/openAddUnit")
+	public String openAddUnit(Long pid,HttpServletRequest request, HttpServletResponse response) {
+		return "basicData/addUnit";
+	}
+	@RequestMapping(value = "/openUpdateUnit")
+	public String openUpdateUnit(Long pid,HttpServletRequest request, HttpServletResponse response) {
+		return "basicData/updateUnit";
+	}
+	
 }

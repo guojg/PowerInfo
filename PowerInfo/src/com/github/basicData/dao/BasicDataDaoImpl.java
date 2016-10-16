@@ -344,34 +344,76 @@ public class BasicDataDaoImpl implements BasicDataDao {
 				new BeanPropertyRowMapper(BasicIndex.class));
 		return list;
 	}
+	
+	@Override
+	public List<Map<String,String>> getUnits(final String pid) throws Exception {
+		// TODO Auto-generated method stub
+		String sql = "";
+		if (isLeaf(pid) == 1) {
+			sql = "select value from sys_dict_table where domain_id='201' and code in(select unit_code from sys_menu where p_id=?)";
+		} else {
+			sql = "select value from sys_dict_table where domain_id='201' and code in(select unit_code from sys_menu where id=?)";
+		}
+		List list = jdbcTemplate.queryForList(sql, new Object[] { pid });
+		return list;
+	}
 
 	@Override
 	public String isOnly(String name) throws Exception {
 		StringBuffer sb = new StringBuffer();
 		String flag="1";
-		// this.jdbcTemplate.execute("call pro_show_childLst(?)");
-		this.jdbcTemplate.execute(new CallableStatementCreator() {
-			public CallableStatement createCallableStatement(Connection con)
-					throws SQLException {
-				String storedProc = "{call pro_show_childLst(?)}";// 调用的sql
-				CallableStatement cs = con.prepareCall(storedProc);
-				cs.setInt(1, 1);// 设置输入参数的值
-				return cs;
-			}
-		}, new CallableStatementCallback() {
-			public Object doInCallableStatement(CallableStatement cs)
-					throws SQLException, DataAccessException {
-				cs.execute();
-				return null;// 获取输出参数的值
-			}
 
-		});
-
-		sb.append("  SELECT count(1)  FROM tmpLst,shiro.sys_menu WHERE tmpLst.id=shiro.sys_menu.id and sys_menu.name like ?");
+		sb.append("  SELECT count(1) from shiro.sys_dict_table  where domain_id=201 and value=?");
 		int count= jdbcTemplate.queryForInt(sb.toString(),new Object[]{name});
 		if(count<=0){
 			flag="0";
 		}
 		return flag;
+	}
+
+	@Override
+	public String updateUnit(JSONObject row) throws Exception {
+		// TODO Auto-generated method stub
+		String returnFlag = "1";
+		String id = row.getString("id");
+		String name = row.getString("unit_name");
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append("update shiro.sys_dict_table");
+		buffer.append(" set value=?");
+		buffer.append(" where id=?");
+		int count = jdbcTemplate.update(buffer.toString(), new Object[] { name,
+				id });
+		if (count < 1) {
+			returnFlag = "0";
+		}
+		return returnFlag;
+	}
+
+	@Override
+	public String addUnit(JSONObject row) throws Exception {
+		String returnFlag = "1";
+		String name = row.getString("unit_name");
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append("insert into shiro.sys_dict_table(domain_id,code,value)");
+		buffer.append("values(201,?,?)");
+		int count = jdbcTemplate.update(buffer.toString(), new Object[] { getMaxCode()+1,name});
+		if (count < 1) {
+			returnFlag = "0";
+		}
+		return returnFlag;
+	}
+	//添加
+	private int getMaxCode() throws Exception{
+		
+		return jdbcTemplate.queryForInt("select max(code) from shiro.sys_dict_table where domain_id=201");
+	}
+
+	@Override
+	public List<Map<String, Object>> queryUnits() throws Exception {
+		// TODO Auto-generated method stub
+		String sql="select id,value unit_value from shiro.sys_dict_table where domain_id=201";
+		return jdbcTemplate.queryForList(sql);
 	}
 }

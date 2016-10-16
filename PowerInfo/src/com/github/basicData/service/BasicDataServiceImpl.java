@@ -141,4 +141,51 @@ public class BasicDataServiceImpl implements BasicDataService {
 		return basicDataDao.isOnly(name);
 	}
 
+	@Override
+	public String getUnits(String pid) throws Exception {
+		// TODO Auto-generated method stub
+		List<Map<String,String>> units=basicDataDao.getUnits(pid);
+		String Units="单位：";
+		if(units!=null&&units.size()>0){
+			for(int i=0;i<units.size();i++){
+				String addstr= units.get(i).get("value").toString();
+				if(Units.indexOf(addstr)==-1){
+					Units+=addstr+"、";
+				}
+			}
+			Units=Units.substring(0, Units.length()-1);
+		}else{
+			Units="";
+		}
+		
+		return Units;
+	}
+
+	@Override
+	public String updatUnit(JSONObject param) throws Exception {
+		// TODO Auto-generated method stub
+		JSONObject obj = null;
+		if (param.get("data") != null) {
+			obj = JSONObject.fromObject(param.get("data"));
+		}
+		;
+		return basicDataDao.updateUnit(obj);
+	}
+
+	@Override
+	public String addUnit(JSONObject param) throws Exception {
+		// TODO Auto-generated method stub
+		JSONObject obj = null;
+		if (param.get("data") != null) {
+			obj = JSONObject.fromObject(param.get("data"));
+		}
+		return basicDataDao.addUnit(obj);
+	}
+
+	@Override
+	public String queryUnits() throws Exception {
+		List<Map<String, Object>> list = basicDataDao.queryUnits();
+		return JsonUtils.listTranJsonByQuery(list);
+	}
+
 }

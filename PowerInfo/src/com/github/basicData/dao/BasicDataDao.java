@@ -30,4 +30,10 @@ public interface BasicDataDao {
 	public List<BasicYear> getYears() throws Exception;
 	public List<BasicIndex> getIndexs(String pid) throws Exception;
 	public String isOnly(String name) throws Exception;
+	public List getUnits(String pid) throws Exception;
+	public String updateUnit(JSONObject param)throws Exception;
+	public String addUnit(JSONObject param)throws Exception;
+	public List<Map<String, Object>> queryUnits() throws Exception;
+
+
 }
