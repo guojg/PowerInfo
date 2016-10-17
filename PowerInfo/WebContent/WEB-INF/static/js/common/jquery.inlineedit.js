@@ -97,7 +97,7 @@ $.inlineEdit.defaults = {
     save: '',
     cancel: '', 
     buttons: '<button class="save">save</button> <button class="cancel">cancel</button>',
-    placeholder: 'ÇëÊäÈëÃû³Æ',
+    placeholder: 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
     control: 'input',
     cancelOnBlur: false,
     saveOnBlur: false,
@@ -232,21 +232,20 @@ $.inlineEdit.prototype = {
     },
 
     save: function( elem, event ) {
-    	debugger;
         var $control = this.element.find( this.options.control ), 
             hash = {
                 value: this.encodeHtml($control.val())
             };
         if($control.val().length>20){
-    		$.messager.alert("ÌáÊ¾", "Ãû³Æ²»³¬¹ý20×Ö·û!");
+    		$.messager.alert("ï¿½ï¿½Ê¾", "ï¿½ï¿½Æ²ï¿½ï¿½ï¿½ï¿½ï¿½20ï¿½Ö·ï¿½!");
 //    		s=s.substr(0,20);
     		return;
     	}
-//        var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~£¡@#£¤¡­¡­&*£¨£©&mdash;¡ª|{}¡¾¡¿¡®£»£º¡±¡°'¡££¬¡¢£¿]")
+//        var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~ï¿½ï¿½@#ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½&*ï¿½ï¿½ï¿½ï¿½&mdash;ï¿½ï¿½|{}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]")
 //        var pattern = new RegExp("[\\[\\]]")
 //        if(pattern.test($control.val())){
         	if($control.val().indexOf("\\")>-1){
-        	$.messager.alert("ÌáÊ¾", "Ãû³Æº¬ÓÐÌØÊâ×Ö·û!");
+        	$.messager.alert("ï¿½ï¿½Ê¾", "ï¿½ï¿½Æºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½!");
         	return;
         }
         this._debug('save:',"Saving...");
@@ -357,13 +356,13 @@ $.inlineEdit.prototype = {
 }));
 function stripscript(s) {
 	if(s.length>20){
-		$.messager.alert("ÌáÊ¾", "Ãû³Æ²»³¬¹ý20×Ö·û!");
+		$.messager.alert("ï¿½ï¿½Ê¾", "ï¿½ï¿½Æ²ï¿½ï¿½ï¿½ï¿½ï¿½20ï¿½Ö·ï¿½!");
 //		s=s.substr(0,20);
 		return;
 	}
-    var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~£¡@#£¤¡­¡­&*£¨£©&mdash;¡ª|{}¡¾¡¿¡®£»£º¡±¡°'¡££¬¡¢£¿]")
+    var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~ï¿½ï¿½@#ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½&*ï¿½ï¿½ï¿½ï¿½&mdash;ï¿½ï¿½|{}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]")
     if(pattern.test(s)){
-    	$.messager.alert("ÌáÊ¾", "Ãû³Æº¬ÓÐ×Ö·û!");
+    	$.messager.alert("ï¿½ï¿½Ê¾", "ï¿½ï¿½Æºï¿½ï¿½ï¿½ï¿½Ö·ï¿½!");
     	return;
     }
     var rs = "";

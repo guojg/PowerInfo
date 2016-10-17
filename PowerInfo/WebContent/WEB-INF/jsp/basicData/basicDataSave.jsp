@@ -33,7 +33,6 @@
 			dataType : 'json',
 			url : path + '/basicData/getUnits?pid='+pid,
 			success : function(data) {
-				debugger;
 				$("#title").html("<b>"+data.unitstr+"</b>");
 			}
 		});

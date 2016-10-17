@@ -15,6 +15,7 @@ $(function() {
 	});
 	$("#tool_update").bind("click", function() {
 		updateUnit();
+		
 	});
 	$("#btn_cancel").bind("click", function() {
 		cancel();
@@ -43,6 +44,7 @@ function queryData() {
 			autoRowHeight : false,
 			collapsible : true,
 			url : url,
+			singSelect:true,
 			remoteSort : false,
 			columns : cols,
 			rownumbers : true,
@@ -70,12 +72,18 @@ function addUnit() {
  * 基础数据修改单位
  */
 function updateUnit() {
-	commonHelper.toAdd({
-		title : '修改单位',
-		width : 320,
-		height : 220,
-		url : "openUpdateUnit"
-	});
+	debugger;
+	var row=$('#datagrid').datagrid('getChecked');
+	if(row.length<=0){
+		$.messager.alert('提示','必须选择一条记录','info');
+	}else{
+		commonHelper.toAdd({
+			title : '修改单位',
+			width : 320,
+			height : 220,
+			url : "openUpdateUnit"
+		});
+	}
 
 }
 </script>
@@ -87,8 +95,8 @@ function updateUnit() {
 			src='<%=path%>/static/images/xiugai.gif' align='top' border='0'
 			title='修改' />
 		</a> <a id="btn_cancel" > <img
-			src="/PowerInfo/static/images/quxiao.gif" border="0"
-			style="vertical-align: middle" title='取消'></a>
+			src="/PowerInfo/static/images/tc.png" border="0"
+			style="vertical-align: middle" title='退出'></a>
 	</div>
 	<div id="datagrid_div">
 		<table id="datagrid"></table>

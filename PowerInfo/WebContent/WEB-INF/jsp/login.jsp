@@ -35,7 +35,6 @@
 			var vflag =validateOnly();
 			e=e||window.event;
 			if(!vflag){
-				debugger;
 				if(document.all) e.returnValue=false;//ie,window.event.returnValue=false阻止元素默认行为
 				else e.preventDefault();//火狐,event.preventDefault阻止元素默认行为
 
@@ -64,7 +63,6 @@
 				  dataType:'text',	
 				  async:false,
 				  success:function(obj){
-					  debugger;
 					  if(obj=='1'){
 						  validateflag=false;
 						$.messager.alert('提示','用户名已存在！');
