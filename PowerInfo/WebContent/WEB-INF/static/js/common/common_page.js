@@ -568,6 +568,10 @@ function init_operate(url){
 	                		
 	                		$(this).combobox('setValue',item[upperCaseAttrName]);
 	                	
+	                	}else if(clas.indexOf("easyui-numberspinner")>=0){//combobox
+	                		
+	                		$(this).numberspinner('setValue',item[upperCaseAttrName]);
+	                	
 	                	}
 	                	else if(clas.indexOf("validatebox")>=0){//修改的时候因为加验证会把其class样式改变
 	                		$(this).val(item[upperCaseAttrName]);
