@@ -78,7 +78,7 @@ public class GeneratorServiceImpl implements  GeneratorService{
 			throws Exception {
 		String[] excelTitle = new String[] { "" };
 		List<Map<String, Object>> list = generatorDao.queryData(param);
-		String[] colTitle = {"机组名称","所属电厂名称","装机容量","电源类型","投产日期","退役日期"};
+		String[] colTitle = {"机组名称","所属电厂名称","装机容量（万千瓦）","电源类型","投产日期","退役日期"};
 		String[] colName = {"gene_name","plant_name","gene_capacity","index_itemname","start_date","end_date"};
 		
 		String fileName = "发电机";
@@ -109,4 +109,13 @@ public class GeneratorServiceImpl implements  GeneratorService{
 		return JsonUtils.transformListToJson(list);
 	}
 
+	@Override
+	public String getDylxByPlantId(JSONObject obj) throws Exception {
+		// TODO Auto-generated method stub
+		List<Map<String,Object>> list=null;
+		if(obj.get("plant_id")!=null){
+			list=generatorDao.getDylxByPlantId(obj.getString("plant_id"));
+		}
+		return list.get(0).get("index_item").toString();
+	}
 }

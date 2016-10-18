@@ -57,6 +57,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 			buffer.append(InSql.substring(0, InSql.length() - 1));
 			buffer.append(")");
 		}
+		buffer.append(" ORDER BY CONVERT(plant_name USING gbk) ASC");
 		if(psize!=0){
 			buffer.append(" limit ?,?");
 			params.add(startNum);

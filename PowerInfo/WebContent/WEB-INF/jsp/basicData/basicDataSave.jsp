@@ -9,6 +9,7 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../common/commonInclude.jsp"%>
+<script type="text/javascript" src="<%=path%>/static/js/common/checkSave.js"></script>
 <%
 	String pid = request.getAttribute("pid") == null ? "" : request
 			.getAttribute("pid").toString();

@@ -19,5 +19,5 @@ public interface GeneratorDao {
 	
 	public int getTotalCount();
 	public List<Map<String, Object>> queryPlant();
-	
+	public List<Map<String, Object>> getDylxByPlantId(String  plant_id) throws Exception;	
 }

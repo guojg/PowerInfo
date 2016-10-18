@@ -32,7 +32,7 @@
 		align : 'center'
 	}, {
 		field : 'gene_capacity',
-		title : '装机容量',
+		title : '装机容量（万千瓦）',
 		width : 100,
 		align : 'center'
 	}, {
@@ -153,12 +153,17 @@
 		});
 	}
 	function updateRecord() {
-		commonHelper.toAdd({
-			title : '修改',
-			width : 500,
-			height : 300,
-			url : "openUploadRecord"
-		});
+		var row=$('#datagrid').datagrid('getChecked');
+		if(row.length<=0){
+			$.messager.alert('提示','必须选择一条记录','info');
+		}else{
+			commonHelper.toAdd({
+				title : '修改',
+				width : 500,
+				height : 300,
+				url : "openUploadRecord"
+			});
+		}
 	}
 	function deleteRecords() {
 		$.messager.confirm('提示', '确认删除?', function(r) {

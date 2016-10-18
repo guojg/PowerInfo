@@ -72,7 +72,6 @@ function addUnit() {
  * 基础数据修改单位
  */
 function updateUnit() {
-	debugger;
 	var row=$('#datagrid').datagrid('getChecked');
 	if(row.length<=0){
 		$.messager.alert('提示','必须选择一条记录','info');

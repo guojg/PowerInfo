@@ -12,5 +12,6 @@ public interface GeneratorService {
 	public String deleteRecord(JSONObject obj) throws Exception;
 	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
 	public String getPlant();
+	public String getDylxByPlantId(JSONObject obj) throws Exception;	
 
 }

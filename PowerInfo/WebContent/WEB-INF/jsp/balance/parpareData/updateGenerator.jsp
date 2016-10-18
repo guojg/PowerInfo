@@ -15,14 +15,28 @@ $(function() {
 			textkey : "value",
 			valuekey : "code"
 			});
-	 comboBoxInit({
-			id : "plant_id",
-			url :  path+"/generator/getPlant",
-			textkey : "value",
-			valuekey : "code",
-			multiple:false,
-			defaultVal:"first"
-	});
+	// comboBoxInit({
+	//		id : "plant_id",
+	//		url :  path+"/generator/getPlant",
+	//		textkey : "value",
+		//	valuekey : "code",
+	//		multiple:false,
+	//		defaultVal:"first"
+	//});
+	 $('#plant_id').combobox({ 
+		 url:path+"/generator/getPlant", 
+		 valueField:'code', 
+		 textField:'value',
+		 onChange:function(record){
+				$.ajax({
+					  type: "post",
+					  url: path + '/generator/getdylx?plant_id='+record,
+					  success:function(obj){
+					     $("#index_item").combobox("setValue",obj);
+					}
+				});
+		 }
+		 }); 
 	var rows = window.parent.$('#datagrid').datagrid('getChecked');
 	var row=rows[0];
 	$('#gene_name').val(row.gene_name);
@@ -86,12 +100,12 @@ function save(){
 					type="text" style='width: 120px'/></td>
 			</tr>
 			<tr>
-			<td class="tdlft" style='width: 100px'>装机容量：</td>
+			<td class="tdlft" style='width: 100px'>装机容量（万千瓦）：</td>
 				<td class="tdrgt" style='width: 120px'><input id="gene_capacity"
 					type="text" style='width: 120px' /></td>
 				<td class="tdlft" style='width: 100px'>电源类型：</td>
 				<td class="tdrgt" style='width: 120px'><input id="index_item"
-					type="text" style='width: 120px'/></td>
+					type="text" disabled="disabled" style='width: 120px'/></td>
 				
 
 			</tr>	

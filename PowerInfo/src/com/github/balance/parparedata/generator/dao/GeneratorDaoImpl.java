@@ -164,4 +164,14 @@ public class GeneratorDaoImpl implements GeneratorDao {
 		List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql);
 		return list;
 	}
+
+
+
+	@Override
+	public List<Map<String, Object>> getDylxByPlantId(String plant_id) throws Exception {
+		// TODO Auto-generated method stub
+		String sql="SELECT index_item FROM shiro.`electricpowerplant_data` WHERE  id=?";
+		List list=this.jdbcTemplate.queryForList(sql,new Object[]{plant_id});
+		return list; 
+	}
 }

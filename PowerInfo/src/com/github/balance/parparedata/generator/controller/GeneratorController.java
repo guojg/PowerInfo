@@ -140,5 +140,19 @@ public class GeneratorController {
 		return a;
 		
 	}
+	@RequestMapping(value = "/getdylx")
+	public @ResponseBody
+	String getDylx(HttpServletRequest request) {
+		try {
+			String plant_id = request.getParameter("plant_id");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("plant_id",plant_id );
+			
+			return generatorService.getDylxByPlantId(jsonobj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "-1";
+		}
+	}
 
 }
