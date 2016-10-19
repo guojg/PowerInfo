@@ -42,6 +42,18 @@ String commonPath = path;
 	var path="<%=path%>";
 	var commonPath="<%=path%>";
 	var basePath="<%=basePath%>";
+	function isDataChange(){
+		if($('#datagrid').length==0){
+			return 0;
+		}else{
+			var updates = $('#datagrid').datagrid('getChanges');
+			if (updates.length >=1 ) {
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+	}
 </script>
 
 

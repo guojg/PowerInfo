@@ -50,6 +50,41 @@
              }
          });
      });
+ 	$('#tabs').tabs({
+		onBeforeClose: function(title,index){
+			var curenttab=$(this).tabs("getTab",title);
+			var target = this;
+
+			debugger;
+
+			//var updates=curenttab.find('iframe').first().contents().find('iframe').first().mmm();
+			var frameSelect =curenttab.find('iframe')[0].contentWindow.frames;
+			var updates = 0;
+			if(frameSelect.length>=2&&title !="区域" && title !=""){
+				updates =curenttab.find('iframe')[0].contentWindow.frames[0].isDataChange();
+			}else{
+				updates = curenttab.find('iframe')[0].contentWindow.isDataChange();
+			}
+
+			if (updates==0) {
+				//$(target).tabs('close',index);
+			}else{
+				$.messager.confirm('确认',title+'存在未保存的数据，确认想要关闭？',function(r){
+					if (r){
+						var opts = $(target).tabs('options');
+						var bc = opts.onBeforeClose;
+						opts.onBeforeClose = function(){};  // 允许现在关闭
+						$(target).tabs('close',index);
+						opts.onBeforeClose = bc;  // 还原事件函数
+					}
+				});
+				return false;	// 阻止关闭
+			}
+			
+
+			
+		}
+		});
 });
 function getAccordion(param) {
 	$.ajax({
@@ -284,12 +319,16 @@ function addTab(subtitle, url, icon) {
 	if ($('#tabs').tabs('exists', subtitle)) {
 		$('#tabs').tabs('close', subtitle);
 	}
+	if ($('#tabs').tabs('exists', subtitle)) {
+		
+	}else{
 	$('#tabs').tabs('add', {
 		title : subtitle,
 		content : createFrame(url),
 		closable : true,
 		icon : icon
 	});
+	}
 	tabClose();
 }
 
