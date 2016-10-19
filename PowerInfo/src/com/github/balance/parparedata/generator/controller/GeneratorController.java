@@ -30,6 +30,9 @@ public class GeneratorController {
 		String indexs=request.getParameter("indexs");
 		String name=request.getParameter("name");
 		String gene_name=request.getParameter("gene_name");
+		String sort=request.getParameter("sort");
+		String order=request.getParameter("order");
+
 		if (pageNum == null  || "".equals(pageNum))
 			pageNum = "1";
 		if (pageSize == null || "".equals(pageSize))
@@ -40,6 +43,8 @@ public class GeneratorController {
 		obj.put("indexs", indexs);
 		obj.put("name", name);
 		obj.put("gene_name", gene_name);
+		obj.put("sort", sort);
+		obj.put("order", order);
 
 		try {
 			String resultJson = generatorService.queryData(obj);

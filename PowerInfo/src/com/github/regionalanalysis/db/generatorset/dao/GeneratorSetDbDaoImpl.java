@@ -64,7 +64,7 @@ public class GeneratorSetDbDaoImpl implements GeneratorSetDbDao {
 
 		}
 		l.add(startNum) ;
-		l.add(endNum) ;
+		l.add(psize) ;
 				sb.append(  "  limit ?,?" );
 		 List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sb.toString(),l.toArray());
 		return resultList;

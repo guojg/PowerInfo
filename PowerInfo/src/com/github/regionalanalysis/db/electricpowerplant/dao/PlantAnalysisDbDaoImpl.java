@@ -54,7 +54,7 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 		if(psize!=0){
 			buffer.append(" limit ?,?");
 			params.add(startNum);
-			params.add(endNum);
+			params.add(psize);
 			return jdbcTemplate.queryForList(buffer.toString(),params.toArray());
 		}else{
 			return jdbcTemplate.queryForList(buffer.toString(),params.toArray());

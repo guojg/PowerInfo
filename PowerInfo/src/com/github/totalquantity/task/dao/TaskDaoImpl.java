@@ -42,7 +42,7 @@ public class TaskDaoImpl implements TaskDao{
 			int  endNum = psize*pNum;
 		String sql = "select id,task_name,baseyear,planyear,algorithm,algorithmradio from total_task order by id desc"
 				+ " limit ?,?";
-		 List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql,new Object[]{startNum,endNum});
+		 List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql,new Object[]{startNum,psize});
 		return list;
 	}
 

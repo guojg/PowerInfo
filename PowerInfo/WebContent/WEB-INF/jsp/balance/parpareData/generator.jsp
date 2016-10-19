@@ -24,32 +24,38 @@
 		field : 'gene_name',
 		title : '机组名称',
 		width : 200,
-		align : 'center'
+		align : 'center',
+		sortable:true
 	}, {
 		field : 'plant_name',
 		title : '所属电厂名称',
 		width : 200,
-		align : 'center'
+		align : 'center',
+		sortable:true
 	}, {
 		field : 'gene_capacity',
 		title : '装机容量（万千瓦）',
-		width : 100,
-		align : 'center'
+		width : 200,
+		align : 'center',
+		sortable:true
 	}, {
 		field : 'index_itemname',
 		title : '电源类型',
 		width : 100,
-		align : 'center'
+		align : 'center',
+		sortable:true
 	}, {
 		field : 'start_date',
 		title : '投产日期',
 		width : 100,
-		align : 'center'
+		align : 'center',
+		sortable:true
 	}, {
 		field : 'end_date',
 		title : '退役日期',
 		width : 100,
-		align : 'center'
+		align : 'center',
+		sortable:true
 	} ] ];
 	$(function() {
 		 comboBoxInit({
@@ -136,9 +142,10 @@
 			height : height,
 			autoRowHeight : false,
 			collapsible : true,
+			remoteSort:true,
 			url : url,
 			queryParams : queryParams,
-			remoteSort : false,
+			remoteSort : true,
 			columns : cols,
 			rownumbers : true,
 			pagination:true

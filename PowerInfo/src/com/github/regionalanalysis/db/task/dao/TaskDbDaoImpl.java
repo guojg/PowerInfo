@@ -61,7 +61,7 @@ public class TaskDbDaoImpl implements TaskDbDao{
 			int  endNum = psize*pNum;
 		String sql = "select id,task_name,bn.value area_name,area_id from db_task db join bn_code_company bn on db.area_id=bn.code and db.area_id=? order by id desc"
 				+ " limit ?,?";
-		 List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql,new Object[]{area_id,startNum,endNum});
+		 List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql,new Object[]{area_id,startNum,psize});
 		return list;
 	}
 

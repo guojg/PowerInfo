@@ -63,10 +63,14 @@ public class GeneratorDaoImpl implements GeneratorDao {
 			buffer.append(InSql.substring(0, InSql.length() - 1));
 			buffer.append(")");
 		}
+		if(param.get("sort")!=null && !"".equals(param.getString("sort"))){
+			buffer.append(" order by ").append(param.getString("sort")+" " ).append(param.getString("order")+" ") ;
+		}
+		
 		if(psize!=0){
 			buffer.append(" limit ?,?");
 			params.add(startNum);
-			params.add(endNum);
+			params.add(psize);
 			return jdbcTemplate.queryForList(buffer.toString(),params.toArray());
 		}else{
 			return jdbcTemplate.queryForList(buffer.toString(),params.toArray());
