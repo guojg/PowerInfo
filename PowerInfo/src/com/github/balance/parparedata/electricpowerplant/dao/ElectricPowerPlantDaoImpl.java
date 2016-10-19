@@ -121,11 +121,18 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	@Override
 	public String deleteRecord(String[] delectArr) throws Exception {
 		// TODO Auto-generated method stub
-		StringBuffer  buffer=new StringBuffer("delete from electricPowerPlant_data where id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
 		}
+		//删除应电厂下的机组
+		StringBuffer  buffergenerator=new StringBuffer("delete from generator_data where plant_id in(");
+		buffergenerator.append(InSql.substring(0, InSql.length() - 1));
+		buffergenerator.append(")");
+		jdbcTemplate.update(buffergenerator.toString(),delectArr);
+		//删除电厂
+		StringBuffer  buffer=new StringBuffer("delete from electricPowerPlant_data where id in(");
+
 		buffer.append(InSql.substring(0, InSql.length() - 1));
 		buffer.append(")");
 		jdbcTemplate.update(buffer.toString(),delectArr);
