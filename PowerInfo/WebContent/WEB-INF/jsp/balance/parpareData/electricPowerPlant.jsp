@@ -156,7 +156,7 @@
 		}
 	}
 	function deleteRecords() {
-		$.messager.confirm('提示', '确认删除?', function(r) {
+		$.messager.confirm('提示', '将删除电厂及其电厂下的机组，确认删除?', function(r) {
 			if (r) {
 				var rows = $('#datagrid').datagrid('getChecked');
 				var ids = "";
