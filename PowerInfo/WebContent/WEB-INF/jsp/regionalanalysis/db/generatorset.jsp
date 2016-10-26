@@ -50,10 +50,7 @@ var organ_name='<%=organName%>';
 	var cols ='';
 	$(function() {
 	
-		if(task_id==""){
-			$.messager.alert('提示', '请先选择任务！', 'info');
-			return ;
-		}
+		
 		$('#organ_name').html('<b>'+organ_name+'</b>');
 
 		$('#task_name').html('<b>'+task_name+'</b>');
@@ -101,7 +98,24 @@ var organ_name='<%=organName%>';
 		          		width : 120,
 		          		align : 'center'
 		          	}] ];
-		
+		 if(task_id==""){
+				var Height_Page = $(document).height();
+				var datagrid_title_height = $("#datagrid_div").position().top;
+				var height = Height_Page - datagrid_title_height;
+				$('#datagrid').datagrid({
+					width : 'auto',
+					height : height,
+					autoRowHeight : false,
+					collapsible : true,
+					url : "",
+					remoteSort : false,
+					frozenColumns : frozenCols,
+					columns : cols,
+					pagination : false
+				});
+				$.messager.alert('提示', '请先选择任务！', 'info');
+				return ;
+			}
 		queryData();
 		$("#tool_query").bind("click", function() {
 			queryData();
@@ -140,7 +154,6 @@ var organ_name='<%=organName%>';
 			remoteSort : false,
 			frozenColumns : frozenCols,
 			columns : cols,
-			pagination : false,
 			queryParams : queryParams,
 			pagination: true
 		});
