@@ -50,6 +50,7 @@ $(function() {
 		});
 	 queryData();
 });
+var noeditId=['500','500-1','500-2','500-3','500-4','500-5','500-6','500-7','500-8','700','800','900','200','300','400','600','1000','100-100','200-1'];
 function queryData(){
 	var yrs = $('#years').combo('getValues').join(",");
 
@@ -73,6 +74,10 @@ $('#datagrid').treegrid({
 	columns : cols,
 	onLoadSuccess: function () {$('#datagrid').treegrid('collapseAll')},
 	onClickCell : function(field,row) {
+		for(var i=0 ; i<noeditId.length ;++i){
+			if(row.id==noeditId[i]) return ;
+		}
+	
 		clickEvent(field,row);
 
 
