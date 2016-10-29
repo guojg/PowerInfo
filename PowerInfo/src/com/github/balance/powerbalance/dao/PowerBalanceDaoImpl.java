@@ -1,14 +1,21 @@
 package com.github.balance.powerbalance.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.github.balance.common.util.ConvertTools;
+import com.github.balance.powerbalance.entity.PowerData;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Repository
@@ -31,7 +38,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		String year = param.getString("year");
 		String task_id=param.getString("task_id");
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 id,p.value_2 code_name,p.ORD,p.ord_2,d.*  ") ;
+		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2 ,CONCAT_WS('-',p.pcode,p.code_2) id,p.value_2 code_name,d.*  ") ;
 		sb.append(" FROM (");
 		sb.append(" SELECT pcode,VALUE,code_2,value_2,ORD,ord_2 FROM power4  ORDER BY ORD,ord_2 )p");
 		sb.append(" LEFT JOIN  (SELECT p_index_item,index_item ");
@@ -291,5 +298,128 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		int count = this.jdbcTemplate.update(sql , new Object[]{task_id} ) ;
 		return count;
 	}
+	
+	@Override
+	public String saveData(JSONArray rows,JSONObject obj) {
+		String task_id= obj.getString("taskid");
+		deleteData(task_id) ;
+		List<PowerData> powerData = new ArrayList<PowerData>();
+		for (int i = 0; i < rows.size(); i++) {
+			JSONObject row = rows.getJSONObject(i);
+			Iterator<String> its = row.keys();
+
+			String index_type =  row.getString("code_2");
+			
+			String parentId =null;
+			if(row.get("_parentId")!=null){
+				parentId= row.getString("_parentId");
+			}
+			while (its.hasNext()) {
+				String it = its.next();
+				if (it.equals("code_2") || it.equals("_parentId")){
+					continue;
+				}else{		
+					powerData.add(setPowerData(row,it,index_type,parentId,task_id));
+				}
+
+			}
+		}
+		int result = executePowerDataSQL(powerData);
+		return ""+result;
+	}
+	
+	private int executePowerDataSQL(List<PowerData> powerData) {
+		//int deleteCount = deletePowerDataSQL(powerData);
+		int insertCount = insertPowerDataSQL(powerData);
+		return insertCount;
+	}
+	
+	/**
+	 * 删除装机系数的sql语句
+	 * @param quotients
+	 * @return
+	 */
+	private int deletePowerDataSQL(final List<PowerData> powerDatas){
+		String deletesql = "delete from power_data where p_INDEX_item=? and task_id=? and year=? and index_item=?";
+		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				// TODO Auto-generated method stub
+				PowerData pd = powerDatas.get(i);
+				ps.setString(1, pd.getParentId());
+				ps.setString(2, pd.getTask_id());
+				ps.setString(3, pd.getYear());
+				ps.setString(4, pd.getCode_2());
+
+
+			}
+
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return powerDatas.size();
+			}
+		};
+		int[] deletes = jdbcTemplate.batchUpdate(deletesql, setdelete);
+		return deletes.length;
+	}
+	/**
+	 * 新增装机系数的sql语句
+	 * @param quotients
+	 * @return
+	 */
+	private int insertPowerDataSQL(final List<PowerData> powerDatas){
+	
+		String insertsql = "insert power_data(p_INDEX_item,INDEX_item,value,task_id,year) VALUES(?,?,?,?,?)";
+		
+		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				// TODO Auto-generated method stub
+				PowerData pd =powerDatas.get(i);
+
+					ps.setString(1, pd.getParentId());
+					ps.setString(2, pd.getCode_2());
+					ps.setObject(3, "".equals(pd.getValue())?null:pd.getValue());
+					ps.setString(4, pd.getTask_id());
+					ps.setString(5, pd.getYear());
+
+			}
+
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return powerDatas.size();
+			}
+			
+		};
+		int[] inserts=jdbcTemplate.batchUpdate(insertsql, setinsert);
+		return inserts.length;
+	}
+	/**
+	 * 组装装机系数
+	 * @param row
+	 * @param it
+	 * @param index_type
+	 * @param task_id
+	 * @return
+	 */
+	private  PowerData setPowerData(JSONObject row,String it,String index_type,String parentId,String task_id){
+		PowerData pd = new PowerData();
+		pd.setCode_2(index_type);
+		pd.setTask_id(task_id);
+		pd.setParentId(parentId);
+		pd.setYear(it);
+		if(!"".equals(row.getString(it))){
+			pd.setValue(row.getDouble(it));
+		}else{
+			pd.setValue(null);
+		}
+		return pd;
+	}
+	
 
 }
