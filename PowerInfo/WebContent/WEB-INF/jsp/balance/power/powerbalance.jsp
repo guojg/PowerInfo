@@ -72,7 +72,13 @@ $('#datagrid').treegrid({
         {field:'code_name',title:'指标',width:180},  
     ]] ,
 	columns : cols,
-	onLoadSuccess: function () {$('#datagrid').treegrid('collapseAll')},
+	onLoadSuccess: function () {
+		$('#datagrid').treegrid('collapseAll');
+		for(var i=0 ; i<noeditId.length ;++i){
+			$('tr[node-id='+ noeditId[i] +']').css( 'background','buttonface');
+		}
+
+	},
 	onClickCell : function(field,row) {
 		for(var i=0 ; i<noeditId.length ;++i){
 			if(row.id==noeditId[i]) return ;
@@ -84,6 +90,9 @@ $('#datagrid').treegrid({
 	},
 	onAfterEdit:function(row ,changes){
 		calculateSum();
+		for(var i=0 ; i<noeditId.length ;++i){
+			$('tr[node-id='+ noeditId[i] +']').css( 'background','buttonface');
+		}
 	}
 }); 
 }
