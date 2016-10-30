@@ -14,22 +14,19 @@
 <script type="text/javascript" src="<%=path %>/js/totalquantity/common/validatedatagrid.js"></script>
 <% 
 		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
-		String taskid = tt.getId();
-		String year = tt.getYear();
-		String task_name = tt.getTask_name();
+		
 		
 		%>
 <script type="text/javascript">
-var taskid='<%=taskid%>';
-var years = '<%=year%>';
-var task_name='<%=task_name%>';
+
+var years='2015,2016,2017';
+
 var cols;
 var savEvtTime = 0;
 var dcAt = 0;
 var dcTime = 250;
 var savTO = null;
 $(function() {
-	$('#task_name').html('<b>'+task_name+'</b>');
 	 comboBoxInit({
 			id : "dylxs",
 			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
@@ -81,7 +78,7 @@ function queryData(){
 			rownumbers : true,
 			singleSelect:true,
 			pagination : false,
-			queryParams : {"index_type":index_type,"year":yrs,"taskid":taskid},
+			queryParams : {"index_type":index_type,"year":yrs},
 			onClickCell : function(rowIndex, field, value) {
 				if($('#datagrid').datagrid('getData').rows[rowIndex] .code==3 && field=="hour_num"){
 					
@@ -100,13 +97,10 @@ function ExportExcel() {//导出Excel文件
 	var f = $('<form action="'+path+'/powerQuotient/exportData" method="post" id="fm1"></form>');  
     var i = $('<input type="hidden" id="year" name="year" />');  
     var l = $('<input type="hidden" id="index_type" name="index_type" />');
-    var m = $('<input type="hidden" id="taskid" name="taskid" />');  
 	i.val(yrs);  
 	i.appendTo(f);  
 	l.val(index_type);  
 	l.appendTo(f);  
-	m.val(taskid);  
-	m.appendTo(f); 
 	f.appendTo(document.body).submit();  
 	document.body.removeChild(f);  
 }
@@ -222,7 +216,6 @@ function save() {
 	}
 	var param = JSONH.stringify(updates);
 	var data = {
-		"taskid":taskid,
 		"editObj" : param
 	};
 	$.ajax({
@@ -261,8 +254,6 @@ function save() {
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
-			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><span id="task_name"></span></td>
 				<td class="tdlft">电源类型：</td>
 				<td class="tdrgt"><input id="dylxs" class="comboboxComponent" /></td>
 				<td class="tdlft">年份：</td>

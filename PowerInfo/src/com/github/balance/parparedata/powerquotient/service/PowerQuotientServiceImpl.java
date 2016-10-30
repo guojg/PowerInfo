@@ -37,7 +37,6 @@ public class PowerQuotientServiceImpl implements PowerQuotientService {
 			rows = JSONArray.fromObject(param.get("editObj"));
 		}
 		JSONObject obj = new JSONObject();
-		obj.put("taskid", param.get("taskid")==null?"":param.get("taskid").toString());
 		return powerQuotientDao.saveData(rows,obj);
 	}
 	public void ExportExcel(JSONObject param, HttpServletResponse response)

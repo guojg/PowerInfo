@@ -31,7 +31,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 	@Override
 	public String saveData(JSONArray rows,JSONObject obj) {
 		List<PowerHour> powers = new ArrayList<PowerHour>();
-		String task_id= obj.getString("taskid");
+		String task_id=null;
 		List<QuotientData> quotients = new ArrayList<QuotientData>();
 		for (int i = 0; i < rows.size(); i++) {
 			JSONObject row = rows.getJSONObject(i);
@@ -61,7 +61,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 	 * @return
 	 */
 	private int deleteQuotientDataSQL(final List<QuotientData> quotients){
-		String deletesql = "delete from quotient_data where INDEX_item=? and task_id=? and year=?";
+		String deletesql = "delete from quotient_data where INDEX_item=? and year=?";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -70,8 +70,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 				// TODO Auto-generated method stub
 				QuotientData pd = quotients.get(i);
 				ps.setString(1, pd.getIndex_item());
-				ps.setString(2, pd.getTask_id());
-				ps.setString(3, pd.getYear());
+				ps.setString(2, pd.getYear());
 
 
 			}
@@ -92,7 +91,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 	 */
 	private int insertQuotientDataSQL(final List<QuotientData> quotients){
 	
-		String insertsql = "insert quotient_data(INDEX_item,value,task_id,year) VALUES(?,?,?,?)";
+		String insertsql = "insert quotient_data(INDEX_item,value,year) VALUES(?,?,?)";
 		
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 			@Override
@@ -103,8 +102,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 
 					ps.setString(1, qd.getIndex_item());
 					ps.setObject(2, "".equals(qd.getValue())?null:qd.getValue());
-					ps.setString(3, qd.getTask_id());
-					ps.setString(4, qd.getYear());
+					ps.setString(3, qd.getYear());
 
 			}
 
@@ -134,7 +132,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 	 * @return
 	 */
 	private int deletePowerHourSQL(final List<PowerHour> powers) {
-		String deletesql = "delete from power_hour where INDEX_item=? and task_id=?";
+		String deletesql = "delete from power_hour where INDEX_item=? and task_id is null ";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -143,7 +141,6 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 				// TODO Auto-generated method stub
 				PowerHour pd = powers.get(i);
 				ps.setString(1, pd.getIndex_item());
-				ps.setString(2, pd.getTask_id());
 
 			}
 
@@ -162,7 +159,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 	 * @return
 	 */
 	private int insertPowerHourSQL(final List<PowerHour> powers) {
-		String insertsql = "insert power_hour(INDEX_item,hour_num,task_id) VALUES(?,?,?)";
+		String insertsql = "insert power_hour(INDEX_item,hour_num) VALUES(?,?)";
 		
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 			@Override
@@ -173,7 +170,6 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 
 					ps.setString(1, hour.getIndex_item());
 					ps.setObject(2, "".equals(hour.getHour_num())?null:hour.getHour_num());
-					ps.setString(3, hour.getTask_id());
 
 			}
 
@@ -203,7 +199,6 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 	public List<Map<String, Object>> queryData(JSONObject param) {
 		String year = param.getString("year") ;
 		//String year ="2014,2015,2016";
-		String taskid = param.getString("taskid") ;
 		//String taskid ="1";
 		String type = param.getString("type") ;
 		List<String> params = new ArrayList<String>();
@@ -211,7 +206,7 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT m.*, n.hour_num   FROM (") ;
-		sb.append("     SELECT task_id,s.code,s.ord ,s.value displayvalue");
+		sb.append("     SELECT s.code,s.ord ,s.value displayvalue");
 		for (String yearStr : year.split(",")) {
 			sb.append(",SUM(CASE year WHEN ");
 			sb.append(yearStr);
@@ -226,12 +221,10 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 			params.add(type) ;
 
 		}
-		sb.append( ") s ON q.index_item = s.code  AND q.task_id=?");
-		sb.append(" GROUP BY task_id,index_item,displayvalue");
+		sb.append( ") s ON q.index_item = s.code ");
+		sb.append(" GROUP BY index_item,displayvalue");
 		sb.append("   ) m LEFT JOIN  power_hour   n");
-		sb.append("  ON m.code=n.index_item AND n.task_id=?  ORDER BY m.ord");
-		params.add(taskid) ;
-		params.add(taskid) ;
+		sb.append("  ON m.code=n.index_item AND n.task_id is null  ORDER BY m.ord");
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),params.toArray());
 		return list;
 	}
@@ -245,7 +238,6 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 	 */
 	private  PowerHour setPowerHour(JSONObject row,String it,String index_type,String task_id){
 		PowerHour hour = new PowerHour();
-		hour.setTask_id(task_id);
 		hour.setIndex_item(index_type);
 		if(!"".equals(row.getString(it))){
 			hour.setHour_num(row.getDouble(it));
@@ -265,7 +257,6 @@ public class PowerQuotientDaoImpl implements PowerQuotientDao {
 	private  QuotientData setQuotientData(JSONObject row,String it,String index_type,String task_id){
 		QuotientData qd = new QuotientData();
 		qd.setIndex_item(index_type);
-		qd.setTask_id(task_id);
 		if(!"".equals(row.getString(it))){
 			qd.setValue(row.getDouble(it));
 		}else{

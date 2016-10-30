@@ -27,8 +27,6 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 			throws Exception {
 		String indexs[] = param.get("indexs") == null ? null : param
 				.get("indexs").toString().split(",");
-		String taskid = param.get("taskid") == null ? null : param
-				.get("taskid").toString();
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("SELECT tb.id index_item,tb.name index_name,tb.ORD");
@@ -41,8 +39,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 			sb.append("'");
 		}
 		sb.append("  FROM (SELECT t2.id,t2.name,t2.ORD,t1.value,t1.yr FROM ");
-		sb.append(" (select * from  loadelectricquantity_data where task_id=");
-		sb.append(taskid);
+		sb.append(" (select * from  loadelectricquantity_data ");
 		sb.append("        ) t1 RIGHT JOIN (");
 		sb.append("    SELECT code id,value name,ord FROM sys_dict_table where  domain_id=200 and code in(");
 		String InSql = "";
@@ -106,7 +103,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 			throws Exception {
 
 		String deletesql = "delete from  loadelectricquantity_data"
-				+ " where INDEX_ITEM=? and YR=? and task_id=?";
+				+ " where INDEX_ITEM=? and YR=? ";
 		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -116,7 +113,6 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 				BasicData basicdata = basicDatas.get(i);
 				ps.setString(1, basicdata.getIndexItem());
 				ps.setString(2, basicdata.getYear());
-				ps.setString(3, basicdata.getTaskId());
 			}
 
 			@Override
@@ -128,7 +124,7 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 		jdbcTemplate.batchUpdate(deletesql, setdelete);
 
 		String insertsql = "insert  loadelectricquantity_data"
-				+ "(INDEX_ITEM,YR,VALUE,task_id) VALUES(?,?,?,?)";
+				+ "(INDEX_ITEM,YR,VALUE) VALUES(?,?,?)";
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 
 			@Override
@@ -139,7 +135,6 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 				ps.setString(1, basicdata.getIndexItem());
 				ps.setString(2, basicdata.getYear());
 				ps.setString(3, basicdata.getValue());
-				ps.setString(4, basicdata.getTaskId());
 			}
 
 			@Override
@@ -154,15 +149,13 @@ public class LoadElectricQuantityDaoImpl implements LoadElectricQuantityDao {
 	@Override
 	public String totalData(String taskid) throws Exception {
 		// TODO Auto-generated method stub
-		StringBuffer delbuffer=new StringBuffer("delete from loadelectricquantity_data where task_id=? and index_item in (201,202)");
-		jdbcTemplate.update(delbuffer.toString(),new Object[]{taskid});
-		StringBuffer buffer=new StringBuffer("INSERT INTO loadelectricquantity_data (yr,index_item,VALUE,task_id)");
-		buffer.append("SELECT yr,201 index_item,value,");
-		buffer.append(taskid);
+		StringBuffer delbuffer=new StringBuffer("delete from loadelectricquantity_data where index_item in (201,202)");
+		jdbcTemplate.update(delbuffer.toString());
+		StringBuffer buffer=new StringBuffer("INSERT INTO loadelectricquantity_data (yr,index_item,VALUE)");
+		buffer.append("SELECT yr,201 index_item,value");
 		buffer.append(" FROM electricalsource_data WHERE index_item=108");
 		buffer.append(" union all");
-		buffer.append(" SELECT yr,202 index_item,value/10000,");
-		buffer.append(taskid);
+		buffer.append(" SELECT yr,202 index_item,value/10000");
 		buffer.append(" FROM electricalsource_data WHERE index_item=107");
 		jdbcTemplate.update(buffer.toString());
 		return "1";

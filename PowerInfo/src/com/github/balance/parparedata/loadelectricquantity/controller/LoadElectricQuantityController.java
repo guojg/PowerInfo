@@ -27,11 +27,9 @@ public class LoadElectricQuantityController {
 		response.setCharacterEncoding("UTF-8");
 		String years = request.getParameter("years");
 		String indexs = request.getParameter("indexs");
-		String taskid = request.getParameter("taskid");
 		JSONObject obj = new JSONObject();
 		obj.put("years", years);
 		obj.put("indexs", indexs);
-		obj.put("taskid", taskid);
 		try {
 			String resultJson = loadElectricQuantityService.queryData(obj);
 			PrintWriter pw = response.getWriter();
@@ -49,10 +47,8 @@ public class LoadElectricQuantityController {
 	String saveData(HttpServletRequest request) {
 		try {
 			String editObj = request.getParameter("editObj");
-			String taskid=request.getParameter("taskid");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("editObj", editObj);
-			jsonobj.put("taskid", taskid);
 			loadElectricQuantityService.saveData(jsonobj);
 			return "1";
 		} catch (Exception e) {
@@ -64,9 +60,7 @@ public class LoadElectricQuantityController {
 	public @ResponseBody
 	String totalData(HttpServletRequest request) {
 		try {
-			String taskid=request.getParameter("taskid");
 			JSONObject jsonobj = new JSONObject();
-			jsonobj.put("taskid", taskid);
 			loadElectricQuantityService.totalData(jsonobj);
 			return "1";
 		} catch (Exception e) {
@@ -86,12 +80,10 @@ public class LoadElectricQuantityController {
 			response.setCharacterEncoding("UTF-8");
 			String years = request.getParameter("years");
 			String indexs = request.getParameter("indexs");
-			String taskid =request.getParameter("taskid");
 			
 			JSONObject obj = new JSONObject();
 			obj.put("years", years);
 			obj.put("indexs", indexs);
-			obj.put("taskid", taskid);
 			try {
 				loadElectricQuantityService.ExportExcel(obj, response);
 			}catch (Exception e) {
