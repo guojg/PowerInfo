@@ -86,7 +86,13 @@ $('#datagrid').treegrid({
 	},
 	onClickCell : function(field,row) {
 		for(var i=0 ; i<noeditId.length ;++i){
-			if(row.id==noeditId[i]) return ;
+			if(row.id==noeditId[i]){
+				if(editingId != undefined ){
+					endEdit(editingId);
+				}	
+				 return ;
+			}
+			
 		}
 	
 		clickEvent(field,row);
@@ -551,9 +557,12 @@ function save() {
 			if (data == "undifined") {
 				$.messager.alert("提示", "保存失败！");
 				$('#datagrid').datagrid('reload');
+				$('#datagrid').treegrid('acceptChanges');  
+
 			} else {
 				$.messager.alert("提示", "保存成功！");
 				$('#datagrid').datagrid('reload');
+				$('#datagrid').treegrid('acceptChanges');  
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {

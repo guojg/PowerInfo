@@ -83,6 +83,41 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{task_id,task_id,task_id,task_id});
 		return list;
 	}
+	
+
+	@Override
+	public List<Map<String, Object>> exportData(JSONObject param) {
+		String year = param.getString("year");
+		String task_id=param.getString("task_id");
+		StringBuffer sb = new StringBuffer();
+		sb.append(" select t.* from (SELECT y.*,x.hour_num FROM power_hour X RIGHT JOIN ( ") ;
+		sb.append("SELECT p.pcode _parentId ,p.VALUE pcode_name,p.code_2,CONCAT_WS('-',p.pcode,p.code_2) id,p.ORD,p.ord_2,p.value_2 code_name,d.*,  ").append(task_id).append( " task_id ") ;
+		sb.append(" FROM (");
+		sb.append(" SELECT pcode,VALUE,code_2,value_2,ORD,ord_2 FROM electricity4  ORDER BY ORD,ord_2 )p");
+		sb.append(" LEFT JOIN  (SELECT p_index_item,index_item ");
+		//for (String yearStr : param.get("year").toString().split(",")) {
+		for (String yearStr :year.split(",")) {
+			sb.append(",SUM(CASE year WHEN ");
+			sb.append(yearStr);
+			sb.append(" THEN value END) '");
+			sb.append(yearStr);
+			sb.append("'");
+		}
+		sb.append("  FROM electricity_data where task_id= ? GROUP BY task_id,p_index_item,index_item) ") ;
+		sb.append(" d ON  (p.pcode = d.p_index_item OR (p.pcode IS NULL AND d.p_index_item IS NULL) ) AND p.code_2=d.index_item ");
+		sb.append(" ) Y ON y.code_2=x.index_item and x.task_id=y.task_id  ORDER BY ORD,ord_2 ) t") ;
+		/*
+		 *   _parentId,pcode_name ,code_2,id,code_name,p_index_item,index_item     .... task_id,hour_num
+		 * 			SELECT YEAR,VALUE,task_id FROM power_data WHERE  p_index_item =500  AND task_id=21 AND index_item=3
+		UNION ALL
+		SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  p_index_item =300  AND index_item=3  AND task_id=21 
+		 */
+	
+		
+
+		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{task_id});
+		return list;
+	}
 	/**
 	 * 全社会用电量100
 	 * 同比增长率

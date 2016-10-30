@@ -105,7 +105,12 @@ $('#datagrid').treegrid({
 	},
 	onClickCell : function(field,row) {
 		for(var i=0 ; i<nosubeditId.length ;++i){
-			if(row.id==nosubeditId[i]) return ;
+			if(row.id==nosubeditId[i]){
+				if(editingId != undefined ){
+					endEdit(editingId);
+				}	
+				 return ;
+			}
 		}
 		clickEvent(field,row);
 
@@ -398,6 +403,8 @@ function editCell( field, row) {
 	}
 	if (row){
 		debugger;
+
+
 		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
 			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8'){
 		
@@ -416,6 +423,18 @@ function editCell( field, row) {
 		}
 		editingId = row.id ;
 		$('#datagrid').treegrid('beginEdit', editingId);
+		/*debugger;
+		var editors = $('#datagrid').treegrid('getEditors', editingId);
+		$.each(editors, function(i, editor) {
+			if (editor.field === field) {
+				debugger;
+						$(editor.target).parent().find('input').first().next("span").children().first().bind('blur',function(){
+							alert();
+						});
+			} else {
+				//$(editor.target).hide().closest('div').text(editor.oldHtml);
+			}
+		});*/
 		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
 			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8'){
 		
@@ -446,7 +465,8 @@ function editCell( field, row) {
 				            }  
 						};
 		}
-	}	
+	}
+
 
 }
 
@@ -488,6 +508,9 @@ function xjrw(){
  */
 function save() {
 	//endEdit();
+	if(editingId != undefined ){
+		endEdit(editingId);
+	}	
 	var updates = $('#datagrid').datagrid('getChanges');
 	if (updates.length <= 0) {
 		return;
@@ -506,9 +529,13 @@ function save() {
 			if (data == "undifined") {
 				$.messager.alert("提示", "保存失败！");
 				$('#datagrid').datagrid('reload');
+				$('#datagrid').treegrid('acceptChanges');  
+
 			} else {
 				$.messager.alert("提示", "保存成功！");
 				$('#datagrid').datagrid('reload');
+				$('#datagrid').treegrid('acceptChanges');  
+
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {

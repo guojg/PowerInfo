@@ -9,6 +9,7 @@ import net.sf.json.JSONObject;
 
 public interface ElectricityBalanceDao {
 	public List<Map<String, Object>> queryData(JSONObject param);
+	public List<Map<String, Object>> exportData(JSONObject param);
 	/**
 	 * 抽取数据
 	 * @param obj

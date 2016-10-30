@@ -41,7 +41,7 @@ public class ElectricityBalanceServiceImpl implements ElectricityBalanceService 
 
 		String[] excelTitle = new String[] { "" };
 		String years[]=param.getString("year").split(",");
-		List<Map<String, Object>> list = electricityBalanceDao.queryData(param);
+		List<Map<String, Object>> list = electricityBalanceDao.exportData(param);
 		String[] colTitle = null;
 		String[] colName = null;
 
