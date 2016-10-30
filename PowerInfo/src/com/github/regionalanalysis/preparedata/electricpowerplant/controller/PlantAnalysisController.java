@@ -49,7 +49,35 @@ public class PlantAnalysisController {
 			e.printStackTrace();
 		}
 	}
-
+	@RequestMapping(value = "/saveTemplateData")
+	public @ResponseBody
+	String saveData(HttpServletRequest request) {
+		try {
+			String editObj = request.getParameter("editObj");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("editObj", editObj);
+			plantAnalysisService.saveTemplateData(jsonobj);
+			return "1";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
+	@RequestMapping(value = "/queryTemplateData")
+	public void queryTemplateData(HttpServletRequest request,
+			HttpServletResponse response) {
+		response.setCharacterEncoding("UTF-8");
+		try {
+			String resultJson = plantAnalysisService.queryTemplateData();
+			PrintWriter pw = response.getWriter();
+			pw.write(resultJson);
+			pw.flush();
+			pw.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@RequestMapping(value = "/addRecord")
 	public @ResponseBody
 	String addRecord(HttpServletRequest request) {
@@ -102,6 +130,11 @@ public class PlantAnalysisController {
 	public String index(Long pid, HttpServletRequest request,
 			HttpServletResponse re) {
 		return "regionalanalysis/preparedata/electricPowerPlant";
+	}
+	@RequestMapping(value = "/templatemain")
+	public String templeteIndex(Long pid, HttpServletRequest request,
+			HttpServletResponse re) {
+		return "regionalanalysis/preparedata/addPlantTemplate";
 	}
 	@RequestMapping(value = "/detailData")
 	public void detailData(HttpServletRequest request,
@@ -168,5 +201,11 @@ public class PlantAnalysisController {
 			 
 
 	}
+	@RequestMapping(value = "/openSelRecord")
+	public String openSelRecord(Long pid, HttpServletRequest request,
+			HttpServletResponse re) {
+		return "regionalanalysis/preparedata/selElectricPowerPlant";
+	}
+	
 
 }

@@ -124,22 +124,26 @@ function addNav(data) {
  * 基础数据删除节点
  */
 function removenode() {
-	$.messager.confirm('提示', '确认删除该节点?', function(r) {
-		if (r) {
-			var node = $('#tt').tree('getSelected');
-
-			$.post(path + '/basicData/removeleaf', {
-				"id" : node.id
-			}, function(data) {
-				var data = $.parseJSON(data);
-				if (data.flag == '1') {
-					$.messager.alert('提示', '删除成功！', 'info', function() {
-						$('#tt').tree("remove", node.target);
-					});
-				}
-			});
-		}
-	});
+	debugger;
+	var node = $('#tt').tree('getSelected');
+	if(node.attributes.useful!=1){
+		$.messager.confirm('提示', '确认删除该节点？', function(r) {
+			if (r) {
+				$.post(path + '/basicData/removeleaf', {
+					"id" : node.id
+				}, function(data) {
+					var data = $.parseJSON(data);
+					if (data.flag == '1') {
+						$.messager.alert('提示', '删除成功！', 'info', function() {
+							$('#tt').tree("remove", node.target);
+						});
+					}
+				});
+			}
+		});
+	}else{
+		$.messager.alert("提示","该指标参与计算不能删除！");
+	}
 
 }
 /**

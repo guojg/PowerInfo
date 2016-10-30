@@ -28,6 +28,8 @@ public class ElectricPowerPlantController {
 		String pageSize = request.getParameter("rows");
 		String indexs=request.getParameter("indexs");
 		String name=request.getParameter("name");
+		String area_id=request.getParameter("area_id");
+		String flag=request.getParameter("flag");
 		if (pageNum == null  || "".equals(pageNum))
 			pageNum = "1";
 		if (pageSize == null || "".equals(pageSize))
@@ -37,6 +39,8 @@ public class ElectricPowerPlantController {
 		obj.put("pageSize", pageSize);
 		obj.put("indexs", indexs);
 		obj.put("name", name);
+		obj.put("area_id", area_id);
+		obj.put("flag", flag);
 		try {
 			String resultJson = electricPowerPlantService.queryData(obj);
 			PrintWriter pw = response.getWriter();
@@ -85,6 +89,20 @@ public class ElectricPowerPlantController {
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("deleteids",deleteids );
 			electricPowerPlantService.deleteRecord(jsonobj);
+			return "1";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
+	}
+	@RequestMapping(value = "/selRecordToAnalysis")
+	public @ResponseBody
+	String selRecordToAnalysis(HttpServletRequest request) {
+		try {
+			String selids = request.getParameter("ids");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("selids",selids );
+			electricPowerPlantService.selRecordToAnalysis(jsonobj);
 			return "1";
 		} catch (Exception e) {
 			e.printStackTrace();

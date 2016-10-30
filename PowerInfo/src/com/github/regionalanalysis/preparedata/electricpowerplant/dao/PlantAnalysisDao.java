@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 
 public interface PlantAnalysisDao {
 	public List<Map<String, Object>> queryData(JSONObject param) throws Exception;
+	public List<Map<String, Object>> queryTemplateData() throws Exception;
 	public String addRecord(final PlantAnalysis powerPlant) throws Exception;
 	public String updateRecord(final PlantAnalysis powerPlant) throws Exception;	
 	public String deleteRecord(String delectArr[]) throws Exception;
@@ -23,5 +24,7 @@ public interface PlantAnalysisDao {
 	public List<Map<String, Object>> getFdjByDc(String id) throws Exception;
 
 	public int getTotalCount(JSONObject param);
+	
+	public String saveTemplateData(JSONArray rows) throws Exception;
 	
 }

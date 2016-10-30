@@ -35,14 +35,9 @@
 		title : '电源类型',
 		width : 100,
 		align : 'center'
-	}, {
-		field : 'start_date',
-		title : '投产日期',
-		width : 100,
-		align : 'center'
-	}, {
-		field : 'end_date',
-		title : '退役日期',
+	},{
+		field : 'area_name',
+		title : '区域名称',
 		width : 100,
 		align : 'center'
 	} ] ];

@@ -38,6 +38,13 @@ public class PowerPlant {
 	private String endDate;
 	private String id;
 	private String indexItem;
+	private String areaId;
+	public String getAreaId() {
+		return areaId;
+	}
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
 	public String getIndexItem() {
 		return indexItem;
 	}
