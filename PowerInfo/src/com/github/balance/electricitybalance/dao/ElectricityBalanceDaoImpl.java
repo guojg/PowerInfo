@@ -22,7 +22,6 @@ import net.sf.json.JSONObject;
 
 @Repository
 public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
-	private static final String ELECSQL=" SELECT yr,NULL,100,VALUE,task_id FROM loadelectricquantity_data  WHERE index_item=202 and task_id=?" ;//全社会(统调)最大负荷
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -133,23 +132,25 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 			//	this.execCopyHour(task_id);
 
 				deleteData(task_id);
-				String yearRateSql=getYearRateSQL(year);
+				String yearRateSql=getYearRateSQL(year,task_id);
 				StringBuffer sb = new StringBuffer();
 				sb.append(" insert into electricity_data(year,p_index_item,index_item,value,task_id) ");
+				String ELECSQL=" SELECT yr,NULL,100,VALUE,"+task_id+"  FROM loadelectricquantity_data  WHERE index_item=202 " ;//全社会(统调)最大负荷
+
 				sb.append(  ELECSQL);
 				sb.append("    UNION ALL  ");
 				sb.append(yearRateSql);
 				sb.append(" union all ");
-				sb.append(" SELECT  t1.yr,NULL,200,t1.value,t2.task_id FROM senddata_data t1 "
-						+ "JOIN   senddata_itemname t2 ON t2.task_id=? AND  t2.pro_name='4' AND t2.id=t1.index_item ");
-				int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id,task_id});
+				sb.append(" SELECT  t1.yr,NULL,200,t1.value,"+task_id+" FROM senddata_data t1 "
+						+ "JOIN   senddata_itemname t2 ON   t2.pro_name='4' AND t2.id=t1.index_item ");
+				int count = this.jdbcTemplate.update(sb.toString());
 				 execSeftElec(task_id);
 				 execSeftElecByType(task_id);
 				 execCoalHour(task_id);
 		return 0;
 	}
 	
-	private String getYearRateSQL(String year){
+	private String getYearRateSQL(String year,String task_id){
 		String[] sourceArr = year.split(",");
 		String[] destinationArr = ConvertTools.convertIncreaseRate (sourceArr);
 		
@@ -162,7 +163,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		sbRate.append("   WHEN t.value IS NULL OR t2.value IS NULL OR t2.value = 0 THEN NULL");
 		sbRate.append("              ELSE  ROUND((POWER(t.value / t2.value, 1.0 / (t.yr - t2.yr)) - 1)*100,2)");
 		sbRate.append("    END AS tbzzl ");
-		sbRate.append("   ,t.task_id  FROM loadelectricquantity_data t,loadelectricquantity_data t2,(");
+		sbRate.append("   ,"+task_id+"  FROM loadelectricquantity_data t,loadelectricquantity_data t2,(");
 		for(int i=0 ; i <sourceArr.length-1 ;++i){
 			sbRate.append("select ").append(destinationArr[i])
 			.append(" as yr1,").append(sourceArr[i]).append(" as yr2")
@@ -171,7 +172,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		sbRate.append("select ").append(destinationArr[sourceArr.length-1])
 		.append(" as yr1,").append(sourceArr[sourceArr.length-1]).append(" as yr2")
 		.append(" from dual ");
-		sbRate.append("  )t3  WHERE t.index_item = 202  AND t2.index_item = 202 and t.task_id=? and t2.task_id=?   AND t.yr = t3.yr2 AND t2.yr = t3.yr1");
+		sbRate.append("  )t3  WHERE t.index_item = 202  AND t2.index_item = 202   AND t.yr = t3.yr2 AND t2.yr = t3.yr1");
 		return  sbRate.toString();
 	}
 	/**
