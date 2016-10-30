@@ -66,4 +66,17 @@ public class ElectricityBalanceController {
 
 	}
 	
+	@RequestMapping(value = "/saveData")
+	public @ResponseBody
+	String saveData(HttpServletRequest request){
+		String editObj = request.getParameter("editObj");
+		 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
+
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("editObj", editObj);
+		jsonobj.put("taskid", taskid);
+		return electricityBalanceService.saveData(jsonobj);
+		
+	}
+	
 }

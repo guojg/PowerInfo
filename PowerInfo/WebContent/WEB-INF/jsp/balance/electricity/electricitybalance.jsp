@@ -52,6 +52,10 @@ $(function() {
 	 queryData();
 
 });
+var noeditId=['100-100','200-1','300','300-1','300-2','300-3','300-4','300-5','300-6','300-7','300-8','400'];
+var nosubeditId=['100-100','200-1','300','400','300-3'];
+var hideeditId=['700','500-1','500-2','500-4','500-5','500-6','500-7','500-8','500'];
+
 function queryData(){
 	var yrs = $('#years').combo('getValues').join(",");
 
@@ -72,13 +76,50 @@ $('#datagrid').treegrid({
         {field:'code_name',title:'指标',width:180},  
     ]] ,
 	columns : cols,
+	onLoadSuccess: function () {
+		for(var i=0 ; i<hideeditId.length ;++i){
+			$('tr[node-id='+ hideeditId[i] +']').hide();
+		}
+		 $('#datagrid').treegrid('resize');
+
+		for(var i=0 ; i<noeditId.length ;++i){
+			$('tr[node-id='+ noeditId[i] +']').css( 'background','buttonface');
+			if( noeditId[i]=='300-1' || noeditId[i]=='300-2' || noeditId[i]=='300-4'||noeditId[i]=='300-5'
+					||noeditId[i]=='300-6' ||noeditId[i]=='300-7' ||noeditId[i]=='300-8'){
+				$('tr[node-id='+ noeditId[i] +']').find('td[field=hour_num]').css( 'background','white');
+
+			}
+		}
+		$('tr[node-id=100]').find('td[field=hour_num]').css( 'background','buttonface');
+		$('tr[node-id=200]').find('td[field=hour_num]').css( 'background','buttonface');
+
+			/*$('tr[node-id=700]').hide();
+			 $('#datagrid').treegrid('resize');*/
+			 
+
+
+	},
 	onClickCell : function(field,row) {
+		for(var i=0 ; i<nosubeditId.length ;++i){
+			if(row.id==nosubeditId[i]) return ;
+		}
 		clickEvent(field,row);
 
 
 	},
 	onAfterEdit:function(row ,changes){
 		calculateSum();
+		for(var i=0 ; i<noeditId.length ;++i){
+			$('tr[node-id='+ noeditId[i] +']').css( 'background','buttonface');
+			if( noeditId[i]=='300-1' || noeditId[i]=='300-2' || noeditId[i]=='300-4'||noeditId[i]=='300-5'
+					||noeditId[i]=='300-6' ||noeditId[i]=='300-7' ||noeditId[i]=='300-8'){
+				$('tr[node-id='+ noeditId[i] +']').find('td[field=hour_num]').css( 'background','white');
+
+			}
+		}
+		$('tr[node-id=100]').find('td[field=hour_num]').css( 'background','buttonface');
+		$('tr[node-id=200]').find('td[field=hour_num]').css( 'background','buttonface');
+
 	}
 }); 
 }
@@ -99,17 +140,187 @@ function ExportExcel() {//导出Excel文件
 }
 
 function calculateSum(){
+	calculatezfdl();
+	calculatezfdlsub();
+	calculatezfdlcoal();
+	calculatecoalhour();
+}
+/*
+ * 需自发用电量
+ */
+function calculatezfdl(){
 	var row100 = $('#datagrid').treegrid('find',100);  //全社会用电量
 	var row200 = $('#datagrid').treegrid('find',200);	//外购(+)外送(-)
 	var row300 = $('#datagrid').treegrid('find',300);	//需自发用电量
-	var row400 = $('#datagrid').treegrid('find',400);	//煤电利用小时数
 	var tmp = [];
 
 	tmp = $('#years').combo('getValues').join(",").split(",");
 	for (var i = 0; i < tmp.length; i++) {
-		row300[tmp[i]] = row100[tmp[i]]+row200[tmp[i]];
+		if(!row100[tmp[i]]&&!row200[tmp[i]]){
+			
+		}else{
+		row300[tmp[i]] = fixNum(parseNumberExt(row100[tmp[i]])-parseNumberExt(row200[tmp[i]]));
+		}
 	}
 	 $('#datagrid').treegrid('refresh',300);
+}
+/*
+ * 需自发用电量子项
+ */
+function calculatezfdlsub(){
+	var row5001 = $('#datagrid').treegrid('find','500-1');  
+	var row5002 = $('#datagrid').treegrid('find','500-2');  
+	var row5004 = $('#datagrid').treegrid('find','500-4');  
+	var row5005 = $('#datagrid').treegrid('find','500-5');  
+	var row5006 = $('#datagrid').treegrid('find','500-6');  
+	var row5007 = $('#datagrid').treegrid('find','500-7'); 
+	var row5008 = $('#datagrid').treegrid('find','500-8');  
+	
+	var row3001 = $('#datagrid').treegrid('find','300-1');  
+	var row3002 = $('#datagrid').treegrid('find','300-2');  
+	var row3004 = $('#datagrid').treegrid('find','300-4');  
+	var row3005 = $('#datagrid').treegrid('find','300-5');  
+	var row3006 = $('#datagrid').treegrid('find','300-6');  
+	var row3007 = $('#datagrid').treegrid('find','300-7'); 
+	var row3008 = $('#datagrid').treegrid('find','300-8');  
+	var tmp = [];
+
+	tmp = $('#years').combo('getValues').join(",").split(",");
+	for (var i = 0; i < tmp.length; i++) {
+		if(!row5001){
+			
+		}else{
+				if(!row5001[tmp[i]]&&!row3001['hour_num']){
+					
+				}else{
+					row3001[tmp[i]] = fixNum(parseNumberExt(row5001[tmp[i]])*parseNumberExt(row3001['hour_num'])/10000);
+				}
+		}
+		if(!row5002){
+			
+		}else{
+				if(!row5002[tmp[i]]&&!row3002['hour_num']){
+					
+				}else{
+					row3002[tmp[i]] = fixNum(parseNumberExt(row5002[tmp[i]])*parseNumberExt(row3002['hour_num'])/10000);
+				}
+		}
+		if(!row5004){
+			
+		}else{
+				if(!row5004[tmp[i]]&&!row3004['hour_num']){
+					
+				}else{
+					row3004[tmp[i]] = fixNum(parseNumberExt(row5004[tmp[i]])*parseNumberExt(row3004['hour_num'])/10000);
+				}
+		}
+		if(!row5005){
+			
+		}else{
+				if(!row5005[tmp[i]]&&!row3005['hour_num']){
+					
+				}else{
+					row3005[tmp[i]] = fixNum(parseNumberExt(row5005[tmp[i]])*parseNumberExt(row3005['hour_num'])/10000);
+				}
+		}
+		if(!row5006){
+			
+		}else{
+				if(!row5006[tmp[i]]&&!row3006['hour_num']){
+					
+				}else{
+					row3006[tmp[i]] = fixNum(parseNumberExt(row5006[tmp[i]])*parseNumberExt(row3006['hour_num'])/10000);
+				}
+		}
+		if(!row5007){
+			
+		}else{
+				if(!row5007[tmp[i]]&&!row3007['hour_num']){
+					
+				}else{
+					row3007[tmp[i]] = fixNum(parseNumberExt(row5007[tmp[i]])*parseNumberExt(row3007['hour_num'])/10000);
+				}
+		}
+		if(!row5008){
+			
+		}else{
+				if(!row5008[tmp[i]]&&!row3008['hour_num']){
+					
+				}else{
+					row3008[tmp[i]] = fixNum(parseNumberExt(row5008[tmp[i]])*parseNumberExt(row3008['hour_num'])/10000);
+				}
+		}
+		
+	}
+	 $('#datagrid').treegrid('refresh','300-1');
+	 $('#datagrid').treegrid('refresh','300-2');
+	 $('#datagrid').treegrid('refresh','300-4');
+	 $('#datagrid').treegrid('refresh','300-5');
+	 $('#datagrid').treegrid('refresh','300-6');
+	 $('#datagrid').treegrid('refresh','300-7');
+	 $('#datagrid').treegrid('refresh','300-8');
+
+}
+
+/*
+ * 
+ */
+function  calculatecoalhour(){
+	var row3003 = $('#datagrid').treegrid('find','300-3');  
+	var row700 = $('#datagrid').treegrid('find','700');  
+	var row400 = $('#datagrid').treegrid('find','400');  
+
+	var tmp = [];
+
+	tmp = $('#years').combo('getValues').join(",").split(",");
+	for (var i = 0; i < tmp.length; i++) {
+		if(!row3003[tmp[i]]&&!row700[tmp[i]]){
+			
+		}else{
+		row400[tmp[i]] = fixNum(parseNumberExt(row3003[tmp[i]])/parseNumberExt(row700[tmp[i]])*10000);
+		}
+	}
+	 $('#datagrid').treegrid('refresh','400');
+}
+
+/*
+ * 需自发用电量(煤)
+ */
+function calculatezfdlcoal(){
+	var row300 = $('#datagrid').treegrid('find',300);	//需自发用电量
+	var row3001 = $('#datagrid').treegrid('find','300-1');  
+	var row3002 = $('#datagrid').treegrid('find','300-2');  
+	var row3004 = $('#datagrid').treegrid('find','300-4');  
+	var row3005 = $('#datagrid').treegrid('find','300-5');  
+	var row3006 = $('#datagrid').treegrid('find','300-6');  
+	var row3007 = $('#datagrid').treegrid('find','300-7'); 
+	var row3008 = $('#datagrid').treegrid('find','300-8');  
+	
+	var row3003 = $('#datagrid').treegrid('find','300-3');  
+	var tmp = [];
+
+	tmp = $('#years').combo('getValues').join(",").split(",");
+	for (var i = 0; i < tmp.length; i++) {
+		if(!row300[tmp[i]]&&!row3001[tmp[i]]&&!row3002[tmp[i]]&&!row3004[tmp[i]]&&!row3005[tmp[i]]&&!row3006[tmp[i]]&&!row3007[tmp[i]]&&!row3008[tmp[i]]){
+			
+		}else{
+		row3003[tmp[i]] = fixNum(parseNumberExt(row300[tmp[i]])-parseNumberExt(row3001[tmp[i]])-parseNumberExt(row3002[tmp[i]])-parseNumberExt(row3004[tmp[i]])
+				-parseNumberExt(row3005[tmp[i]])-parseNumberExt(row3006[tmp[i]])-parseNumberExt(row3007[tmp[i]])-parseNumberExt(row3008[tmp[i]]));
+		}
+	}
+	 $('#datagrid').treegrid('refresh','300-3');
+}
+
+function  parseNumberExt(num){
+	if(!num){
+		return 0;
+	}else{
+		 return parseFloat(num);
+	}
+}
+
+function fixNum(num){
+	return num.toFixed(3);
 }
 //动态生成列
 function createCols(years) {
@@ -123,7 +334,14 @@ function createCols(years) {
 			'title' : "" + tmp[i] + "年",
 			'align' : 'center',
 			'width' : 120,
-			'editor' : 'numberspinner'
+			'editor':{
+				type:'numberspinner',
+				options: {  
+                    increment:10,  
+                    precision:3
+                   
+                }  
+			}
 
 		});
 	}
@@ -131,7 +349,15 @@ function createCols(years) {
 		'field' : "hour_num",
 		'title' : "机组利用小时数",
 		'align' : 'center',
-		'width' : 120
+		'width' : 120,
+		'editor':{
+			type:'numberspinner',
+			options: {  
+                increment:10,  
+                precision:3
+               
+            }  
+		}
 
 	});
 	return new Array(cols);
@@ -162,26 +388,61 @@ function clickonetime(field, row) {
  * 解开一个格子的编辑状态
  */
 function editCell( field, row) {
-	debugger;
+
 	if(editingId != undefined ){
 		endEdit(editingId);
 	}
-	//if (rowIndex == noEditRow) return;
-	/*for ( var i in cols[cols.length - 1]) {
-		var columnOption = $('#datagrid').datagrid('getColumnOption',
-				cols[cols.length - 1][i]['field']);
-		if (cols[cols.length - 1][i]['field'] == field) {
-			columnOption.editor = {type:cols[cols.length - 1][i].editor};
-		} else {
-			columnOption.editor = {};
-		}
-	}
-	$('#datagrid').datagrid('beginEdit',row.id);
-*/			
-			if (row){
-				editingId = row.id ;
-				$('#datagrid').treegrid('beginEdit', editingId);
+	if (row){
+		debugger;
+		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
+			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8'){
+		
+			if ( cols && cols.length>=1) {
+		
+				for (var i = 0; i < cols[0].length-1; i++) {
+				var columnOption = $('#datagrid').datagrid('getColumnOption',
+						cols[0][i]['field']);	
+					columnOption.editor = {};
+				}
 			}
+		}
+		if( row.id=='100' ||row.id=='200'){
+			$('#datagrid').datagrid('getColumnOption',
+					cols[0][cols[0].length-1]['field']).editor = {};
+		}
+		editingId = row.id ;
+		$('#datagrid').treegrid('beginEdit', editingId);
+		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
+			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8'){
+		
+			if ( cols && cols.length>=1) {
+		
+				for (var i = 0; i < cols[0].length-1; i++) {
+				var columnOption = $('#datagrid').datagrid('getColumnOption',
+						cols[0][i]['field']);	
+					columnOption.editor = {
+							type:'numberspinner',
+							options: {  
+				                increment:10,  
+				                precision:3
+				               
+				            }  
+						};
+				}
+			}
+		}
+		if( row.id=='100' ||row.id=='200'){
+			$('#datagrid').datagrid('getColumnOption',
+					cols[0][cols[0].length-1]['field']).editor = {
+							type:'numberspinner',
+							options: {  
+				                increment:10,  
+				                precision:3
+				               
+				            }  
+						};
+		}
+	}	
 
 }
 
@@ -220,7 +481,7 @@ function save() {
 	if (updates.length <= 0) {
 		return;
 	}
-	var param = JSONH.stringify(updates);
+	var param = JSONH.stringify($('#datagrid').treegrid('getData'));
 	var data = {
 		"taskid":taskid,
 		"editObj" : param

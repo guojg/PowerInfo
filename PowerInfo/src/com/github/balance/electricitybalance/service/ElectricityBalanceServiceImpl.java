@@ -2,6 +2,7 @@ package com.github.balance.electricitybalance.service;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Service
@@ -73,5 +75,45 @@ public class ElectricityBalanceServiceImpl implements ElectricityBalanceService 
 		// 第二个参数rules为导出规则的list集合，第三个参数为第二个参数所需的参数，一个rule参数为一个int数组
 		ex.exportExcel(response, rules, new int[][] { i });
 
+	}
+	@Override
+	public String saveData(JSONObject param) {
+		JSONArray rows = null;
+		if (param.get("editObj") != null) {
+			rows = JSONArray.fromObject(param.get("editObj"));
+		}
+		JSONArray result =getArray(rows);
+		JSONObject obj = new JSONObject();
+		obj.put("taskid", param.get("taskid")==null?"":param.get("taskid").toString());
+		return electricityBalanceDao.saveData(result,obj);
+	}
+	
+	private JSONArray getArray(JSONArray rows){
+		JSONArray result = new  JSONArray();
+		for(int i=0 ; i<rows.size() ;++i){
+			JSONObject obj = new JSONObject();
+			JSONObject objRow =JSONObject.fromObject(rows.get(i));
+			  Iterator it = objRow.keys();  		      
+			    while (it.hasNext()) {          
+			        String key = it.next().toString();  
+			        if("children".equals(key)){
+			        	JSONArray childArray = getArray(JSONArray.fromObject(objRow.get(key)) );
+			        	if(childArray != null){
+			    			for(int n=0 ; n< childArray.size() ;++n){
+			    				 result.add(JSONObject.fromObject(childArray.get(n))) ;
+			    			}
+			    		}
+			        }else if("index_item".equals(key)|| "state".equals(key)||"p_index_item".equals(key)||"id".equals(key)
+			        		||"pcode_name".equals(key)||"code_name".equals(key)||"ORD".equals(key)||"ord_2".equals(key)
+			        		||"task_id".equals(key)){
+			        	
+			        }else{
+			        	obj.put(key,  objRow.getString(key)) ;
+			        }
+			    }
+			    result.add(obj) ;
+		}
+		
+		return result;
 	}
 }
