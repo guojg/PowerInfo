@@ -10,6 +10,8 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
+	<%@include file="../../common/commonDefineBtn.jsp" %>
+
 <% 
 		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
 		String taskid = tt.getId();
@@ -40,6 +42,9 @@ $(function() {
 	});
 	$("#tool_export").bind("click", function() {
 		ExportExcel();
+	});
+	$("#tool_xjrw").bind("click", function() {
+		xjrw();
 	});
 	 comboBoxInit({
 			id : "years",
@@ -513,6 +518,14 @@ function extractData(){
 			}
 		});
 }
+function xjrw(){
+	commonHelper.toAdd({
+		title : '图形分析',
+		width : 550,
+		height : 400,
+		url : path + "/powerbalance/powerbalanceImage"
+	});
+}
 /**
  * ‘保存’按钮功能
  */
@@ -563,6 +576,9 @@ function save() {
 		<a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />
+		</a>
+		<a id="tool_xjrw"> <img src='<%=path%>/static/images/xjrw.gif'
+			align='top' border='0' title='图形分析' />
 		</a>
 	</div>
 	<fieldset id="field">

@@ -23,6 +23,12 @@ public class PowerBalanceController {
 		 return "balance/power/powerbalance";
 	}
 	
+	@RequestMapping(value ="/powerbalanceImage")
+	public String powerbalanceImage(HttpServletRequest request, HttpServletResponse response){
+		 return "balance/power/powerbalanceImage";
+	}
+	
+	
 	@RequestMapping(value = "/queryData" ,produces="text/plain;charset=UTF-8")
 	public @ResponseBody String queryData(HttpServletRequest request,
 			HttpServletResponse response) {

@@ -25,6 +25,10 @@ public class ElectricityBalanceController {
 	public String index(HttpServletRequest request, HttpServletResponse response){
 		 return "balance/electricity/electricitybalance";
 	}
+	@RequestMapping(value ="/electricitybalanceImage")
+	public String electricitybalanceImage(HttpServletRequest request, HttpServletResponse response){
+		 return "balance/electricity/electricitybalanceImage";
+	}
 	
 	@RequestMapping(value = "/queryData" ,produces="text/plain;charset=UTF-8")
 	public @ResponseBody String queryData(HttpServletRequest request,
