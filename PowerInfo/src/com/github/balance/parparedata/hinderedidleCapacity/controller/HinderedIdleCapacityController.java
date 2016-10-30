@@ -27,11 +27,9 @@ public class HinderedIdleCapacityController {
 		response.setCharacterEncoding("UTF-8");
 		String years = request.getParameter("years");
 		String indexs = request.getParameter("indexs");
-		String taskid = request.getParameter("taskid");
 		JSONObject obj = new JSONObject();
 		obj.put("years", years);
 		obj.put("indexs", indexs);
-		obj.put("taskid", taskid);
 		try {
 			String resultJson = hinderedIdleCapacityService.queryData(obj);
 			PrintWriter pw = response.getWriter();
@@ -49,10 +47,8 @@ public class HinderedIdleCapacityController {
 	String saveData(HttpServletRequest request) {
 		try {
 			String editObj = request.getParameter("editObj");
-			String taskid=request.getParameter("taskid");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("editObj", editObj);
-			jsonobj.put("taskid", taskid);
 			hinderedIdleCapacityService.saveData(jsonobj);
 			return "1";
 		} catch (Exception e) {
@@ -72,12 +68,10 @@ public class HinderedIdleCapacityController {
 			response.setCharacterEncoding("UTF-8");
 			String years = request.getParameter("years");
 			String indexs = request.getParameter("indexs");
-			String taskid =request.getParameter("taskid");
 			
 			JSONObject obj = new JSONObject();
 			obj.put("years", years);
 			obj.put("indexs", indexs);
-			obj.put("taskid", taskid);
 			try {
 				hinderedIdleCapacityService.ExportExcel(obj, response);
 			}catch (Exception e) {

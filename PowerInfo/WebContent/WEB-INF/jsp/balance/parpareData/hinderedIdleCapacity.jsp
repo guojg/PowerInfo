@@ -13,18 +13,13 @@
 <%
 	String pid = request.getAttribute("pid") == null ? "" : request
 			.getAttribute("pid").toString();
-	BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
-	String taskid = tt.getId();
-	String years=tt.getYear();
-	String task_name = tt.getTask_name();
+
 
 %>
 
 <script type="text/javascript">
 	var pid='<%=pid%>';
-	var taskid='<%=taskid%>';
-	var years='<%=years%>';
-	var task_name='<%=task_name%>';
+	var years='2015,2016,2017';
 
 	var cols;
 	var savEvtTime = 0;
@@ -38,7 +33,6 @@
 		align : 'center'
 	} ] ];
 	$(function() {
-		$('#task_name').html('<b>'+task_name+'</b>');
 
 		$("#tool_save").bind("click", function() {
 			save();
@@ -94,13 +88,10 @@
 		var f = $('<form action="'+path+'/hinderedIdleCapacity/exportData" method="post" id="fm1"></form>');  
         var i = $('<input type="hidden" id="years" name="years" />');  
         var l = $('<input type="hidden" id="indexs" name="indexs" />');  
-        var t_id=$('<input type="hidden" id="taskid" name="taskid" />');  
     	i.val(yrs_s);  
     	i.appendTo(f);  
     	l.val(index_s);  
     	l.appendTo(f);  
-    	t_id.val(taskid);
-    	t_id.appendTo(f);
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
 	}
@@ -135,8 +126,7 @@
 		//查询条件暂时放外面
 		var queryParams = {
 			years : yrs_s,
-			indexs : index_s,
-			taskid:taskid
+			indexs : index_s
 			
 		};
 
@@ -262,8 +252,7 @@
 		}
 		var param = JSONH.stringify(updates);
 		var data = {
-			editObj : param,
-			taskid:taskid
+			editObj : param
 		};
 		$.ajax({
 			type : 'POST',
@@ -362,8 +351,7 @@
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
-			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><span id="task_name"></span></td>
+			
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 				<td class="tdlft">指标：</td>
