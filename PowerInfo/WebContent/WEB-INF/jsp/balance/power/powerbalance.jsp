@@ -70,7 +70,7 @@ $('#datagrid').treegrid({
    height : height,
     idField:'id',    
     treeField:'code_name',  
-	queryParams : {"year":yrs,"taskid":taskid},
+	queryParams : {"year":years,"taskid":taskid},
     frozenColumns:[[    
         {title:'id',field:'id',width:180,hidden:true},    
         {field:'parentid',title:'_parentId',width:180,align:'right',hidden:true},  
@@ -161,6 +161,7 @@ function calculateSum(){
 	900装机盈余   =  当年可用容量 - 需要有效装机容量 +  控制月外购(+)外送(-)  700-200+800
 	1000 现有装机容量  
 	*/
+	calculatezzl();
 	calculatezjrl();
 	 calculatetcrl();
 	 calculatetyrl();
@@ -171,6 +172,27 @@ function calculateSum(){
 	 calculatekyrl();
 	calculatezjyy();
 	
+}
+/**
+ * 增长率
+ */
+function calculatezzl(){
+	var row100 = $('#datagrid').treegrid('find',100);  //全社会用电量
+	var row100100 = $('#datagrid').treegrid('find','100-100');  //增长率
+	var tmp = [];
+
+	tmp = years.split(",");
+	for (var i = 1; i < tmp.length; i++) {
+		if(!row100[tmp[i]]&&!row100[tmp[i-1]]){
+			
+		}else if(parseNumberExt(row100[tmp[i-1]])==0){
+			
+		}else{
+		row100100[tmp[i]] = fixNum((Math.pow(parseNumberExt(row100[tmp[i]])/parseNumberExt(row100[tmp[i-1]]),1.0/(parseNumberExt(tmp[i])-parseNumberExt(tmp[i-1])))-1)*100);
+		}
+	}
+	 $('#datagrid').treegrid('refresh','100-100');
+
 }
 /*
  * 200 需要有效装机容量
