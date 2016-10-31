@@ -124,22 +124,26 @@ function addNav(data) {
  * 基础数据删除节点
  */
 function removenode() {
-	$.messager.confirm('提示', '确认删除该节点?', function(r) {
-		if (r) {
-			var node = $('#tt').tree('getSelected');
-
-			$.post(path + '/basicData/removeleaf', {
-				"id" : node.id
-			}, function(data) {
-				var data = $.parseJSON(data);
-				if (data.flag == '1') {
-					$.messager.alert('提示', '删除成功！', 'info', function() {
-						$('#tt').tree("remove", node.target);
-					});
-				}
-			});
-		}
-	});
+	debugger;
+	var node = $('#tt').tree('getSelected');
+	if(node.attributes.useful!=1){
+		$.messager.confirm('提示', '确认删除该节点？', function(r) {
+			if (r) {
+				$.post(path + '/basicData/removeleaf', {
+					"id" : node.id
+				}, function(data) {
+					var data = $.parseJSON(data);
+					if (data.flag == '1') {
+						$.messager.alert('提示', '删除成功！', 'info', function() {
+							$('#tt').tree("remove", node.target);
+						});
+					}
+				});
+			}
+		});
+	}else{
+		$.messager.alert("提示","该指标参与计算不能删除！");
+	}
 
 }
 /**
@@ -204,7 +208,7 @@ function InitTreeData(data) {
 					}
 				},onLoadSuccess:function(){
 					var rooNode = $("#tt").tree('getRoot');
-					if(data==190 || data==169 || data==4|| data==5){
+					if(data==190  || data==4|| data==5 ||data==157){
 						$("#tt").tree("expand",rooNode.target);  
 						 $("#tt li:eq(2)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
 				           var n = $("#tt").tree("getSelected");   
@@ -225,6 +229,15 @@ function InitTreeData(data) {
 					}else if(data==203){
 						$("#tt").tree("expand",rooNode.target);  
 						 $("#tt li:eq(10)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+				           var n = $("#tt").tree("getSelected");   
+				           if(n!=null){   
+				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+				           }   
+				           $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);	
+				           $('#mm-tabcloseother').click();
+					}else if(data==169){
+						$("#tt").tree("expand",rooNode.target);  
+						 $("#tt li:eq(9)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
 				           var n = $("#tt").tree("getSelected");   
 				           if(n!=null){   
 				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   

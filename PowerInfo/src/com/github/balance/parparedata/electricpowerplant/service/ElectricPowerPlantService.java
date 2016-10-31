@@ -10,6 +10,8 @@ public interface ElectricPowerPlantService {
 	public String addRecord(JSONObject obj) throws Exception;
 	public String updateRecord(JSONObject obj) throws Exception;	
 	public String deleteRecord(JSONObject obj) throws Exception;
+	public String selRecordToAnalysis(JSONObject obj) throws Exception;
+	
 	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
 
 }

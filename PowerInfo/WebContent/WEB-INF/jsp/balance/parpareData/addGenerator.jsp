@@ -79,30 +79,30 @@ function save(){
 	<form id="paramsForm">
 		<table id="detailTable">
 			<tr>
-				<td class="tdlft" style='width: 100px'>机组名称：</td>
-				<td class="tdrgt" style='width: 120px'><input id="gene_name"
-					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>所属电厂：</td>
-				<td class="tdrgt" style='width: 120px'><input id="plant_id"
-					type="text" style='width: 120px'/></td>
+				<td class="tdlft" style='width: 120px'>机组名称：</td>
+				<td class="tdrgt" style='width: 150px'><input id="gene_name"
+					type="text" style='width: 150px' /></td>
+				<td class="tdlft" style='width: 120px'>所属电厂：</td>
+				<td class="tdrgt" style='width: 150px'><input id="plant_id"
+					type="text" style='width: 150px'/></td>
 			</tr>
 			<tr>
-			<td class="tdlft" style='width: 100px'>装机容量（万千瓦）：</td>
-				<td class="tdrgt" style='width: 120px'><input id="gene_capacity"
-					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>电源类型：</td>
-				<td class="tdrgt" style='width: 120px'><input id="index_item"
-					type="text" disabled="disabled" style='width: 120px'/></td>
+			<td class="tdlft" style='width: 120px'>装机容量（万千瓦）：</td>
+				<td class="tdrgt" style='width: 150px'><input id="gene_capacity"
+					type="text" style='width: 150px' /></td>
+				<td class="tdlft" style='width: 120px'>电源类型：</td>
+				<td class="tdrgt" style='width: 150px'><input id="index_item"
+					type="text" disabled="disabled" style='width: 150px'/></td>
 				
 
 			</tr>	
 			<tr>
-			<td class="tdlft" style='width: 100px'>投产日期：</td>
-				<td class="tdrgt" style='width: 120px'><input id="start_date"
-					type="text" style='width: 120px' class="easyui-datebox"/></td>
-				<td class="tdlft" style='width: 100px'>退役日期：</td>
-				<td class="tdrgt" style='width: 120px'><input id="end_date"
-					type="text" style='width: 120px' class="easyui-datebox"/></td>
+			<td class="tdlft" style='width: 120px'>投产日期：</td>
+				<td class="tdrgt" style='width: 150px'><input id="start_date"
+					type="text" style='width: 150px' class="easyui-datebox"/></td>
+				<td class="tdlft" style='width: 120px'>退役日期：</td>
+				<td class="tdrgt" style='width: 150px'><input id="end_date"
+					type="text" style='width: 150px' class="easyui-datebox"/></td>
 			</tr>	
 		</table>
 	</form>

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.github.balance.parparedata.electricpowerplant.model.PowerPlant;
 import com.github.basicData.model.BasicData;
+import com.github.common.util.NewSnUtil;
 @Repository
 public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	@Autowired
@@ -39,13 +40,22 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 			 indexs=param.getString("indexs").split(",");
 		}
 		String name=param.getString("name");
+		String area_id=param.get("area_id")==null?null:param.get("area_id").toString();
+		String flag =param.get("flag")==null?null:param.get("flag").toString();
 		int  startNum = psize*(pNum-1);
 		int  endNum = psize*pNum;
-		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,(select value from sys_dict_table where domain_id=12 and code=index_item) index_itemname,index_item,date_format(start_date,'%Y-%m-%d') start_date,");
-		buffer.append(" date_format(end_date,'%Y-%m-%d') end_date from shiro.electricpowerplant_data where 1=1");
+		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,(select value from sys_dict_table where domain_id=12 and code=index_item) index_itemname,index_item,");
+		buffer.append("area_id,(SELECT value FROM bn_code_company WHERE CODE=area_id) area_name  from shiro.electricpowerplant_data where 1=1");
 		if(!"".equals(name)){
 			buffer.append(" and plant_name like ?");
 			params.add("%"+name+"%");
+		}
+		if(flag!=null&&!"".equals(flag)){
+			buffer.append(" and flag is null");
+		}
+		if(area_id!=null&&!"".equals(area_id)){
+			buffer.append(" and area_id = ?");
+			params.add(area_id);
 		}
 		if(indexs.length>0){
 			buffer.append(" and index_item in (");
@@ -76,7 +86,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	public String addRecord(final PowerPlant powerPlant) throws Exception {
 		// TODO Auto-generated method stub
 		String insertsql = "insert  electricPowerPlant_data" 
-				+ "(plant_name,plant_capacity,start_date,end_date,index_item) VALUES(?,?,?,?,?)";
+				+ "(plant_name,plant_capacity,start_date,end_date,index_item,area_id) VALUES(?,?,null,null,?,?)";
 		PreparedStatementSetter setinsert = new PreparedStatementSetter() {
 
 			@Override
@@ -84,9 +94,8 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 				// TODO Auto-generated method stub
 				ps.setString(1, powerPlant.getPlantName());
 				ps.setString(2, powerPlant.getPlantCapacity());
-				ps.setString(3, powerPlant.getStartDate());
-				ps.setString(4, powerPlant.getEndDate());
-				ps.setString(5, powerPlant.getIndexItem());
+				ps.setString(3, powerPlant.getIndexItem());
+				ps.setString(4, powerPlant.getAreaId());
 			}
 
 		};
@@ -98,7 +107,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	public String updateRecord(final PowerPlant powerPlant) throws Exception {
 		// TODO Auto-generated method stub
 		String insertsql = "update  electricPowerPlant_data" 
-				+ " set  plant_name=?,plant_capacity=?,start_date=?,end_date=?,index_item=? where id=?";
+				+ " set  plant_name=?,plant_capacity=?,start_date=null,end_date=null,index_item=?,area_id=? where id=?";
 		PreparedStatementSetter setupdate = new PreparedStatementSetter() {
 
 			@Override
@@ -106,11 +115,9 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 				// TODO Auto-generated method stub
 				ps.setString(1, powerPlant.getPlantName());
 				ps.setString(2, powerPlant.getPlantCapacity());
-				ps.setString(3, powerPlant.getStartDate());
-				ps.setString(4, powerPlant.getEndDate());
-				ps.setString(5, powerPlant.getIndexItem());
-
-				ps.setString(6, powerPlant.getId());
+				ps.setString(3, powerPlant.getIndexItem());
+				ps.setString(4, powerPlant.getAreaId());
+				ps.setString(5, powerPlant.getId());
 			}
 
 		};
@@ -155,4 +162,93 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 		
 		return jdbcTemplate.queryForInt(Sql);
 	}
+
+
+
+	@Override
+	public String selRecordToAnalysis(String[] idArr) throws Exception {
+		// TODO Auto-generated method stub
+		String InSql = getInSql(idArr);
+		//根据ids查询店里电量平衡表中的纪录
+		List<Map<String,Object>> balancePlants=this.getPlantOfBalance(InSql, idArr);
+		for(Map<String,Object> balancePlant:balancePlants){
+			insertPlantAndGenerator(balancePlant);
+		}
+		updateFlag(InSql,idArr);
+		return "1";
+	}
+	
+	private String getInSql(String[] idArr) throws Exception{
+		String InSql = "";
+		for (int i = 0; i < idArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		return InSql;
+	}
+	private List<Map<String,Object>> getPlantOfBalance(String InSql,String[] idArr) throws Exception{
+		StringBuffer  buffer=new StringBuffer();
+		buffer.append("SELECT id,plant_name,plant_capacity,area_id FROM electricpowerplant_data WHERE id in(");
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		return jdbcTemplate.queryForList(buffer.toString(),idArr);
+	}
+	private void insertPlantAndGenerator(Map<String,Object> plant) throws Exception{
+		int id=getMax();
+		insertPlant(plant,id);
+		List<Map<String,Object>> balancePlants=this.getGeneratorofBalance(plant.get("id").toString());
+		if(balancePlants.size()>0){
+			insertGenerator(balancePlants,id,plant.get("area_id"));
+		}
+	}
+	private void insertPlant(Map<String,Object> plant,int id){
+		StringBuffer  buffer=new StringBuffer();
+		buffer.append("INSERT INTO shiro.`electricpowerplant_analysis_data`(id,plant_name,plant_capacity,area_id)");
+		buffer.append("values(?,?,?,?);");
+	    jdbcTemplate.update(buffer.toString(),new Object[]{id+1,plant.get("plant_name"),plant.get("plant_capacity"),plant.get("area_id")});
+	}
+	private void insertGenerator(List<Map<String,Object>> plangenerator,int plant_id,Object area_id)throws Exception{
+		for(Map<String,Object> generator:plangenerator){
+			String[] sql=new String[4];
+			StringBuffer  sql1=new StringBuffer();
+			StringBuffer  sql2=new StringBuffer();
+			StringBuffer  sql3=new StringBuffer();
+			StringBuffer  sql4=new StringBuffer();
+			String jz_id=NewSnUtil.getID();
+			sql1.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
+			sql1.append("values(100,'"+generator.get("gene_name")+"',"+jz_id+","+area_id+")");
+			sql2.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
+			sql2.append("values(300,'"+generator.get("gene_capacity")+"',"+jz_id+","+area_id+")");
+			sql3.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
+			sql3.append("values(200,'"+plant_id+"',"+jz_id+","+area_id+")");
+			sql4.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
+			sql4.append("values(11,'"+jz_id+"',"+jz_id+","+area_id+")");
+			sql[0]=sql1.toString();
+			sql[1]=sql2.toString();
+			sql[2]=sql3.toString();
+			sql[3]=sql4.toString();
+			jdbcTemplate.batchUpdate(sql);
+		}
+	}
+	private List<Map<String,Object>> getGeneratorofBalance(String  plantid) throws Exception{
+		StringBuffer  buffer=new StringBuffer();
+		buffer.append("SELECT gene_name,gene_capacity FROM generator_data WHERE plant_id=?");
+	    return jdbcTemplate.queryForList(buffer.toString(),new Object[]{plantid});
+	}
+	private int getMax() throws Exception{
+		StringBuffer  buffer=new StringBuffer();
+		buffer.append("SELECT max(id) from  electricpowerplant_analysis_data");
+	    return jdbcTemplate.queryForInt(buffer.toString());
+	}
+	/**
+	 * 修改状态flag表示已经抽取过，不再抽取
+	 */
+	private void  updateFlag(String InSql,String[] idArr) throws Exception{
+		StringBuffer  buffer=new StringBuffer();
+		buffer.append("update electricpowerplant_data set flag=1 WHERE id in(");
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),idArr);
+	}
+	
+	
 }

@@ -15,13 +15,21 @@ $(function() {
 			textkey : "value",
 			valuekey : "code"
 			});
+	  comboBoxInit({
+			id : "area_id",
+			url : path + '/sysdict/getCompany',
+			textkey : "value",
+			valuekey : "code",
+			multiple : false
+		});
 	var rows = window.parent.$('#datagrid').datagrid('getChecked');
 	var row=rows[0];
 	$('#plant_name').val(row.plant_name);
 	$('#plant_capacity').val(row.plant_capacity);
-	$('#start_date').datebox("setValue",row.start_date);
-	$('#end_date').datebox("setValue",row.end_date);
+	//$('#start_date').datebox("setValue",row.start_date);
+	//$('#end_date').datebox("setValue",row.end_date);
 	$('#index_item').combobox("setValue",row.index_item);
+	$('#area_id').combobox("setValue",row.area_id);
 }
 );
 //取消
@@ -35,9 +43,10 @@ function save(){
 	operationdata["id"]=row[0].id;
 	operationdata["plant_name"]=$('#plant_name').val();
 	operationdata["plant_capacity"]=$('#plant_capacity').val();
-	operationdata["start_date"]=$('#start_date').datebox('getValue');
-	operationdata["end_date"]=$('#end_date').datebox('getValue');
+	//operationdata["start_date"]=$('#start_date').datebox('getValue');
+	//operationdata["end_date"]=$('#end_date').datebox('getValue');
 	operationdata["index_item"]=$('#index_item').datebox('getValue');
+	operationdata["area_id"]=$('#area_id').datebox('getValue');
 	if(!validate(operationdata)){
 		return;
 	}
@@ -78,15 +87,10 @@ function save(){
 				<td class="tdlft" style='width: 100px'>电源类型：</td>
 				<td class="tdrgt" style='width: 120px'><input id="index_item"
 					type="text" style='width: 120px'/></td>
-				<td class="tdlft" style='width: 100px'>投产日期：</td>
-				<td class="tdrgt" style='width: 120px'><input id="start_date" class="easyui-datebox"
+				<td class="tdlft" style='width: 100px'>区域：</td>
+				<td class="tdrgt" style='width: 120px'><input id="area_id" 
 					type="text" style='width: 120px' /></td>
 			</tr>		
-			<tr>
-				<td class="tdlft" style='width: 100px'>退役日期：</td>
-				<td class="tdrgt" style='width: 120px'><input id="end_date"
-					type="text" style='width: 120px' data-options="editable:false"  class="easyui-datebox"/></td>
-			</tr>	
 		</table>
 	</form>
 	<div class="div_submit">

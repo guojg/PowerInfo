@@ -15,6 +15,13 @@ $(function() {
 			textkey : "value",
 			valuekey : "code"
 			});
+	  comboBoxInit({
+			id : "area_id",
+			url : path + '/sysdict/getCompany',
+			textkey : "value",
+			valuekey : "code",
+			multiple : false
+		});
 
 }
 );
@@ -28,10 +35,10 @@ function save(){
 	var operationdata = new Object();
 	operationdata["plant_name"]=$('#plant_name').val();
 	operationdata["plant_capacity"]=$('#plant_capacity').val();
-	operationdata["start_date"]=$('#start_date').datebox('getValue');
-	operationdata["end_date"]=$('#end_date').datebox('getValue');
+	//operationdata["start_date"]=null;
+	//operationdata["end_date"]=null;
 	operationdata["index_item"]=$('#index_item').combo('getValue');
-	
+	operationdata["area_id"]=$('#area_id').combo('getValue');
 	if(!validate(operationdata)){
 		return;
 	}
@@ -72,15 +79,10 @@ function save(){
 				<td class="tdlft" style='width: 100px'>电源类型：</td>
 				<td class="tdrgt" style='width: 120px'><input id="index_item"
 					type="text" style='width: 120px'/></td>
-				<td class="tdlft" style='width: 100px'>投产日期：</td>
-				<td class="tdrgt" style='width: 120px'><input id="start_date"
-					type="text" style='width: 120px' class="easyui-datebox"/></td>
+				<td class="tdlft" style='width: 100px'>区域：</td>
+				<td class="tdrgt" style='width: 120px'><input id="area_id"
+					type="text" style='width: 120px' /></td>
 
-			</tr>	
-			<tr>
-				<td class="tdlft" style='width: 100px'>退役日期：</td>
-				<td class="tdrgt" style='width: 120px'><input id="end_date"
-					type="text" style='width: 120px' class="easyui-datebox"/></td>
 			</tr>	
 		</table>
 	</form>

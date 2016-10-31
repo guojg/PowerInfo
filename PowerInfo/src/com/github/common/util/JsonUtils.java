@@ -147,11 +147,12 @@ public class JsonUtils {
 			String url=hashMap.get("url")==null?"":hashMap.get("url").toString();
 			String unit_code=hashMap.get("unit_code")==null?"":hashMap.get("unit_code").toString();
 			String tablename=hashMap.get("tablename")==null?"":hashMap.get("tablename").toString();
+			String useful=hashMap.get("useful")==null?"":hashMap.get("useful").toString();
 			NodeMsg node = new NodeMsg(hashMap.get("id")==null?"":hashMap.get("id").toString() , 
 										hashMap.get("text")==null?"":hashMap.get("text").toString() , 
 										hashMap.get("parent_id")==null?"":hashMap.get("parent_id").toString(),
 										hashMap.get("isleaf")==null?"":hashMap.get("isleaf").toString(),
-												new AttributeMsg(url,tablename,unit_code));
+												new AttributeMsg(url,tablename,unit_code,useful));
 			
 			resultList.add(node);
 		}

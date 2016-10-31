@@ -28,17 +28,21 @@ function validate(data) {
 		$.messager.alert('提示','电源类型不能为空！');
 		return false;
 	}
-	if(!isNotEmpty(data["start_date"])){
-		$.messager.alert('提示','投产日期不能为空！');
+	if(!isNotEmpty(data["area_id"])){
+		$.messager.alert('提示','区域不能为空！');
 		return false;
 	}
-	if(isNotEmpty(data["end_date"])){
-		if(!validateDate(data["start_date"],data["end_date"])){
-			$.messager.alert('提示','退役日期必须小于投产日期！');
-			return false;
-		}
-		
-	}
+//	if(!isNotEmpty(data["start_date"])){
+//		$.messager.alert('提示','投产日期不能为空！');
+//		return false;
+//	}
+//	if(isNotEmpty(data["end_date"])){
+//		if(!validateDate(data["start_date"],data["end_date"])){
+//			$.messager.alert('提示','退役日期必须小于投产日期！');
+//			return false;
+//		}
+//		
+//	}
 	return true;
 }
 function validateDate(startdate,enddata){

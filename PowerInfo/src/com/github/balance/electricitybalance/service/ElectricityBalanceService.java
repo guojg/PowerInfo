@@ -27,5 +27,6 @@ public interface ElectricityBalanceService {
 	 */
 	public String extractData(JSONObject obj);
 	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
+	public String saveData(JSONObject param);
 
 }

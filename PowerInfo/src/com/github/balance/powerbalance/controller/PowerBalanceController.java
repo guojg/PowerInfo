@@ -23,6 +23,12 @@ public class PowerBalanceController {
 		 return "balance/power/powerbalance";
 	}
 	
+	@RequestMapping(value ="/powerbalanceImage")
+	public String powerbalanceImage(HttpServletRequest request, HttpServletResponse response){
+		 return "balance/power/powerbalanceImage";
+	}
+	
+	
 	@RequestMapping(value = "/queryData" ,produces="text/plain;charset=UTF-8")
 	public @ResponseBody String queryData(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -62,6 +68,18 @@ public class PowerBalanceController {
 			}
 			 
 
+	}
+	@RequestMapping(value = "/saveData")
+	public @ResponseBody
+	String saveData(HttpServletRequest request){
+		String editObj = request.getParameter("editObj");
+		 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
+
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("editObj", editObj);
+		jsonobj.put("taskid", taskid);
+		return powerBalanceService.saveData(jsonobj);
+		
 	}
 	
 }

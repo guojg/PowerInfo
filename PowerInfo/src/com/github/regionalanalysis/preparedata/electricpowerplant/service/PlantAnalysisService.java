@@ -7,6 +7,8 @@ import net.sf.json.JSONObject;
 public interface PlantAnalysisService {
 
 	public String queryData(JSONObject param) throws Exception;
+	public String queryTemplateData() throws Exception;
+	public String saveTemplateData(JSONObject param) throws Exception;
 	public String addRecord(JSONObject obj) throws Exception;
 	public String updateRecord(JSONObject obj) throws Exception;	
 	public String deleteRecord(JSONObject obj) throws Exception;

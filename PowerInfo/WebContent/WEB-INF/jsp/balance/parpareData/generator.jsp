@@ -154,7 +154,7 @@
 	function addRecord() {
 		commonHelper.toAdd({
 			title : '新增',
-			width : 500,
+			width : 600,
 			height : 300,
 			url : "openAddRecord"
 		});
@@ -166,7 +166,7 @@
 		}else{
 			commonHelper.toAdd({
 				title : '修改',
-				width : 500,
+				width : 600,
 				height : 300,
 				url : "openUploadRecord"
 			});

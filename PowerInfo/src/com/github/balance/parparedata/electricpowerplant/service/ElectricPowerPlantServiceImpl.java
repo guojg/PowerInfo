@@ -60,15 +60,16 @@ public class ElectricPowerPlantServiceImpl implements  ElectricPowerPlantService
 		if(obj!=null){
 			 data=JSONObject.fromObject(obj.get("editObj"));
 		}
-		if(!"".equals(data.getString("end_date"))){
-			p.setEndDate(data.getString("end_date"));
-		}else{
-			p.setEndDate(null);
-		}
+//		if(!"".equals(data.getString("end_date"))){
+//			p.setEndDate(data.getString("end_date"));
+//		}else{
+//			p.setEndDate(null);
+//		}
 		p.setPlantCapacity(data.getString("plant_capacity"));
 		p.setPlantName(data.getString("plant_name"));
-		p.setStartDate(data.getString("start_date"));
+//		p.setStartDate(data.getString("start_date"));
 		p.setIndexItem(data.getString("index_item"));
+		p.setAreaId(data.getString("area_id"));
 		if(data.get("id")!=null){
 			p.setId(data.getString("id"));
 		}
@@ -101,6 +102,13 @@ public class ElectricPowerPlantServiceImpl implements  ElectricPowerPlantService
 		// 第二个参数rules为导出规则的list集合，第三个参数为第二个参数所需的参数，一个rule参数为一个int数组
 		ex.exportExcel(response, rules, new int[][] { i });
 
+	}
+
+	@Override
+	public String selRecordToAnalysis(JSONObject obj) throws Exception {
+		String selArr[] = obj.get("selids") == null ? null : obj
+				.get("selids").toString().split(",");
+		return electricPowerPlantDao.selRecordToAnalysis(selArr);
 	}
 
 }

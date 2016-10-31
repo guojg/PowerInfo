@@ -54,8 +54,8 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 	                    return ps;
 	                }
 	            }, keyHolder);
-		this.execSendData(keyHolder.getKey().intValue()+"") ;
-		execPowerQuotient(task,keyHolder.getKey().intValue());
+		//this.execSendData(keyHolder.getKey().intValue()+"") ;
+		//execPowerQuotient(task,keyHolder.getKey().intValue());
 		execHourNum(task,keyHolder.getKey().intValue());
 		}catch(Exception e){
 			e.printStackTrace();
@@ -128,7 +128,7 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 				sb.append(" INSERT INTO power_hour (index_item,hour_num,task_id) ")
 				.append(" SELECT q.index_item,q.hour_num, " )
 				.append(i+"")
-				.append( " FROM quotient_init q ");
+				.append( " FROM power_hour q  where task_id is null ");
 				this.jdbcTemplate.update(sb.toString());
 
 		
@@ -210,11 +210,11 @@ public  class BalanceTaskDaoImpl implements BalanceTaskDao{
 
 	@Override
 	public String deleteOtherData(String[] delectArr) {
-		this.deleteHinderedIdleCapacity(delectArr);
-		this.deleteLoadelectricquantity(delectArr);
+		//this.deleteHinderedIdleCapacity(delectArr);
+		//this.deleteLoadelectricquantity(delectArr);
 		this.deletePowerHour(delectArr);
-		this.deletePowerQuotient(delectArr);
-		this.deleteSenddata(delectArr);
+		//this.deletePowerQuotient(delectArr);
+		//this.deleteSenddata(delectArr);
 		this.deleteElectricpowerplant(delectArr);
 		this.deletePower(delectArr);
 		return "1";

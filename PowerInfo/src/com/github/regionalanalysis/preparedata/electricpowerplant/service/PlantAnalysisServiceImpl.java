@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.common.export.ExcelParams;
 import com.github.common.export.ExcelUtils;
@@ -159,5 +160,23 @@ public class PlantAnalysisServiceImpl implements  PlantAnalysisService{
 		JSONArray obj=JSONArray.fromObject(list);
 		return obj.toString();
 	}
+
+	@Override
+	public String queryTemplateData() throws Exception {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> list = plantAnalysisDao.queryTemplateData();
+		return JsonUtils.listTranJsonByQuery(list);
+	}
+	@Override
+	@Transactional
+	public String saveTemplateData(JSONObject param) throws Exception {
+		// TODO Auto-generated method stub
+		JSONArray rows = null;
+		if (param.get("editObj") != null) {
+			rows = JSONArray.fromObject(param.get("editObj"));
+		}
+		return plantAnalysisDao.saveTemplateData(rows);
+	}
+
 
 }

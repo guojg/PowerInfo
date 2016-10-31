@@ -17,12 +17,7 @@
 <script type="text/javascript">
 var area_id="<%=organCode%>";
 $(function() {
-	 comboBoxInit({
-			id : "index_item",
-			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
-			textkey : "value",
-			valuekey : "code"
-			});
+	fzData();
 
 }
 );
@@ -31,7 +26,24 @@ function cancel(){
 	//关闭窗口
 	window.parent.$('#win_div').window('close');
 }
-
+//赋值
+function fzData(){
+	var items=null;
+	$.ajax({
+		  type: "post",
+		  url: path + '/plantAnalysis/queryTemplateData',
+		  dataType:'json',
+		  async: false,
+		  success:function(obj){
+			  debugger;
+				items=obj.rows
+			}
+		});
+	var fz_names=["plant_loss","economical_life","equired_return","operation_rate","unit_cost","generation_coal"];
+	for(var i=0;i<fz_names.length;i++){
+		$("#"+fz_names[i]).val(items[i].value);
+	}
+}
 function save(){
 	var formData = new Object();
 	//取值

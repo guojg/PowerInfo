@@ -34,7 +34,6 @@ public class PowerQuotientController {
 			HttpServletResponse response) {
 		//response.setCharacterEncoding("UTF-8");
 		// String jsonParam = request.getParameter("jsonParam");
-		 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
 		 String year = request.getParameter("year")==null?"": request.getParameter("year");
 
 		 String index_type = request.getParameter("index_type")==null?"": request.getParameter("index_type");
@@ -42,7 +41,6 @@ public class PowerQuotientController {
 		JSONObject obj = new JSONObject();
 		obj.put("year", year);
 		obj.put("type", index_type);
-		obj.put("taskid",taskid);
 		String resultJson = powerQuotientService.queryData(obj);
 		
 		return resultJson;
@@ -51,11 +49,9 @@ public class PowerQuotientController {
 	public @ResponseBody
 	String saveData(HttpServletRequest request){
 		String editObj = request.getParameter("editObj");
-		 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
 
 		JSONObject jsonobj = new JSONObject();
 		jsonobj.put("editObj", editObj);
-		jsonobj.put("taskid", taskid);
 		return powerQuotientService.saveData(jsonobj);
 		
 	}
@@ -64,7 +60,6 @@ public class PowerQuotientController {
 	public void exportData(HttpServletRequest request,
 			HttpServletResponse response) {
 			response.setCharacterEncoding("UTF-8");
-			 String taskid = request.getParameter("taskid")==null?"":request.getParameter("taskid");
 			 String year = request.getParameter("year")==null?"": request.getParameter("year");
 
 			 String index_type = request.getParameter("index_type")==null?"": request.getParameter("index_type");
@@ -72,7 +67,6 @@ public class PowerQuotientController {
 			JSONObject obj = new JSONObject();
 			obj.put("year", year);
 			obj.put("type", index_type);
-			obj.put("taskid",taskid);
 			try {
 				powerQuotientService.ExportExcel(obj, response);
 			} catch (Exception e) {
