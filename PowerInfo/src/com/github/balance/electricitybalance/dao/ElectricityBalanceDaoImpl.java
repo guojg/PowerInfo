@@ -132,14 +132,14 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 			//	this.execCopyHour(task_id);
 
 				deleteData(task_id);
-				String yearRateSql=getYearRateSQL(year,task_id);
+				//String yearRateSql=getYearRateSQL(year,task_id);
 				StringBuffer sb = new StringBuffer();
 				sb.append(" insert into electricity_data(year,p_index_item,index_item,value,task_id) ");
 				String ELECSQL=" SELECT yr,NULL,100,VALUE,"+task_id+"  FROM loadelectricquantity_data  WHERE index_item=202 " ;//全社会(统调)最大负荷
 
 				sb.append(  ELECSQL);
-				sb.append("    UNION ALL  ");
-				sb.append(yearRateSql);
+				//sb.append("    UNION ALL  ");
+				//sb.append(yearRateSql);
 				sb.append(" union all ");
 				sb.append(" SELECT  t1.yr,NULL,200,t1.value,"+task_id+" FROM senddata_data t1 "
 						+ "JOIN   senddata_itemname t2 ON   t2.pro_name='4' AND t2.id=t1.index_item ");

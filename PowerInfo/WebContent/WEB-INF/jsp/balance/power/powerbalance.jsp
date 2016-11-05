@@ -161,7 +161,7 @@ function calculateSum(){
 	900装机盈余   =  当年可用容量 - 需要有效装机容量 +  控制月外购(+)外送(-)  700-200+800
 	1000 现有装机容量  
 	*/
-	calculatezzl();
+	//calculatezzl();
 	calculatezjrl();
 	 calculatetcrl();
 	 calculatetyrl();

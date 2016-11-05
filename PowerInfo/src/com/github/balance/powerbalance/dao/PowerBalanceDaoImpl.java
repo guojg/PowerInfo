@@ -70,14 +70,14 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		String task_id=obj.getString("task_id");
 		deleteData(task_id);
 		//String year = "2016,2017,2018";
-		String yearRateSql=getYearRateSQL(year,task_id);
+		//String yearRateSql=getYearRateSQL(year,task_id);
 		StringBuffer sb = new StringBuffer();
 		sb.append(" insert into power_data(year,p_index_item,index_item,value,task_id) ");
 		String LOADSQL=" SELECT yr,NULL,100,VALUE,"+task_id+" FROM loadelectricquantity_data  WHERE index_item=201  " ;//全社会(统调)最大负荷
 
 		sb.append(  LOADSQL);
-		sb.append("    UNION ALL  ");
-		sb.append(yearRateSql);
+		//sb.append("    UNION ALL  ");
+		//sb.append(yearRateSql);
 		sb.append("    UNION ALL  ");
 		 String ZJRLSQL=" SELECT t1.yr,200,1,t1.VALUE*t2.value/100,"+task_id+"  FROM loadelectricquantity_data t1 JOIN  loadelectricquantity_data  t2 ON t1.yr=t2.yr  AND t1.index_item=201 AND t2.index_item=203 " ;//有效备用容量
 

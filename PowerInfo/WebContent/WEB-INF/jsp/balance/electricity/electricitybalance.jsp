@@ -149,7 +149,7 @@ function ExportExcel() {//导出Excel文件
 }
 
 function calculateSum(){
-	calculatezzl();
+	//calculatezzl();
 	calculatezfdl();
 	calculatezfdlsub();
 	calculatezfdlcoal();
