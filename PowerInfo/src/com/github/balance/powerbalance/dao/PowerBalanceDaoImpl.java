@@ -96,19 +96,24 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		sb.append( getRetireCapacitySQL(year,task_id));
 		sb.append("    UNION ALL  ");
 		sb.append(getOperationalCapacitySQL(year,task_id));
-		sb.append("    UNION ALL  ");
-		 String SZKXRLSQL=" SELECT yr,NULL,600,SUM(VALUE),"+task_id+" FROM hinderedidlecapacity_data where index_item=1 GROUP BY yr ";//受阻及空闲容量
+		/*
+		 * 受阻容量换成了比例
+		 */
+		//sb.append("    UNION ALL  ");
+		 //String SZKXRLSQL=" SELECT yr,NULL,600,SUM(VALUE),"+task_id+" FROM hinderedidlecapacity_data where index_item=1 GROUP BY yr ";//受阻及空闲容量
 
-		sb.append(SZKXRLSQL);
-		sb.append("    UNION ALL  ");
-		 String SZKXRLSUBSQL=" SELECT yr,600,index_item,VALUE,"+task_id+" FROM hinderedidlecapacity_data where  index_item !=1";//受阻及空闲容量子项
+		//sb.append(SZKXRLSQL);
+		//sb.append("    UNION ALL  ");
+		// String SZKXRLSUBSQL=" SELECT yr,600,index_item,VALUE,"+task_id+" FROM hinderedidlecapacity_data where  index_item !=1";//受阻及空闲容量子项
 
-		sb.append(SZKXRLSUBSQL);
+		//sb.append(SZKXRLSUBSQL);
 		sb.append("    UNION ALL  ");
 		sb.append(" SELECT  t1.yr,NULL,800,t1.value,"+task_id+" FROM senddata_data t1 JOIN   senddata_itemname t2 ON  t2.pro_name='2' AND t2.id=t1.index_item  ");
 		int count = this.jdbcTemplate.update(sb.toString());
 		int operationalCount = this.execOperationalCapacitySum(task_id);
 		int endYearCount =this.execEndYearCapacitySum(task_id);
+		exeSzSub(task_id);
+		exeSzSum(task_id);
 		int currentYearCount = this.execCurrentYearCapacitySum(task_id);
 		int surplusCount = this.execSurplusCapacitySum(task_id);
 		return count+operationalCount+endYearCount+currentYearCount+surplusCount;
@@ -257,6 +262,33 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(" SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  index_item IN (400) and task_id=? ")
 		.append(" ) m GROUP BY m.task_id,m.year") ;
 		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id,task_id}) ;
+		return count;
+	}
+	
+	/**
+	 * 执行受阻容量子项（年底装机容量*比例）
+	 * @return
+	 */
+	private int exeSzSub(String task_id){
+		StringBuffer sb = new StringBuffer();
+		sb.append(" insert into power_data(p_index_item,index_item,year,value,task_id) ")
+		.append( " SELECT 600,p.index_item,p.year,p.value*h.value/100,")
+		.append(task_id)
+		.append( " FROM power_data p  ")
+		.append(" JOIN hinderedidlecapacity_data h ON p.p_index_item=500 AND p.index_item=h.index_item AND p.year=h.yr AND p.task_id=? ") ;
+		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id}) ;
+		return count;
+	}
+	/**
+	 * 执行受阻容量合计
+	 * @return
+	 */
+	private int exeSzSum(String task_id){
+		StringBuffer sb = new StringBuffer();
+		sb.append(" insert into power_data(p_index_item,index_item,year,value,task_id) ")
+		.append( " SELECT null,600,t.year,SUM(t.value),task_id ")
+		.append(" FROM power_data t WHERE  p_index_item =600 and task_id=? group by t.task_id,t.year ");
+		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id}) ;
 		return count;
 	}
 	
