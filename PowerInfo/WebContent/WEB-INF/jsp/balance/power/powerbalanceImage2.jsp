@@ -44,13 +44,17 @@
 					var s = '';
 					if (this.points) {
 						$.each(this.points, function(i, point) {
-							s += '<b>' +point.key + '</b>'+'<br/><span style="color:' + point.series.color
+							if(i==0){
+								s+='<b>' +point.key + '</b>';
+							}
+							s +=  '<br/><span style="color:' + point.series.color
 									+ '">' + point.series.name + '</span>: <b>'
 									+ point.y + '</b>';
 						});
 					} 
+
 					return s;
-				
+			
 			}
 		},
 		exporting : {
@@ -58,20 +62,14 @@
 			url : path + "/export/exportImage"
 		},
 		plotOptions : {
-			column : {
-				pointPadding : 0.2,
-				borderWidth : 0
-			},
-			pie : {
-				allowPointSelect : true,
-				cursor : 'pointer',
-				showInLegend : true,
-				dataLabels : {
-					formatter : function() {
-						return Number(this.percentage).toFixed(2) + "%";
-					},
-					enabled : true
-				}
+			area : {
+				  stacking: 'normal',
+				  lineColor: '#666666',
+	                lineWidth: 1,
+	                marker: {
+	                    lineWidth: 1,
+	                    lineColor: '#666666'
+	                }
 			}
 		}
 	};
@@ -108,7 +106,7 @@
 											'$1="rgb($2)" $1-opacity="$3"');
 						});
 		
-		var pic_type = "spline";
+		var pic_type = "area";
 		//var data = loadData( pic_type, 0, true);
 		var data = loadData( pic_type, 0, true);
 		var settings = {};
@@ -135,7 +133,7 @@
 			},
 			title : {
 				rotation : 0,
-				text : ""
+				text : "万千瓦"
 			}
 		} ];
 		settings.series = data;
@@ -163,18 +161,18 @@
 	}
 	function loadData(chartType, yIndex, isInit) {
 		debugger;
-		var selections =  window.parent.$('#datagrid').treegrid('find',900);;
+		var selections =  window.parent.parent.$('#datagrid').treegrid('getChildren',500);
 		var type = chartType;
-		var xLastLevel = window.parent.cols[0];
+		var xLastLevel = window.parent.parent.cols[0];
 		//var frozon = window.parent.$('#datagrid').datagrid('getColumnFields',true);
 		//var ylastField = frozon.pop();
-		var ylastField ="装机盈余";
+		var ylastField = 'code_name';
 		var list = [];
 		
-		//for (var i = 0,len = xLastLevel.length; i < len; i++) {
+		for (var i = 0, len = selections.length; i < len; i++) {
 			var series = {};
 			var data = [];
-			series.name = ylastField ;
+			series.name = selections[i][ylastField];
 			series.type = type;
 			
 			if (!isInit) {
@@ -182,15 +180,23 @@
 			}
 			for (var j = 0, len2 = xLastLevel.length; j < len2; j++) {
 				var slice = [];
-				var shortname =  xLastLevel[j].title;
+				//var shortname =  xLastLevel[j].title;
+						var shortname = areas.getValue('name', xLastLevel[j].title,
+					'shortname')
+					|| xLastLevel[j].title;
 				slice.push(shortname);
-				slice.push(Number(selections[xLastLevel[j].field]));
+				var num=Number(selections[i][xLastLevel[j].field]);
+				if(isNaN(num)){
+					num=0;
+				}
+				slice.push(num);
+				//slice.push(Number(selections[xLastLevel[j].field]));
 				data.push(slice);
 			}
-			series.dataLabels = {enabled: true};
+			series.dataLabels = {enabled: false};
 			series.data = data;
 			list.push(series);
-		//}
+		}
 		return list;
 	}
 	
