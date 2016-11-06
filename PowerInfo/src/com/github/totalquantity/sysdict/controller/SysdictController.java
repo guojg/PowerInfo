@@ -72,6 +72,15 @@ public class SysdictController {
 		
 	}
 	
+	@RequestMapping(value = "/getBalanceYearExtend", produces="application/json;charset=UTF-8")
+	public  @ResponseBody String getBalanceYearExtend(HttpServletRequest request,
+			HttpServletResponse response) {
+	
+		String a= sysdictService.getBalanceYearExtend() ;
+		return a;
+		
+	}
+	
 	/**
 	 * 电网企业
 	 * @param request

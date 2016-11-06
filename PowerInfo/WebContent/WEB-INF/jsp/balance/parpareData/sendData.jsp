@@ -14,7 +14,7 @@
 
 <script type="text/javascript">
 	var cols;
-	var years='2015,2016,2017';
+	//var years='2015,2016,2017';
 
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -54,7 +54,7 @@
 		});
 		 comboBoxInit({
 				id : "years",
-				url : path + '/sysdict/getBalanceYears?year='+years,
+				url : path + '/sysdict/getBalanceYearExtend',
 				textkey : "value",
 				valuekey : "code",
 				multiple : true
@@ -180,7 +180,7 @@
 	function createCols(years) {
 		var cols = [];
 		var tmp = [];
-		tmp = years.split(",");
+		tmp = $("#years").combo("getValues").join(",").split(",");
 		for (var i = 0; i < tmp.length; i++) {
 			cols.push({
 				'field' : tmp[i] + "",

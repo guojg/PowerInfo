@@ -9,6 +9,7 @@ import java.util.Map;
 
 
 
+
 import com.github.totalquantity.sysdict.entity.Sysdict;
 
 import net.sf.json.JSONObject;
@@ -20,4 +21,5 @@ public interface SysdictDao {
 	public List<Sysdict> queryDataNotCondition(JSONObject obj);
 	public List<Map<String, Object>> queryCompany(JSONObject obj);
 	public List<Map<String, Object>> queryCompanyByCode(String organCode);
+	public List<Map<String, Object>> getBalanceYearExtend();
 }
