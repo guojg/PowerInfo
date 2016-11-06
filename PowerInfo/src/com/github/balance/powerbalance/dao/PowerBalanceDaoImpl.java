@@ -69,6 +69,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		String year = obj.getString("year");
 		String task_id=obj.getString("task_id");
 		deleteData(task_id);
+		insertBylSQL(year,task_id);
 		//String year = "2016,2017,2018";
 		//String yearRateSql=getYearRateSQL(year,task_id);
 		StringBuffer sb = new StringBuffer();
@@ -79,15 +80,15 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		//sb.append("    UNION ALL  ");
 		//sb.append(yearRateSql);
 		sb.append("    UNION ALL  ");
-		 String ZJRLSQL=" SELECT t1.yr,200,1,t1.VALUE*t2.value/100,"+task_id+"  FROM loadelectricquantity_data t1 JOIN  loadelectricquantity_data  t2 ON t1.yr=t2.yr  AND t1.index_item=201 AND t2.index_item=203 " ;//有效备用容量
+		 String ZJRLSQL=" SELECT t1.yr,200,1,t1.VALUE*t2.byl/100,"+task_id+"  FROM loadelectricquantity_data t1 JOIN  balance_param_byl  t2 ON  t1.index_item=201  " ;//有效备用容量
 
 		sb.append( ZJRLSQL);
-		sb.append("    UNION ALL  ");
-		String BYRLSQL=" SELECT yr,200,2,VALUE,"+task_id+"  FROM loadelectricquantity_data  WHERE index_item=203 " ;//有效备用系数
+	//	sb.append("    UNION ALL  ");
+	//	String BYRLSQL=" SELECT yr,200,2,VALUE,"+task_id+"  FROM loadelectricquantity_data  WHERE index_item=203 " ;//有效备用系数
 
-		sb.append(  BYRLSQL );
+	//	sb.append(  BYRLSQL );
 		sb.append("    UNION ALL  ");
-		String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*(1+l2.VALUE/100),"+task_id+" FROM loadelectricquantity_data l1 JOIN loadelectricquantity_data l2  WHERE l1.yr=l2.yr AND  l1.index_item=201 AND l2.index_item=203 " ;//需要有效装机容量
+		String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*(1+l2.byl/100),"+task_id+" FROM loadelectricquantity_data l1 JOIN balance_param_byl l2  on  l1.index_item=201  " ;//需要有效装机容量
 
 		sb.append( BYLSQL);
 		sb.append("    UNION ALL  ");
@@ -142,6 +143,26 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(" from dual ");
 		sbRate.append("  )t3  WHERE t.index_item = 201  AND t2.index_item = 201  AND t.yr = t3.yr2 AND t2.yr = t3.yr1");
 		return  sbRate.toString();
+	}
+	/**
+	 * 备用率
+	 * @param quotients
+	 * @return
+	 */
+	private int insertBylSQL(String year,String task_id){
+		//String BYRLSQL=" SELECT yr,200,2,VALUE,"+task_id+"  FROM loadelectricquantity_data  WHERE index_item=203 " ;//有效备用系数
+		StringBuffer sb = new StringBuffer();
+		String[] years = year.split(",");
+		for(int i=0 ;i<years.length-1 ;++i){
+			sb.append(" select 200,2,").append(years[i]).append(" yr,").append(" byl,").append(task_id).append(" task_id").append(" from balance_param_byl") ;
+			sb.append(" union all ");
+		}
+		sb.append(" select 200,2,").append(years[years.length-1]).append(" yr,").append(" byl,").append(task_id).append(" task_id from balance_param_byl") ;
+
+		List<PowerData> powerDatas = new ArrayList<PowerData>();
+		String sql = "insert into power_data(p_index_item,index_item,year,value,task_id)  " + sb.toString();
+		int count = jdbcTemplate.update(sql);
+		return count;
 	}
 	/**
 	 * 获得现有装机容量sql，有合计
