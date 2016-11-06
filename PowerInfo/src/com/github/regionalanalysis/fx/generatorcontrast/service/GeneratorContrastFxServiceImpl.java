@@ -78,4 +78,11 @@ public class GeneratorContrastFxServiceImpl implements  GeneratorContrastFxServi
 		ex.exportExcel(response, rules, new int[][] { i });
 
 	}
+
+
+	@Override
+	public String queryDataPie() {
+		List<Map<String, Object>> list = generatorContrastFxDao.queryDataPie();
+		return JsonUtils.listTranJsonByQuery(list);
+	}
 }
