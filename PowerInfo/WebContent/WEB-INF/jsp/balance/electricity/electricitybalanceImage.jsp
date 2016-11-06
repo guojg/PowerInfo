@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ page import="com.github.totalquantity.task.entity.TotalTask"%>
+<%@ page import="com.github.balance.task.entity.BalanceTask"%>
+
  <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,12 @@
 
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
-
+<% 
+		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
+		String taskid = tt.getId();
+		String year = tt.getYear();
+		String task_name = tt.getTask_name();
+		%>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/icon.css" />
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/farbtastic/farbtastic.css" />
@@ -18,7 +24,8 @@
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/chart.css" />
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css" />
 <script type="text/javascript">
-
+var taskid='<%=taskid%>';
+var years = '<%=year%>';
 
 
 //id,taskid,algorithm,year,value from totaldata
@@ -80,6 +87,28 @@
 		$("#tool_exporttu").bind("click", function() {
 			ExportTu();
 		});
+		$("#tool_query").bind("click", function() {
+			var years = $("#years").combo("getValues");
+			//水平年份
+			var yrs_s;
+			if(years!=""){
+				yrs_s=years+"";
+			}else{
+				yrs_s="";
+			}
+			if(yrs_s==""){
+				$.messager.alert("提示", "请选择年份！");
+				return;
+			}
+			drawChart();
+		});
+		comboBoxInit({
+			id : "years",
+			url : path + '/electricitybalance/getyears?year='+years,
+			textkey : "yearName",
+			valuekey : "year",
+			multiple : true
+		});
 	drawChart();
 	});
 	/**
@@ -120,7 +149,6 @@
 			plotLines : []
 		} ];
 		settings.yAxis = [ {
-			min : 0,
 			labels : {
 				formatter : function() {
 					return this.value;
@@ -161,36 +189,72 @@
 			}
 		}
 	}
+	function createXLastLevel(years) {
+		var cols=[];
+		for (var i = 0; i < years.length; i++) {
+			cols.push({
+				'year' : years[i] + "",
+				'yearName' : "" + years[i] + "年"
+			});
+		}
+		return cols;
+	}
 	function loadData(chartType, yIndex, isInit) {
 		debugger;
-		var selections =  window.parent.$('#datagrid').treegrid('find',400);;
+		var data=[];
+		var queryParams = {"year":years,"taskid":taskid};
+
+		$.ajax({
+			type : "post",
+			async:false,
+			url : path + '/electricitybalance/queryCoalHourData',
+			data : queryParams,
+			success : function(msg) {
+					data=$.parseJSON(msg).rows;
+			}
+		});
+		
+		var selections = data;
 		var type = chartType;
-		var xLastLevel = window.parent.cols[0];
+		var xLastLevel = createXLastLevel($("#years").combo("getValues"));
 		//var frozon = window.parent.$('#datagrid').datagrid('getColumnFields',true);
 		//var ylastField = frozon.pop();
 		var ylastField ="煤电利用小时数";
+		var xlastField = null;
 		var list = [];
-		
-		//for (var i = 0,len = xLastLevel.length; i < len; i++) {
+		for (var i = 0, len = selections.length; i < len; i++) {
 			var series = {};
-			var data = [];
-			series.name = ylastField ;
+			var picdata = [];
+			series.name = ylastField;
 			series.type = type;
-			
+			// series.yAxis = yIndex;
+			// 追加数据时，进行随机选色
 			if (!isInit) {
 				series.color = getRandomColor();
 			}
-			for (var j = 0, len2 = xLastLevel.length-1; j < len2; j++) {
+			for (var j = 0, len2 = xLastLevel.length; j < len2; j++) {
 				var slice = [];
-				var shortname =  xLastLevel[j].title;
+				xlastField = xLastLevel[j]['year'];
+				var shortname = areas.getValue('name', xLastLevel[j]['yearName'],
+						'shortname')
+						|| xLastLevel[j]['yearName'];
 				slice.push(shortname);
-				slice.push(Number(selections[xLastLevel[j].field]));
-				data.push(slice);
+				var num=Number(selections[i][xlastField]);
+				if(isNaN(num)){
+					num=0;
+				}
+				slice.push(num);
+				picdata.push(slice);
+				if (i == 0) {				
+					categories.push(shortname);
+				}
 			}
-			series.dataLabels = {enabled: true};
-			series.data = data;
+			series.dataLabels = {
+				enabled : true
+			};
+			series.data = picdata;
 			list.push(series);
-		//}
+		}
 		return list;
 	}
 	
@@ -201,14 +265,26 @@
 </script>
 </head>
 <body>
+	<!-- 引入自定义按钮页面 -->
 	<div id="btn_div">
-	
+		<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
+			align='top' border='0' title='查询' />
+		</a>
 		<a id="tool_exporttu"> <img
 			src='<%=path%>/static/images/daochutu.jpg' align='top' border='0'
 			title='导出图' />
 		</a>
 	</div>
-	<div id="container" style="padding-left: 5px;padding-right: 5px;padding-top: 5px;height: 90%"></div>
+	<fieldset id="field">
+		<legend>查询条件</legend>
+		<table id="search_tbl">
+			<tr>
+				<td class="tdlft">年份：</td>
+				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
+			</tr>
+		</table>
+	</fieldset>
+	<div id="container" style="padding-left: 5px;padding-right: 5px;padding-top: 5px;height: 75%"></div>
 	<script type="text/javascript"
 				src="<%=path%>/static/js/Highcharts-4.0.1/raphael.js"></script>
 			<script type="text/javascript"

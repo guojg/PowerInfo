@@ -34,6 +34,7 @@ public interface BasicDataDao {
 	public String updateUnit(JSONObject param)throws Exception;
 	public String addUnit(JSONObject param)throws Exception;
 	public List<Map<String, Object>> queryUnits() throws Exception;
+	public List<BasicYear> getYearsBycondition(int year) throws Exception;
 
 
 }

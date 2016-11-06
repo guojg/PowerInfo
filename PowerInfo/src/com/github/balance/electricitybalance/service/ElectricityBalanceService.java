@@ -20,6 +20,7 @@ public interface ElectricityBalanceService {
 	 */
 	
 	public String queryData(JSONObject param);
+	public String queryCoalHourData(JSONObject param);
 	/**
 	 * 抽取
 	 * @param obj

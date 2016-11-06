@@ -534,8 +534,8 @@ function extractData(){
 function xjrw(){
 	commonHelper.toAdd({
 		title : '图形分析',
-		width : 550,
-		height : 350,
+		width : 750,
+		height : 450,
 		url : path + "/electricitybalance/electricitybalanceImage"
 	});
 	}

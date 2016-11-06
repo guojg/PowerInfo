@@ -82,7 +82,47 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{task_id,task_id,task_id,task_id});
 		return list;
 	}
-	
+	public List<Map<String, Object>> queryCoalHourData(JSONObject param){
+		String task_id=param.getString("task_id");
+		StringBuffer sb = new StringBuffer();
+		String year = param.getString("year");
+		String baseyears = param.getString("baseyears");
+
+		int minYear=0;
+		String[] years=year.split(",");
+		for (int i=0 ; i<years.length ;++i) {
+			if(i==0){
+				minYear = Integer.parseInt(years[0]);
+			}else if(minYear>Integer.parseInt(years[i])){
+				minYear = Integer.parseInt(years[i]);
+			}else{
+				
+			}
+			
+		}
+		
+		if(!"".equals(baseyears)){
+			year = baseyears+year;
+		}
+		//11位没用的字段
+		sb.append("select  a");
+		for (String yearStr :year.split(",")) {
+			sb.append(",SUM(CASE year WHEN ");
+			sb.append(yearStr);
+			sb.append(" THEN value END) '");
+			sb.append(yearStr);
+			sb.append("'");
+		}
+		
+		sb.append(" from (  ")
+		.append(" SELECT yr YEAR,VALUE,11 a FROM electricalsource_data WHERE index_item=108 AND yr<? ")
+		.append(" union all ")
+		.append(" SELECT YEAR,VALUE,11 a FROM electricity_data WHERE index_item=400 AND task_id=? ) b");
+		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{minYear,task_id});
+		return list;
+
+	}
+
 
 	@Override
 	public List<Map<String, Object>> exportData(JSONObject param) {
