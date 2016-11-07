@@ -55,6 +55,7 @@ body {
 .radmenu .selected + ul > li:nth-child(1) {
   -webkit-transform: rotate(72deg) translateX(100px);
   transform: rotate(72deg) translateX(100px);
+ 
 }
 .radmenu .selected + ul > li:nth-child(1) > a {
   -webkit-transform: rotate(-72deg);
@@ -67,6 +68,7 @@ body {
 .radmenu .selected + ul > li:nth-child(2) > a {
   -webkit-transform: rotate(-144deg);
   transform: rotate(-144deg);
+   background-color: red;
 }
 .radmenu .selected + ul > li:nth-child(3) {
   -webkit-transform: rotate(216deg) translateX(100px);
@@ -75,6 +77,7 @@ body {
 .radmenu .selected + ul > li:nth-child(3) > a {
   -webkit-transform: rotate(-216deg);
   transform: rotate(-216deg);
+  background-color: blue;
 }
 .radmenu .selected + ul > li:nth-child(4) {
   -webkit-transform: rotate(288deg) translateX(100px);

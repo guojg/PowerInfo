@@ -24,7 +24,6 @@ import com.github.regionalanalysis.preparedata.electricpowerplant.model.PlantAna
 public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
 	@Override
 	public List<Map<String, Object>> queryData(JSONObject param) throws Exception {
 		int psize = 0;
@@ -40,10 +39,10 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		String area_id = param.getString("area_id");
 		int startNum = psize * (pNum - 1);
 		int endNum = psize * pNum;
-		StringBuffer buffer = new StringBuffer(
-				"SELECT id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
-		buffer.append("product_year,economical_life,equired_return,financial_cost,generation_coal,");
-		buffer.append("operation_rate,operation_cost,unit_cost,materials_cost,salary,repairs_cost,other_cost");
+		StringBuffer buffer = new StringBuffer("SELECT id,plant_name,plant_capacity,product_year,build_year,start_outlay,");
+		buffer.append("consumption_rate,electricity_consumption,(SELECT value FROM  shiro.sys_dict_table where domain_id=12 and code=power_type ) power_type_name,");
+		buffer.append("power_type,cooling_type,(SELECT value FROM  shiro.sys_dict_table where domain_id=302 and code=cooling_type ) cooling_type_name,");
+		buffer.append("materials_cost,salary,repairs_cost,other_cost");
 		buffer.append(" from shiro.electricpowerplant_analysis_data where 1=1");
 		if (!"".equals(name)) {
 			buffer.append(" and plant_name like ?");
@@ -69,34 +68,28 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		// TODO Auto-generated method stub
 		StringBuffer insertsql = new StringBuffer();
 		insertsql.append("insert  electricpowerplant_analysis_data");
-		insertsql.append("(plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
-		insertsql.append("product_year,economical_life,equired_return,financial_cost,generation_coal,");
-		insertsql.append(
-				"operation_rate,operation_cost,unit_cost,materials_cost,salary,repairs_cost,other_cost,area_id)");
-		insertsql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		insertsql.append("(plant_name,plant_capacity,product_year,build_year,start_outlay,");
+		insertsql.append("consumption_rate,electricity_consumption,power_type,Cooling_type,");
+		insertsql.append("materials_cost,salary,repairs_cost,other_cost,area_id)");
+		insertsql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		PreparedStatementSetter setinsert = new PreparedStatementSetter() {
-
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
 				// TODO Auto-generated method stub
 				ps.setString(1, plantAnalysis.getPlantName());
 				ps.setString(2, plantAnalysis.getPlantCapacity());
-				ps.setString(3, plantAnalysis.getGeneratingCapatity());
-				ps.setString(4, plantAnalysis.getPlantLoss());
+				ps.setString(3, plantAnalysis.getProductYear());
+				ps.setString(4, plantAnalysis.getBuildYear());
 				ps.setString(5, plantAnalysis.getStartOutlay());
-				ps.setString(6, plantAnalysis.getProductYear());
-				ps.setString(7, plantAnalysis.getEconomicalLife());
-				ps.setString(8, plantAnalysis.getEquiredReturn());
-				ps.setString(9, plantAnalysis.getFinancialCost());
-				ps.setString(10, plantAnalysis.getGenerationCoal());
-				ps.setString(11, plantAnalysis.getOperationRate());
-				ps.setString(12, plantAnalysis.getOperationCost());
-				ps.setString(13, plantAnalysis.getUnitCost());
-				ps.setString(14, plantAnalysis.getMaterialsCost());
-				ps.setString(15, plantAnalysis.getSalary());
-				ps.setString(16, plantAnalysis.getRepairsCost());
-				ps.setString(17, plantAnalysis.getOtherCost());
-				ps.setString(18, plantAnalysis.getAreaId());
+				ps.setString(6, plantAnalysis.getConsumptionRate());
+				ps.setString(7, plantAnalysis.getElectricityConsumption());
+				ps.setString(8, plantAnalysis.getPowerType());
+				ps.setString(9, plantAnalysis.getCoolingType());
+				ps.setString(10, plantAnalysis.getMaterialsCost());
+				ps.setString(11, plantAnalysis.getSalary());
+				ps.setString(12, plantAnalysis.getRepairsCost());
+				ps.setString(13, plantAnalysis.getOtherCost());
+				ps.setString(14, plantAnalysis.getAreaId());
 
 			}
 
@@ -111,10 +104,9 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		// TODO Auto-generated method stub
 		StringBuffer updateSql = new StringBuffer();
 		updateSql.append("update  electricpowerplant_analysis_data");
-		updateSql.append(" set  plant_name=?,plant_capacity=?,generating_capatity=?,plant_loss=?,start_outlay=?");
-		updateSql.append(" ,product_year=?,economical_life=?,equired_return=?,financial_cost=?,generation_coal=?");
-		updateSql.append(
-				" , operation_rate=?,operation_cost=?,unit_cost=?,materials_cost=?,salary=?,repairs_cost=?,other_cost=?,area_id=?");
+		updateSql.append(" set  plant_name=?,plant_capacity=?,product_year=?,build_year=?,start_outlay=?");
+		updateSql.append(" ,consumption_rate=?,electricity_consumption=?,power_type=?,Cooling_type=?");
+		updateSql.append(" ,materials_cost=?,salary=?,repairs_cost=?,other_cost=?,area_id=?");
 		updateSql.append(" where id=?");
 		PreparedStatementSetter setupdate = new PreparedStatementSetter() {
 
@@ -124,23 +116,19 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 				// TODO Auto-generated method stub
 				ps.setString(1, plantAnalysis.getPlantName());
 				ps.setString(2, plantAnalysis.getPlantCapacity());
-				ps.setString(3, plantAnalysis.getGeneratingCapatity());
-				ps.setString(4, plantAnalysis.getPlantLoss());
+				ps.setString(3, plantAnalysis.getProductYear());
+				ps.setString(4, plantAnalysis.getBuildYear());
 				ps.setString(5, plantAnalysis.getStartOutlay());
-				ps.setString(6, plantAnalysis.getProductYear());
-				ps.setString(7, plantAnalysis.getEconomicalLife());
-				ps.setString(8, plantAnalysis.getEquiredReturn());
-				ps.setString(9, plantAnalysis.getFinancialCost());
-				ps.setString(10, plantAnalysis.getGenerationCoal());
-				ps.setString(11, plantAnalysis.getOperationRate());
-				ps.setString(12, plantAnalysis.getOperationCost());
-				ps.setString(13, plantAnalysis.getUnitCost());
-				ps.setString(14, plantAnalysis.getMaterialsCost());
-				ps.setString(15, plantAnalysis.getSalary());
-				ps.setString(16, plantAnalysis.getRepairsCost());
-				ps.setString(17, plantAnalysis.getOtherCost());
-				ps.setString(18, plantAnalysis.getAreaId());
-				ps.setString(19, plantAnalysis.getId());
+				ps.setString(6, plantAnalysis.getConsumptionRate());
+				ps.setString(7, plantAnalysis.getElectricityConsumption());
+				ps.setString(8, plantAnalysis.getPowerType());
+				ps.setString(9, plantAnalysis.getCoolingType());
+				ps.setString(10, plantAnalysis.getMaterialsCost());
+				ps.setString(11, plantAnalysis.getSalary());
+				ps.setString(12, plantAnalysis.getRepairsCost());
+				ps.setString(13, plantAnalysis.getOtherCost());
+				ps.setString(14, plantAnalysis.getAreaId());
+				ps.setString(15, plantAnalysis.getId());
 			}
 		};
 		jdbcTemplate.update(updateSql.toString(), setupdate);
@@ -158,6 +146,12 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		buffer.append(InSql.substring(0, InSql.length() - 1));
 		buffer.append(")");
 		jdbcTemplate.update(buffer.toString(), delectArr);
+		StringBuffer buff=new StringBuffer("DELETE FROM constant_cost_arg WHERE jz_id IN(");
+		buff.append("SELECT a.jz_id FROM (SELECT  jz_id FROM constant_cost_arg WHERE  index_type=200 AND index_value IN(");
+
+		buff.append(InSql.substring(0, InSql.length() - 1));
+		buff.append(")) a)");
+		jdbcTemplate.update(buff.toString(), delectArr);
 		return "1";
 	}
 
@@ -197,16 +191,28 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 	}
 
 	@Override
-	public List<Map<String, Object>> queryTemplateData() throws Exception {
+	public List<Map<String, Object>> queryTemplateData(String id) throws Exception {
 		// TODO Auto-generated method stub
 		StringBuffer sb = new StringBuffer();
-
+		String[] ids=null;
+		if(id!=null&&!"".equals(id)){
+		ids=id.split(",");
+		}
+		String InSql = "";
+		for (int i = 0; i < ids.length; i++) {
+			InSql = InSql + "?,";
+		}
 		sb.append(
 				"SELECT b.code index_item,b.value index_name,a.value FROM shiro.`electricalsource_analysis_templete` a RIGHT JOIN  ");
 
-		sb.append(" (SELECT CODE,VALUE  FROM shiro.`sys_dict_table` WHERE domain_id='301') b ON  a.index_item=b.code");
+		sb.append(" (SELECT CODE,VALUE,ord  FROM shiro.`sys_dict_table` WHERE domain_id='301'");
+		sb.append(" and code in(");
+		sb.append(InSql.substring(0, InSql.length() - 1));
+		sb.append("  )) b ON  a.index_item=b.code order by b.ord");
 
-		return jdbcTemplate.queryForList(sb.toString());
+		return jdbcTemplate.queryForList(sb.toString(),ids);
+
+		
 	}
 
 	/**
@@ -240,9 +246,24 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 
 	private void executeSQLS(final List<BasicData> basicDatas) throws Exception {
 
-		String deletesql = "delete from electricalsource_analysis_templete";
-		jdbcTemplate.update(deletesql);
+		String deletesql = "delete from electricalsource_analysis_templete where index_item=?";
+		BatchPreparedStatementSetter setdelete = new BatchPreparedStatementSetter() {
 
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				// TODO Auto-generated method stub
+				BasicData basicdata = basicDatas.get(i);
+				ps.setString(1, basicdata.getIndexItem());
+			}
+
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return basicDatas.size();
+			}
+		};
+		jdbcTemplate.batchUpdate(deletesql, setdelete);
 		String insertsql = "insert  electricalsource_analysis_templete" + "(INDEX_ITEM,VALUE) VALUES(?,?)";
 		BatchPreparedStatementSetter setinsert = new BatchPreparedStatementSetter() {
 

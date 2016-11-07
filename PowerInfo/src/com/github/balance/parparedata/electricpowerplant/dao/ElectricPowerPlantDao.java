@@ -21,6 +21,6 @@ public interface ElectricPowerPlantDao {
 	public String importRecord(List<PowerPlant> list) throws Exception;
 	public String selRecordToAnalysis(String delectArr[]) throws Exception;
 	
-	public int getTotalCount();
+	public int getTotalCount(JSONObject param);
 	
 }

@@ -155,12 +155,40 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 
 
 	@Override
-	public int getTotalCount() {
+	public int getTotalCount(JSONObject param) {
 		// TODO Auto-generated method stub
+		String indexs[]=null;
+		List params = new ArrayList();
+		if(param.get("indexs")!=null){
+			 indexs=param.getString("indexs").split(",");
+		}
+		String name=param.getString("name");
+		String area_id=param.get("area_id")==null?null:param.get("area_id").toString();
+		String flag =param.get("flag")==null?null:param.get("flag").toString();
+		StringBuffer buffer=new StringBuffer("select count(1) from shiro.electricpowerplant_data where 1=1");
+		if(!"".equals(name)){
+			buffer.append(" and plant_name like ?");
+			params.add("%"+name+"%");
+		}
+		if(flag!=null&&!"".equals(flag)){
+			buffer.append(" and flag is null");
+		}
+		if(area_id!=null&&!"".equals(area_id)){
+			buffer.append(" and area_id = ?");
+			params.add(area_id);
+		}
+		if(indexs.length>0){
+			buffer.append(" and index_item in (");
+			String InSql = "";
+			for (int i = 0; i < indexs.length; i++) {
+				InSql = InSql + "?,";
+				params.add(indexs[i]);
+			}
+			buffer.append(InSql.substring(0, InSql.length() - 1));
+			buffer.append(")");
+		}
 		
-		String Sql="select count(1) from shiro.electricpowerplant_data";
-		
-		return jdbcTemplate.queryForInt(Sql);
+		return jdbcTemplate.queryForInt(buffer.toString(),params.toArray());
 	}
 
 
@@ -187,7 +215,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	}
 	private List<Map<String,Object>> getPlantOfBalance(String InSql,String[] idArr) throws Exception{
 		StringBuffer  buffer=new StringBuffer();
-		buffer.append("SELECT id,plant_name,plant_capacity,area_id FROM electricpowerplant_data WHERE id in(");
+		buffer.append("SELECT id,plant_name,plant_capacity,area_id,index_item,cooling_type FROM electricpowerplant_data WHERE id in(");
 		buffer.append(InSql.substring(0, InSql.length() - 1));
 		buffer.append(")");
 		return jdbcTemplate.queryForList(buffer.toString(),idArr);
@@ -197,22 +225,44 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 		insertPlant(plant,id);
 		List<Map<String,Object>> balancePlants=this.getGeneratorofBalance(plant.get("id").toString());
 		if(balancePlants.size()>0){
-			insertGenerator(balancePlants,id,plant.get("area_id"));
+			insertGenerator(balancePlants,id+1,plant.get("area_id"));
 		}
 	}
-	private void insertPlant(Map<String,Object> plant,int id){
+	private void insertPlant(Map<String,Object> plant,int id)throws Exception{
 		StringBuffer  buffer=new StringBuffer();
-		buffer.append("INSERT INTO shiro.`electricpowerplant_analysis_data`(id,plant_name,plant_capacity,area_id)");
-		buffer.append("values(?,?,?,?);");
-	    jdbcTemplate.update(buffer.toString(),new Object[]{id+1,plant.get("plant_name"),plant.get("plant_capacity"),plant.get("area_id")});
+		buffer.append("INSERT INTO shiro.`electricpowerplant_analysis_data`(id,plant_name,plant_capacity,area_id,power_type,Cooling_type,consumption_rate)");
+		buffer.append("values(?,?,?,?,?,?,?);");
+		String index_item=plant.get("index_item")==null?null:plant.get("index_item").toString();
+		String cooling_type=plant.get("Cooling_type")==null?null:plant.get("Cooling_type").toString();
+		
+		String consumption_rate=null;
+		if("3".equals(index_item)){
+			consumption_rate=queryTemplateData(index_item+cooling_type).get(0).get("value").toString();
+		}else{
+			consumption_rate=queryTemplateData(index_item).get(0).get("value").toString();
+		}
+	    jdbcTemplate.update(buffer.toString(),new Object[]{id+1,plant.get("plant_name"),plant.get("plant_capacity"),plant.get("area_id"),plant.get("index_item"),plant.get("Cooling_type"),consumption_rate});
 	}
 	private void insertGenerator(List<Map<String,Object>> plangenerator,int plant_id,Object area_id)throws Exception{
+		 //获取模板值行业期望收益率（%）、运行寿命（年）、煤耗率（克标煤/千瓦时）
+		 List<Map<String, Object>>   items= queryTemplateData("9,10,11");
+		 //行业期望收益率（%）
+		 String expectedrate=items.get(0).get("value").toString();
+		 //运行寿命（年）
+		 String operatinglife =items.get(1).get("value").toString();
+		 //煤耗率（克标煤/千瓦时）
+		 String coalrate=items.get(2).get("value").toString();
+
 		for(Map<String,Object> generator:plangenerator){
-			String[] sql=new String[4];
+			
+			String[] sql=new String[7];
 			StringBuffer  sql1=new StringBuffer();
 			StringBuffer  sql2=new StringBuffer();
 			StringBuffer  sql3=new StringBuffer();
 			StringBuffer  sql4=new StringBuffer();
+			StringBuffer  sql5=new StringBuffer();
+			StringBuffer  sql6=new StringBuffer();
+			StringBuffer  sql7=new StringBuffer();
 			String jz_id=NewSnUtil.getID();
 			sql1.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
 			sql1.append("values(100,'"+generator.get("gene_name")+"',"+jz_id+","+area_id+")");
@@ -222,10 +272,19 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 			sql3.append("values(200,'"+plant_id+"',"+jz_id+","+area_id+")");
 			sql4.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
 			sql4.append("values(11,'"+jz_id+"',"+jz_id+","+area_id+")");
+			sql5.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
+			sql5.append("values(700,'"+expectedrate+"',"+jz_id+","+area_id+")");
+			sql6.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
+			sql6.append("values(800,'"+operatinglife+"',"+jz_id+","+area_id+")");
+			sql7.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
+			sql7.append("values(18001,'"+coalrate+"',"+jz_id+","+area_id+")");
 			sql[0]=sql1.toString();
 			sql[1]=sql2.toString();
 			sql[2]=sql3.toString();
 			sql[3]=sql4.toString();
+			sql[4]=sql5.toString();
+			sql[5]=sql6.toString();
+			sql[6]=sql7.toString();
 			jdbcTemplate.batchUpdate(sql);
 		}
 	}
@@ -248,6 +307,29 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 		buffer.append(InSql.substring(0, InSql.length() - 1));
 		buffer.append(")");
 		jdbcTemplate.update(buffer.toString(),idArr);
+	}
+	private List<Map<String, Object>> queryTemplateData(String id) throws Exception {
+		// TODO Auto-generated method stub
+		StringBuffer sb = new StringBuffer();
+		String[] ids=null;
+		if(id!=null&&!"".equals(id)){
+		ids=id.split(",");
+		}
+		String InSql = "";
+		for (int i = 0; i < ids.length; i++) {
+			InSql = InSql + "?,";
+		}
+		sb.append(
+				"SELECT b.code index_item,b.value index_name,a.value FROM shiro.`electricalsource_analysis_templete` a RIGHT JOIN  ");
+
+		sb.append(" (SELECT CODE,VALUE,ord  FROM shiro.`sys_dict_table` WHERE domain_id='301'");
+		sb.append(" and code in(");
+		sb.append(InSql.substring(0, InSql.length() - 1));
+		sb.append("  )) b ON  a.index_item=b.code order by b.ord");
+
+		return jdbcTemplate.queryForList(sb.toString(),ids);
+
+		
 	}
 	
 	

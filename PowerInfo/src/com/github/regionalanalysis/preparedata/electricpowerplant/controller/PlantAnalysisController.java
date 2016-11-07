@@ -68,7 +68,8 @@ public class PlantAnalysisController {
 			HttpServletResponse response) {
 		response.setCharacterEncoding("UTF-8");
 		try {
-			String resultJson = plantAnalysisService.queryTemplateData();
+			String id=request.getParameter("id");
+			String resultJson = plantAnalysisService.queryTemplateData(id);
 			PrintWriter pw = response.getWriter();
 			pw.write(resultJson);
 			pw.flush();

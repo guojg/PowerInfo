@@ -21,7 +21,42 @@ public class PlantAnalysis {
 	private String salary;
     private String repairsCost;
     private String otherCost;
-    private String taskId;
+    public String getBuildYear() {
+		return buildYear;
+	}
+	public void setBuildYear(String buildYear) {
+		this.buildYear = buildYear;
+	}
+	public String getConsumptionRate() {
+		return consumptionRate;
+	}
+	public void setConsumptionRate(String consumptionRate) {
+		this.consumptionRate = consumptionRate;
+	}
+	public String getElectricityConsumption() {
+		return electricityConsumption;
+	}
+	public void setElectricityConsumption(String electricityConsumption) {
+		this.electricityConsumption = electricityConsumption;
+	}
+	public String getPowerType() {
+		return powerType;
+	}
+	public void setPowerType(String powerType) {
+		this.powerType = powerType;
+	}
+	public String getCoolingType() {
+		return CoolingType;
+	}
+	public void setCoolingType(String coolingType) {
+		CoolingType = coolingType;
+	}
+	private String taskId;
+    private String buildYear;
+    private String consumptionRate;
+    private String electricityConsumption;
+    private String powerType;
+    private String CoolingType;
     
     
     

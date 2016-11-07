@@ -425,7 +425,6 @@ function editCell( field, row) {
 		endEdit(editingId);
 	}
 	if (row){
-		debugger;
 
 
 		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
@@ -446,18 +445,18 @@ function editCell( field, row) {
 		}
 		editingId = row.id ;
 		$('#datagrid').treegrid('beginEdit', editingId);
-		/*debugger;
+
 		var editors = $('#datagrid').treegrid('getEditors', editingId);
+		
 		$.each(editors, function(i, editor) {
 			if (editor.field === field) {
-				debugger;
-						$(editor.target).parent().find('input').first().next("span").children().first().bind('blur',function(){
-							alert();
-						});
+				$(editor.target).parent.find('tr[node-id='+row.id+']').find('td[field='+field+']').blur(function(){  
+				    alert(2222);  
+				}) 
 			} else {
 				//$(editor.target).hide().closest('div').text(editor.oldHtml);
 			}
-		});*/
+		});
 		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
 			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8'){
 		
@@ -498,7 +497,6 @@ function editCell( field, row) {
  */
 function endEdit(id) {
 	$('#datagrid').treegrid('endEdit', id) ;
-
 }
 function extractData(){
 	 var param = {
