@@ -87,7 +87,7 @@ function save(){
 					type="text" style='width: 150px'/></td>
 			</tr>
 			<tr>
-			<td class="tdlft" style='width: 120px'>装机容量（万千瓦）：</td>
+			<td class="tdlft" style='width: 120px'>容量（万千瓦）：</td>
 				<td class="tdrgt" style='width: 150px'><input id="gene_capacity"
 					type="text" style='width: 150px' /></td>
 				<td class="tdlft" style='width: 120px'>电源类型：</td>

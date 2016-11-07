@@ -44,6 +44,15 @@ public class GeneratorContrastFxController {
 		return generatorContrastFxService.queryData(obj);
 		
 	}
+	@RequestMapping(value = "/queryDataPie",produces= "text/plain;charset=UTF-8")
+	public @ResponseBody String queryDataPie(HttpServletRequest request, HttpServletResponse response){
+
+		response.setCharacterEncoding("UTF-8");
+
+
+		return generatorContrastFxService.queryDataPie();
+		
+	}
 
 	
 	@RequestMapping(value = "/index")

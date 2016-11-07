@@ -51,4 +51,21 @@ public class SysdictServiceImpl implements SysdictService {
 		List<Map<String, Object>>  list =  sysdictDao.queryCompany(obj);
 		return JsonUtils.transformListToJson(list);
 	}
+	@Override
+	public String getBalanceYearExtend() {
+		List<Map<String, Object>>   list =  sysdictDao.getBalanceYearExtend();
+		String startyear = list.get(0).get("START_YEAR").toString();
+		String stopyear = list.get(0).get("STOP_YEAR").toString();
+		JSONArray jsonArray = new JSONArray();
+
+		for(int i=Integer.parseInt(startyear);i<=Integer.parseInt(stopyear);++i){
+			JSONObject objyr = new JSONObject();
+			objyr.put("code",i);
+			objyr.put("value", i+"年");
+			jsonArray.add(objyr);
+		}
+		return jsonArray.toString();
+	}
+	
+
 }

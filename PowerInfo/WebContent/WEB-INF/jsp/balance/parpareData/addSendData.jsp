@@ -8,12 +8,8 @@
 <title>外购外送新增</title>
 </head>
 <%@include file="../../common/commonInclude.jsp"%>
-<% 
-		BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
-		String taskid = tt.getId();
-		%>
+
 <script type="text/javascript">
-var taskid='<%=taskid%>';
 $(function() {
 	comboBoxInit({
 		id : "pro_type",
@@ -33,7 +29,6 @@ $(function() {
 		var operationdata = new Object();
 		operationdata["pro_name"] = $('#pro_name').val();
 		operationdata["pid"] = $('#pro_type').datebox('getValue');
-		operationdata["task_id"] = taskid;
 		var param = {
 			"data" : JSONH.stringify(operationdata)
 		};

@@ -36,5 +36,7 @@ public interface BasicDataService {
 	public String updatUnit(JSONObject param) throws Exception;
 	
 	public String addUnit(JSONObject param) throws Exception;
+	public List<BasicYear> getYearsBycondition(int year) throws Exception;
+
 	
 }

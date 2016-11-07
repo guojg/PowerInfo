@@ -50,7 +50,7 @@ public class SendDataServiceImpl implements  SendDataService{
 	public String deleteData(JSONObject obj) throws Exception {
 		String delectArr[] = obj.get("deleteids") == null ? null : obj
 				.get("deleteids").toString().split(",");
-		String taskid=obj.getString("taskid");
+		String taskid=null;
 		return sendData.deleteProData(delectArr,taskid);
 	}
 
@@ -65,7 +65,6 @@ public class SendDataServiceImpl implements  SendDataService{
 		if(obj!=null){
 			 data=JSONObject.fromObject(obj.get("data"));
 		}
-		p.setTask_id(data.getString("task_id"));
 		p.setPid(data.getString("pid"));
 		p.setPro_name(data.getString("pro_name"));
 		return p;

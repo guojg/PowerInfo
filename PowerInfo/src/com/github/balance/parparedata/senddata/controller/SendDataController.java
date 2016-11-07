@@ -28,10 +28,8 @@ public class SendDataController {
 			HttpServletResponse response) {
 		response.setCharacterEncoding("UTF-8");
 		String years = request.getParameter("years");
-		String taskid=request.getParameter("taskid");
 		JSONObject obj = new JSONObject();
 		obj.put("years", years);
-		obj.put("taskid", taskid);
 		try {
 			String resultJson = sendDataService.queryData(obj);
 			PrintWriter pw = response.getWriter();
@@ -48,10 +46,8 @@ public class SendDataController {
 	String deleteRecord(HttpServletRequest request) {
 		try {
 			String deleteids = request.getParameter("ids");
-			String taskid=request.getParameter("taskid");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("deleteids",deleteids );
-			jsonobj.put("taskid",taskid );
 			sendDataService.deleteData(jsonobj);
 			return "1";
 		} catch (Exception e) {
@@ -78,10 +74,8 @@ public class SendDataController {
 	String saveData(HttpServletRequest request) {
 		try {
 			String editObj = request.getParameter("editObj");
-			String taskid = request.getParameter("taskid");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("editObj", editObj);
-			jsonobj.put("taskid", taskid);
 			sendDataService.saveData(jsonobj);
 			return "1";
 		} catch (Exception e) {
@@ -113,11 +107,9 @@ public class SendDataController {
 			HttpServletResponse response) {
 			response.setCharacterEncoding("UTF-8");
 			String years = request.getParameter("years");
-			String taskid =request.getParameter("taskid");
 			
 			JSONObject obj = new JSONObject();
 			obj.put("years", years);
-			obj.put("taskid", taskid);
 			try {
 				sendDataService.ExportExcel(obj, response);
 			}catch (Exception e) {

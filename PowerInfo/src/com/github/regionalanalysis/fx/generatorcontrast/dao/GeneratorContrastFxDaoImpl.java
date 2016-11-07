@@ -67,5 +67,11 @@ public class GeneratorContrastFxDaoImpl implements GeneratorContrastFxDao {
 		return jdbcTemplate.queryForList(sb.toString(),l.toArray());
 	}
 
+	@Override
+	public List<Map<String, Object>> queryDataPie() {
+		String sql ="SELECT index_item,VALUE FROM  quotient_data " ;
+		return this.jdbcTemplate.queryForList(sql);
+	}
+
 
 }

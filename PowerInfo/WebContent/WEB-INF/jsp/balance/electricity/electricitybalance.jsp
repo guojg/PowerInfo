@@ -56,9 +56,9 @@ $(function() {
 	 queryData();
 
 });
-var noeditId=['100-100','200-1','300','300-1','300-2','300-3','300-4','300-5','300-6','300-7','300-8','400'];
+var noeditId=['100-100','200-1','300','300-1','300-2','300-3','300-4','300-5','300-6','300-7','300-8','300-9','400'];
 var nosubeditId=['100-100','200-1','300','400','300-3'];
-var hideeditId=['700','500-1','500-2','500-4','500-5','500-6','500-7','500-8','500'];
+var hideeditId=['700','500-1','500-2','500-4','500-5','500-6','500-7','500-8','500-9','500'];
 
 function queryData(){
 	var yrs = $('#years').combo('getValues').join(",");
@@ -89,7 +89,7 @@ $('#datagrid').treegrid({
 		for(var i=0 ; i<noeditId.length ;++i){
 			$('tr[node-id='+ noeditId[i] +']').css( 'background','buttonface');
 			if( noeditId[i]=='300-1' || noeditId[i]=='300-2' || noeditId[i]=='300-4'||noeditId[i]=='300-5'
-					||noeditId[i]=='300-6' ||noeditId[i]=='300-7' ||noeditId[i]=='300-8'){
+					||noeditId[i]=='300-6' ||noeditId[i]=='300-7' ||noeditId[i]=='300-8'||noeditId[i]=='300-9'){
 				$('tr[node-id='+ noeditId[i] +']').find('td[field=hour_num]').css( 'background','white');
 
 			}
@@ -121,7 +121,7 @@ $('#datagrid').treegrid({
 		for(var i=0 ; i<noeditId.length ;++i){
 			$('tr[node-id='+ noeditId[i] +']').css( 'background','buttonface');
 			if( noeditId[i]=='300-1' || noeditId[i]=='300-2' || noeditId[i]=='300-4'||noeditId[i]=='300-5'
-					||noeditId[i]=='300-6' ||noeditId[i]=='300-7' ||noeditId[i]=='300-8'){
+					||noeditId[i]=='300-6' ||noeditId[i]=='300-7' ||noeditId[i]=='300-8'||noeditId[i]=='300-9'){
 				$('tr[node-id='+ noeditId[i] +']').find('td[field=hour_num]').css( 'background','white');
 
 			}
@@ -149,7 +149,7 @@ function ExportExcel() {//导出Excel文件
 }
 
 function calculateSum(){
-	calculatezzl();
+	//calculatezzl();
 	calculatezfdl();
 	calculatezfdlsub();
 	calculatezfdlcoal();
@@ -207,14 +207,16 @@ function calculatezfdlsub(){
 	var row5006 = $('#datagrid').treegrid('find','500-6');  
 	var row5007 = $('#datagrid').treegrid('find','500-7'); 
 	var row5008 = $('#datagrid').treegrid('find','500-8');  
-	
+	var row5009 = $('#datagrid').treegrid('find','500-9');  
+
 	var row3001 = $('#datagrid').treegrid('find','300-1');  
 	var row3002 = $('#datagrid').treegrid('find','300-2');  
 	var row3004 = $('#datagrid').treegrid('find','300-4');  
 	var row3005 = $('#datagrid').treegrid('find','300-5');  
 	var row3006 = $('#datagrid').treegrid('find','300-6');  
 	var row3007 = $('#datagrid').treegrid('find','300-7'); 
-	var row3008 = $('#datagrid').treegrid('find','300-8');  
+	var row3008 = $('#datagrid').treegrid('find','300-8'); 
+	var row3009 = $('#datagrid').treegrid('find','300-9');  
 	var tmp = [];
 
 	tmp = $('#years').combo('getValues').join(",").split(",");
@@ -282,6 +284,15 @@ function calculatezfdlsub(){
 					row3008[tmp[i]] = fixNum(parseNumberExt(row5008[tmp[i]])*parseNumberExt(row3008['hour_num'])/10000);
 				}
 		}
+		if(!row5009){
+			
+		}else{
+				if(!row5009[tmp[i]]&&!row3009['hour_num']){
+					
+				}else{
+					row3009[tmp[i]] = fixNum(parseNumberExt(row5009[tmp[i]])*parseNumberExt(row3009['hour_num'])/10000);
+				}
+		}
 		
 	}
 	 $('#datagrid').treegrid('refresh','300-1');
@@ -291,6 +302,7 @@ function calculatezfdlsub(){
 	 $('#datagrid').treegrid('refresh','300-6');
 	 $('#datagrid').treegrid('refresh','300-7');
 	 $('#datagrid').treegrid('refresh','300-8');
+	 $('#datagrid').treegrid('refresh','300-9');
 
 }
 
@@ -326,18 +338,19 @@ function calculatezfdlcoal(){
 	var row3005 = $('#datagrid').treegrid('find','300-5');  
 	var row3006 = $('#datagrid').treegrid('find','300-6');  
 	var row3007 = $('#datagrid').treegrid('find','300-7'); 
-	var row3008 = $('#datagrid').treegrid('find','300-8');  
+	var row3008 = $('#datagrid').treegrid('find','300-8'); 
+	var row3009 = $('#datagrid').treegrid('find','300-9');  
 	
 	var row3003 = $('#datagrid').treegrid('find','300-3');  
 	var tmp = [];
 
 	tmp = $('#years').combo('getValues').join(",").split(",");
 	for (var i = 0; i < tmp.length; i++) {
-		if(!row300[tmp[i]]&&!row3001[tmp[i]]&&!row3002[tmp[i]]&&!row3004[tmp[i]]&&!row3005[tmp[i]]&&!row3006[tmp[i]]&&!row3007[tmp[i]]&&!row3008[tmp[i]]){
+		if(!row300[tmp[i]]&&!row3001[tmp[i]]&&!row3002[tmp[i]]&&!row3004[tmp[i]]&&!row3005[tmp[i]]&&!row3006[tmp[i]]&&!row3007[tmp[i]]&&!row3008[tmp[i]]&&!row3009[tmp[i]]){
 			
 		}else{
 		row3003[tmp[i]] = fixNum(parseNumberExt(row300[tmp[i]])-parseNumberExt(row3001[tmp[i]])-parseNumberExt(row3002[tmp[i]])-parseNumberExt(row3004[tmp[i]])
-				-parseNumberExt(row3005[tmp[i]])-parseNumberExt(row3006[tmp[i]])-parseNumberExt(row3007[tmp[i]])-parseNumberExt(row3008[tmp[i]]));
+				-parseNumberExt(row3005[tmp[i]])-parseNumberExt(row3006[tmp[i]])-parseNumberExt(row3007[tmp[i]])-parseNumberExt(row3008[tmp[i]])-parseNumberExt(row3009[tmp[i]]));
 		}
 	}
 	 $('#datagrid').treegrid('refresh','300-3');
@@ -428,7 +441,7 @@ function editCell( field, row) {
 
 
 		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
-			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8'){
+			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8' ||row.id=='300-9'){
 		
 			if ( cols && cols.length>=1) {
 		
@@ -458,7 +471,7 @@ function editCell( field, row) {
 			}
 		});
 		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
-			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8'){
+			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8' ||row.id=='300-9'){
 		
 			if ( cols && cols.length>=1) {
 		
@@ -519,8 +532,8 @@ function extractData(){
 function xjrw(){
 	commonHelper.toAdd({
 		title : '图形分析',
-		width : 550,
-		height : 350,
+		width : 750,
+		height : 450,
 		url : path + "/electricitybalance/electricitybalanceImage"
 	});
 	}

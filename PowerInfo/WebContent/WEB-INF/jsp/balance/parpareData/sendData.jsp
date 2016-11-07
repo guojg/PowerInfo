@@ -11,18 +11,10 @@
 <!--引入此文件包含jquery_easyui的css样式与公用js以及登录用户信息-->
 <%@include file="../../common/commonInclude.jsp"%>
 <%@include file="../../common/commonDefineBtn.jsp"%>
-<%
-	BalanceTask tt=  (BalanceTask)request.getSession().getAttribute("balancetask");
-	String taskid = tt.getId();
-	String years=tt.getYear();
-	String task_name = tt.getTask_name();
 
-%>
 <script type="text/javascript">
 	var cols;
-	var taskid='<%=taskid%>';
-	var years='<%=years%>';
-	var task_name='<%=task_name%>';
+	//var years='2015,2016,2017';
 
 	var savEvtTime = 0;
 	var dcAt = 0;
@@ -43,7 +35,6 @@
 		 }
 	} ] ];
 	$(function() {
-		$('#task_name').html('<b>'+task_name+'</b>');
 
 
 		$("#tool_save").bind("click", function() {
@@ -63,7 +54,7 @@
 		});
 		 comboBoxInit({
 				id : "years",
-				url : path + '/sysdict/getBalanceYears?year='+years,
+				url : path + '/sysdict/getBalanceYearExtend',
 				textkey : "value",
 				valuekey : "code",
 				multiple : true
@@ -91,7 +82,7 @@
 					}
 				}
 				$.post(path + '/sendData/deleteProData', {
-					"ids" : ids,"taskid":taskid
+					"ids" : ids
 				}, function(data) {
 					var data = $.parseJSON(data);
 					if (data== '1') {
@@ -120,12 +111,9 @@
 		//用ajax发动到动态页动态写入xls文件中
 		var f = $('<form action="'+path+'/sendData/exportData" method="post" id="fm1"></form>');  
         var i = $('<input type="hidden" id="years" name="years" />');  
-        var t_id=$('<input type="hidden" id="taskid" name="taskid" />');  
 
     	i.val(yrs_s);  
     	i.appendTo(f);  
-    	t_id.val(taskid);
-    	t_id.appendTo(f);
     	f.appendTo(document.body).submit();  
     	document.body.removeChild(f);  
 	}
@@ -147,8 +135,7 @@
 		cols = createCols(yrs_s);
 		//查询条件暂时放外面
 		var queryParams = {
-			years : yrs_s,
-			taskid:taskid
+			years : yrs_s
 		};
 
 		var url = path + '/sendData/queryData';
@@ -193,7 +180,7 @@
 	function createCols(years) {
 		var cols = [];
 		var tmp = [];
-		tmp = years.split(",");
+		tmp = $("#years").combo("getValues").join(",").split(",");
 		for (var i = 0; i < tmp.length; i++) {
 			cols.push({
 				'field' : tmp[i] + "",
@@ -302,8 +289,7 @@
 		}
 		var param = JSONH.stringify(updates);
 		var data = {
-			editObj : param,
-			taskid:taskid
+			editObj : param
 			
 		};
 		$.ajax({
@@ -411,8 +397,6 @@
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
-			<td class="tdlft">任务：</td>
-				<td class="tdrgt"><span id="task_name"></span></td>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
 			</tr>

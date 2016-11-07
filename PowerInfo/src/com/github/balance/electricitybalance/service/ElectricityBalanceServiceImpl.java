@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.balance.electricitybalance.dao.ElectricityBalanceDao;
+import com.github.basicData.dao.BasicDataDao;
+import com.github.basicData.model.BasicYear;
 import com.github.common.export.ExcelParams;
 import com.github.common.export.ExcelUtils;
 import com.github.common.export.rules.CellEqualMergeRules;
@@ -26,9 +28,31 @@ public class ElectricityBalanceServiceImpl implements ElectricityBalanceService 
 
 	@Autowired
 	private ElectricityBalanceDao electricityBalanceDao;
+	
+	@Autowired
+	private BasicDataDao basicDataDao;
+	
 	@Override
 	public String queryData(JSONObject param) {
 		List<Map<String, Object>> list = electricityBalanceDao.queryData(param);
+		return JsonUtils.listTranJsonByQuery(list);
+	}
+	@Override
+	public String queryCoalHourData(JSONObject param) {
+		String yrs ="";
+		try {
+			List<BasicYear> baseYear = basicDataDao.getYears();
+			if(baseYear !=null && baseYear.size()>0){
+				for(BasicYear br:baseYear){
+					yrs +=br.getYear()+"," ;
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		param.put("baseyears", yrs);
+		List<Map<String, Object>> list = electricityBalanceDao.queryCoalHourData(param);
 		return JsonUtils.listTranJsonByQuery(list);
 	}
 	@Override

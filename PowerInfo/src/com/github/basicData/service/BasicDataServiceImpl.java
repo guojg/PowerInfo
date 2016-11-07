@@ -88,7 +88,11 @@ public class BasicDataServiceImpl implements BasicDataService {
 
 		return basicDataDao.getYears();
 	}
+	public List<BasicYear> getYearsBycondition(int year) throws Exception{
+		// TODO Auto-generated method stub
 
+		return basicDataDao.getYearsBycondition(year);
+	}
 	@Override
 	public List<BasicIndex> getIndexs(String pid) throws Exception {
 		// TODO Auto-generated method stub
