@@ -28,8 +28,18 @@ function validate(data) {
 		$.messager.alert('提示','电源类型不能为空！');
 		return false;
 	}
+	if(data["power_type"]==3){
+		if(!isNotEmpty(data["cooling_type"])){
+			$.messager.alert('提示','冷却类型不能为空！');
+			return false;
+		}
+	}
 	if(!isNotEmpty(data["area_id"])){
-		$.messager.alert('提示','区域不能为空！');
+		$.messager.alert('提示','所属地区不能为空！');
+		return false;
+	}
+	if(!isNotEmpty(data["organ"])){
+		$.messager.alert('提示','所属企业不能为空！');
 		return false;
 	}
 //	if(!isNotEmpty(data["start_date"])){
@@ -45,6 +55,7 @@ function validate(data) {
 //	}
 	return true;
 }
+
 function validateDate(startdate,enddata){
     var start=new Date(startdate.replace("-", "/").replace("-", "/"));  
     var end=new Date(enddata.replace("-", "/").replace("-", "/"));  

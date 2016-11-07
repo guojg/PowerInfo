@@ -34,7 +34,7 @@
 		sortable:true
 	}, {
 		field : 'gene_capacity',
-		title : '容量（万千瓦）',
+		title : '容量',
 		width : 200,
 		align : 'center',
 		sortable:true

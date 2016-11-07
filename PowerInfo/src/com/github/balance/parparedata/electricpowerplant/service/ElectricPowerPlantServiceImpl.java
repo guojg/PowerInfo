@@ -70,6 +70,10 @@ public class ElectricPowerPlantServiceImpl implements  ElectricPowerPlantService
 //		p.setStartDate(data.getString("start_date"));
 		p.setIndexItem(data.getString("index_item"));
 		p.setAreaId(data.getString("area_id"));
+		if(data.get("cooling_type")!=null && !"".equals(data.getString("cooling_type"))){
+			p.setCoolingType(data.getString("cooling_type"));
+		}
+		p.setOrgan(data.getString("organ"));
 		if(data.get("id")!=null){
 			p.setId(data.getString("id"));
 		}
@@ -79,8 +83,8 @@ public class ElectricPowerPlantServiceImpl implements  ElectricPowerPlantService
 			throws Exception {
 		String[] excelTitle = new String[] { "" };
 		List<Map<String, Object>> list = electricPowerPlantDao.queryData(param);
-		String[] colTitle = {"电厂名称","装机容量","电源类型","投产日期","退役日期"};
-		String[] colName = {"plant_name","plant_capacity","index_itemname","start_date","end_date"};
+		String[] colTitle = {"电厂名称","电源类型","所属地区","所属企业","冷却类型","装机容量"};
+		String[] colName = {"plant_name","index_itemname","area_name","organ","cooling_name","plant_capacity"};
 		
 		String fileName = "电厂";
 		ExcelParams params = new ExcelParams(fileName, excelTitle, null,
