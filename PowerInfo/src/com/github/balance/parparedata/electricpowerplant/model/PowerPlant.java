@@ -39,6 +39,8 @@ public class PowerPlant {
 	private String id;
 	private String indexItem;
 	private String areaId;
+	private String organ;
+	private String coolingType ;
 	public String getAreaId() {
 		return areaId;
 	}
@@ -51,5 +53,19 @@ public class PowerPlant {
 	public void setIndexItem(String indexItem) {
 		this.indexItem = indexItem;
 	}
+	public String getOrgan() {
+		return organ;
+	}
+	public void setOrgan(String organ) {
+		this.organ = organ;
+	}
+	public String getCoolingType() {
+		return coolingType;
+	}
+	public void setCoolingType(String coolingType) {
+		this.coolingType = coolingType;
+	}
+	
+	
 
 }

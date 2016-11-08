@@ -45,7 +45,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 		int  startNum = psize*(pNum-1);
 		int  endNum = psize*pNum;
 		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,(select value from sys_dict_table where domain_id=12 and code=index_item) index_itemname,index_item,");
-		buffer.append("area_id,(SELECT value FROM bn_code_company WHERE CODE=area_id) area_name  from shiro.electricpowerplant_data where 1=1");
+		buffer.append("area_id,(SELECT value FROM bn_code_company WHERE CODE=area_id) area_name,organ,(SELECT value FROM  shiro.sys_dict_table where domain_id=302 and code=cooling_type ) cooling_name,cooling_type  from shiro.electricpowerplant_data where 1=1");
 		if(!"".equals(name)){
 			buffer.append(" and plant_name like ?");
 			params.add("%"+name+"%");
@@ -86,7 +86,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	public String addRecord(final PowerPlant powerPlant) throws Exception {
 		// TODO Auto-generated method stub
 		String insertsql = "insert  electricPowerPlant_data" 
-				+ "(plant_name,plant_capacity,start_date,end_date,index_item,area_id) VALUES(?,?,null,null,?,?)";
+				+ "(plant_name,plant_capacity,start_date,end_date,index_item,area_id,organ,cooling_type) VALUES(?,?,null,null,?,?,?,?)";
 		PreparedStatementSetter setinsert = new PreparedStatementSetter() {
 
 			@Override
@@ -96,6 +96,8 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 				ps.setString(2, powerPlant.getPlantCapacity());
 				ps.setString(3, powerPlant.getIndexItem());
 				ps.setString(4, powerPlant.getAreaId());
+				ps.setString(5, powerPlant.getOrgan());
+				ps.setString(6, powerPlant.getCoolingType());
 			}
 
 		};
@@ -107,7 +109,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 	public String updateRecord(final PowerPlant powerPlant) throws Exception {
 		// TODO Auto-generated method stub
 		String insertsql = "update  electricPowerPlant_data" 
-				+ " set  plant_name=?,plant_capacity=?,start_date=null,end_date=null,index_item=?,area_id=? where id=?";
+				+ " set  plant_name=?,plant_capacity=?,start_date=null,end_date=null,index_item=?,area_id=? ,organ=?,cooling_type=? where id=?";
 		PreparedStatementSetter setupdate = new PreparedStatementSetter() {
 
 			@Override
@@ -117,7 +119,9 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 				ps.setString(2, powerPlant.getPlantCapacity());
 				ps.setString(3, powerPlant.getIndexItem());
 				ps.setString(4, powerPlant.getAreaId());
-				ps.setString(5, powerPlant.getId());
+				ps.setString(5, powerPlant.getOrgan());
+				ps.setString(6, powerPlant.getCoolingType());
+				ps.setString(7, powerPlant.getId());
 			}
 
 		};

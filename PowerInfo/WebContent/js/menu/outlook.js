@@ -1,4 +1,7 @@
-﻿$(function() {
+﻿var closeFlag="";
+var newUrl="";
+var newSubtitle="";
+$(function() {
 	tabClose();
 	tabCloseEven();
 	var keyValue={"basic":1,"totalQuantity":4,"balance":157,"station":168,"elecplant":215};
@@ -55,7 +58,6 @@
 			var curenttab=$(this).tabs("getTab",title);
 			var target = this;
 
-			debugger;
 
 			//var updates=curenttab.find('iframe').first().contents().find('iframe').first().mmm();
 			var frameSelect =curenttab.find('iframe')[0].contentWindow.frames;
@@ -76,6 +78,18 @@
 						opts.onBeforeClose = function(){};  // 允许现在关闭
 						$(target).tabs('close',index);
 						opts.onBeforeClose = bc;  // 还原事件函数
+						if(closeFlag=="1"){
+							$('#tabs').tabs('add', {
+								title : newSubtitle,
+								content : createFrame(newUrl),
+								closable : true
+							});
+							closeFlag="";
+							newUrl="";
+							newSubtitle="";
+							tabClose();
+						}
+						
 					}
 				});
 				return false;	// 阻止关闭
@@ -124,7 +138,6 @@ function addNav(data) {
  * 基础数据删除节点
  */
 function removenode() {
-	debugger;
 	var node = $('#tt').tree('getSelected');
 	if(node.attributes.useful!=1){
 		$.messager.confirm('提示', '确认删除该节点？', function(r) {
@@ -329,6 +342,9 @@ function getIcon(menuid) {
 }
 
 function addTab(subtitle, url, icon) {
+	closeFlag="1";
+	newUrl=url;
+	newSubtitle=subtitle;
 	if ($('#tabs').tabs('exists', subtitle)) {
 		$('#tabs').tabs('close', subtitle);
 	}
@@ -341,6 +357,9 @@ function addTab(subtitle, url, icon) {
 		closable : true,
 		icon : icon
 	});
+	closeFlag="";
+	newUrl="";
+	newSubtitle="";
 	}
 	tabClose();
 }

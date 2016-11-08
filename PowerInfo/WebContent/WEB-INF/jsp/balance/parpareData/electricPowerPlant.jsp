@@ -26,21 +26,31 @@
 		width : 200,
 		align : 'center'
 	}, {
-		field : 'plant_capacity',
-		title : '装机容量',
-		width : 100,
-		align : 'center'
-	}, {
 		field : 'index_itemname',
 		title : '电源类型',
 		width : 100,
 		align : 'center'
 	},{
 		field : 'area_name',
-		title : '区域名称',
+		title : '所属地区',
 		width : 100,
 		align : 'center'
-	} ] ];
+	},{
+		field : 'organ',
+		title : '所属企业',
+		width : 100,
+		align : 'center'
+	},{
+		field : 'cooling_name',
+		title : '冷却类型',
+		width : 100,
+		align : 'center'
+	}, {
+		field : 'plant_capacity',
+		title : '装机容量',
+		width : 100,
+		align : 'center'
+	}   ] ];
 	$(function() {
 		 comboBoxInit({
 				id : "index_item",
@@ -132,7 +142,7 @@
 	function addRecord() {
 		commonHelper.toAdd({
 			title : '新增',
-			width : 500,
+			width : 750,
 			height : 300,
 			url : "openAddRecord"
 		});
@@ -144,7 +154,7 @@
 		}else{
 			commonHelper.toAdd({
 				title : '修改',
-				width : 500,
+				width : 600,
 				height : 300,
 				url : "openUploadRecord"
 			});
