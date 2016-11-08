@@ -22,6 +22,16 @@ $(function() {
 			valuekey : "code",
 			multiple : false
 		});
+	 comboBoxInit({
+			id : "cooling_type",
+			url : path + '/sysdict/getDataByCodeValue?domain_id=302',
+			textkey : "value",
+			valuekey : "code"
+			});
+	  $("#index_item").combo("readonly",true);
+		 $("#index_item + span > input :eq(0)").css("background-color","gray");
+		 $("#cooling_type").combo("readonly",true);
+		 $("#cooling_type + span > input :eq(0)").css("background-color","gray");
 	var rows = window.parent.$('#datagrid').datagrid('getChecked');
 	var row=rows[0];
 	$('#plant_name').val(row.plant_name);
@@ -30,6 +40,10 @@ $(function() {
 	//$('#end_date').datebox("setValue",row.end_date);
 	$('#index_item').combobox("setValue",row.index_item);
 	$('#area_id').combobox("setValue",row.area_id);
+	$('#cooling_type').combobox("setValue",row.cooling_type);
+	$('#organ').val(row.organ);
+
+
 }
 );
 //取消
@@ -47,6 +61,8 @@ function save(){
 	//operationdata["end_date"]=$('#end_date').datebox('getValue');
 	operationdata["index_item"]=$('#index_item').datebox('getValue');
 	operationdata["area_id"]=$('#area_id').datebox('getValue');
+	operationdata["cooling_type"]=$('#cooling_type').combo('getValue');
+	operationdata["organ"]=$('#organ').val();
 	if(!validate(operationdata)){
 		return;
 	}
@@ -73,24 +89,33 @@ function save(){
 </script>
 <body>
 	<form id="paramsForm">
-		<table id="detailTable">
-
+	<table id="detailTable">
 			<tr>
-				<td class="tdlft" style='width: 100px'>电厂名称：</td>
-				<td class="tdrgt" style='width: 120px'><input id="plant_name"
-					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>装机容量：</td>
-				<td class="tdrgt" style='width: 120px'><input id="plant_capacity"
-					type="text" style='width: 120px' /></td>
+				<td class="tdlft" style='width: 120px'>电厂名称：</td>
+				<td class="tdrgt" style='width: 180px'><input id="plant_name"
+					type="text" style='width: 180px' /></td>
+				<td class="tdlft" style='width: 120px'>装机容量(万千瓦)：</td>
+				<td class="tdrgt" style='width: 180px'><input id="plant_capacity"
+					type="text" style='width: 180px' /></td>
 			</tr>
 			<tr>
-				<td class="tdlft" style='width: 100px'>电源类型：</td>
-				<td class="tdrgt" style='width: 120px'><input id="index_item"
-					type="text" style='width: 120px'/></td>
-				<td class="tdlft" style='width: 100px'>区域：</td>
-				<td class="tdrgt" style='width: 120px'><input id="area_id" 
-					type="text" style='width: 120px' /></td>
-			</tr>		
+				<td class="tdlft" style='width: 120px'>电源类型：</td>
+				<td class="tdrgt" style='width: 180px'><input id="index_item"
+					type="text" style='width: 180px'/></td>
+					<td class="tdlft" style='width: 180px'>冷却类型：</td>
+				<td class="tdrgt" style='width: 180px'><input class="comboboxComponent" id="cooling_type"
+					type="text" style='width: 180px' /></td>
+			
+
+			</tr>	
+			<tr>
+				<td class="tdlft" style='width: 120px'>所属地区：</td>
+				<td class="tdrgt" style='width: 180px'><input id="area_id"
+					type="text" style='width: 180px' /></td>
+						<td class="tdlft" style='width: 120px'>所属企业：</td>
+				<td class="tdrgt" style='width: 180px'><input id="organ"
+					type="text" style='width: 180px' /></td>
+			</tr>
 		</table>
 	</form>
 	<div class="div_submit">

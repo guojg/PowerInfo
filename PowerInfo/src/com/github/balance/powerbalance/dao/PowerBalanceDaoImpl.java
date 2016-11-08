@@ -69,25 +69,26 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		String year = obj.getString("year");
 		String task_id=obj.getString("task_id");
 		deleteData(task_id);
+		insertBylSQL(year,task_id);
 		//String year = "2016,2017,2018";
-		String yearRateSql=getYearRateSQL(year,task_id);
+		//String yearRateSql=getYearRateSQL(year,task_id);
 		StringBuffer sb = new StringBuffer();
 		sb.append(" insert into power_data(year,p_index_item,index_item,value,task_id) ");
 		String LOADSQL=" SELECT yr,NULL,100,VALUE,"+task_id+" FROM loadelectricquantity_data  WHERE index_item=201  " ;//全社会(统调)最大负荷
 
 		sb.append(  LOADSQL);
+		//sb.append("    UNION ALL  ");
+		//sb.append(yearRateSql);
 		sb.append("    UNION ALL  ");
-		sb.append(yearRateSql);
-		sb.append("    UNION ALL  ");
-		 String ZJRLSQL=" SELECT t1.yr,200,1,t1.VALUE*t2.value/100,"+task_id+"  FROM loadelectricquantity_data t1 JOIN  loadelectricquantity_data  t2 ON t1.yr=t2.yr  AND t1.index_item=201 AND t2.index_item=203 " ;//有效备用容量
+		 String ZJRLSQL=" SELECT t1.yr,200,1,t1.VALUE*t2.byl/100,"+task_id+"  FROM loadelectricquantity_data t1 JOIN  balance_param_byl  t2 ON  t1.index_item=201  " ;//有效备用容量
 
 		sb.append( ZJRLSQL);
-		sb.append("    UNION ALL  ");
-		String BYRLSQL=" SELECT yr,200,2,VALUE,"+task_id+"  FROM loadelectricquantity_data  WHERE index_item=203 " ;//有效备用系数
+	//	sb.append("    UNION ALL  ");
+	//	String BYRLSQL=" SELECT yr,200,2,VALUE,"+task_id+"  FROM loadelectricquantity_data  WHERE index_item=203 " ;//有效备用系数
 
-		sb.append(  BYRLSQL );
+	//	sb.append(  BYRLSQL );
 		sb.append("    UNION ALL  ");
-		String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*(1+l2.VALUE/100),"+task_id+" FROM loadelectricquantity_data l1 JOIN loadelectricquantity_data l2  WHERE l1.yr=l2.yr AND  l1.index_item=201 AND l2.index_item=203 " ;//需要有效装机容量
+		String BYLSQL=" SELECT l1.yr,NULL,200,l1.VALUE*(1+l2.byl/100),"+task_id+" FROM loadelectricquantity_data l1 JOIN balance_param_byl l2  on  l1.index_item=201  " ;//需要有效装机容量
 
 		sb.append( BYLSQL);
 		sb.append("    UNION ALL  ");
@@ -96,19 +97,24 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		sb.append( getRetireCapacitySQL(year,task_id));
 		sb.append("    UNION ALL  ");
 		sb.append(getOperationalCapacitySQL(year,task_id));
-		sb.append("    UNION ALL  ");
-		 String SZKXRLSQL=" SELECT yr,NULL,600,SUM(VALUE),"+task_id+" FROM hinderedidlecapacity_data where index_item=1 GROUP BY yr ";//受阻及空闲容量
+		/*
+		 * 受阻容量换成了比例
+		 */
+		//sb.append("    UNION ALL  ");
+		 //String SZKXRLSQL=" SELECT yr,NULL,600,SUM(VALUE),"+task_id+" FROM hinderedidlecapacity_data where index_item=1 GROUP BY yr ";//受阻及空闲容量
 
-		sb.append(SZKXRLSQL);
-		sb.append("    UNION ALL  ");
-		 String SZKXRLSUBSQL=" SELECT yr,600,index_item,VALUE,"+task_id+" FROM hinderedidlecapacity_data where  index_item !=1";//受阻及空闲容量子项
+		//sb.append(SZKXRLSQL);
+		//sb.append("    UNION ALL  ");
+		// String SZKXRLSUBSQL=" SELECT yr,600,index_item,VALUE,"+task_id+" FROM hinderedidlecapacity_data where  index_item !=1";//受阻及空闲容量子项
 
-		sb.append(SZKXRLSUBSQL);
+		//sb.append(SZKXRLSUBSQL);
 		sb.append("    UNION ALL  ");
 		sb.append(" SELECT  t1.yr,NULL,800,t1.value,"+task_id+" FROM senddata_data t1 JOIN   senddata_itemname t2 ON  t2.pro_name='2' AND t2.id=t1.index_item  ");
 		int count = this.jdbcTemplate.update(sb.toString());
 		int operationalCount = this.execOperationalCapacitySum(task_id);
 		int endYearCount =this.execEndYearCapacitySum(task_id);
+		exeSzSub(task_id);
+		exeSzSum(task_id);
 		int currentYearCount = this.execCurrentYearCapacitySum(task_id);
 		int surplusCount = this.execSurplusCapacitySum(task_id);
 		return count+operationalCount+endYearCount+currentYearCount+surplusCount;
@@ -137,6 +143,26 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(" from dual ");
 		sbRate.append("  )t3  WHERE t.index_item = 201  AND t2.index_item = 201  AND t.yr = t3.yr2 AND t2.yr = t3.yr1");
 		return  sbRate.toString();
+	}
+	/**
+	 * 备用率
+	 * @param quotients
+	 * @return
+	 */
+	private int insertBylSQL(String year,String task_id){
+		//String BYRLSQL=" SELECT yr,200,2,VALUE,"+task_id+"  FROM loadelectricquantity_data  WHERE index_item=203 " ;//有效备用系数
+		StringBuffer sb = new StringBuffer();
+		String[] years = year.split(",");
+		for(int i=0 ;i<years.length-1 ;++i){
+			sb.append(" select 200,2,").append(years[i]).append(" yr,").append(" byl,").append(task_id).append(" task_id").append(" from balance_param_byl") ;
+			sb.append(" union all ");
+		}
+		sb.append(" select 200,2,").append(years[years.length-1]).append(" yr,").append(" byl,").append(task_id).append(" task_id from balance_param_byl") ;
+
+		List<PowerData> powerDatas = new ArrayList<PowerData>();
+		String sql = "insert into power_data(p_index_item,index_item,year,value,task_id)  " + sb.toString();
+		int count = jdbcTemplate.update(sql);
+		return count;
 	}
 	/**
 	 * 获得现有装机容量sql，有合计
@@ -257,6 +283,33 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(" SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  index_item IN (400) and task_id=? ")
 		.append(" ) m GROUP BY m.task_id,m.year") ;
 		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id,task_id,task_id,task_id}) ;
+		return count;
+	}
+	
+	/**
+	 * 执行受阻容量子项（年底装机容量*比例）
+	 * @return
+	 */
+	private int exeSzSub(String task_id){
+		StringBuffer sb = new StringBuffer();
+		sb.append(" insert into power_data(p_index_item,index_item,year,value,task_id) ")
+		.append( " SELECT 600,p.index_item,p.year,p.value*h.value/100,")
+		.append(task_id)
+		.append( " FROM power_data p  ")
+		.append(" JOIN hinderedidlecapacity_data h ON p.p_index_item=500 AND p.index_item=h.index_item AND p.year=h.yr AND p.task_id=? ") ;
+		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id}) ;
+		return count;
+	}
+	/**
+	 * 执行受阻容量合计
+	 * @return
+	 */
+	private int exeSzSum(String task_id){
+		StringBuffer sb = new StringBuffer();
+		sb.append(" insert into power_data(p_index_item,index_item,year,value,task_id) ")
+		.append( " SELECT null,600,t.year,SUM(t.value),task_id ")
+		.append(" FROM power_data t WHERE  p_index_item =600 and task_id=? group by t.task_id,t.year ");
+		int count = this.jdbcTemplate.update(sb.toString(),new Object[]{task_id}) ;
 		return count;
 	}
 	

@@ -65,6 +65,12 @@ public class SysdictDaoImpl implements SysdictDao {
         });
 		return list;
 	}
+	public List<Map<String, Object>> getBalanceYearExtend(){
+		String sql ="SELECT start_year,stop_year FROM balance_param_year ";
+		List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql);
+
+		return list;
+	}
 
 	@Override
 	public List<Map<String, Object>> queryCompany(JSONObject obj) {

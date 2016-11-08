@@ -14,9 +14,26 @@
 	}
 %>
 <script type="text/javascript" src="<%=path%>/static/js/common/plantUtil.js"></script>
+<script type="text/javascript" src="<%=path%>/static/js/common/plantAnalysisUtil.js"></script>
 <script type="text/javascript">
 var area_id="<%=organCode%>";
 $(function() {
+	 comboBoxInit({
+			id : "power_type",
+			url : path + '/sysdict/getDataByCodeValue?domain_id=12',
+			textkey : "value",
+			valuekey : "code"
+			});
+	 comboBoxInit({
+			id : "cooling_type",
+			url : path + '/sysdict/getDataByCodeValue?domain_id=302',
+			textkey : "value",
+			valuekey : "code"
+			});
+	 $("#power_type").combo("readonly",true);
+	 $("#power_type + span > input :eq(0)").css("background-color","gray");
+	 $("#cooling_type").combo("readonly",true);
+	 $("#cooling_type + span > input :eq(0)").css("background-color","gray");
 	fzData();
 }
 );
@@ -70,9 +87,9 @@ function save(){
   		}
       }
 	});
-	//if(!validate(operationdata)){
-	//	return;
-	//}
+	if(!validate(operationdata)){
+		return;
+	}
 	var param={"editObj":JSONH.stringify(formData),"area_id":area_id};
 	$.ajax({
 		  type: "post",
@@ -98,65 +115,52 @@ function save(){
 <form id="paramsForm">
 		<table id="detailTable">
 			<tr>
-				<td class="tdlft" style='width: 100px'>电厂名称：</td>
+				<td class="tdlft" style='width: 180px'>电厂名称：</td>
 				<td class="tdrgt" style='width: 120px'><input id="plant_name"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>装机容量(万千瓦)：</td>
+				<td class="tdlft" style='width: 180px'>装机总容量（WM）：</td>
 				<td class="tdrgt" style='width: 120px'><input id="plant_capacity"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>发电量：</td>
-				<td class="tdrgt" style='width: 120px'><input id="generating_capatity"
+				<td class="tdlft" style='width: 180px'>开工年：</td>
+				<td class="tdrgt" style='width: 120px'><input id="product_year"
 					type="text" style='width: 120px'/></td>
 			</tr>
 			<tr>
-				<td class="tdlft" style='width: 100px'>电厂损耗：</td>
-				<td class="tdrgt" style='width: 120px'><input id="plant_loss"
+				<td class="tdlft" style='width: 180px'>建成年：</td>
+				<td class="tdrgt" style='width: 120px'><input id="build_year"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>初始投资(元)：</td>
+				<td class="tdlft" style='width: 180px'>静态投资（万元）：</td>
 				<td class="tdrgt" style='width: 120px'><input id="start_outlay"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>投产年：</td>
-				<td class="tdrgt" style='width: 120px'><input id="product_year"
+				<td class="tdlft" style='width: 180px'>电源类型：</td>
+				<td class="tdrgt" style='width: 120px'><input id="power_type" class="comboboxComponent"
 					type="text" style='width: 120px' /></td>
 			</tr>	
 			<tr>
-				<td class="tdlft" style='width: 100px'>经济运行寿命(年)：</td>
-				<td class="tdrgt" style='width: 120px'><input id="economical_life"
+				<td class="tdlft" style='width: 180px'>冷却类型：</td>
+				<td class="tdrgt" style='width: 120px'><input id="cooling_type" class="comboboxComponent"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>期望收益率(%)：</td>
-				<td class="tdrgt" style='width: 120px'><input id="equired_return"
-					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>年财务成本(元)：</td>
-				<td class="tdrgt" style='width: 120px'><input id="financial_cost"
-					type="text" style='width: 120px' /></td>
-			</tr>	
-			<tr>
-				<td class="tdlft" style='width: 100px'>发电煤耗(吨)：</td>
-				<td class="tdrgt" style='width: 120px'><input id="generation_coal"
-					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>运行维护费率：</td>
-				<td class="tdrgt" style='width: 120px'><input id="operation_rate"
-					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>运行维护成本(元)：</td>
-				<td class="tdrgt" style='width: 120px'><input id="operation_cost"
+				<td class="tdlft" style='width: 180px'>厂用电率：</td>
+				<td class="tdrgt" style='width: 120px'><input id="consumption_rate"
+					type="text" style='width: 120px;background-color:gray;' disabled="disabled"/></td>
+				<td class="tdlft" style='width: 180px'>厂用电量（千瓦时）：</td>
+				<td class="tdrgt" style='width: 120px'><input id="electricity_consumption"
 					type="text" style='width: 120px' /></td>
 			</tr>	
 			<tr>
-				<td class="tdlft" style='width: 100px'>燃料单位成本(元)：</td>
-				<td class="tdrgt" style='width: 120px'><input id="unit_cost"
-					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>电厂材料费（元/年）：</td>
+				<td class="tdlft" style='width: 180px'>电厂材料费（元/年）：</td>
 				<td class="tdrgt" style='width: 120px'><input id="materials_cost"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>工资、奖金及福利费（元/年）：</td>
+				<td class="tdlft" style='width: 180px'>工资、奖金及福利费（元/年）：</td>
 				<td class="tdrgt" style='width: 120px'><input id="salary"
 					type="text" style='width: 120px' /></td>
-			</tr>	
-			<tr>
-				<td class="tdlft" style='width: 100px'>修理费（元/年）：</td>
+				<td class="tdlft" style='width: 180px'>修理费（元/年）：</td>
 				<td class="tdrgt" style='width: 120px'><input id="repairs_cost"
 					type="text" style='width: 120px' /></td>
-				<td class="tdlft" style='width: 100px'>其他费用（元/年）：</td>
+			</tr>
+			<tr>
+
+				<td class="tdlft" style='width: 180px'>其他费用（元/年）：</td>
 				<td class="tdrgt" style='width: 120px'><input id="other_cost"
 					type="text" style='width: 120px' /></td>
 			</tr>	

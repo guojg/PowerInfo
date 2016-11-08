@@ -14,6 +14,7 @@ $(function() {
 			indexArr = data;
 		}
 	});
+	
 	/*
 	 * 遍历拼表单
 	 */
@@ -27,11 +28,17 @@ $(function() {
 			 if(i=='600'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td>";
 			 }else if(i=='700'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' value=8 onblur='constantcost()'></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly' ></td>";
 			 }else if(i=='800'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' value=30 onblur='constantcost()'></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td>";
 			 }else if(i=='900'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:gray;readonly:true ' onblur='constantcost()'></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
+			 }else if(i=='18001'){
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
+			 }else if(i=='19001'){
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
+			 }else if(i=='500'){
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  onblur='coalCon()'></td>";
 			 }else{
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'></td>";
 			 }
@@ -41,11 +48,17 @@ $(function() {
 			 if(i=='600'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td></tr>";
 			 }else if(i=='700'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' value=8 onblur='constantcost()'></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
 			 }else if(i=='800'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' value=30 onblur='constantcost()'></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
 			 }else if(i=='900'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:gray;readonly:true ' onblur='constantcost()'></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+			 }else if(i=='18001'){
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+			 }else if(i=='19001'){
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+			 }else if(i=='500'){
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='coalCon()'></td>";
 			 }else{
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'></td></tr>";
 			 }
@@ -104,11 +117,12 @@ if(id =="" &&  $("#11").val() !=""){
 }else{
 	
 }
-	if(id !=""){
-	
+	if(id !=""&&typeof(id)!="undefined"){
+		
 		initData();
 	}else{
 		$("#11").val("");
+		fzData();
 	}
 
 });
@@ -189,6 +203,12 @@ if(flag){
 		
 }
 }
+function coalCon(){
+	var i = $('#500').val() ;
+	var t = $('#18001').val() ;
+	var v=i*t;
+	$("#19001").val(v);
+}
 //固定成本
 function constantcost(){
 	var cost =$('#600').val();
@@ -198,7 +218,29 @@ function constantcost(){
 	var v =cost*i*m/(m-1);
 	$('#900').val(v.toFixed(2));
 }
-
+//赋值
+function fzData(){
+	//onblur='constantcost()'
+	var items=null;
+	$.ajax({
+		  type: "post",
+		  url: path + '/plantAnalysis/queryTemplateData?id=9,10,11',
+		  dataType:'json',
+		  async: false,
+		  success:function(obj){
+				items=obj.rows;
+				//行业期望收益率（%）
+				$("#700").val(items[0].value);
+				//运行寿命（年）
+				$("#800").val(items[1].value);
+				//煤耗率（克标煤/千瓦时）
+				$("#18001").val(items[2].value);
+				//煤耗量
+				$("#19001").val("0.00");
+				constantcost();
+			}
+		});
+}
 function jisuan(){
 
 	var v900 = $('#900').val()==""?"": ($('#900').val()/365.0/48.0).toFixed(2);

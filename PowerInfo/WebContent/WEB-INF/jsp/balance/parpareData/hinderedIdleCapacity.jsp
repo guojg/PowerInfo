@@ -19,7 +19,7 @@
 
 <script type="text/javascript">
 	var pid='<%=pid%>';
-	var years='2015,2016,2017';
+	//var years='2015,2016,2017';
 
 	var cols;
 	var savEvtTime = 0;
@@ -45,7 +45,7 @@
 		});
 		 comboBoxInit({
 				id : "years",
-				url : path + '/sysdict/getBalanceYears?year='+years,
+				url : path + '/sysdict/getBalanceYearExtend',
 				textkey : "value",
 				valuekey : "code",
 				multiple : true
@@ -159,7 +159,7 @@
 	function createCols(years) {
 		var cols = [];
 		var tmp = [];
-		tmp = years.split(",");
+		tmp =  $("#years").combo("getValues").join(",").split(",");
 		for (var i = 0; i < tmp.length; i++) {
 			cols.push({
 				'field' : tmp[i] + "",
@@ -359,7 +359,7 @@
 			</tr>
 		</table>
 	</fieldset>
-	<div id="title" style="padding-right: 5px;text-align: right"><b>单位：万千瓦</b></div>
+	<div id="title" style="padding-right: 5px;text-align: right"><b>单位：%</b></div>
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>

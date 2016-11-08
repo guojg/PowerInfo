@@ -19,7 +19,7 @@
 	cols = [ [ {
 		field : 'index_name',
 		title : '指标名称',
-		width : 100,
+		width : 200,
 		align : 'center'
 	} , {
 		field : 'value',

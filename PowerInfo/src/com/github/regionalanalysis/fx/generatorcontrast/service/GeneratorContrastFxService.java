@@ -8,5 +8,6 @@ public interface GeneratorContrastFxService {
 
 	public String queryData(JSONObject param) ;
 	public void  ExportExcel(JSONObject param,HttpServletResponse response) throws Exception;
+	public String queryDataPie();
 
 }

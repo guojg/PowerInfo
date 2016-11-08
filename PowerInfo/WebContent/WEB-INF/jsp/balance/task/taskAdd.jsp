@@ -30,7 +30,6 @@ $(function() {
 		//$('#stopyear').numberspinner('setValue', nowYear+4); 
 var yearJsons=[];
 		$('#startyear').numberspinner({
-			value:nowYear-1,
 			onChange:function(){
 				var startChange=$('#startyear').numberspinner('getValue');
 				  $('#stopyear').numberspinner({min:parseInt(startChange)+1});
@@ -56,7 +55,6 @@ var yearJsons=[];
 			}
 		});
 		$('#stopyear').numberspinner({
-			value:nowYear+4,
 			onChange:function(){
 	
 				var startChange1=$('#startyear').numberspinner('getValue');
@@ -79,13 +77,20 @@ var yearJsons=[];
 				});
 			}
 		});
-		
-		for(var i=nowYear-1;i<=nowYear+4;++i){
-			yearJsons.push({
-				'year':i+"",
-				'yearName':i+"年"
-			});
-		}
+	
+		$.ajax({
+			type : 'POST',
+			async : false,
+			url : path + '/basicparam/initData',
+			success : function(data) {
+	    		$("#startyear").numberspinner('setValue',data["START_YEAR"]);
+	    		$("#stopyear").numberspinner('setValue',data["STOP_YEAR"]);
+
+
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			}
+		});
 		
 		initComboBoxByData({
 			id:"year",
@@ -107,7 +112,21 @@ var yearJsons=[];
 });
 function initData(){
 	 var url=path+"/balancetask/initData?id="+id;
-	   commonHelper.updInit(url);
+	  // commonHelper.updInit(url);
+	 $.ajax({
+			type : 'POST',
+			async : false,
+			url :url,
+			success : function(data) {
+	    		$("#task_name").val(data["TASK_NAME"]);
+    			$("#year").combobox('setValues',data["YEAR"].split(","));
+
+
+
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			}
+		});
 }
  function save(){
 	 var task_name = $('#task_name').val();
@@ -179,11 +198,11 @@ function initData(){
 				<td class="tdlft">任务名称：</td>
 				<td  class="tdrgt" style="width:250px"><input id="task_name" name="task_name" type="text" style="width:220px" /></td>	
 			</tr>
-			<tr>
+			<tr  style="display:none">
 				<td class="tdlft">起始年：</td>
 				<td  class="tdrgt"><input id="startyear" name="startyear" class="easyui-numberspinner" min="2000" max="5000" data-options="required:true,suffix:'年'" type="text"  /></td>	
-			</tr>
-			<tr>
+			</tr >
+			<tr  style="display:none">
 				<td class="tdlft">终止年：</td>
 				<td  class="tdrgt"><input id="stopyear" name="stopyear" class="easyui-numberspinner" min="2000" max="5000" data-options="required:true,suffix:'年'" type="text"  /></td>	
 			</tr>

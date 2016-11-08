@@ -42,83 +42,63 @@
 		}
 	}, {
 		field : 'plant_capacity',
-		title : '装机容量',
-		width : 100,
-		align : 'center'
-	}, {
-		field : 'generating_capatity',
-		title : '发电量',
-		width : 100,
-		align : 'center'
-	}, {
-		field : 'plant_loss',
-		title : '电厂损耗',
-		width : 100,
-		align : 'center'
-	}, {
-		field : 'start_outlay',
-		title : '初始投资',
+		title : '装机总容量（WM）',
 		width : 100,
 		align : 'center'
 	}, {
 		field : 'product_year',
-		title : '投产年',
+		title : '开工年',
 		width : 100,
 		align : 'center'
 	}, {
-		field : 'economical_life',
-		title : '经济运行寿命',
+		field : 'build_year',
+		title : '建成年',
 		width : 100,
 		align : 'center'
 	}, {
-		field : 'equired_return',
-		title : '期望收益率',
+		field : 'start_outlay',
+		title : '静态投资（万元）',
 		width : 100,
 		align : 'center'
 	}, {
-		field : 'financial_cost',
-		title : '年财务成本',
+		field : 'consumption_rate',
+		title : '厂用电率',
 		width : 100,
 		align : 'center'
 	}, {
-		field : 'generation_coal',
-		title : '发电煤耗',
+		field : 'electricity_consumption',
+		title : '厂用电量（千瓦时）',
 		width : 100,
 		align : 'center'
 	}, {
-		field : 'operation_rate',
-		title : '运行维护费率',
+		field : 'power_type_name',
+		title : '电源类型',
 		width : 100,
 		align : 'center'
 	}, {
-		field : 'operation_cost',
-		title : '运行维护成本',
-		width : 100,
-		align : 'center'
-	}, {
-		field : 'unit_cost',
-		title : '燃料单位成本',
+		field : 'cooling_type_name',
+		title : '冷却类型',
 		width : 100,
 		align : 'center'
 	}, {
 		field : 'materials_cost',
-		title : '电厂材料费',
-		width : 200,
+		title : '电厂材料费（元/年）',
+		width : 100,
 		align : 'center'
 	}, {
 		field : 'salary',
-		title : '工资、奖金及福利费',
-		width : 200,
+		title : '工资、奖金及福利费（元/年）',
+		width : 100,
 		align : 'center'
 	}, {
 		field : 'repairs_cost',
-		title : '修理费',
-		width : 200,
+		title : '修理费（元/年）',
+		width : 100,
 		align : 'center'
 	}, {
 		field : 'other_cost',
-		title : '其他费用',
-		width : 200,
+		title : '其他费用（元/年）',
+		width : 100,
 		align : 'center'
 	}] ];
 	$(function() {
@@ -190,7 +170,7 @@
 	function addRecord() {
 		commonHelper.toAdd({
 			title : '新增',
-			width : 800,
+			width : 1000,
 			height : 300,
 			url : path + '/plantAnalysis/openAddRecord'
 		});
@@ -198,7 +178,7 @@
 	function updateRecord() {
 		commonHelper.toAdd({
 			title : '修改',
-			width : 800,
+			width : 1000,
 			height : 300,
 			url : path + '/plantAnalysis/openUploadRecord'
 		});
@@ -212,7 +192,7 @@
 		});
 	}
 	function deleteRecords() {
-		$.messager.confirm('提示', '确认删除?', function(r) {
+		$.messager.confirm('提示', '确认删除？将删除对应电厂和电厂下的机组。', function(r) {
 			if (r) {
 				var rows = $('#datagrid').datagrid('getChecked');
 				var ids = "";

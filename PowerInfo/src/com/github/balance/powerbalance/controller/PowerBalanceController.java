@@ -22,10 +22,29 @@ public class PowerBalanceController {
 	public String index(HttpServletRequest request, HttpServletResponse response){
 		 return "balance/power/powerbalance";
 	}
-	
-	@RequestMapping(value ="/powerbalanceImage")
-	public String powerbalanceImage(HttpServletRequest request, HttpServletResponse response){
-		 return "balance/power/powerbalanceImage";
+	/**
+	 * 装机盈余图
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value ="/powerbalanceImage1")
+	public String powerbalanceImage1(HttpServletRequest request, HttpServletResponse response){
+		 return "balance/power/powerbalanceImage1";
+	}
+	/**
+	 * 年末装机容量图
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value ="/powerbalanceImage2")
+	public String powerbalanceImage2(HttpServletRequest request, HttpServletResponse response){
+		 return "balance/power/powerbalanceImage2";
+	}
+	@RequestMapping(value ="/powerbalanceImageMain")
+	public String powerbalanceImageMain(HttpServletRequest request, HttpServletResponse response){
+		 return "balance/power/powerbalanceImageMain";
 	}
 	
 	

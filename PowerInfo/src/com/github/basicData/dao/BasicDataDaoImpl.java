@@ -330,6 +330,16 @@ public class BasicDataDaoImpl implements BasicDataDao {
 				new BeanPropertyRowMapper(BasicYear.class));
 		return list;
 	}
+	
+	@Override
+	public List<BasicYear> getYearsBycondition(int year) throws Exception {
+		// TODO Auto-generated method stub
+
+		String sql = "select year,year_name from base_year where year<?";
+		List<BasicYear> list = jdbcTemplate.query(sql,new Object[]{year},
+				new BeanPropertyRowMapper(BasicYear.class));
+		return list;
+	}
 
 	@Override
 	public List<BasicIndex> getIndexs(final String pid) throws Exception {
