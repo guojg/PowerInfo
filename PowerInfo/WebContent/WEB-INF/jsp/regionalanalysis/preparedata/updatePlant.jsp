@@ -13,7 +13,6 @@
 		organCode=obj.toString();
 	}
 %>
-<script type="text/javascript" src="<%=path%>/static/js/common/plantUtil.js"></script>
 <script type="text/javascript" src="<%=path%>/static/js/common/plantAnalysisUtil.js"></script>
 <script type="text/javascript">
 var area_id="<%=organCode%>";

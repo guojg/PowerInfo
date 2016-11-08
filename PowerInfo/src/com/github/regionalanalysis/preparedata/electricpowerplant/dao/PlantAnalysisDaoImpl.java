@@ -106,7 +106,7 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		updateSql.append("update  electricpowerplant_analysis_data");
 		updateSql.append(" set  plant_name=?,plant_capacity=?,product_year=?,build_year=?,start_outlay=?");
 		updateSql.append(" ,consumption_rate=?,electricity_consumption=?,power_type=?,Cooling_type=?");
-		updateSql.append(" ,materials_cost=?,salary=?,repairs_cost=?,other_cost=?,area_id=?");
+		updateSql.append(" ,materials_cost=?,salary=?,repairs_cost=?,other_cost=?");
 		updateSql.append(" where id=?");
 		PreparedStatementSetter setupdate = new PreparedStatementSetter() {
 
@@ -127,8 +127,7 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 				ps.setString(11, plantAnalysis.getSalary());
 				ps.setString(12, plantAnalysis.getRepairsCost());
 				ps.setString(13, plantAnalysis.getOtherCost());
-				ps.setString(14, plantAnalysis.getAreaId());
-				ps.setString(15, plantAnalysis.getId());
+				ps.setString(14, plantAnalysis.getId());
 			}
 		};
 		jdbcTemplate.update(updateSql.toString(), setupdate);

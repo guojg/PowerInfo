@@ -23,33 +23,45 @@ $(function() {
 	 for(var i in indexArr){
 		 ++count;
 		 if(count%2==1){
-		 trHtml +="<tr><td class='tdlft'>"+indexArr[i]+"：</td>";
-			 if(i=='600'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td>";
-			 }else if(i=='700'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' value=8 onblur='constantcost()'></td>";
-			 }else if(i=='800'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' value=30 onblur='constantcost()'></td>";
-			 }else if(i=='900'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:gray;readonly:true ' onblur='constantcost()'></td>";
+			 trHtml +="<tr><td class='tdlft'>"+indexArr[i]+"：</td>";
+				 if(i=='600'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td>";
+				 }else if(i=='700'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly' ></td>";
+				 }else if(i=='800'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td>";
+				 }else if(i=='900'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
+				 }else if(i=='18001'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
+				 }else if(i=='19001'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
+				 }else if(i=='500'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  onblur='coalCon()'></td>";
+				 }else{
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'></td>";
+				 }
+			 
 			 }else{
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'></td>";
+				 trHtml +="<td class='tdlft'>"+indexArr[i]+"：</td>";
+				 if(i=='600'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td></tr>";
+				 }else if(i=='700'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+				 }else if(i=='800'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+				 }else if(i=='900'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+				 }else if(i=='18001'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+				 }else if(i=='19001'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+				 }else if(i=='500'){
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='coalCon()'></td>";
+				 }else{
+					 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'></td></tr>";
+				 }
 			 }
-		 
-		 }else{
-			 trHtml +="<td class='tdlft'>"+indexArr[i]+"：</td>";
-			 if(i=='600'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td></tr>";
-			 }else if(i=='700'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' value=8 onblur='constantcost()'></td></tr>";
-			 }else if(i=='800'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' value=30 onblur='constantcost()'></td></tr>";
-			 }else if(i=='900'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:gray;readonly:true ' onblur='constantcost()'></td></tr>";
-			 }else{
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'></td></tr>";
-			 }
-		 }
 		
 	 }
 	 trHtml +="<tr><td class='tdlft'>提示信息：</td><td class='tdrgt' colspan='3' > <span id='validateMessage' class='tipsValidate' /></td></tr>";
@@ -112,6 +124,12 @@ if(id =="" &&  $("#11").val() !=""){
 	}
 
 });
+function coalCon(){
+	var i = $('#500').val() ;
+	var t = $('#18001').val() ;
+	var v=i*t;
+	$("#19001").val(v);
+}
 function initData(){
 	var taskParam={
 			id:id

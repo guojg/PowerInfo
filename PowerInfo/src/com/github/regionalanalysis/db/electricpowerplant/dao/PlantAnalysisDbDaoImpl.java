@@ -39,9 +39,10 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 		String task_id=param.getString("task_id");
 		int  startNum = psize*(pNum-1);
 		int  endNum = psize*pNum;
-		StringBuffer buffer=new StringBuffer("SELECT id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,");
-		buffer.append("product_year,economical_life,equired_return,financial_cost,generation_coal,");
-		buffer.append("operation_rate,operation_cost,unit_cost,materials_cost,salary,repairs_cost,other_cost");
+		StringBuffer buffer = new StringBuffer("SELECT id,plant_name,plant_capacity,product_year,build_year,start_outlay,");
+		buffer.append("consumption_rate,electricity_consumption,(SELECT value FROM  shiro.sys_dict_table where domain_id=12 and code=power_type ) power_type_name,");
+		buffer.append("power_type,cooling_type,(SELECT value FROM  shiro.sys_dict_table where domain_id=302 and code=cooling_type ) cooling_type_name,");
+		buffer.append("materials_cost,salary,repairs_cost,other_cost");
 		buffer.append(" from shiro.electricpowerplant_analysis_data_db where 1=1");
 		if(!"".equals(name)){
 			buffer.append(" and plant_name like ?");
@@ -71,9 +72,9 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 		// TODO Auto-generated method stub
 		StringBuffer updateSql=new StringBuffer();
 		updateSql.append("update  electricpowerplant_analysis_data_db");
-		updateSql.append(" set  plant_name=?,plant_capacity=?,generating_capatity=?,plant_loss=?,start_outlay=?");
-		updateSql.append(" ,product_year=?,economical_life=?,equired_return=?,financial_cost=?,generation_coal=?");
-		updateSql.append(" , operation_rate=?,operation_cost=?,unit_cost=?,materials_cost=?,salary=?,repairs_cost=?,other_cost=?");
+		updateSql.append(" set  plant_name=?,plant_capacity=?,product_year=?,build_year=?,start_outlay=?");
+		updateSql.append(" ,consumption_rate=?,electricity_consumption=?,power_type=?,Cooling_type=?");
+		updateSql.append(" ,materials_cost=?,salary=?,repairs_cost=?,other_cost=?");
 		updateSql.append(" where id=? and task_id=? ");
 		PreparedStatementSetter setupdate = new PreparedStatementSetter() {
 
@@ -81,25 +82,21 @@ public class PlantAnalysisDbDaoImpl implements PlantAnalysisDbDao {
 			public void setValues(PreparedStatement ps) throws SQLException {
 				// TODO Auto-generated method stub
 					// TODO Auto-generated method stub
-					ps.setString(1, plantAnalysis.getPlantName());
-					ps.setString(2, plantAnalysis.getPlantCapacity());
-					ps.setString(3, plantAnalysis.getGeneratingCapatity());
-					ps.setString(4, plantAnalysis.getPlantLoss());
-					ps.setString(5, plantAnalysis.getStartOutlay());
-					ps.setString(6, plantAnalysis.getProductYear());
-					ps.setString(7, plantAnalysis.getEconomicalLife());
-					ps.setString(8, plantAnalysis.getEquiredReturn());
-					ps.setString(9, plantAnalysis.getFinancialCost());
-					ps.setString(10, plantAnalysis.getGenerationCoal());
-					ps.setString(11, plantAnalysis.getOperationRate());
-					ps.setString(12, plantAnalysis.getOperationCost());
-					ps.setString(13, plantAnalysis.getUnitCost());
-					ps.setString(14, plantAnalysis.getMaterialsCost());
-					ps.setString(15, plantAnalysis.getSalary());
-					ps.setString(16, plantAnalysis.getRepairsCost());
-					ps.setString(17, plantAnalysis.getOtherCost());
-					ps.setString(18, plantAnalysis.getId());
-					ps.setString(19, plantAnalysis.getTaskId());
+				ps.setString(1, plantAnalysis.getPlantName());
+				ps.setString(2, plantAnalysis.getPlantCapacity());
+				ps.setString(3, plantAnalysis.getProductYear());
+				ps.setString(4, plantAnalysis.getBuildYear());
+				ps.setString(5, plantAnalysis.getStartOutlay());
+				ps.setString(6, plantAnalysis.getConsumptionRate());
+				ps.setString(7, plantAnalysis.getElectricityConsumption());
+				ps.setString(8, plantAnalysis.getPowerType());
+				ps.setString(9, plantAnalysis.getCoolingType());
+				ps.setString(10, plantAnalysis.getMaterialsCost());
+				ps.setString(11, plantAnalysis.getSalary());
+				ps.setString(12, plantAnalysis.getRepairsCost());
+				ps.setString(13, plantAnalysis.getOtherCost());
+				ps.setString(14, plantAnalysis.getId());
+				ps.setString(15, plantAnalysis.getTaskId());
 				}
 			};
 		jdbcTemplate.update(updateSql.toString(), setupdate);

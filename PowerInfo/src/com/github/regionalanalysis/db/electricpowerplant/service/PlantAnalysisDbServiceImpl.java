@@ -80,17 +80,13 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 		}
 		p.setPlantCapacity(getJsonValue(data.get("plant_capacity")));
 		p.setPlantName(getJsonValue(data.get("plant_name")));
-		p.setEconomicalLife(getJsonValue(data.get("economical_life")));
-		p.setEquiredReturn(getJsonValue(data.get("equired_return")));
-		p.setFinancialCost(getJsonValue(data.get("financial_cost")));
-		p.setGeneratingCapatity(getJsonValue(data.get("generating_capatity")));
-		p.setGenerationCoal(getJsonValue(data.get("generation_coal")));
-		p.setOperationCost(getJsonValue(data.get("operation_cost")));
-		p.setOperationRate(getJsonValue(data.get("operation_rate")));
-		p.setPlantLoss(getJsonValue(data.get("plant_loss")));
 		p.setProductYear(getJsonValue(data.get("product_year")));
+		p.setBuildYear(getJsonValue(data.get("build_year")));
 		p.setStartOutlay(getJsonValue(data.get("start_outlay")));
-		p.setUnitCost(getJsonValue(data.get("unit_cost")));
+		p.setConsumptionRate(getJsonValue(data.get("consumption_rate")));
+		p.setElectricityConsumption(getJsonValue(data.get("electricity_consumption")));
+		p.setPowerType(getJsonValue(data.get("power_type")));
+		p.setCoolingType(getJsonValue(data.get("cooling_type")));
 		p.setMaterialsCost(getJsonValue(data.get("materials_cost")));
 		p.setSalary(getJsonValue(data.get("salary")));
 		p.setRepairsCost(getJsonValue(data.get("repairs_cost")));
@@ -114,8 +110,8 @@ public class PlantAnalysisDbServiceImpl implements  PlantAnalysisDbService{
 			throws Exception {
 		String[] excelTitle = new String[] { "" };
 		List<Map<String, Object>> list = plantAnalysisDbDao.queryData(param);
-		String[] colTitle = {"电厂名称","装机容量","发电量","电厂损耗 ","初始投资 ","投产年","经济运行寿命 ","期望收益率 ","年财务成本 ","发电煤耗 ","运行维护费率 ","运行维护成本 ","燃料单位成本 ","电厂材料费（元/年） ","工资、奖金及福利费（元/年） ","修理费（元/年）","其他费用（元/年）"};
-		String[] colName = {"plant_name","plant_capacity","generating_capatity","plant_loss","start_outlay","product_year","economical_life","equired_return","financial_cost","generation_coal","operation_rate","operation_cost","unit_cost","materials_cost","salary","repairs_cost","other_cost"};
+		String[] colTitle = {"电厂名称","装机总容量（WM）","开工年","建成年 ","静态投资（万元） ","厂用电率","厂用电量（千瓦时） ","电源类型 ","冷却类型 ","电厂材料费（元/年） ","工资、奖金及福利费（元/年） ","修理费（元/年）","其他费用（元/年）"};
+		String[] colName = {"plant_name","plant_capacity","product_year","build_year","start_outlay","consumption_rate","electricity_consumption","power_type","cooling_type","materials_cost","salary","repairs_cost","","other_cost"};
 		
 		String fileName = "区域区域电厂竞争力分析——电厂";
 		ExcelParams params = new ExcelParams(fileName, excelTitle, null,
