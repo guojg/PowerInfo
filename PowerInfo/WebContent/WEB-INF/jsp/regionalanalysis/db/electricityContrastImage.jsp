@@ -29,11 +29,11 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 			});
 			 comboBoxInit({
 					id : "index_y",
-					url : path + '/sysdict/getDataByCodeValue?domain_id=36&condition=1',
+					url : path + '/sysdict/getDataByCodeValue?domain_id=36',
 					textkey : "value",
 					valuekey : "code",
 					multiple:false,
-					defaultVal:2
+					defaultVal:5
 				});
 			 comboBoxInit({
 					id : "index_x",

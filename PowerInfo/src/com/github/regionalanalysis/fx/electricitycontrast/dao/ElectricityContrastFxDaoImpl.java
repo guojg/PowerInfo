@@ -60,7 +60,7 @@ public class ElectricityContrastFxDaoImpl implements ElectricityContrastFxDao {
 		
 		sb.append(" 				)b ON a.dc_id=b.id AND a.task_id=b.task_id AND a.index_y=b.code and a.task_id=? ") 
 		.append(" 			GROUP BY  b.task_id,b.id,b.code		 ORDER BY plant_id DESC,b.code ASC ") ;
-		l.add(task_id) ;
+		l.add(task_id);
 		l.add(index_ys);
 		l.add(task_id) ;
 		return jdbcTemplate.queryForList(sb.toString(),l.toArray());

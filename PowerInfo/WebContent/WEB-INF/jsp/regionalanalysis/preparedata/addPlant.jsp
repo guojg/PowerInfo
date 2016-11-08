@@ -28,6 +28,7 @@ $(function() {
 						$("#cooling_type").combo("readonly",false);
 						$("#cooling_type + span > input :eq(0)").css("background-color","white");
 					}else{
+						$("#cooling_type").combobox("setValue","");
 						$("#cooling_type + span > input :eq(0)").css("background-color","#bcbcbc");
 						$("#cooling_type").combo("readonly",true);
 						fzData(data.code);

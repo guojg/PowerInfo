@@ -45,7 +45,7 @@ var frozenCols = [ [  {
 	$(function() {
 		 comboBoxInit({
 				id : "index_y",
-				url : path + '/sysdict/getDataByCodeValue?domain_id=36&condition=1',
+				url : path + '/sysdict/getDataByCodeValue?domain_id=36',
 				textkey : "value",
 				valuekey : "code",
 				multiple : true

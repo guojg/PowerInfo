@@ -255,7 +255,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 
 		for(Map<String,Object> generator:plangenerator){
 			
-			String[] sql=new String[7];
+			String[] sql=new String[8];
 			StringBuffer  sql1=new StringBuffer();
 			StringBuffer  sql2=new StringBuffer();
 			StringBuffer  sql3=new StringBuffer();
@@ -263,6 +263,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 			StringBuffer  sql5=new StringBuffer();
 			StringBuffer  sql6=new StringBuffer();
 			StringBuffer  sql7=new StringBuffer();
+//			StringBuffer  sql8=new StringBuffer();
 			String jz_id=NewSnUtil.getID();
 			sql1.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
 			sql1.append("values(100,'"+generator.get("gene_name")+"',"+jz_id+","+area_id+")");
@@ -278,6 +279,8 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 			sql6.append("values(800,'"+operatinglife+"',"+jz_id+","+area_id+")");
 			sql7.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
 			sql7.append("values(18001,'"+coalrate+"',"+jz_id+","+area_id+")");
+//			sql8.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
+//			sql8.append("values(18001,'"+generator.get("index_item")+"',"+jz_id+","+area_id+")");
 			sql[0]=sql1.toString();
 			sql[1]=sql2.toString();
 			sql[2]=sql3.toString();
@@ -285,12 +288,13 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 			sql[4]=sql5.toString();
 			sql[5]=sql6.toString();
 			sql[6]=sql7.toString();
+//			sql[7]=sql8.toString();
 			jdbcTemplate.batchUpdate(sql);
 		}
 	}
 	private List<Map<String,Object>> getGeneratorofBalance(String  plantid) throws Exception{
 		StringBuffer  buffer=new StringBuffer();
-		buffer.append("SELECT gene_name,gene_capacity FROM generator_data WHERE plant_id=?");
+		buffer.append("SELECT gene_name,gene_capacity,index_item FROM generator_data WHERE plant_id=?");
 	    return jdbcTemplate.queryForList(buffer.toString(),new Object[]{plantid});
 	}
 	private int getMax() throws Exception{
