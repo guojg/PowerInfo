@@ -10,7 +10,7 @@
 <%@include file="../../common/commonInclude.jsp"%>
 <%@include file="../../common/commonDefineBtn.jsp" %>
 <%
-DbTask tt=  (DbTask)request.getSession().getAttribute("fxtask");
+DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
 String taskid = "" ;
 String task_name = "";
 if(tt != null){
@@ -22,7 +22,6 @@ String organCode="";
 if(obj != null) {
 	organCode = obj.toString() ; 
 }
-
 Object objName=  request.getSession().getAttribute("organName");
 String organName="";
 if(objName != null) {
@@ -51,11 +50,11 @@ var organ_name='<%=organName%>';
 	var cols ='';
 	$(function() {
 	
-	
-	
+		
 		$('#organ_name').html('<b>'+organ_name+'</b>');
 
 		$('#task_name').html('<b>'+task_name+'</b>');
+
 		 cols = [ [ {
        		field : 'plant_id',
       		title : '所属发电厂',
@@ -99,7 +98,7 @@ var organ_name='<%=organName%>';
 		          		width : 120,
 		          		align : 'center'
 		          	}] ];
-			if(task_id==""){
+		 if(task_id==""){
 				var Height_Page = $(document).height();
 				var datagrid_title_height = $("#datagrid_div").position().top;
 				var height = Height_Page - datagrid_title_height;
@@ -112,7 +111,7 @@ var organ_name='<%=organName%>';
 					remoteSort : false,
 					frozenColumns : frozenCols,
 					columns : cols,
-					pagination: true
+					pagination : false
 				});
 				$.messager.alert('提示', '请先选择任务！', 'info');
 				return ;
@@ -142,7 +141,7 @@ var organ_name='<%=organName%>';
 		var gene_name = $('#gene_name').val();
 
 		var queryParams = {"elec_name":elec_name,"gene_name":gene_name,"task_id":task_id};
-		var url = path+'/generatorSetFxController/queryData';
+		var url = path+'/generatorSetDbController/queryData';
 		var Height_Page = $(document).height();
 		var datagrid_title_height = $("#datagrid_div").position().top;
 		var height = Height_Page - datagrid_title_height;
@@ -170,7 +169,7 @@ var organ_name='<%=organName%>';
 			title : '修改',
 			width : 800,
 			height : 480,
-			url : path + '/generatorSetFxController/main?id='+rows[0].jz_id+"&plant_id="+rows[0].plant_id+'&task_id='+task_id
+			url : path + '/generatorSetDbController/main?id='+rows[0].jz_id+"&plant_id="+rows[0].plant_id+'&task_id='+task_id
 		});
 	}
 	
@@ -180,13 +179,13 @@ var organ_name='<%=organName%>';
 			title : '详情',
 			width : 800,
 			height : 500,
-			url : path + '/generatorSetFxController/detail?id='+jz_id+'&task_id='+task_id
+			url : path + '/generatorSetDbController/detail?id='+jz_id+'&task_id='+task_id
 		});
 	}
 	function duibi() {
 		var rows = $('#datagrid').datagrid('getChecked');
-		if(rows.length!=1){
-			$.messager.alert('提示', '请选择一个需要分析的机组！', 'info');
+		if(rows.length <1){
+			$.messager.alert('提示', '请选择需要对比的机组！', 'info');
 			return ;
 		}
 		var ids = "";
@@ -197,8 +196,8 @@ var organ_name='<%=organName%>';
 				ids = ids + rows[rowindex]["jz_id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('机组成本分析');
-		 window.parent.addTab('机组成本分析', path+'/generatorContrastFxController/main?id='+ids+'&task_id='+task_id, '');
+		window.parent.closeSingleExtent('机组成本对比');
+		 window.parent.addTab('机组成本对比', path+'/generatorContrastDbYearController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {
@@ -218,7 +217,7 @@ var organ_name='<%=organName%>';
 						ids = ids + rows[rowindex]["jz_id"] + ",";
 					}
 				}
-				$.post(path+'/generatorSetFxController/deleteData', {
+				$.post(path+'/generatorSetDbController/deleteData', {
 					"ids" : ids
 				}, function(data) {
 					var data = $.parseJSON(data);
@@ -239,7 +238,7 @@ var organ_name='<%=organName%>';
 		var gene_name = $('#gene_name').val();
 
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/generatorSetFxController/exportData" method="post" id="fm1"></form>');  
+		var f = $('<form action="'+path+'/generatorSetDbController/exportData" method="post" id="fm1"></form>');  
 	    var i = $('<input type="hidden" id="elec_name" name="elec_name" />');  
 	    var l = $('<input type="hidden" id="gene_name" name="gene_name" />');
 	    var m = $('<input type="hidden" id="task_id" name="task_id" />');
@@ -267,8 +266,8 @@ var organ_name='<%=organName%>';
 			title='修改' />
 		</a> 
 		 <a id="tool_db"> <img
-			src='<%=path%>/static/images/cbfx.jpg' align='top' border='0'
-			title='成本分析' />
+			src='<%=path%>/static/images/cbdb.jpg' align='top' border='0'
+			title='成本对比' />
 			</a>
 		 <a id="tool_export"> <img
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
@@ -279,7 +278,7 @@ var organ_name='<%=organName%>';
 		<legend>查询条件</legend>
 		<table id="search_tbl">
 			<tr>
-				<td class="tdlft">区域：</td>
+			<td class="tdlft">区域：</td>
 				<td ><span id="organ_name"></span></td>
 			<td class="tdlft">任务：</td>
 				<td ><span id="task_name"></span></td>

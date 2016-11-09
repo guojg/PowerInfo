@@ -198,7 +198,7 @@ var organ_name='<%=organName%>';
 			}
 		}
 		window.parent.closeSingleExtent('机组成本分析');
-		 window.parent.addTab('机组成本分析', path+'/generatorContrastFxController/main?id='+ids+'&task_id='+task_id, '');
+		 window.parent.addTab('机组成本分析', path+'/generatorContrastFxYearController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {

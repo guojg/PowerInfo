@@ -28,11 +28,14 @@ public class GeneratorSetFxController {
 	public String index(HttpServletRequest request, HttpServletResponse response){
 		return "regionalanalysis/fx/generatorset";
 	}
+	@RequestMapping(value ="/indexyear")
+	public String indexyear(HttpServletRequest request, HttpServletResponse response){
+		return "regionalanalysis/fx/generatorsetYear";
+	}
 	@RequestMapping(value ="/main")
 	public String main(HttpServletRequest request, HttpServletResponse response){
 		return "regionalanalysis/fx/generatorsetmain";
 	}
-	
 	
 	@RequestMapping(value ="/detail")
 	public String detail(HttpServletRequest request, HttpServletResponse response){

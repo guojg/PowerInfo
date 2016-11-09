@@ -95,6 +95,11 @@ public class PlantAnalysisFxController {
 			HttpServletResponse re) {
 		return "regionalanalysis/fx/electricPowerPlant";
 	}
+	@RequestMapping(value = "/mainyear")
+	public String indexyear(Long pid, HttpServletRequest request,
+			HttpServletResponse re) {
+		return "regionalanalysis/fx/electricPowerPlantYear";
+	}
 	@RequestMapping(value = "/detailData")
 	public void detailData(HttpServletRequest request,
 			HttpServletResponse response) {

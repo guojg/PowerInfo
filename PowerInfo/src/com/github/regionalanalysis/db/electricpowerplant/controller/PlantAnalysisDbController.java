@@ -94,6 +94,11 @@ public class PlantAnalysisDbController {
 			HttpServletResponse re) {
 		return "regionalanalysis/db/electricPowerPlant";
 	}
+	@RequestMapping(value = "/mainyear")
+	public String indexyear(Long pid, HttpServletRequest request,
+			HttpServletResponse re) {
+		return "regionalanalysis/db/electricPowerPlantYear";
+	}
 	@RequestMapping(value = "/detailData")
 	public void detailData(HttpServletRequest request,
 			HttpServletResponse response) {

@@ -27,6 +27,10 @@ public class GeneratorSetDbController {
 	public String index(HttpServletRequest request, HttpServletResponse response){
 		return "regionalanalysis/db/generatorset";
 	}
+	@RequestMapping(value ="/indexyear")
+	public String indexyear(HttpServletRequest request, HttpServletResponse response){
+		return "regionalanalysis/db/generatorsetYear";
+	}
 	@RequestMapping(value ="/main")
 	public String main(HttpServletRequest request, HttpServletResponse response){
 		return "regionalanalysis/db/generatorsetmain";

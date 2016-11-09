@@ -1,82 +1,60 @@
-package com.github.regionalanalysis.fx.generatorset.service;
+package com.github.regionalanalysis.fx.generatorcontrastyear.service;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
-
-
-
 
 import com.github.common.export.ExcelParams;
 import com.github.common.export.ExcelUtils;
 import com.github.common.export.rules.CellEqualMergeRules;
 import com.github.common.export.rules.MergeRules;
 import com.github.common.util.JsonUtils;
-
-
-
-
-
-import com.github.regionalanalysis.fx.generatorset.dao.GeneratorSetFxDao;
+import com.github.regionalanalysis.fx.generatorcontrastyear.dao.GeneratorContrastFxYearDao;
 
 import net.sf.json.JSONObject;
 
 @Service
-public class GeneratorSetFxServiceImpl implements GeneratorSetFxService {
+public class GeneratorContrastFxYearServiceImpl implements  GeneratorContrastFxYearService{
 
 	@Autowired
-	private GeneratorSetFxDao generatorSetFxDao;
+	private GeneratorContrastFxYearDao generatorContrastFxYearDao;
 
-	
 	@Override
 	public String queryData(JSONObject param) {
-		List<Map<String, Object>> list = generatorSetFxDao.queryData(param);
-		int count = generatorSetFxDao.queryDataCount(param);
-		return JsonUtils.listTranJsonByPage(list,count);
+		List<Map<String, Object>> list = generatorContrastFxYearDao.queryData(param);
+		return JsonUtils.listTranJsonByQuery(list);
 	}
+
 	
 	public void ExportExcel(JSONObject param, HttpServletResponse response)
 			throws Exception {
 
 		String[] excelTitle = new String[] { "" };
-		
-		List<Map<String, Object>> list = generatorSetFxDao.queryAllData(param);
+		String index_text[]=param.getString("index_text").split(",");
+		List<Map<String, Object>> list = generatorContrastFxYearDao.queryData(param);
 		String[] colTitle = null;
 		String[] colName = null;
 
-		colTitle = new String[8];
-		colTitle[0] = "机组名";
-		colTitle[1] = "所属发电厂";
-		colTitle[2] = "额定容量";
-		colTitle[3] = "投运日期";
-		colTitle[4] = "建设投资";
-		colTitle[5] = "行业期望收益率（%）";
-		colTitle[6] = "运行寿命（年）";
-		colTitle[7] = "固定资产折旧（年值）";
-		colName = new String[8];
-		colName[0] = "100";
-		colName[1] = "plant_name";
-		colName[2] = "300";
-		colName[3] = "400";
-		colName[4] = "600";
-		colName[5] = "700";
-		colName[6] = "800";
-		colName[7] = "900";
-
-		String fileName = "机组";
+		colTitle = new String[5];
+		colTitle[0] = "电厂名称";
+		colTitle[1] = "机组名称";
+		
+		colTitle[2] = "指标名称";
+		colTitle[3] = "单位";
+		colTitle[4] = "成本";
+		colName = new String[5];
+		colName[0] = "plant_name";
+		colName[1] = "jz_name";
+		colName[2] = "index_y_name";
+		colName[3] = "unit_name";
+		colName[4] = "value";
+		String fileName = "机组成本对比";
 		ExcelParams params = new ExcelParams(fileName, excelTitle, null,
 				colTitle, colName, list);
 
@@ -92,18 +70,16 @@ public class GeneratorSetFxServiceImpl implements GeneratorSetFxService {
 		List<MergeRules> rules = new ArrayList<MergeRules>();
 		rules.add(rule);
 
-		int[] i = new int[] {};
+		int[] i = new int[] {0,1,2};
 		// 第二个参数rules为导出规则的list集合，第三个参数为第二个参数所需的参数，一个rule参数为一个int数组
 		ex.exportExcel(response, rules, new int[][] { i });
 
 	}
 
-	@Override
-	public void deleteData(JSONObject obj) {
-		String delectArr[] = obj.get("deleteids") == null ? null : obj
-				.get("deleteids").toString().split(",");
-		 generatorSetFxDao.deleteData(delectArr);
-		
-	}
 
+	@Override
+	public String queryDataPie() {
+		List<Map<String, Object>> list = generatorContrastFxYearDao.queryDataPie();
+		return JsonUtils.listTranJsonByQuery(list);
+	}
 }

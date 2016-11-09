@@ -84,12 +84,12 @@ var organ_name='<%=organName%>';
 		          		align : 'center'
 		          	}, {
 		          		field : '700',
-		          		title : '行业折现率',
+		          		title : '行业期望收益率（%）',
 		          		width : 100,
 		          		align : 'center'
 		          	}, {
 		          		field : '800',
-		          		title : '运营期',
+		          		title : '运行寿命（年）',
 		          		width : 100,
 		          		align : 'center'
 		          	}, {

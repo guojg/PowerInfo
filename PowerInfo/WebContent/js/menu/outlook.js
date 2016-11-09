@@ -189,13 +189,21 @@ function operationunit() {
 
 /** 初始化树结构* */
 function InitTreeData(data) {
+	
+
 	$('#tt').tree(
 			{
 				url : 'menu/queryMenu?pid='+data,
 				onSelect : function(node) {
-					if (node.attributes.url != "") {
-						addTab(node.text, path + node.attributes.url + "?pid="
-								+ node.id, "static/images/top_03.png");
+					var attrurl=node.attributes.url;
+					if (attrurl!= "") {
+						var urlpath=null;
+						if(attrurl.indexOf("?")>0){
+						    urlpath=path+attrurl+"&pid="+node.id;
+						}else{
+							urlpath=path + attrurl + "?pid="+ node.id
+						}
+						addTab(node.text,urlpath , "static/images/top_03.png");
 					}
 
 				},

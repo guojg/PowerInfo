@@ -60,8 +60,8 @@ public class GeneratorSetDbServiceImpl implements GeneratorSetDbService {
 		colTitle[2] = "额定容量";
 		colTitle[3] = "投运日期";
 		colTitle[4] = "建设投资";
-		colTitle[5] = "行业折现率（%）";
-		colTitle[6] = "运营期";
+		colTitle[5] = "行业期望收益率（%）";
+		colTitle[6] = "运行寿命（年）";
 		colTitle[7] = "固定资产折旧（年值）";
 		colName = new String[8];
 		colName[0] = "100";
