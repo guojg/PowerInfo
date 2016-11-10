@@ -7,7 +7,7 @@ $(function() {
 	$.ajax({
 		type : 'POST',
 		async : false,
-		data: {"domain_id":35,"condition":"100,200,300,400,9001,10001,11001,12001,13001,15001,16001,17001"},
+		data: {"domain_id":35,"condition":"100,200,300,400,9001,10001,11001,12001,13001,15001,16001,17001,17002,17003,17004,17005"},
 		dataType : 'json',
 		url :  '/PowerInfo/sysdict/getDataByNotCondition',
 		success : function(data) {

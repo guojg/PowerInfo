@@ -189,11 +189,11 @@ public class TaskFxDaoImpl implements TaskFxDao{
 	 */
 	public void insertElec(String id,String area_id){
 		StringBuffer  buffer=new StringBuffer("INSERT INTO   electricpowerplant_analysis_data_fx (id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year, "
-				+ "economical_life,  equired_return,financial_cost, generation_coal, operation_rate, operation_cost,unit_cost,area_id, task_id,materials_cost,salary,repairs_cost,other_cost)"
+				+ "economical_life,  equired_return,financial_cost, generation_coal, operation_rate, operation_cost,unit_cost,area_id, task_id,materials_cost,salary,repairs_cost,other_cost,build_year,consumption_rate,electricity_consumption,power_type,Cooling_type)"
 				+ " select id,plant_name,plant_capacity,generating_capatity,plant_loss,start_outlay,product_year,economical_life,  equired_return,"
 				+ "financial_cost, generation_coal, operation_rate, operation_cost,unit_cost,area_id, " );
 		buffer.append(id + " 'task_id'") ;
-		buffer.append( ",materials_cost,salary,repairs_cost,other_cost FROM electricpowerplant_analysis_data where area_id=? ");
+		buffer.append( ",materials_cost,salary,repairs_cost,other_cost,build_year,consumption_rate,electricity_consumption,power_type,Cooling_type FROM electricpowerplant_analysis_data where area_id=? ");
 		jdbcTemplate.update(buffer.toString(),new Object[]{area_id});
 		
 	}
