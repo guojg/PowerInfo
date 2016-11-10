@@ -27,55 +27,13 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 		<script type="text/javascript">
 		var id='<%=id%>' ;
 
-		$(function() {
-
-			$("#tool_query").bind("click", function() {
-				
-				drawChart();
-			});
-			 /*comboBoxInit({
-					id : "index_y",
-					url : path + '/sysdict/getDataByCodeValue?domain_id=303',
-					textkey : "value",
-					valuekey : "code",
-					multiple:false,
-					defaultVal:5
-				});
-			comboBoxInit({
-				id : "pic_type",
-				url : path + '/js/basicData/chartType.json',
-				textkey : "text",
-				valuekey : "id",
-				defaultVal : "column"
-			});
-			
-			$("#pic_type").combobox({
-				onSelect:function(){
-					drawChart();
-				}
-			});
-			$("#index_y").combobox({
-				onSelect:function(){
-					drawChart();
-				}
-			});*/
-		});
 	</script>
 		</head>
 		<body>
 			<!-- 引入自定义按钮页面 -->
 			<div id="btn_div">
 
-	   				<a id="exportBtn"> <img
-			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
-			title='导出' /></a>
-				<a id="exportBtn1"> <img
-			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
-			title='导出' /></a>
-				<a id="exportBtn2"> <img
-			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
-			title='导出' />
-		</a>
+
 			</div>
 <!-- 
 			<div >
@@ -91,13 +49,13 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 				</table>
 			</div>
  -->
- <div style="min-width: 100%; height: 50%;margin:0 auto;">
-<div id="container" style="width: 49.9%; height: 200px; margin: 0 auto; reflow:true"></div>
-<div id="container1" style="width: 49.9%; height: 200px; margin: 0 auto; reflow:true"></div>
+ <div style="min-width: 100%; height: 50%;margin: 0px 0px 0px 0px;padding:0">
+<div id="container" style="width: 49.9%; height: 49%; reflow:true"></div>
+<div id="container1" style="width: 49.9%; height: 49%; reflow:true"></div>
 </div>
- <div style="min-width: 100%; height: 50%;margin:0 auto;" >
-<div id="container2" style="width: 49.9%; height: 200px; margin: 0 auto; reflow:true"></div>
-<div id="container3" style="width: 49.9%; height: 200px; margin: 0 auto; reflow:true"></div>
+ <div style="min-width: 100%; height: 50%;margin: 0px 0px 0px 0px;padding:0" >
+<div id="container2" style="width: 49.9%; height: 49%;  reflow:true"></div>
+<div id="container3" style="width: 49.9%; height: 49%;  reflow:true"></div>
 </div>
  <!--  
  <div data-options="region:'north'" style="height:100px"></div>   

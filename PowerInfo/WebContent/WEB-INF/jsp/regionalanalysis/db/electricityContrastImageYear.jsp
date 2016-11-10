@@ -33,7 +33,7 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 					textkey : "value",
 					valuekey : "code",
 					multiple:false,
-					defaultVal:5
+					defaultVal:1
 				});
 			comboBoxInit({
 				id : "pic_type",

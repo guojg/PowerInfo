@@ -1,4 +1,5 @@
 // 图表
+debugger;
 var chart;
 //window.parent.frames["iframe0"].jQuery;
 var areas = [];
@@ -193,9 +194,7 @@ function loadData( chartType, yIndex, isInit) {
 	// 筛选数据
 	var selections = data;
 	var type = chartType;// 图表类型
-	var xLastLevel = createXLastLevel($("#index_x").combobox("getValues"));
 	var ylastField = 'plant_name';
-	var xlastField = null;
 	var list = [];
 
 	for (var i = 0, len = selections.length; i < len; i++) {
@@ -208,14 +207,11 @@ function loadData( chartType, yIndex, isInit) {
 		if (!isInit) {
 			series.color = getRandomColor();
 		}
-		for (var j = 0, len2 = xLastLevel.length; j < len2; j++) {
+		//for (var j = 0, len2 = xLastLevel.length; j < len2; j++) {
 			var slice = [];
-			xlastField = xLastLevel[j]['code'];
-			var shortname = areas.getValue('name', xLastLevel[j]['code'],
-					'shortname')
-					|| xLastLevel[j]['value'];
+			var shortname = $("#index_y").combo("getText");
 			slice.push(shortname);
-			var num=Number(selections[i][xlastField]);
+			var num=Number(selections[i]["value"]);
 			if(isNaN(num)){
 				num=0;
 			}
@@ -224,7 +220,7 @@ function loadData( chartType, yIndex, isInit) {
 			if (i == 0) {				
 				categories.push(shortname);
 			}
-		}
+		//}
 		series.dataLabels = {
 			enabled : true
 		};

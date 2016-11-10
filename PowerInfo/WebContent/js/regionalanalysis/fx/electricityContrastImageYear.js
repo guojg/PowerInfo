@@ -22,7 +22,6 @@ var options = {
 		borderColor : '#00B997',
 		shared : true,
 		formatter : function() {
-			debugger;
 			return '<span >' +this.key+"<br/>百分比 :"+Number(this.percentage).toFixed(2) +  '%</span><b>值:'+this.y+ '</b>';
 		}
 	},
@@ -78,7 +77,7 @@ var categories1 = [];
 var categories2 = [];
 var categories3 = [];
 $(function() {
-	$("#exportBtn").bind("click", function() {
+	/*$("#exportBtn").bind("click", function() {
 		$("#exportBtn1").click();
 		$("#exportBtn2").click();
 
@@ -90,7 +89,7 @@ $(function() {
 	$("#exportBtn2").bind("click", function() {
 		chart1.exportChart();
 		
-	});
+	});*/
 
 
 	drawChart();
