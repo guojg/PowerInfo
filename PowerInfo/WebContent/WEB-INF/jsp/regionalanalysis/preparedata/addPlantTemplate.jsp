@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<title>燃煤成本数据</title>
+<title>典型参数</title>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">

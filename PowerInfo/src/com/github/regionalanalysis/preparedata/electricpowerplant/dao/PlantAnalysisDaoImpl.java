@@ -194,22 +194,29 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		// TODO Auto-generated method stub
 		StringBuffer sb = new StringBuffer();
 		String[] ids=null;
-		if(id!=null&&!"".equals(id)){
-		ids=id.split(",");
-		}
 		String InSql = "";
-		for (int i = 0; i < ids.length; i++) {
-			InSql = InSql + "?,";
+		if(id!=null&&!"".equals(id)){
+			ids=id.split(",");
+	
+			for (int i = 0; i < ids.length; i++) {
+				InSql = InSql + "?,";
+			}
 		}
 		sb.append(
 				"SELECT b.code index_item,b.value index_name,a.value FROM shiro.`electricalsource_analysis_templete` a RIGHT JOIN  ");
 
 		sb.append(" (SELECT CODE,VALUE,ord  FROM shiro.`sys_dict_table` WHERE domain_id='301'");
+		if(!"".equals(InSql)){
 		sb.append(" and code in(");
 		sb.append(InSql.substring(0, InSql.length() - 1));
-		sb.append("  )) b ON  a.index_item=b.code order by b.ord");
-
-		return jdbcTemplate.queryForList(sb.toString(),ids);
+		sb.append("  )");
+		}
+		sb.append("  ) b ON  a.index_item=b.code order by b.ord");
+		if(!"".equals(InSql)){
+			return jdbcTemplate.queryForList(sb.toString(),ids);
+		}else{
+			return jdbcTemplate.queryForList(sb.toString());
+		}
 
 		
 	}
