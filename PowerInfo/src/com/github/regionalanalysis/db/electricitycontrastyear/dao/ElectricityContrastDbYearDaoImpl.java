@@ -29,7 +29,7 @@ public class ElectricityContrastDbYearDaoImpl implements ElectricityContrastDbYe
 		//String area_id = "1" ;
 		String task_id = param.getString("task_id") ;
 		
-		sb.append("SELECT b.id 'plant_id',b.plant_name,b.index_y_name,'元' as 'unit_name',b.code,sum(a.value)");
+		sb.append("SELECT b.id 'plant_id',b.plant_name,b.index_y_name,'元' as 'unit_name',b.code,sum(a.value) value");
 
 		sb.append("   FROM  electricity_contrast_year_db a")
 		.append("  RIGHT JOIN  (")
@@ -49,8 +49,8 @@ public class ElectricityContrastDbYearDaoImpl implements ElectricityContrastDbYe
 		sb.append(buffer.toString());
 
 		sb.append("  	AND task_id = ?) X JOIN ( ")
-		.append("		    SELECT s1.code,s1.value index_y_name,s1.ord FROM sys_dict_table  s1     ")
-		.append("			 s1.domain_id = 36   AND INSTR(?,s1.code)>0 ORDER BY  s1.ord)Y");
+		.append("		    SELECT s1.code,s1.value index_y_name,s1.ord FROM sys_dict_table  s1  where   ")
+		.append("			 s1.domain_id = 303   AND INSTR(?,s1.code)>0 ORDER BY  s1.ord)Y");
 		
 		sb.append(" 				)b ON a.dc_id=b.id AND a.task_id=b.task_id AND a.index_y=b.code and a.task_id=? ") 
 		.append(" 			GROUP BY  b.task_id,b.id,b.code		 ORDER BY plant_id DESC,b.code ASC ") ;

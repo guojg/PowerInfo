@@ -29,7 +29,7 @@ public class GeneratorContrastDbYearDaoImpl implements GeneratorContrastDbYearDa
 		//String area_id = "1" ;
 		String task_id = param.getString("task_id") ;
 		
-		sb.append("SELECT b.task_id,b.mjz_id jz_id,b.jz_name,concat(b.plant_name,b.jz_name )'dc_jz_name',b.plant_id,b.plant_name,'元' as 'unit_name' ,b.index_y_name,b.code index_y,sum(a.value)");
+		sb.append("SELECT b.task_id,b.mjz_id jz_id,b.jz_name,concat(b.plant_name,b.jz_name )'dc_jz_name',b.plant_id,b.plant_name,'元' as 'unit_name' ,b.index_y_name,b.code index_y,sum(a.value) value");
 
 		sb.append("   FROM  generator_contrast_year_db a")
 		.append("  RIGHT JOIN  (")
@@ -50,7 +50,7 @@ public class GeneratorContrastDbYearDaoImpl implements GeneratorContrastDbYearDa
 		 buffer.append(InSql.substring(0, InSql.length() - 1));
 		buffer.append(") ");
 		sb.append(buffer.toString());
-		sb.append(" 					 )X   JOIN (SELECT s1.code,s1.value index_y_name,s1.ord FROM sys_dict_table  s1 " )
+		sb.append(" 					 )X   JOIN (SELECT s1.code,s1.value index_y_name,s1.ord FROM sys_dict_table  s1  where " )
 		.append( "        			  s1.domain_id = 303  and instr(?,s1.code)>0 ORDER BY  s1.ord) Y   " )
 		.append("	) b")
 		.append("	ON a.jz_id=b.mjz_id AND a.index_y=b.code  and a.task_id=b.task_id and a.task_id=? ") ;

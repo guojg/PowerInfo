@@ -29,8 +29,8 @@ public class GeneratorContrastFxYearDaoImpl implements GeneratorContrastFxYearDa
 		//String area_id = "1" ;
 		String task_id = param.getString("task_id") ;
 		
-		sb.append("SELECT b.task_id,b.mjz_id jz_id,b.jz_name,concat(b.plant_name,b.jz_name )'dc_jz_name',b.plant_id,b.plant_name,'元' as 'unit_name' ,b.index_y_name,b.code index_y,sum(a.value)");
-		sb.append("   FROM  generator_contrast_fx a")
+		sb.append("SELECT b.task_id,b.mjz_id jz_id,b.jz_name,concat(b.plant_name,b.jz_name )'dc_jz_name',b.plant_id,b.plant_name,'元' as 'unit_name' ,b.index_y_name,b.code index_y,sum(a.value) value");
+		sb.append("   FROM  generator_contrast_year_fx a")
 		.append("  RIGHT JOIN  (")
 		.append("	  SELECT x.*,y.* FROM (")
 

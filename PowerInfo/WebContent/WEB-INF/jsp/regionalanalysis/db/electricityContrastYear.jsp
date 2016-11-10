@@ -40,10 +40,7 @@ var cols = [ [  {
 	width : 100,
 	align : 'center'
 }]];
-	
-	var cols ='';
-	var gkarray='';
-	$(function() {
+		$(function() {
 		 comboBoxInit({
 				id : "index_y",
 				url : path + '/sysdict/getDataByCodeValue?domain_id=303',

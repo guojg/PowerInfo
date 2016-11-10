@@ -29,7 +29,7 @@ public class ElectricityContrastFxYearDaoImpl implements ElectricityContrastFxYe
 		//String area_id = "1" ;
 		String task_id = param.getString("task_id") ;
 		
-		sb.append("SELECT b.id 'plant_id',b.plant_name,b.index_y_name,'元' as 'unit_name',b.code,sum(a.value)");
+		sb.append("SELECT b.id 'plant_id',b.plant_name,b.index_y_name,'元' as 'unit_name',b.code,sum(a.value) value");
 		sb.append("   FROM  electricity_contrast_year_fx a")
 		.append("  RIGHT JOIN  (")
 		.append("	  SELECT x.*,y.* FROM (  	SELECT * FROM electricpowerplant_analysis_data_fx WHERE id IN (");

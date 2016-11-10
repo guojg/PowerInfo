@@ -35,6 +35,8 @@ public class TaskDbDaoImpl implements TaskDbDao{
 		this.insertElec(id, area_id);
 		this.insertElecCon(id, area_id);
 		this.insertGeneCon(id, area_id);
+		this.insertElecConYear(id, area_id);
+		this.insertGeneConYear(id, area_id);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -104,6 +106,8 @@ public class TaskDbDaoImpl implements TaskDbDao{
 		this.deleteElec(delectArr);
 		this.deleteElecCon(delectArr);
 		this.deleteGeneCon(delectArr);
+		this.deleteElecConYear(delectArr);
+		this.deleteGeneConYear(delectArr);
 		return "1";
 	}
 	/**
@@ -127,6 +131,22 @@ public class TaskDbDaoImpl implements TaskDbDao{
 	 */
 	public void deleteElecCon(String[] delectArr){
 		StringBuffer  buffer=new StringBuffer("delete from electricity_contrast_db where task_id in(");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		
+	}
+	
+	/**
+	 * 删除电厂年对比信息
+	 * @param delectArr
+	 */
+	public void deleteElecConYear(String[] delectArr){
+		StringBuffer  buffer=new StringBuffer("delete from electricity_contrast_year_db where task_id in(");
 		String InSql = "";
 		for (int i = 0; i < delectArr.length; i++) {
 			InSql = InSql + "?,";
@@ -182,6 +202,21 @@ public class TaskDbDaoImpl implements TaskDbDao{
 		jdbcTemplate.update(buffer.toString(),delectArr);
 		
 	}
+	/**
+	 * 删除机组年对比信息
+	 * @param delectArr
+	 */
+	public void deleteGeneConYear(String[] delectArr){
+		StringBuffer  buffer=new StringBuffer("delete from generator_contrast_year_db where task_id in(");
+		String InSql = "";
+		for (int i = 0; i < delectArr.length; i++) {
+			InSql = InSql + "?,";
+		}
+		buffer.append(InSql.substring(0, InSql.length() - 1));
+		buffer.append(")");
+		jdbcTemplate.update(buffer.toString(),delectArr);
+		
+	}
 	
 	/**
 	 * 复制电厂
@@ -206,6 +241,18 @@ public class TaskDbDaoImpl implements TaskDbDao{
 				+ " SELECT index_x,unit,index_y,VALUE,dc_id,area_id, " );
 		buffer.append(id + " 'task_id'") ;
 		buffer.append( "FROM electricity_contrast where area_id=? ");
+		jdbcTemplate.update(buffer.toString(),new Object[]{area_id});
+		
+	}
+	/**
+	 * 复制电厂对比信息年值
+	 * @param delectArr
+	 */
+	public void insertElecConYear(String id,String area_id){
+		StringBuffer  buffer=new StringBuffer("INSERT INTO electricity_contrast_year_db(unit,index_y,VALUE,dc_id,area_id,task_id)"
+				+ " SELECT unit,index_y,VALUE,dc_id,area_id, " );
+		buffer.append(id + " 'task_id'") ;
+		buffer.append( "FROM electricity_contrast_year where area_id=? ");
 		jdbcTemplate.update(buffer.toString(),new Object[]{area_id});
 		
 	}
@@ -244,6 +291,18 @@ public class TaskDbDaoImpl implements TaskDbDao{
 				+ " SELECT index_x,unit,index_y,VALUE,jz_id,area_id, " );
 		buffer.append(id + " 'task_id'") ;
 		buffer.append( "FROM generator_contrast where area_id=? ");
+		jdbcTemplate.update(buffer.toString(),new Object[]{area_id});
+		
+	}
+	/**
+	 * 复制机组对比信息年值
+	 * @param delectArr
+	 */
+	public void insertGeneConYear(String id,String area_id){
+		StringBuffer  buffer=new StringBuffer("INSERT INTO generator_contrast_year_db(unit,index_y,VALUE,jz_id,area_id,task_id)"
+				+ " SELECT unit,index_y,VALUE,jz_id,area_id, " );
+		buffer.append(id + " 'task_id'") ;
+		buffer.append( "FROM generator_contrast_year where area_id=? ");
 		jdbcTemplate.update(buffer.toString(),new Object[]{area_id});
 		
 	}
