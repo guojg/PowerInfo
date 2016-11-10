@@ -110,7 +110,7 @@ cols = [ [  {
 		});
 	}
 	function ExportExcel() {//导出Excel文件
-		
+		debugger;
 		var indexy = $("#index_y").combo("getValues");
 		var index_y;
 		if (indexy != "") {
@@ -123,16 +123,12 @@ cols = [ [  {
 			return;
 		}
 	
-		var index_text=$("#index_x").combobox("getText");
 		//用ajax发动到动态页动态写入xls文件中
-		var f = $('<form action="'+path+'/generatorContrastDbController/exportData" method="post" id="fm1"></form>');  
+		var f = $('<form action="'+path+'/generatorContrastDbYearController/exportData" method="post" id="fm1"></form>');  
 	    var l = $('<input type="hidden" id="index_ys" name="index_ys" />');
-	    var m = $('<input type="hidden" id="index_text" name="index_text" />');  
 	    var n = $('<input type="hidden" id="id" name="id" />');  
 		l.val(index_y);  
 		l.appendTo(f);  
-		m.val(index_text);  
-		m.appendTo(f);  
 		n.val(id);  
 		n.appendTo(f);  
 		f.appendTo(document.body).submit();  

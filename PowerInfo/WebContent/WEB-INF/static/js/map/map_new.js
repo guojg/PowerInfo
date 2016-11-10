@@ -523,7 +523,7 @@
 								
 							}
 						});
-						window.parent.addNav(190);
+						window.parent.addNav(189);
 						
 					
 						//window.location.href = path+'/mapController/setSession?organCode=' + orgCode;
