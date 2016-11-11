@@ -115,7 +115,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		}
 		
 		sb.append(" from (  ")
-		.append(" SELECT yr YEAR,VALUE,11 a FROM electricalsource_data WHERE index_item=108 AND yr<? ")
+		.append(" SELECT yr YEAR,VALUE,11 a FROM powersupply_data WHERE index_item=401 AND yr<? ")
 		.append(" union all ")
 		.append(" SELECT YEAR,VALUE,11 a FROM electricity_data WHERE index_item=400 AND task_id=? ) b");
 		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{minYear,task_id});
