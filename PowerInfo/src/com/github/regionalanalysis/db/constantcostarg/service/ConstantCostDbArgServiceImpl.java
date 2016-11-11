@@ -36,9 +36,9 @@ public class ConstantCostDbArgServiceImpl implements ConstantCostDbArgService {
 		Long task_id=Long.parseLong(taskid);
 
 		try {
-			totalDataAnalysisDao.totalDatadCompare(jz_id,area_id,task_id);
-			totalDataAnalysisDao.totalDataPlantCompare(constantCostDbArgDao.getPlantByJz(jz_id.toString(),task_id.toString()),area_id,task_id);
-
+			//totalDataAnalysisDao.totalDatadCompare(jz_id,area_id,task_id);
+			//totalDataAnalysisDao.totalDataPlantCompare(constantCostDbArgDao.getPlantByJz(jz_id.toString(),task_id.toString()),area_id,task_id);
+			totalDataAnalysisDao.fdcSaveTotalDb(constantCostDbArgDao.getPlantByJz(jz_id.toString(),taskid), area_id,task_id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

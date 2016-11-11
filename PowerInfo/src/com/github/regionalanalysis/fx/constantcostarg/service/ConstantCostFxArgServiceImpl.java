@@ -38,8 +38,9 @@ public class ConstantCostFxArgServiceImpl implements ConstantCostFxArgService {
 		Long task_id=Long.parseLong(taskid);
 
 		try {
-			totalDataAnalysisDao.totalDatadCompare(jz_id,area_id,task_id);
-			totalDataAnalysisDao.totalDataPlantCompare(constantCostFxArgDao.getPlantByJz(jz_id.toString(),task_id.toString()),area_id,task_id);
+			//totalDataAnalysisDao.totalDatadCompare(jz_id,area_id,task_id);
+			//totalDataAnalysisDao.totalDataPlantCompare(constantCostFxArgDao.getPlantByJz(jz_id.toString(),task_id.toString()),area_id,task_id);
+			totalDataAnalysisDao.fdcSaveTotalFx(constantCostFxArgDao.getPlantByJz(jz_id.toString(),taskid), area_id,task_id);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
