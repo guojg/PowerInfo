@@ -7,6 +7,17 @@
 </head>
 <%@include file="../common/commonInclude.jsp" %>	
 <script type="text/javascript">
+$(function() {
+	$.ajax({
+		  type: "post",
+		  url: path + '/basicData/getyears',
+		  success:function(msg){
+			 	if(typeof(msg)!="undefined"&&msg!=null)
+				$("#startyear").val(msg[0].year);
+				$("#endyear").val(msg[msg.length-1].year);
+			}
+		});
+});
 //取消
 function cancel(){
 	//关闭窗口
