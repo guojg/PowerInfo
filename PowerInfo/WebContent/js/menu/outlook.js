@@ -240,7 +240,7 @@ function InitTreeData(data) {
 						
 					}else if(data==190){
 						//$("#tt").tree("expandTo",rooNode.target);  
-						 $("#tt li:eq(10)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+						 $("#tt li:eq(8)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
 				           var n = $("#tt").tree("getSelected");   
 				           if(n!=null){   
 				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
@@ -249,7 +249,7 @@ function InitTreeData(data) {
 				           $('#mm-tabcloseother').click();
 					}else if(data==191){
 						//$("#tt").tree("expandTo",rooNode.target);  
-						 $("#tt li:eq(8)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+						 $("#tt li:eq(10)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
 				           var n = $("#tt").tree("getSelected");   
 				           if(n!=null){   
 				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   

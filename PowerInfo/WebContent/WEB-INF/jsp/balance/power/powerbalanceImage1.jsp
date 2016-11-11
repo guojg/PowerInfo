@@ -80,6 +80,19 @@
 		$("#tool_exporttu").bind("click", function() {
 			ExportTu();
 		});
+		comboBoxInit({
+			id : "pic_type",
+			url : path + '/js/basicData/chartType.json',
+			textkey : "text",
+			valuekey : "id",
+			defaultVal : "column"
+		});
+		
+		$("#pic_type").combobox({
+			onSelect:function(){
+				drawChart();
+			}
+		});
 	drawChart();
 	});
 	/**
@@ -108,7 +121,9 @@
 											'$1="rgb($2)" $1-opacity="$3"');
 						});
 		
-		var pic_type = "spline";
+	//var pic_type = "spline";
+		var pic_type = $("#pic_type").combo("getValue");
+
 		//var data = loadData( pic_type, 0, true);
 		var data = loadData( pic_type, 0, true);
 		var settings = {};
@@ -120,7 +135,6 @@
 			plotLines : []
 		} ];
 		settings.yAxis = [ {
-			min : 0,
 			labels : {
 				formatter : function() {
 					return this.value;
@@ -213,7 +227,17 @@
 			title='导出图' />
 		</a>
 	</div>
-	<div id="container" style="padding-left: 5px;padding-right: 5px;padding-top: 5px;height: 90%"></div>
+	<fieldset id="field">
+				<legend>查询条件</legend>
+				<table id="search_tbl">
+					<tr>
+						<td class="tdlft">图标类型：</td>
+						<td class="tdrgt"><input id="pic_type"
+							class="comboboxComponent" /></td>
+					</tr>
+				</table>
+			</fieldset>
+	<div id="container" style="padding-left: 5px;padding-right: 5px;padding-top: 5px;height: 80%"></div>
 	<script type="text/javascript"
 				src="<%=path%>/static/js/Highcharts-4.0.1/raphael.js"></script>
 			<script type="text/javascript"

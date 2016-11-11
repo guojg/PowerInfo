@@ -109,6 +109,19 @@ var years = '<%=year%>';
 			valuekey : "year",
 			multiple : true
 		});
+		comboBoxInit({
+			id : "pic_type",
+			url : path + '/js/basicData/chartType.json',
+			textkey : "text",
+			valuekey : "id",
+			defaultVal : "column"
+		});
+		
+		$("#pic_type").combobox({
+			onSelect:function(){
+				drawChart();
+			}
+		});
 	drawChart();
 	});
 	/**
@@ -137,7 +150,7 @@ var years = '<%=year%>';
 											'$1="rgb($2)" $1-opacity="$3"');
 						});
 		
-		var pic_type = "spline";
+		var pic_type = $("#pic_type").combo("getValue");
 		//var data = loadData( pic_type, 0, true);
 		var data = loadData( pic_type, 0, true);
 		var settings = {};
@@ -281,6 +294,9 @@ var years = '<%=year%>';
 			<tr>
 				<td class="tdlft">年份：</td>
 				<td class="tdrgt"><input id="years" class="comboboxComponent" /></td>
+				<td class="tdlft">图标类型：</td>
+						<td class="tdrgt"><input id="pic_type"
+							class="comboboxComponent" /></td>
 			</tr>
 		</table>
 	</fieldset>
