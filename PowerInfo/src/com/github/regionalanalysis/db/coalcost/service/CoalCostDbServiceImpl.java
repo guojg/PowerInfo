@@ -28,6 +28,7 @@ public class CoalCostDbServiceImpl implements  CoalCostDbService{
 	private CoalCostDbDao coalCostDbDao;
 	@Autowired
 	private TotalDataAnalysisDao totalDataAnalysisDao;
+	
 	@Override
 	public String queryData(JSONObject param) throws Exception {
 		List<Map<String, Object>> list = coalCostDbDao.queryData(param);

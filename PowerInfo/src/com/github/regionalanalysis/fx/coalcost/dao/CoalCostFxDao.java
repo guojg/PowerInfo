@@ -22,5 +22,6 @@ public interface CoalCostFxDao {
 	public String saveData(JSONObject param) throws Exception;
 	
 	public Integer getDcByFdj(String fdj_id,String task_id) throws Exception;
+	public void sumData(String fdj_id,String task_id) throws Exception;
 	
 }

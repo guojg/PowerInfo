@@ -16,6 +16,7 @@ import com.github.common.util.NewSnUtil;
 import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
 import com.github.regionalanalysis.db.constantcostarg.dao.ConstantCostDbArgDao;
 import com.github.regionalanalysis.db.constantcostarg.entity.ConstantCostArg;
+import com.github.regionalanalysis.fx.coalcost.dao.CoalCostFxDao;
 import com.github.regionalanalysis.fx.constantcostarg.dao.ConstantCostFxArgDao;
 
 import net.sf.json.JSONObject;
@@ -27,7 +28,8 @@ public class ConstantCostFxArgServiceImpl implements ConstantCostFxArgService {
 	private ConstantCostFxArgDao constantCostFxArgDao;
 	@Autowired
 	private TotalDataAnalysisDao totalDataAnalysisDao;
-	
+	@Autowired
+	private CoalCostFxDao coalCostFxDao;
 	@Override
 	public String  saveData(Map m,String organ,String taskid) {
 		// TODO Auto-generated method stub
@@ -41,7 +43,7 @@ public class ConstantCostFxArgServiceImpl implements ConstantCostFxArgService {
 			//totalDataAnalysisDao.totalDatadCompare(jz_id,area_id,task_id);
 			//totalDataAnalysisDao.totalDataPlantCompare(constantCostFxArgDao.getPlantByJz(jz_id.toString(),task_id.toString()),area_id,task_id);
 			totalDataAnalysisDao.fdcSaveTotalFx(constantCostFxArgDao.getPlantByJz(jz_id.toString(),taskid), area_id,task_id);
-
+			coalCostFxDao.sumData(jz_id.toString(), taskid);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

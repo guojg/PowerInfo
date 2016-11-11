@@ -169,7 +169,7 @@ public class CoalCostDbDaoImpl implements CoalCostDbDao {
 		jdbcTemplate.batchUpdate(insertsql, setinsert);
 	}
 
-	private void sumData(String fdj_id,String task_id) throws Exception {
+	public void sumData(String fdj_id,String task_id) throws Exception {
 		// TODO Auto-generated method stub
 		StringBuffer delbuffer=new StringBuffer("delete from coal_cost_data_db where index_y in (5,6) and fdj_id=? and task_id=? ");
 		jdbcTemplate.update(delbuffer.toString(),new Object[]{fdj_id,task_id});

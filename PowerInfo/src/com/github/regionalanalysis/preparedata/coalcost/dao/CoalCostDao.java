@@ -26,4 +26,6 @@ public interface CoalCostDao {
 	
 	public Integer getDcByFdj(String fdj_id) throws Exception;
 	
+	public  void sumData(String fdj_id) throws Exception ;
+	
 }

@@ -23,4 +23,6 @@ public interface CoalCostDbDao {
 	
 	public Integer getDcByFdj(String fdj_id,String task_id) throws Exception;
 	
+	public void sumData(String fdj_id,String task_id) throws Exception ;
+	
 }

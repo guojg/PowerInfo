@@ -158,7 +158,7 @@ public class CoalCostDaoImpl implements CoalCostDao {
 		jdbcTemplate.batchUpdate(insertsql, setinsert);
 	}
 
-	private void sumData(String fdj_id) throws Exception {
+	public  void sumData(String fdj_id) throws Exception {
 		// TODO Auto-generated method stub
 		StringBuffer delbuffer=new StringBuffer("delete from coal_cost_data where index_y in (5,6) and fdj_id=?");
 		jdbcTemplate.update(delbuffer.toString(),new Object[]{fdj_id});

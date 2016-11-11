@@ -1,7 +1,8 @@
 //var buttons = document.querySelectorAll(".radmenu a");
-
+window.onload=function(){
   var button = document.getElementById("mainmenu");
   button.onclick = setSelected;
+}
 
 
 function setSelected(e) {

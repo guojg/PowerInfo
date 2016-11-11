@@ -33,6 +33,8 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 	@Autowired
 	private TotalDataAnalysisDao totalDataAnalysisDao;
 	
+	@Autowired
+	private CoalCostDao  coalCostDao;
 	@Override
 	public String  saveData(Map m,String organ) {
 		// TODO Auto-generated method stub
@@ -44,7 +46,7 @@ public class ConstantCostArgServiceImpl implements ConstantCostArgService {
 			//totalDataAnalysisDao.totalData(jz_id,area_id);
 			//totalDataAnalysisDao.totalDataPlant(constantCostArgDao.getPlantByJz(jz_id.toString()),area_id);
 			totalDataAnalysisDao.fdcSaveTotal(constantCostArgDao.getPlantByJz(jz_id.toString()), area_id);
-
+			coalCostDao.sumData(jz_id.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

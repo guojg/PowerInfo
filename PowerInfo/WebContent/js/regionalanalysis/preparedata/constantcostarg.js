@@ -28,13 +28,13 @@ $(function() {
 			 if(i=='600'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td>";
 			 }else if(i=='700'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly' ></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'></td>";
 			 }else if(i=='800'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' ></td>";
 			 }else if(i=='900'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
 			 }else if(i=='18001'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  ></td>";
 			 }else if(i=='19001'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
 			 }else if(i=='500'){
@@ -48,13 +48,13 @@ $(function() {
 			 if(i=='600'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td></tr>";
 			 }else if(i=='700'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' ></td></tr>";
 			 }else if(i=='800'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' ></td></tr>";
 			 }else if(i=='900'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
 			 }else if(i=='18001'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' ></td></tr>";
 			 }else if(i=='19001'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
 			 }else if(i=='500'){

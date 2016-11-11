@@ -69,7 +69,7 @@ var organ_name='<%=organName%>';
 		          		align : 'center'
 		          	}, {
 		          		field : '300',
-		          		title : '额定容量',
+		          		title : '额定容量（WM）',
 		          		width : 100,
 		          		align : 'center'
 		          	}, {
@@ -79,7 +79,7 @@ var organ_name='<%=organName%>';
 		          		align : 'center'
 		          	}, {
 		          		field : '600',
-		          		title : '建设投资',
+		          		title : '建设投资（元）',
 		          		width : 100,
 		          		align : 'center'
 		          	}, {
