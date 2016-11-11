@@ -36,7 +36,6 @@ public class GeneratorContrastFxYearServiceImpl implements  GeneratorContrastFxY
 			throws Exception {
 
 		String[] excelTitle = new String[] { "" };
-		String index_text[]=param.getString("index_text").split(",");
 		List<Map<String, Object>> list = generatorContrastFxYearDao.queryData(param);
 		String[] colTitle = null;
 		String[] colName = null;

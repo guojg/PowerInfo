@@ -584,7 +584,7 @@ function xjrw(){
 	commonHelper.toAdd({
 		title : '图形分析',
 		width : 750,
-		height : 450,
+		height : 500,
 		url : path + "/powerbalance/powerbalanceImageMain"
 	});
 }
