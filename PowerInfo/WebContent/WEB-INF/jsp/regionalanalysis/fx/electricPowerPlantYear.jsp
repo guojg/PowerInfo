@@ -225,7 +225,6 @@ var cols = [ [ {
 				ids = ids + rows[rowindex]["id"] + ",";
 			}
 		}
-		alert();
 		window.parent.closeSingleExtent('电厂年成本分析展示');
 		 window.parent.addTab('电厂年成本分析展示', path+'/electricityContrastFxYearController/main?id='+ids+'&task_id='+task_id, '');
 		
