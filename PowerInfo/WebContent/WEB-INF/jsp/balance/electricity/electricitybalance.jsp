@@ -593,7 +593,7 @@ function save() {
 			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
 			title='导出' />
 		</a>
-			<a id="tool_xjrw"> <img src='<%=path%>/static/images/xjrw.gif'
+			<a id="tool_xjrw"> <img src='<%=path%>/static/images/imagefx.jpg'
 			align='top' border='0' title='图形分析' />
 		</a>
 	</div>
