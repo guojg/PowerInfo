@@ -196,8 +196,8 @@ var organ_name='<%=organName%>';
 				ids = ids + rows[rowindex]["jz_id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('机组成本对比');
-		 window.parent.addTab('机组成本对比', path+'/generatorContrastDbController/main?id='+ids+'&task_id='+task_id, '');
+		window.parent.closeSingleExtent(' 机组典型日成本对比展示');
+		 window.parent.addTab(' 机组典型日成本对比展示', path+'/generatorContrastDbController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {

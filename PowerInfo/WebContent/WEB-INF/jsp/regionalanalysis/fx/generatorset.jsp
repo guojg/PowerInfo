@@ -197,8 +197,8 @@ var organ_name='<%=organName%>';
 				ids = ids + rows[rowindex]["jz_id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('机组成本分析');
-		 window.parent.addTab('机组成本分析', path+'/generatorContrastFxController/main?id='+ids+'&task_id='+task_id, '');
+		window.parent.closeSingleExtent('机组成本分析展示');
+		 window.parent.addTab('机组成本分析展示', path+'/generatorContrastFxController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {

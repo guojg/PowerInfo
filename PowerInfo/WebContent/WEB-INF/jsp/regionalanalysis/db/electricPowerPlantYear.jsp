@@ -243,8 +243,8 @@ var organ_name='<%=organName%>';
 				ids = ids + rows[rowindex]["id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('电厂年成本对比');
-		 window.parent.addTab('电厂年成本对比', path+'/electricityContrastDbYearController/main?id='+ids+'&task_id='+task_id, '');
+		window.parent.closeSingleExtent(' 电厂年成本对比展示');
+		 window.parent.addTab(' 电厂年成本对比展示', path+'/electricityContrastDbYearController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {
