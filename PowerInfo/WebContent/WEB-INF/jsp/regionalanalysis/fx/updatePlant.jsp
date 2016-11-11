@@ -142,9 +142,9 @@ function save(){
   		}
       }
 	});
-	//if(!validate(operationdata)){
-	//	return;
-	//}
+	if(!validate(formData)){
+		return;
+	}
 	var param={"editObj":JSONH.stringify(formData),"area_id":area_id,"task_id":task_id};
 	$.ajax({
 		  type: "post",

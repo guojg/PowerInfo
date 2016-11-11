@@ -86,7 +86,7 @@ function save(){
   		}
       }
 	});
-	if(!validate(operationdata)){
+	if(!validate(formData)){
 		return;
 	}
 	var param={"editObj":JSONH.stringify(formData),"area_id":area_id};
