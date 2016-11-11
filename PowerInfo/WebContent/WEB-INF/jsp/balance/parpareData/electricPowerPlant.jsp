@@ -149,8 +149,8 @@
 	}
 	function updateRecord() {
 		var row=$('#datagrid').datagrid('getChecked');
-		if(row.length<=0){
-			$.messager.alert('提示','必须选择一条记录','info');
+		if(row.length!=1){
+			$.messager.alert('提示','必须选择一个电厂','info');
 		}else{
 			commonHelper.toAdd({
 				title : '修改',

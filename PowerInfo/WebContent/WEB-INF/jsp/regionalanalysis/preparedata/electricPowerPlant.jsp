@@ -176,12 +176,17 @@
 		});
 	}
 	function updateRecord() {
-		commonHelper.toAdd({
-			title : '修改',
-			width : 1000,
-			height : 300,
-			url : path + '/plantAnalysis/openUploadRecord'
-		});
+		var rows = $('#datagrid').datagrid('getChecked');
+		if(rows.length!=1){
+			$.messager.alert('提示','请选择一个电厂！');
+		    return;
+		}
+			commonHelper.toAdd({
+				title : '修改',
+				width : 1000,
+				height : 300,
+				url : path + '/plantAnalysis/openUploadRecord'
+			});
 	}
 	function selRecord() {
 		commonHelper.toAdd({
