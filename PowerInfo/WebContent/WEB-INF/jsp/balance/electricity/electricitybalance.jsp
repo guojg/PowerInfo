@@ -171,7 +171,11 @@ function calculatezzl(){
 		}else if(parseNumberExt(row100[tmp[i-1]])==0){
 			
 		}else{
-		row100100[tmp[i]] = fixNum((Math.pow(parseNumberExt(row100[tmp[i]])/parseNumberExt(row100[tmp[i-1]]),1.0/(parseNumberExt(tmp[i])-parseNumberExt(tmp[i-1])))-1)*100);
+			if(parseNumberExt(tmp[i])-parseNumberExt(tmp[i-1])==0){
+				row100100[tmp[i]] = 0;
+			}else{
+				row100100[tmp[i]] = fixNum((Math.pow(parseNumberExt(row100[tmp[i]])/parseNumberExt(row100[tmp[i-1]]),1.0/(parseNumberExt(tmp[i])-parseNumberExt(tmp[i-1])))-1)*100);
+			}
 		}
 	}
 	 $('#datagrid').treegrid('refresh','100-100');
@@ -321,7 +325,11 @@ function  calculatecoalhour(){
 		if(!row3003[tmp[i]]&&!row700[tmp[i]]){
 			
 		}else{
-		row400[tmp[i]] = fixNum(parseNumberExt(row3003[tmp[i]])/parseNumberExt(row700[tmp[i]])*10000);
+			if(parseNumberExt(row700[tmp[i]])==0){
+				row400[tmp[i]] = 0;
+			}else{
+				row400[tmp[i]] = fixNum(parseNumberExt(row3003[tmp[i]])/parseNumberExt(row700[tmp[i]])*10000);
+			}
 		}
 	}
 	 $('#datagrid').treegrid('refresh','400');
@@ -357,7 +365,7 @@ function calculatezfdlcoal(){
 }
 
 function  parseNumberExt(num){
-	if(!num){
+	if(!num|| num == undefined || num==""){
 		return 0;
 	}else{
 		 return parseFloat(num);
@@ -457,19 +465,7 @@ function editCell( field, row) {
 					cols[0][cols[0].length-1]['field']).editor = {};
 		}
 		editingId = row.id ;
-		$('#datagrid').treegrid('beginEdit', editingId);
-
-		var editors = $('#datagrid').treegrid('getEditors', editingId);
-		
-		$.each(editors, function(i, editor) {
-			if (editor.field === field) {
-				$(editor.target).parent.find('tr[node-id='+row.id+']').find('td[field='+field+']').blur(function(){  
-				    alert(2222);  
-				}) 
-			} else {
-				//$(editor.target).hide().closest('div').text(editor.oldHtml);
-			}
-		});
+		$('#datagrid').treegrid('beginEdit', editingId);		
 		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
 			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8' ||row.id=='300-9'){
 		
