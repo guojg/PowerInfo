@@ -29,12 +29,14 @@ public class PlantAnalysisController {
 		String pageSize = request.getParameter("rows");
 		String name=request.getParameter("name");
 		String area_id=request.getParameter("area_id");
+		String id=request.getParameter("id");
 		if (pageNum == null  || "".equals(pageNum))
 			pageNum = "1";
 		if (pageSize == null || "".equals(pageSize))
 			pageSize = "10";
 		JSONObject obj = new JSONObject();
 		obj.put("pageNum", pageNum);
+		obj.put("id", id);
 		obj.put("pageSize", pageSize);
 		obj.put("name", name);
 		obj.put("area_id", area_id);

@@ -229,7 +229,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 		insertPlant(plant,id);
 		List<Map<String,Object>> balancePlants=this.getGeneratorofBalance(plant.get("id").toString());
 		if(balancePlants.size()>0){
-			insertGenerator(balancePlants,id+1,plant.get("area_id"));
+			insertGenerator(balancePlants,id+1,plant.get("area_id"),plant.get("cooling_type"));
 		}
 	}
 	private void insertPlant(Map<String,Object> plant,int id)throws Exception{
@@ -247,16 +247,25 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 		}
 	    jdbcTemplate.update(buffer.toString(),new Object[]{id+1,plant.get("plant_name"),plant.get("plant_capacity"),plant.get("area_id"),plant.get("index_item"),plant.get("Cooling_type"),consumption_rate});
 	}
-	private void insertGenerator(List<Map<String,Object>> plangenerator,int plant_id,Object area_id)throws Exception{
+	private void insertGenerator(List<Map<String,Object>> plangenerator,int plant_id,Object area_id,Object cooling_type)throws Exception{
 		 //获取模板值行业期望收益率（%）、运行寿命（年）、煤耗率（克标煤/千瓦时）
-		 List<Map<String, Object>>   items= queryTemplateData("9,10,11");
+		 List<Map<String, Object>>   items= queryTemplateData("9,10,33,34");
 		 //行业期望收益率（%）
 		 String expectedrate=items.get(0).get("value").toString();
 		 //运行寿命（年）
 		 String operatinglife =items.get(1).get("value").toString();
-		 //煤耗率（克标煤/千瓦时）
-		 String coalrate=items.get(2).get("value").toString();
-
+		 //煤耗率（克标煤/千瓦时）空冷
+		 String coalratekl=items.get(2).get("value").toString();
+		 //煤耗率（克标煤/千瓦时）水冷
+		 String coalratesl=items.get(3).get("value").toString();
+		 String coalrate=null;
+		 if(cooling_type!=null){
+			 if("1".equals(cooling_type.toString())){
+				 coalrate=coalratekl;
+			 }else if("2".equals(cooling_type.toString())){
+				 coalrate=coalratesl;
+			 }
+		 }
 		for(Map<String,Object> generator:plangenerator){
 			
 			String[] sql=new String[8];
@@ -282,7 +291,7 @@ public class ElectricPowerPlantDaoImpl implements ElectricPowerPlantDao {
 			sql6.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
 			sql6.append("values(800,'"+operatinglife+"',"+jz_id+","+area_id+")");
 			sql7.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
-			sql7.append("values(18001,'"+coalrate+"',"+jz_id+","+area_id+")");
+			sql7.append("values(18001,"+coalrate+","+jz_id+","+area_id+")");
 //			sql8.append("INSERT INTO constant_cost_arg(index_type,index_value,jz_id,area_id)");
 //			sql8.append("values(18001,'"+generator.get("index_item")+"',"+jz_id+","+area_id+")");
 			sql[0]=sql1.toString();

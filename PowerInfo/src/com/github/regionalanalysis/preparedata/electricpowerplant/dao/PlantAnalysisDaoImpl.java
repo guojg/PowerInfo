@@ -35,8 +35,15 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		if (param.get("pageNum") != null) {
 			pNum = Integer.parseInt(param.getString("pageNum"));
 		}
-		String name = param.getString("name");
-		String area_id = param.getString("area_id");
+		String name ="";
+		if(param.get("name")!=null){
+			 name = param.getString("name");
+		}
+		String area_id="";
+		if(param.get("area_id")!=null){
+			 area_id = param.getString("area_id");
+		}
+
 		int startNum = psize * (pNum - 1);
 		int endNum = psize * pNum;
 		StringBuffer buffer = new StringBuffer("SELECT id,plant_name,plant_capacity,product_year,build_year,start_outlay,");
@@ -47,6 +54,10 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 		if (!"".equals(name)) {
 			buffer.append(" and plant_name like ?");
 			params.add("%" + name + "%");
+		}
+		if(param.get("id")!=null){
+			buffer.append(" and id=?");
+			params.add(param.get("id"));
 		}
 		if (!"".equals(area_id)) {
 			buffer.append(" and area_id=?");
@@ -163,7 +174,10 @@ public class PlantAnalysisDaoImpl implements PlantAnalysisDao {
 	@Override
 	public int getTotalCount(JSONObject param) {
 		// TODO Auto-generated method stub
-		String area_id = param.getString("area_id");
+		String area_id=null;
+		if(param.get("area_id")!=null){
+		 area_id = param.getString("area_id");
+		}
 		List<Object> params = new ArrayList<Object>();
 
 		String Sql = "select count(1) from shiro.electricpowerplant_analysis_data";

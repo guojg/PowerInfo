@@ -105,8 +105,7 @@ $(function() {
 				url :  path+"/constantCostArgController/getPlant",
 				textkey : "value",
 				valuekey : "code",
-				multiple:false,
-				defaultVal:"first"
+				multiple:false
 		});
 	//$('#900').css("background-color","red");
 			var child11 = $("#iframe1", window.parent.$("#tt")).contents().find("#11").val();
@@ -221,10 +220,13 @@ function constantcost(){
 //赋值
 function fzData(){
 	//onblur='constantcost()'
+
 	var items=null;
+ 	var kl='';
+ 	var sl='';
 	$.ajax({
 		  type: "post",
-		  url: path + '/plantAnalysis/queryTemplateData?id=9,10,11',
+		  url: path + '/plantAnalysis/queryTemplateData?id=9,10,33,34',
 		  dataType:'json',
 		  async: false,
 		  success:function(obj){
@@ -233,13 +235,36 @@ function fzData(){
 				$("#700").val(items[0].value);
 				//运行寿命（年）
 				$("#800").val(items[1].value);
-				//煤耗率（克标煤/千瓦时）
-				$("#18001").val(items[2].value);
 				//煤耗量
 				$("#19001").val("0.00");
+				//空冷煤耗率 
+				kl=items[2].value;
+				//水冷煤耗率
+				sl=items[3].value;
 				constantcost();
 			}
 		});
+	$("#200").combobox( {
+		onSelect : function(data) {
+			$.ajax({
+				  type: "post",
+				  url: path + '/plantAnalysis/queryData?id='+data.code,
+				  dataType:'json',
+				  async: false,
+				  success:function(obj){
+						items=obj.rows;
+						var cooling_type=items[0].cooling_type;
+						if(cooling_type!=null&&cooling_type!=""){
+							if(cooling_type=="1"){
+								$("#18001").val(kl);
+							}else{
+								$("#18001").val(sl);
+							}
+						}
+					}
+				});
+			}
+		});;
 }
 function jisuan(){
 

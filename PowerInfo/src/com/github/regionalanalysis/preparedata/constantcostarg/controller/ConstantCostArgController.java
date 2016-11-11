@@ -2,27 +2,19 @@ package com.github.regionalanalysis.preparedata.constantcostarg.controller;
 
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.balance.parparedata.powerquotient.service.PowerQuotientService;
-import com.github.balance.parparedata.senddata.model.Domain;
 import com.github.regionalanalysis.preparedata.constantcostarg.service.ConstantCostArgService;
-import com.github.totalquantity.totaldata.service.TotalDataService;
 
 @Controller
 @RequestMapping(value ="/constantCostArgController")
