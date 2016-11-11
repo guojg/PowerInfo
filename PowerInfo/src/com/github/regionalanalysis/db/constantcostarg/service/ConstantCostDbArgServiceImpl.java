@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.github.common.util.JsonUtils;
 import com.github.common.util.NewSnUtil;
 import com.github.regionalanalysis.common.dao.TotalDataAnalysisDao;
+import com.github.regionalanalysis.db.coalcost.dao.CoalCostDbDao;
 import com.github.regionalanalysis.db.constantcostarg.dao.ConstantCostDbArgDao;
 import com.github.regionalanalysis.db.constantcostarg.entity.ConstantCostArg;
 
@@ -25,6 +26,9 @@ public class ConstantCostDbArgServiceImpl implements ConstantCostDbArgService {
 	private ConstantCostDbArgDao constantCostDbArgDao;
 	@Autowired
 	private TotalDataAnalysisDao totalDataAnalysisDao;
+	
+	@Autowired
+	private  CoalCostDbDao coalCostDbDao;
 	
 	@Override
 	public String  saveData(Map m,String organ,String taskid) {
@@ -39,6 +43,7 @@ public class ConstantCostDbArgServiceImpl implements ConstantCostDbArgService {
 			//totalDataAnalysisDao.totalDatadCompare(jz_id,area_id,task_id);
 			//totalDataAnalysisDao.totalDataPlantCompare(constantCostDbArgDao.getPlantByJz(jz_id.toString(),task_id.toString()),area_id,task_id);
 			totalDataAnalysisDao.fdcSaveTotalDb(constantCostDbArgDao.getPlantByJz(jz_id.toString(),taskid), area_id,task_id);
+			coalCostDbDao.sumData(jz_id.toString(), taskid);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

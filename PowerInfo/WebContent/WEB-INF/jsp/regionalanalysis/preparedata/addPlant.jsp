@@ -149,7 +149,7 @@ function save(){
 					type="text" style='width: 120px' /></td>
 				<td class="tdlft" style='width: 180px'>厂用电率：</td>
 				<td class="tdrgt" style='width: 120px'><input id="consumption_rate"
-					type="text" style='width: 120px;background-color:#bcbcbc;' disabled="disabled"/></td>
+					type="text" style='width: 120px;'/></td>
 				<td class="tdlft" style='width: 180px'>厂用电量（千瓦时）：</td>
 				<td class="tdrgt" style='width: 120px'><input id="electricity_consumption"
 					type="text" style='width: 120px' /></td>
