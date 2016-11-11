@@ -465,19 +465,7 @@ function editCell( field, row) {
 					cols[0][cols[0].length-1]['field']).editor = {};
 		}
 		editingId = row.id ;
-		$('#datagrid').treegrid('beginEdit', editingId);
-
-		var editors = $('#datagrid').treegrid('getEditors', editingId);
-		
-		$.each(editors, function(i, editor) {
-			if (editor.field === field) {
-				$(editor.target).parent.find('tr[node-id='+row.id+']').find('td[field='+field+']').blur(function(){  
-				    alert(2222);  
-				}) 
-			} else {
-				//$(editor.target).hide().closest('div').text(editor.oldHtml);
-			}
-		});
+		$('#datagrid').treegrid('beginEdit', editingId);		
 		if( row.id=='300-1' || row.id=='300-2' || row.id=='300-4'||row.id=='300-5'
 			||row.id=='300-6' ||row.id=='300-7' ||row.id=='300-8' ||row.id=='300-9'){
 		
