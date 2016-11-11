@@ -510,7 +510,7 @@ function calculatezzl(){
 
 
 function  parseNumberExt(num){
-	if(!num){
+	if(!num|| num == undefined || num==""){
 		return 0;
 	}else{
 		 return parseFloat(num);

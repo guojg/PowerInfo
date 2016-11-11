@@ -171,7 +171,11 @@ function calculatezzl(){
 		}else if(parseNumberExt(row100[tmp[i-1]])==0){
 			
 		}else{
-		row100100[tmp[i]] = fixNum((Math.pow(parseNumberExt(row100[tmp[i]])/parseNumberExt(row100[tmp[i-1]]),1.0/(parseNumberExt(tmp[i])-parseNumberExt(tmp[i-1])))-1)*100);
+			if(parseNumberExt(tmp[i])-parseNumberExt(tmp[i-1])==0){
+				row100100[tmp[i]] = 0;
+			}else{
+				row100100[tmp[i]] = fixNum((Math.pow(parseNumberExt(row100[tmp[i]])/parseNumberExt(row100[tmp[i-1]]),1.0/(parseNumberExt(tmp[i])-parseNumberExt(tmp[i-1])))-1)*100);
+			}
 		}
 	}
 	 $('#datagrid').treegrid('refresh','100-100');
@@ -321,7 +325,11 @@ function  calculatecoalhour(){
 		if(!row3003[tmp[i]]&&!row700[tmp[i]]){
 			
 		}else{
-		row400[tmp[i]] = fixNum(parseNumberExt(row3003[tmp[i]])/parseNumberExt(row700[tmp[i]])*10000);
+			if(parseNumberExt(row700[tmp[i]])==0){
+				row400[tmp[i]] = 0;
+			}else{
+				row400[tmp[i]] = fixNum(parseNumberExt(row3003[tmp[i]])/parseNumberExt(row700[tmp[i]])*10000);
+			}
 		}
 	}
 	 $('#datagrid').treegrid('refresh','400');
@@ -357,7 +365,7 @@ function calculatezfdlcoal(){
 }
 
 function  parseNumberExt(num){
-	if(!num){
+	if(!num|| num == undefined || num==""){
 		return 0;
 	}else{
 		 return parseFloat(num);
