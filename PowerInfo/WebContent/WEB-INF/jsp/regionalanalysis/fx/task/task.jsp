@@ -122,7 +122,7 @@ var organ_name='<%=organName%>';
 			 async:false,
 			 success:function(msg){
 					//页面跳转
-					window.parent.addNav(191);
+					window.parent.addNav(190);
 		 	 }
 		});
 	

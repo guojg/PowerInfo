@@ -229,7 +229,7 @@ function InitTreeData(data) {
 					}
 				},onLoadSuccess:function(){
 					var rooNode = $("#tt").tree('getRoot');
-					if(data==190  || data==4|| data==5 ||data==157){
+					if(data==189  || data==4|| data==5 ||data==157){
 						$("#tt").tree("expand",rooNode.target);  
 						 $("#tt li:eq(2)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
 				           var n = $("#tt").tree("getSelected");   
@@ -238,23 +238,24 @@ function InitTreeData(data) {
 				           }   
 				           $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);
 						
-					}else if(data==191){
-						$("#tt").tree("expand",rooNode.target);  
-						 $("#tt li:eq(6)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
-				           var n = $("#tt").tree("getSelected");   
-				           if(n!=null){   
-				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
-				           }   
-				           $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);	
-				           $('#mm-tabcloseother').click();
-					}else if(data==203){
-						$("#tt").tree("expand",rooNode.target);  
+					}else if(data==190){
+						//$("#tt").tree("expandTo",rooNode.target);  
 						 $("#tt li:eq(10)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
 				           var n = $("#tt").tree("getSelected");   
 				           if(n!=null){   
 				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
 				           }   
-				           $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);	
+				           $("#tt").tree("expandTo", n.target);	
+				           $('#mm-tabcloseother').click();
+					}else if(data==191){
+						//$("#tt").tree("expandTo",rooNode.target);  
+						 $("#tt li:eq(8)").find("div").addClass("tree-node-selected");   //设置第一个节点高亮   
+				           var n = $("#tt").tree("getSelected");   
+				           if(n!=null){   
+				                $("#tt").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+				           }   
+				        //   $("#tt").tree("expand", $("#tt").tree('getParent',n.target).target);	
+				           $("#tt").tree("expandTo", n.target);	
 				           $('#mm-tabcloseother').click();
 					}else if(data==169){
 						$("#tt").tree("expand",rooNode.target);  

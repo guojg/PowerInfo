@@ -23,7 +23,8 @@ public class ElectricityContrastFxYearDaoImpl implements ElectricityContrastFxYe
 				.get("id").toString().split(",");
 		
 		StringBuffer sb = new StringBuffer();
-		String index_ys = param.get("index_ys").toString();
+		String index_ys = ","+param.get("index_ys").toString()+",";
+		
 		List l = new ArrayList();
 		//String area_id = param.getString("area_id") ;
 		//String area_id = "1" ;
@@ -49,7 +50,7 @@ public class ElectricityContrastFxYearDaoImpl implements ElectricityContrastFxYe
 
 		sb.append("  	AND task_id = ? ) X JOIN ( ")
 		.append("		    SELECT s1.code,s1.value index_y_name,s1.ord FROM sys_dict_table  s1     ")
-		.append("			 where s1.domain_id = 303    AND INSTR(?,s1.code)>0 ORDER BY  s1.ord)Y");
+		.append("			 where s1.domain_id = 303    AND INSTR(?,CONCAT(',',s1.code,','))>0 ORDER BY  s1.ord)Y");
 		sb.append(" 				)b ON a.dc_id=b.id AND a.task_id=b.task_id AND a.index_y=b.code and a.task_id=? ") 
 		.append(" 			GROUP BY  b.task_id,b.id,b.code		 ORDER BY plant_id DESC,b.code ASC ") ;
 		l.add(task_id);

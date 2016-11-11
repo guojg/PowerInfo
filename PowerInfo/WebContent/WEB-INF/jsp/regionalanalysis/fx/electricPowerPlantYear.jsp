@@ -225,8 +225,8 @@ var cols = [ [ {
 				ids = ids + rows[rowindex]["id"] + ",";
 			}
 		}
-		window.parent.closeSingleExtent('电厂成本分析');
-		 window.parent.addTab('电厂成本分析', path+'/electricityContrastFxYearController/main?id='+ids+'&task_id='+task_id, '');
+		window.parent.closeSingleExtent('电厂年成本分析');
+		 window.parent.addTab('电厂年成本分析', path+'/electricityContrastFxYearController/main?id='+ids+'&task_id='+task_id, '');
 		
 	}
 	function deleteRecords() {

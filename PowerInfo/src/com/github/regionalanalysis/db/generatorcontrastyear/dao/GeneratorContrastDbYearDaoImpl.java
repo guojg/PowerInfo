@@ -23,7 +23,7 @@ public class GeneratorContrastDbYearDaoImpl implements GeneratorContrastDbYearDa
 				.get("id").toString().split(",");
 		
 		StringBuffer sb = new StringBuffer();
-		String index_ys = param.get("index_ys").toString();
+		String index_ys = ","+param.get("index_ys").toString()+",";
 		List l = new ArrayList();
 		//String area_id = param.getString("area_id") ;
 		//String area_id = "1" ;
@@ -51,7 +51,7 @@ public class GeneratorContrastDbYearDaoImpl implements GeneratorContrastDbYearDa
 		buffer.append(") ");
 		sb.append(buffer.toString());
 		sb.append(" 					 )X   JOIN (SELECT s1.code,s1.value index_y_name,s1.ord FROM sys_dict_table  s1  where " )
-		.append( "        			  s1.domain_id = 303  and instr(?,s1.code)>0 ORDER BY  s1.ord) Y   " )
+		.append( "        			  s1.domain_id = 303  and instr(?,CONCAT(',',s1.code,','))>0 ORDER BY  s1.ord) Y   " )
 		.append("	) b")
 		.append("	ON a.jz_id=b.mjz_id AND a.index_y=b.code  and a.task_id=b.task_id and a.task_id=? ") ;
 		

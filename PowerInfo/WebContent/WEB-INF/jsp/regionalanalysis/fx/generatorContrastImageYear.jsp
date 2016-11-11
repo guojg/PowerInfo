@@ -11,7 +11,12 @@
 String id = request.getParameter("id")==null ?"" : request.getParameter("id"); 
 
 %>
-
+<style type="text/css">
+#container {position:absolute;width:49.9%;height:15%;z-index:1;left:0px;}
+#container1{position:absolute;width:49.9%;height:15%;z-index:2;left:49.9%;}
+#container2 {position:absolute;width:49.9%;height:15%;z-index:1;left:0px;}
+#container3{position:absolute;width:49.9%;height:15%;z-index:2;left:49.9%;}
+</style>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/default/easyui.css" />
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/themes/icon.css" />
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/static/js/jquery-easyui-1.4/farbtastic/farbtastic.css" />
@@ -21,71 +26,18 @@ String id = request.getParameter("id")==null ?"" : request.getParameter("id");
 		<script type="text/javascript">
 		var id='<%=id%>' ;
 
-		$(function() {
-
-			$("#tool_query").bind("click", function() {
-				
-				drawChart();
-			});
-			 comboBoxInit({
-					id : "index_y",
-					url : path + '/sysdict/getDataByCodeValue?domain_id=303',
-					textkey : "value",
-					valuekey : "code",
-					multiple:false,
-					defaultVal:5
-				});
-			comboBoxInit({
-				id : "pic_type",
-				url : path + '/js/basicData/chartType.json',
-				textkey : "text",
-				valuekey : "id",
-				defaultVal : "column"
-			});
-			
-			$("#pic_type").combobox({
-				onSelect:function(){
-					drawChart();
-				}
-			});
-			$("#index_y").combobox({
-				onSelect:function(){
-					drawChart();
-				}
-			});
-		});
+		
 	</script>
 		</head>
 		<body>
-			<!-- 引入自定义按钮页面 -->
-			<div id="btn_div">
-				<a id="tool_query"> <img src='<%=path%>/static/images/query.gif'
-					align='top' border='0' title='查询' />
-				</a>
-	   				<a id="exportBtn"> <img
-			src='<%=path%>/static/images/daochu.gif' align='top' border='0'
-			title='导出' />
-		</a>
-			</div>
-			<fieldset id="field">
-				<legend>查询条件</legend>
-				<table id="search_tbl">
-					<tr>
-						<td class="tdlft">指标：</td>
-				<td class="tdrgt"><input id="index_y" class="comboboxComponent" /></td>
-						<td class="tdlft">图标类型：</td>
-						<td class="tdrgt"><input id="pic_type"
-							class="comboboxComponent" /></td>
-					</tr>
-						<tr style="display:none">
-			<td>	<input id="index_x" class="comboboxComponent" type="hidden"/>
-		   </td>
-			</tr>
-				</table>
-			</fieldset>
-			<div id="container" style="width: 80%; height: 70%">
-			</div>
-
+		 <div style="min-width: 100%; height: 50%;margin: 0px 0px 0px 0px;padding:0">
+<div id="container" style="width: 49.9%; height: 49%; reflow:true"></div>
+<div id="container1" style="width: 49.9%; height: 49%; reflow:true"></div>
+</div>
+ <div style="min-width: 100%; height: 50%;margin: 0px 0px 0px 0px;padding:0" >
+<div id="container2" style="width: 49.9%; height: 49%;  reflow:true"></div>
+<div id="container3" style="width: 49.9%; height: 49%;  reflow:true"></div>
+</div>
 
 			<script type="text/javascript"
 				src="<%=path%>/static/js/Highcharts-4.0.1/raphael.js"></script>

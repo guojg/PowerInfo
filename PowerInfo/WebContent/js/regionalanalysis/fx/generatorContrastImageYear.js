@@ -1,5 +1,10 @@
 // 图表
 var chart;
+var chart1;
+var chart2;
+var chart3;
+
+
 //window.parent.frames["iframe0"].jQuery;
 var areas = [];
 
@@ -17,24 +22,7 @@ var options = {
 		borderColor : '#00B997',
 		shared : true,
 		formatter : function() {
-			if (this.x) {
-				var s = '<b>' + this.x + '</b>';
-				if (this.points) {
-					$.each(this.points, function(i, point) {
-						s += '<br/><span style="color:' + point.series.color
-								+ '">' + point.series.name + '</span>: <b>'
-								+ point.y + '</b>';
-					});
-				} else {
-					s += '<br/><span style="color:' + this.series.color + '">'
-							+ this.series.name + '</span>: <b>' + this.y
-							+ '</b>';
-				}
-
-				return s;
-			} else {
-				return '<b>' + this.y + '</b>';
-			}
+			return '<span >' +this.key+"<br/>百分比 :"+Number(this.percentage).toFixed(2) +  '%</span><b>值:'+this.y+ '</b>';
 		}
 	},
 	exporting : {
@@ -43,10 +31,6 @@ var options = {
 		type:"image/png"
 	},
 	plotOptions : {
-		column : {
-			pointPadding : 0.2,
-			borderWidth : 0
-		},
 		pie : {
 			allowPointSelect : true,
 			cursor : 'pointer',
@@ -60,13 +44,58 @@ var options = {
 		}
 	}
 };
+var options1= {
+		chart : {
+			renderTo : 'container1'
+		},
+		credits : options.credits,
+		tooltip : options.tooltip,
+		exporting : options.exporting,
+		plotOptions : options.plotOptions
+	};
+var options2= {
+		chart : {
+			renderTo : 'container2'
+		},
+		credits : options.credits,
+		tooltip : options.tooltip,
+		exporting : options.exporting,
+		plotOptions : options.plotOptions
+	};
+var options3= {
+		chart : {
+			renderTo : 'container3'
+		},
+		credits : options.credits,
+		tooltip : options.tooltip,
+		exporting : options.exporting,
+		plotOptions : options.plotOptions
+	};
+
 var categories = [];
+var categories1 = [];
+var categories2 = [];
+var categories3 = [];
 $(function() {
-	$("#exportBtn").bind("click", function() {
-		chart.exportChart();
+	/*$("#exportBtn").bind("click", function() {
+		$("#exportBtn1").click();
+		$("#exportBtn2").click();
+
 	});
+	$("#exportBtn1").bind("click", function() {
+		chart1.exportChart();
+		
+	});
+	$("#exportBtn2").bind("click", function() {
+		chart1.exportChart();
+		
+	});*/
+
 
 	drawChart();
+	drawChart1();
+	drawChart2();
+	drawChart3();
 
 });
 
@@ -77,6 +106,30 @@ function drawChart() {
 	// 绘制图表
 	categories=[];
 	chart = new Highcharts.Chart($.extend(options, getSettings()));
+}
+/**
+ * 绘制图表
+ */
+function drawChart1() {
+	// 绘制图表
+	categories1=[];
+	chart1 = new Highcharts.Chart($.extend(options1, getSettings1()));
+}
+/**
+ * 绘制图表
+ */
+function drawChart2() {
+	// 绘制图表
+	categories2=[];
+	chart2 = new Highcharts.Chart($.extend(options2, getSettings2()));
+}
+/**
+ * 绘制图表
+ */
+function drawChart3() {
+	// 绘制图表
+	categories3=[];
+	chart3 = new Highcharts.Chart($.extend(options3, getSettings3()));
 }
 
 /**
@@ -95,7 +148,7 @@ function getSettings() {
 										/(fill|stroke)="rgba\(([ 0-9]+,[ 0-9]+,[ 0-9]+),([ 0-9\.]+)\)"/g,
 										'$1="rgb($2)" $1-opacity="$3"');
 					});
-	var pic_type = $("#pic_type").combo("getValue");
+	var pic_type = "pie";
 	var data = loadData( pic_type, 0, true);
 	var settings = {};
 	settings.title = {
@@ -124,7 +177,154 @@ function getSettings() {
 			text : ""
 		}
 	} ];
-	settings.series = data;
+	settings.series =  data;
+	return settings;
+}
+
+/**
+ * 获取图表配置（动态）
+ */
+function getSettings1() {
+	// 解决导出时batik 不支持 css3 rgba属性的问题
+	Highcharts
+			.wrap(
+					Highcharts.Chart.prototype,
+					'getSVG',
+					function(proceed) {
+						return proceed
+								.call(this)
+								.replace(
+										/(fill|stroke)="rgba\(([ 0-9]+,[ 0-9]+,[ 0-9]+),([ 0-9\.]+)\)"/g,
+										'$1="rgb($2)" $1-opacity="$3"');
+					});
+	var pic_type = "pie";
+	var data = loadData1( pic_type, 0, true);
+	var settings = {};
+	settings.title = {
+		text : ""
+	};
+	settings.xAxis = [ {
+		categories : categories1,
+		plotLines : []
+	} ];
+	settings.yAxis = [ {
+		min : 0,
+		labels : {
+			formatter : function() {
+				return this.value;
+			}
+		},
+		plotLines : [],
+		stackLabels : {
+			enabled : true,
+			style : {
+				fontWeight : 'bold'
+			}
+		},
+		title : {
+			rotation : 0,
+			text : ""
+		}
+	} ];
+	settings.series =  data;
+	return settings;
+}
+
+/**
+ * 获取图表配置（动态）
+ */
+function getSettings2() {
+	// 解决导出时batik 不支持 css3 rgba属性的问题
+	Highcharts
+			.wrap(
+					Highcharts.Chart.prototype,
+					'getSVG',
+					function(proceed) {
+						return proceed
+								.call(this)
+								.replace(
+										/(fill|stroke)="rgba\(([ 0-9]+,[ 0-9]+,[ 0-9]+),([ 0-9\.]+)\)"/g,
+										'$1="rgb($2)" $1-opacity="$3"');
+					});
+	var pic_type = "pie";
+	var data = loadData2( pic_type, 0, true);
+	var settings = {};
+	settings.title = {
+		text : ""
+	};
+	settings.xAxis = [ {
+		categories : categories2,
+		plotLines : []
+	} ];
+	settings.yAxis = [ {
+		min : 0,
+		labels : {
+			formatter : function() {
+				return this.value;
+			}
+		},
+		plotLines : [],
+		stackLabels : {
+			enabled : true,
+			style : {
+				fontWeight : 'bold'
+			}
+		},
+		title : {
+			rotation : 0,
+			text : ""
+		}
+	} ];
+	settings.series =  data;
+	return settings;
+}
+
+/**
+ * 获取图表配置（动态）
+ */
+function getSettings3() {
+	// 解决导出时batik 不支持 css3 rgba属性的问题
+	Highcharts
+			.wrap(
+					Highcharts.Chart.prototype,
+					'getSVG',
+					function(proceed) {
+						return proceed
+								.call(this)
+								.replace(
+										/(fill|stroke)="rgba\(([ 0-9]+,[ 0-9]+,[ 0-9]+),([ 0-9\.]+)\)"/g,
+										'$1="rgb($2)" $1-opacity="$3"');
+					});
+	var pic_type = "pie";
+	var data = loadData3( pic_type, 0, true);
+	var settings = {};
+	settings.title = {
+		text : ""
+	};
+	settings.xAxis = [ {
+		categories : categories3,
+		plotLines : []
+	} ];
+	settings.yAxis = [ {
+		min : 0,
+		labels : {
+			formatter : function() {
+				return this.value;
+			}
+		},
+		plotLines : [],
+		stackLabels : {
+			enabled : true,
+			style : {
+				fontWeight : 'bold'
+			}
+		},
+		title : {
+			rotation : 0,
+			text : ""
+		}
+	} ];
+	settings.series =  data;
 	return settings;
 }
 /**
@@ -175,61 +375,148 @@ function createXLastLevel(years) {
  */
 function loadData( chartType, yIndex, isInit) {
 	var data=[];
-	var index_y =  $("#index_y").combo("getValue");
 	var queryParams = {
-			"index_ys" :index_y,
+			"index_ys" :"2,8",
 			"id":id
 	};
 	$.ajax({
 		type : "post",
 		async:false,
+		data:queryParams,
 		url :  path+'/generatorContrastFxYearController/queryData',
-		data : queryParams,
 		success : function(msg) {
 				data=$.parseJSON(msg).rows;
 		}
 	});
-
 	// 筛选数据
 	var selections = data;
-	var type = chartType;// 图表类型
-	var xLastLevel = createXLastLevel($("#index_x").combobox("getValues"));
-	var ylastField = 'dc_jz_name';
-	var xlastField = null;
+	var type = "pie";// 图表类型
+	
 	var list = [];
+	
+	var m =[];
+	var series = {};
+	series.type = type;
+		for (var i = 0, len = selections.length; i < len; i++) {
+			var a = {'name':selections[i]['index_y_name'],'y':selections[i]['value']};
+			list.push(a);
+		}
+		series.data=list;
+		//list.push(series);
 
-	for (var i = 0, len = selections.length; i < len; i++) {
-		var series = {};
-		var picdata = [];
-		series.name = selections[i][ylastField];
-		series.type = type;
-		// series.yAxis = yIndex;
-		// 追加数据时，进行随机选色
-		if (!isInit) {
-			series.color = getRandomColor();
+	 m.push(series);
+	 return m;
+}
+/**
+ * 加载数据
+ */
+function loadData1( chartType, yIndex, isInit) {
+	var data=[];
+	var queryParams = {
+			"index_ys" :"3,4,5,6,7",
+			"id":id
+	};
+	$.ajax({
+		type : "post",
+		async:false,
+		data:queryParams,
+		url :  path+'/generatorContrastFxYearController/queryData',
+		success : function(msg) {
+				data=$.parseJSON(msg).rows;
 		}
-		for (var j = 0, len2 = xLastLevel.length; j < len2; j++) {
-			var slice = [];
-			xlastField = xLastLevel[j]['code'];
-			var shortname = areas.getValue('name', xLastLevel[j]['code'],
-					'shortname')
-					|| xLastLevel[j]['value'];
-			slice.push(shortname);
-			var num=Number(selections[i][xlastField]);
-			if(isNaN(num)){
-				num=0;
-			}
-			slice.push(num);
-			picdata.push(slice);
-			if (i == 0) {				
-				categories.push(shortname);
-			}
+	});
+	// 筛选数据
+	var selections = data;
+	var type = "pie";// 图表类型
+	
+	var list = [];
+	
+	var m =[];
+	var series = {};
+	series.type = type;
+		for (var i = 0, len = selections.length; i < len; i++) {
+			var a = {'name':selections[i]['index_y_name'],'y':selections[i]['value']};
+			list.push(a);
 		}
-		series.dataLabels = {
-			enabled : true
-		};
-		series.data = picdata;
-		list.push(series);
-	}
-	return list;
+		series.data=list;
+		//list.push(series);
+
+	 m.push(series);
+	 return m;
+}
+
+/**
+ * 加载数据
+ */
+function loadData2( chartType, yIndex, isInit) {
+	var data=[];
+	var queryParams = {
+			"index_ys" :"9,10,11,12",
+			"id":id
+	};
+	$.ajax({
+		type : "post",
+		async:false,
+		data:queryParams,
+		url :  path+'/generatorContrastFxYearController/queryData',
+		success : function(msg) {
+				data=$.parseJSON(msg).rows;
+		}
+	});
+	// 筛选数据
+	var selections = data;
+	var type = "pie";// 图表类型
+	
+	var list = [];
+	
+	var m =[];
+	var series = {};
+	series.type = type;
+		for (var i = 0, len = selections.length; i < len; i++) {
+			var a = {'name':selections[i]['index_y_name'],'y':selections[i]['value']};
+			list.push(a);
+		}
+		series.data=list;
+		//list.push(series);
+
+	 m.push(series);
+	 return m;
+}
+
+/**
+ * 加载数据
+ */
+function loadData3( chartType, yIndex, isInit) {
+	var data=[];
+	var queryParams = {
+			"index_ys" :"3,4,5,6,7,9,10,11,12",
+			"id":id
+	};
+	$.ajax({
+		type : "post",
+		async:false,
+		data:queryParams,
+		url :  path+'/generatorContrastFxYearController/queryData',
+		success : function(msg) {
+				data=$.parseJSON(msg).rows;
+		}
+	});
+	// 筛选数据
+	var selections = data;
+	var type = "pie";// 图表类型
+	
+	var list = [];
+	
+	var m =[];
+	var series = {};
+	series.type = type;
+		for (var i = 0, len = selections.length; i < len; i++) {
+			var a = {'name':selections[i]['index_y_name'],'y':selections[i]['value']};
+			list.push(a);
+		}
+		series.data=list;
+		//list.push(series);
+
+	 m.push(series);
+	 return m;
 }
