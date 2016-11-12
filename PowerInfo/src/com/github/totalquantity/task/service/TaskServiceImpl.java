@@ -49,7 +49,7 @@ public class TaskServiceImpl implements TaskService{
 		if("".equals(task.getId())){
 			taskDao.saveData(task);
 		}else{
-			taskDao.updateData(task);
+			taskDao.updateDataNotRadio(task);
 		}
 		
 		

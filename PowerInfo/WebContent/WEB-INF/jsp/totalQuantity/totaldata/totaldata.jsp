@@ -266,7 +266,11 @@ var task_name='<%=task_name%>';
 				xlastField = xLastLevel[j]['field'];
 				var shortname = areas.getValue('name', xLastLevel[j]['title'], 'shortname') || xLastLevel[j]['title'];
 				slice.push(shortname);
-				slice.push(Number(selections[i][xlastField]));
+				var num = selections[i][xlastField];
+				if(isNaN(num)){
+					num=0;
+				}
+				slice.push(num);
 				data.push(slice);
 				if (i == 0) {
 					categories.push(shortname);
@@ -297,7 +301,7 @@ var task_name='<%=task_name%>';
 		<table id="datagrid"></table>
 	</div>
 	<br>
-	<div id="container" style="width: 100%; height: 60%"></div>
+	<div id="container" style="width: 100%; height: 50%"></div>
 	<script type="text/javascript"
 				src="<%=path%>/static/js/Highcharts-4.0.1/raphael.js"></script>
 			<script type="text/javascript"

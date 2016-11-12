@@ -21,7 +21,7 @@ public interface TaskDao {
 
 	public List<Map<String, Object>> initData(String id);
 	public String deleteRecord(String delectArr[]) throws Exception;
-
+	public void updateDataNotRadio(TotalTask task);
 
 	
 }
