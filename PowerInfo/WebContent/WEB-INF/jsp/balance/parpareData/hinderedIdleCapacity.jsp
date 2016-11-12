@@ -148,7 +148,7 @@
 			queryParams : queryParams,
 
 			onClickCell : function(rowIndex, field, value) {
-				if(field!="index_name"&&rowIndex!=0){
+				if(field!="index_name"){
 					clickEvent(rowIndex, field, value);
 				}
 			}

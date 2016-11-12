@@ -52,6 +52,12 @@ public class TaskDaoImpl implements TaskDao{
 		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getBaseyear(),task.getPlanyear(),task.getAlgorithm(),task.getAlgorithmRadio(),task.getId()});
 		
 	}
+	@Override
+	public void updateDataNotRadio(TotalTask task) {
+		String sql = "update total_task set task_name=?,baseyear=?,planyear=?,algorithm=? where  id=?";
+		this.jdbcTemplate.update(sql, new Object[]{task.getTask_name(),task.getBaseyear(),task.getPlanyear(),task.getAlgorithm(),task.getId()});
+		
+	}
 
 	@Override
 	public int queryDataCount(JSONObject param) {

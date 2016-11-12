@@ -270,7 +270,11 @@ var algorithm='<%=algorithm%>';
 				xlastField = xLastLevel[j]['field'];
 				var shortname = areas.getValue('name', xLastLevel[j]['title'], 'shortname') || xLastLevel[j]['title'];
 				slice.push(shortname);
-				slice.push(Number(selections[i][xlastField]));
+				var num = selections[i][xlastField];
+				if(isNaN(num)){
+					num=0;
+				}
+				slice.push(num);
 				data.push(slice);
 				if (i == 0) {
 					categories.push(shortname);
