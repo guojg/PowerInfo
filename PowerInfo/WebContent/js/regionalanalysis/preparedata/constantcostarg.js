@@ -28,13 +28,13 @@ $(function() {
 			 if(i=='600'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td>";
 			 }else if(i=='700'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td>";
 			 }else if(i=='800'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' ></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td>";
 			 }else if(i=='900'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
 			 }else if(i=='18001'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  ></td>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='coalCon()'></td>";
 			 }else if(i=='19001'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"'  style='background-color:#bcbcbc;' readonly='readonly'></td>";
 			 }else if(i=='500'){
@@ -48,13 +48,13 @@ $(function() {
 			 if(i=='600'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td></tr>";
 			 }else if(i=='700'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' ></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td></tr>";
 			 }else if(i=='800'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' ></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='constantcost()'></td></tr>";
 			 }else if(i=='900'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
 			 }else if(i=='18001'){
-				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' ></td></tr>";
+				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' onblur='coalCon()'></td></tr>";
 			 }else if(i=='19001'){
 				 trHtml +="<td class='tdrgt'><input  type='text' name='"+i+"' id='"+i+"' style='background-color:#bcbcbc;' readonly='readonly'></td></tr>";
 			 }else if(i=='500'){
@@ -87,17 +87,17 @@ $(function() {
 	 $("#300").validatebox({
 			required: true,
 	        novalidate: true,
-	        validType: ['validNumberPrecision[10,2]'],
+	        validType: ['validNumberPrecision[10,4]'],
 	        missingMessage: '额定容量不能为空。',
-	        invalidMessage: '额定容量请输入整数位不超过10位，小数位不超过2位的数字。'
+	        invalidMessage: '额定容量请输入整数位不超过10位，小数位不超过4位的数字。'
 	    });
 	 for(var i in indexArr){
 	 $("#"+i).validatebox({
 			required: true,
 	        novalidate: true,
-	        validType: ['validNumberPrecision[10,2]'],
+	        validType: ['validNumberPrecision[10,4]'],
 	        missingMessage: indexArr[i]+'不能为空。',
-	        invalidMessage: indexArr[i]+'请输入整数位不超过10位，小数位不超过2位的数字。'
+	        invalidMessage: indexArr[i]+'请输入整数位不超过10位，小数位不超过4位的数字。'
 	    });
 	 }
 		 comboBoxInit({
@@ -205,8 +205,12 @@ if(flag){
 function coalCon(){
 	var i = $('#500').val() ;
 	var t = $('#18001').val() ;
-	var v=i*t;
+	var v=fixNum(i*t/1000000);
 	$("#19001").val(v);
+}
+
+function fixNum(num){
+	return num.toFixed(4);
 }
 //固定成本
 function constantcost(){
