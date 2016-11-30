@@ -37,7 +37,7 @@ public class SendDataDaoImpl implements SendDataDao {
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
 	    sb.append(" RIGHT JOIN (SELECT a.id ,a.pro_name,b.value,a.task_id,a.wgwstdlyxss,a.sdshl,a.pid FROM senddata_itemname a  RIGHT JOIN ");
-	    sb.append("  sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code IN(1,2,3,4,5)) b ON b.id=a.index_item");
+	    sb.append("  sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code IN(1,2,3,5)) b ON b.id=a.index_item");
 	    sb.append("   group by b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	                                                                                                                                             
 	    sb.append(" UNION ALL");
@@ -68,7 +68,14 @@ public class SendDataDaoImpl implements SendDataDao {
 	    sb.append(" SELECT b.pro_name,b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 	    sb.append(addYearSql(years));
 	    sb.append(" FROM senddata_data  a ");
-	    sb.append(" RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='7'  GROUP BY   b.pro_name, b.sdshl,b.wgwstdlyxss,b.id, b.pid");		
+	    sb.append(" RIGHT JOIN senddata_itemname  b  ON a.index_item=b.id WHERE b.pid='7'  GROUP BY   b.pro_name, b.sdshl,b.wgwstdlyxss,b.id, b.pid");	
+	    sb.append(" UNION ALL");
+	    sb.append(" SELECT b.value 'pro_name',b.sdshl,b.wgwstdlyxss,b.id,b.pid");	
+	    sb.append(addYearSql(years));
+	    sb.append(" FROM senddata_data  a ");
+	    sb.append(" RIGHT JOIN (SELECT a.id ,a.pro_name,b.value,a.task_id,a.wgwstdlyxss,a.sdshl,a.pid FROM senddata_itemname a  RIGHT JOIN ");
+	    sb.append("  sys_dict_table b ON pro_name=b.code WHERE b.domain_id=18 AND b.code IN(4)) b ON b.id=a.index_item");
+	    sb.append("   group by b.sdshl,b.wgwstdlyxss,b.id,b.pid");
 		return jdbcTemplate.queryForList(sb.toString());
 	}
 	

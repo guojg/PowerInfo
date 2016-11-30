@@ -97,6 +97,29 @@ public class JsonUtils {
 	 * @param list	需转换的集合List<Map>
 	 * @return 转换后的json字符串
 	 */
+	public static String listTranJsonByPage1(List<Map<String, Object>> list,int total){
+		JSONObject rows = new JSONObject();
+		JSONArray jsonArray  = new JSONArray();
+		for(int j=0 ;j <list.size(); j++){
+			Set<String> set = list.get(j).keySet() ;
+			Iterator<String> iter = set.iterator();
+			JSONObject row = new JSONObject();
+
+			while(iter.hasNext()){
+				String k = iter.next() ;
+				row.put(k, list.get(j).get(k));
+			}
+			jsonArray.add(row);
+			
+		}
+		rows.put("total", total);
+		rows.put("rows", jsonArray) ;
+		return rows.toString() ;
+	}
+	/**
+	 * @param list	需转换的集合List<Map>
+	 * @return 转换后的json字符串
+	 */
 	public static String listTranJsonByMenu(List<Map<String, Object>> list){
 		JSONObject rows = new JSONObject();
 		JSONArray jsonArray  = new JSONArray();

@@ -178,4 +178,14 @@ public class GeneratorDaoImpl implements GeneratorDao {
 		List list=this.jdbcTemplate.queryForList(sql,new Object[]{plant_id});
 		return list; 
 	}
+
+
+
+	@Override
+	public void sumPlantCap(String id) {
+		// TODO Auto-generated method stub
+		String sql="update electricPowerPlant_data set plant_capacity=(select sum(gene_capacity) from generator_data where plant_id=? ) where id=? " ;
+		this.jdbcTemplate.update(sql, new Object[]{id,id});
+		
+	}
 }

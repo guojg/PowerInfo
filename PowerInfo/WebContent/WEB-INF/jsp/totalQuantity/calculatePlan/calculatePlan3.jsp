@@ -179,7 +179,7 @@ function getFormStatus(form) {
 						       <td class="tdrgt"><input  type="text" name="threeProductionRate" id="threeProductionRate"></td>
 						   </tr>
 						  <tr> 
-						  	   <td class="tdlft">  人均居民生活用电量增长率(%)：</td> 
+						  	   <td class="tdlft">居民生活用电量增长率(%)：</td> 
 						  	   <td class="tdrgt"><input  type="text" name="avgElectricityRate" id="avgElectricityRate"></td>
 						  </tr>
 					</table> 

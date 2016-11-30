@@ -198,7 +198,7 @@ public class CalculatePlanServiceImpl implements CalculatePlanService {
 		Arrays.sort(algorithmArray);
 		JSONObject baseparam = new JSONObject();
 		//92用电量；122,123,124 一、二、三产单耗；128人均用电量
-		baseparam.put("indexs", "107,122,123,124,128");
+		baseparam.put("indexs", "107,122,123,124,128,113");
 		baseparam.put("year", obj.getString("baseyear"));
 		List<QuoteBase> quoteBase = baseDao.queryBaseData(baseparam);//基准年数据
 		List<TotalData> resultList = new ArrayList<TotalData>();//插入数据库的集合

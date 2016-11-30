@@ -30,19 +30,32 @@ public class GeneratorServiceImpl implements  GeneratorService{
 	public String queryData(JSONObject param) throws Exception {
 		List<Map<String, Object>> list = generatorDao.queryData(param);
 		int totalcount=generatorDao.getTotalCount();
-		return JsonUtils.listTranJsonByPage(list,totalcount);
+		return JsonUtils.listTranJsonByPage1(list,totalcount);
 	}
 
 	@Override
 	public String addRecord(JSONObject obj) throws Exception {
 		// TODO Auto-generated method stub
-		return generatorDao.addRecord(createModle(obj));
+		String str = generatorDao.addRecord(createModle(obj));
+		JSONObject data=null;
+		if(obj!=null){
+			 data=JSONObject.fromObject(obj.get("editObj"));
+		}
+		generatorDao.sumPlantCap(data.getString("plant_id"));
+		return str;
 	}
 
 	@Override
 	public String updateRecord(JSONObject obj) throws Exception {
 		// TODO Auto-generated method stub
-		return generatorDao.updateRecord(createModle(obj));
+		String str = generatorDao.updateRecord(createModle(obj));
+		JSONObject data=null;
+		if(obj!=null){
+			 data=JSONObject.fromObject(obj.get("editObj"));
+		}
+		generatorDao.sumPlantCap(data.getString("plant_id"));
+		return str;
+		
 	}
 
 	@Override
@@ -50,7 +63,14 @@ public class GeneratorServiceImpl implements  GeneratorService{
 		// TODO Auto-generated method stub
 		String delectArr[] = obj.get("deleteids") == null ? null : obj
 				.get("deleteids").toString().split(",");
-		return generatorDao.deleteRecord(delectArr);
+		String plant_ids[] = obj.get("plant_ids") == null ? null : obj
+				.get("plant_ids").toString().split(",");
+		
+		String str = generatorDao.deleteRecord(delectArr);
+		for(String plant : plant_ids){
+			generatorDao.sumPlantCap(plant);
+		}
+		return str ;
 	}
 	
 	private Generator createModle(JSONObject obj){

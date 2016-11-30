@@ -18,6 +18,7 @@ public interface GeneratorDao {
 	public String importRecord(List<Generator> list) throws Exception;
 	
 	public int getTotalCount();
+	public void sumPlantCap(String id);
 	public List<Map<String, Object>> queryPlant();
 	public List<Map<String, Object>> getDylxByPlantId(String  plant_id) throws Exception;	
 }

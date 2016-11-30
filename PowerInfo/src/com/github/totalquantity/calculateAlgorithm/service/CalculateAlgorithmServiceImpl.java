@@ -265,7 +265,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 			case "124" :
 				threePerUnit = qb.getValue() ;
 				break;
-			case "128" :
+			case "113" :
 				avgElectricityConsumption = qb.getValue() ;
 				break;
 			}
@@ -298,7 +298,7 @@ public class CalculateAlgorithmServiceImpl implements  CalculateAlgorithmService
 		}
 		result = oneGDP*onePerUnit*(1+onePerUnitRate)+twoGDP*twoPerUnit*(1+twoPerUnitRate)
 				+threeGDP*threePerUnit*(1+threePerUnitRate)+
-				avgElectricityConsumption*(1+avgElectricityRate)*planPeople;
+				avgElectricityConsumption*(1+avgElectricityRate);
 		result = MyMath.round(result, Containts.PRECISION);
 		return result;
 	}

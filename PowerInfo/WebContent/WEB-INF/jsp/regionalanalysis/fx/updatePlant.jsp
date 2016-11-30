@@ -7,6 +7,8 @@
 <title>电厂修改</title>
 </head>
 <%@include file="../../common/commonInclude.jsp" %>	
+<script type="text/javascript" src="<%=path%>/static/js/common/plantAnalysisUtil.js"></script>
+
 <%
 String id=request.getParameter("id");
 DbTask tt=  (DbTask)request.getSession().getAttribute("fxtask");
@@ -50,6 +52,7 @@ $(function() {
 			data : data,
 			success : function(data) {
 				var row=$.parseJSON(data);
+				debugger;
 				fzData(row[0]);
 			}
 		});
@@ -154,7 +157,7 @@ function save(){
 			  if(obj=='1'){
 				  window.parent.$.messager.alert('提示','修改成功！','info',function(){
 						//关闭窗口
-						window.parent.queryData();
+						//window.parent.queryData();
 						});
 				  window.parent.$('#win_div').window('close');
 			  }else{

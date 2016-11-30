@@ -91,8 +91,10 @@ public class GeneratorController {
 	String deleteRecord(HttpServletRequest request) {
 		try {
 			String deleteids = request.getParameter("ids");
+			String plantids = request.getParameter("plant_ids");
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("deleteids",deleteids );
+			jsonobj.put("plant_ids",plantids );
 			generatorService.deleteRecord(jsonobj);
 			return "1";
 		} catch (Exception e) {

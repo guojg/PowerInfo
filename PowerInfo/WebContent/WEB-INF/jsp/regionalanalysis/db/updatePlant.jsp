@@ -7,6 +7,8 @@
 <title>电厂修改</title>
 </head>
 <%@include file="../../common/commonInclude.jsp" %>	
+<script type="text/javascript" src="<%=path%>/static/js/common/plantAnalysisUtil.js"></script>
+
 <%
 String id=request.getParameter("id");
 DbTask tt=  (DbTask)request.getSession().getAttribute("dbtask");
@@ -153,8 +155,9 @@ function save(){
 			  if(obj=='1'){
 				  window.parent.$.messager.alert('提示','修改成功！','info',function(){
 						//关闭窗口
-						window.parent.queryData();
+						//window.parent.queryData();
 						});
+				 // window.parent.queryData();
 				  window.parent.$('#win_div').window('close');
 			  }else{
 					$.messager.alert('提示','修改失败！','info');

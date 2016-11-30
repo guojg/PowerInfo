@@ -64,9 +64,9 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		sb.append(" ,task_id,null hour_num from ( ")
 		.append(" SELECT m.year,SUM(m.value) VALUE,task_id FROM ( ")
 		.append(" SELECT YEAR,VALUE,task_id FROM power_data WHERE  p_index_item =500  AND task_id=? AND index_item=3 ")
-		.append(" UNION ALL")
-		.append(" SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  p_index_item =300  AND index_item=3  AND task_id=? )m")
-		.append(" GROUP BY m.task_id,m.year ) n) a ") ;
+		//.append(" UNION ALL")
+		//.append(" SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  p_index_item =300  AND index_item=3  AND task_id=?")
+		.append("  )m GROUP BY m.task_id,m.year ) n) a ") ;
 		
 		sb.append(" union all  select p_index_item  _parentId,null pcode_name ,index_item code_2,CONCAT_WS('-',p_index_item,index_item) id,null ORD, null ord_2,index_item _name,null p_index_item1,null index_item1");
 		for (String yearStr :year.split(",")) {
@@ -79,7 +79,7 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		sb.append(" ,task_id,null hour_num " );
 		sb.append(" from power_data WHERE  (p_index_item =500 AND task_id=? AND index_item !=3)  OR index_item=500 "
 				+ " GROUP BY p_index_item,index_item,task_id") ;
-		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{task_id,task_id,task_id,task_id});
+		List<Map<String, Object>>  list = this.jdbcTemplate.queryForList(sb.toString(),new Object[]{task_id,task_id,task_id});
 		return list;
 	}
 	public List<Map<String, Object>> queryCoalHourData(JSONObject param){
@@ -277,10 +277,10 @@ public class ElectricityBalanceDaoImpl implements ElectricityBalanceDao {
 		.append( "  SELECT null,400,x.YEAR,CASE WHEN y.value=0 THEN NULL ELSE round(x.VALUE/y.value*10000,4) END AS VALUE,x.task_id  FROM electricity_data X  JOIN ( ")
 		.append(" SELECT m.year,SUM(m.value) VALUE,task_id FROM ( ")
 		.append(" SELECT YEAR,VALUE,task_id FROM power_data WHERE  p_index_item =500  and task_id=? AND index_item=3")
-		.append(" UNION ALL")
-		.append("   SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  p_index_item =300  AND index_item=3  and task_id=? ")
+		//.append(" UNION ALL")
+		//.append("   SELECT YEAR,0-VALUE,task_id FROM power_data WHERE  p_index_item =300  AND index_item=3  and task_id=? ")
 		.append("   )m GROUP BY m.task_id,m.year ) Y ON x.year = y.year AND x.index_item=3 AND x.p_index_item=300 and x.task_id=y.task_id");
-		int count =this.jdbcTemplate.update(sub.toString(),new Object[]{task_id,task_id});
+		int count =this.jdbcTemplate.update(sub.toString(),new Object[]{task_id});
 		return count;
 	}
 	/**

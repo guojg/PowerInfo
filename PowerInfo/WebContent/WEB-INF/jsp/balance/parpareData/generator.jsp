@@ -177,15 +177,19 @@
 			if (r) {
 				var rows = $('#datagrid').datagrid('getChecked');
 				var ids = "";
+				var plant_ids="";
 				for (rowindex in rows) {
 					if (parseInt(rowindex) + 1 == rows.length) {
 						ids = ids + rows[rowindex]["id"];
+						plant_ids =plant_ids+ rows[rowindex]["plant_id"];
 					} else {
 						ids = ids + rows[rowindex]["id"] + ",";
+						plant_ids =plant_ids+ rows[rowindex]["plant_id"]+",";
 					}
 				}
 				$.post('deleteRecord', {
-					"ids" : ids
+					"ids" : ids,
+					"plant_ids":plant_ids
 				}, function(data) {
 					var data = $.parseJSON(data);
 					if (data== '1') {

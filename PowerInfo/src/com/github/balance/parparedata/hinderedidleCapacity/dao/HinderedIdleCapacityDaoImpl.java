@@ -86,7 +86,7 @@ public class HinderedIdleCapacityDaoImpl implements HinderedIdleCapacityDao {
 			}
 		}
 		executeSQLS(basicdataList);
-		executeSum(rows,taskid);
+		//executeSum(rows,taskid);
 		return "";
 	}
 	   private void executeSum(JSONArray rows,String taskid) throws Exception{

@@ -225,7 +225,7 @@ public class PowerBalanceDaoImpl implements PowerBalanceDao {
 		.append(getYearDual(year))
 		.append("  ON SUBSTR(DATE_FORMAT(start_date,'%Y-%c-%d'),1,4)=t.yr ")
 		.append("  GROUP BY index_item,yr")
-		.append(" ) m JOIN quotient_data n ON m.index_item = n.index_item AND m.yr = n.year ");
+		.append(" ) m JOIN quotient_data n ON m.index_item = n.index_item  ");
 		return sb.toString();
 	}
 	/**

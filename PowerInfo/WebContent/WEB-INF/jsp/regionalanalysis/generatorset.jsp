@@ -44,8 +44,8 @@ var organ_name='<%=organName%>';
 		          		align : 'center'
 		          	}, {
 		          		field : '300',
-		          		title : '额定容量（WM）',
-		          		width : 100,
+		          		title : '额定容量（万千瓦）',
+		          		width : 120,
 		          		align : 'center'
 		          	}, {
 		          		field : '400',
@@ -60,7 +60,7 @@ var organ_name='<%=organName%>';
 		          	}, {
 		          		field : '700',
 		          		title : '行业期望收益率（%）',
-		          		width : 100,
+		          		width : 140,
 		          		align : 'center'
 		          	}, {
 		          		field : '800',

@@ -57,8 +57,8 @@ var cols = [ [ {
 	}
 }, {
 	field : 'plant_capacity',
-	title : '装机总容量（WM）',
-	width : 100,
+	title : '装机总容量（万千瓦）',
+	width : 140,
 	align : 'center'
 }, {
 	field : 'product_year',
@@ -83,7 +83,7 @@ var cols = [ [ {
 }, {
 	field : 'electricity_consumption',
 	title : '厂用电量（千瓦时）',
-	width : 100,
+	width : 130,
 	align : 'center'
 }, {
 	field : 'power_type_name',
@@ -98,22 +98,22 @@ var cols = [ [ {
 }, {
 	field : 'materials_cost',
 	title : '电厂材料费（元/年）',
-	width : 100,
+	width : 140,
 	align : 'center'
 }, {
 	field : 'salary',
 	title : '工资、奖金及福利费（元/年）',
-	width : 100,
+	width : 170,
 	align : 'center'
 }, {
 	field : 'repairs_cost',
 	title : '修理费（元/年）',
-	width : 100,
+	width : 140,
 	align : 'center'
 }, {
 	field : 'other_cost',
 	title : '其他费用（元/年）',
-	width : 100,
+	width : 140,
 	align : 'center'
 }] ];
 	$(function() {	

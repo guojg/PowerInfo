@@ -27,7 +27,7 @@
 		width : 200,
 		align : 'center',formatter:function(value,row,index){
 			if(row['pid']==""||typeof(row['pid'])=='undefined'){
-				return '<font size=6>'+value+'</font>';
+				return '<div align="left"  style="font-weight:bold;">'+value+'</div>';
 			}
 			else{
 				return value;
@@ -166,7 +166,8 @@
 	            	var row=data.rows[i];
 	            	var pid= row['pid'];
 	                if(pid==""||typeof(pid)=='undefined'){
-	                	$(".datagrid-row[datagrid-row-index="+i+"] input[type='checkbox']").hide();	       
+	                	$(".datagrid-row[datagrid-row-index="+i+"] input[type='checkbox']").hide();
+	                	
 	                }
 	                if(row["pro_name"]==""){
 	                	$(".datagrid-row[datagrid-row-index="+i+"]").hide();	       
@@ -402,7 +403,7 @@
 			</tr>
 		</table>
 	</fieldset>
-	<div id="title" style="padding-right: 5px;text-align: right"><b>单位：万千瓦、亿千瓦时、小时、%</b></div>
+	<div id="title" style="padding-right: 5px;text-align: right"><b>单位：万千瓦、亿千瓦时、小时</b></div>
 	<div id="datagrid_div">
 		<table id="datagrid"></table>
 	</div>

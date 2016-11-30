@@ -62,42 +62,42 @@ var organ_name='<%=organName%>';
       		align : 'center',
       		hidden:true
       	},
-		          	 {
-		          		field : 'plant_name',
-		          		title : '所属发电厂',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : '300',
-		          		title : '额定容量（WM）',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : '400',
-		          		title : '投运日期',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : '600',
-		          		title : '建设投资（元）',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : '700',
-		          		title : '行业期望收益率（%）',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : '800',
-		          		title : '运行寿命（年）',
-		          		width : 100,
-		          		align : 'center'
-		          	}, {
-		          		field : '900',
-		          		title : '固定资产折旧（年值）',
-		          		width : 120,
-		          		align : 'center'
-		          	}] ];
+      	{
+      		field : 'plant_name',
+      		title : '所属发电厂',
+      		width : 100,
+      		align : 'center'
+      	}, {
+      		field : '300',
+      		title : '额定容量（万千瓦）',
+      		width : 120,
+      		align : 'center'
+      	}, {
+      		field : '400',
+      		title : '投运日期',
+      		width : 100,
+      		align : 'center'
+      	}, {
+      		field : '600',
+      		title : '建设投资（元）',
+      		width : 100,
+      		align : 'center'
+      	}, {
+      		field : '700',
+      		title : '行业期望收益率（%）',
+      		width : 140,
+      		align : 'center'
+      	}, {
+      		field : '800',
+      		title : '运行寿命（年）',
+      		width : 100,
+      		align : 'center'
+      	}, {
+      		field : '900',
+      		title : '固定资产折旧（年值）',
+      		width : 120,
+      		align : 'center'
+      	}] ];
 		 if(task_id==""){
 				var Height_Page = $(document).height();
 				var datagrid_title_height = $("#datagrid_div").position().top;
